@@ -5,7 +5,7 @@
 :root {
   /* ==========================================
      COLORS
-  ========================================== */
+     ========================================== */
 
   --background: #fffdf9;
   --foreground: #27344a;
@@ -32,19 +32,16 @@
 
   /* ==========================================
      SHADOWS
-  ========================================== */
+     ========================================== */
 
   --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.06);
-
   --shadow-md: 0 14px 35px rgba(0, 0, 0, 0.08);
-
   --shadow-lg: 0 22px 55px rgba(0, 0, 0, 0.1);
-
   --card-shadow: 0 10px 35px rgba(56, 40, 15, 0.08);
 
   /* ==========================================
      RADIUS
-  ========================================== */
+     ========================================== */
 
   --radius-xs: 8px;
   --radius-sm: 12px;
@@ -55,27 +52,27 @@
 
   /* ==========================================
      SPACING
-  ========================================== */
+     ========================================== */
 
   --section-spacing: 8rem;
   --container-width: 1440px;
 
   /* ==========================================
      GLASS
-  ========================================== */
+     ========================================== */
 
   --glass-bg: rgba(255, 255, 255, 0.35);
   --glass-border: rgba(255, 255, 255, 0.45);
 
   /* ==========================================
      ANIMATION
-  ========================================== */
+     ========================================== */
 
   --transition-fast: 0.25s;
   --transition-normal: 0.45s;
   --transition-slow: 0.8s;
 
-  --ease-premium: cubic-bezier(.22,1,.36,1);
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -84,16 +81,12 @@
   box-sizing: border-box;
 }
 
-* {
-  padding: 0;
-  margin: 0;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
+  min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
 
@@ -105,7 +98,6 @@ body {
 
 img {
   user-select: none;
-  pointer-events: none;
 }
 
 button {
@@ -166,4 +158,34 @@ h6 {
 
 .transition-premium {
   transition: all var(--transition-normal) var(--ease-premium);
+}
+
+/* ==========================================
+   ACCESSIBILITY
+   ========================================== */
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   SCROLLBAR
+   ========================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

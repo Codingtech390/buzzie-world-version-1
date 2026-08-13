@@ -1,0 +1,232 @@
+# Project Structure Blueprint
+# Generated: 2026-08-11 08:31:58
+# Root: C:\Users\DELL\Desktop\Buzzie\Mockup-UI\buzzie-world-version-1\buzzie-world
+# Excluded: node_modules, .next, .git, dist, build, coverage, etc.
+
+C:\Users\DELL\Desktop\Buzzie\Mockup-UI\buzzie-world-version-1\buzzie-world
+└── buzzie-world
+    ├── app
+    │   ├── (admin)
+    │   │   ├── admin
+    │   │   │   ├── analytics
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── banners
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── blog
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── categories
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── customers
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── homepage
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── orders
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── products
+    │   │   │   │   └── page.tsx
+    │   │   │   └── settings
+    │   │   │       └── page.tsx
+    │   │   └── layout.tsx
+    │   ├── (auth)
+    │   │   ├── forgot-password
+    │   │   │   └── page.tsx
+    │   │   ├── login
+    │   │   │   └── page.tsx
+    │   │   ├── register
+    │   │   │   └── page.tsx
+    │   │   ├── reset-password
+    │   │   │   └── page.tsx
+    │   │   └── layout.tsx
+    │   ├── (customer)
+    │   │   ├── account
+    │   │   │   ├── addresses
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── orders
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── profile
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── reviews
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── settings
+    │   │   │   │   └── page.tsx
+    │   │   │   ├── wishlist
+    │   │   │   │   └── page.tsx
+    │   │   │   └── page.tsx
+    │   │   └── layout.tsx
+    │   ├── (public)
+    │   │   ├── about
+    │   │   │   └── page.tsx
+    │   │   ├── blog
+    │   │   │   └── page.tsx
+    │   │   ├── cart
+    │   │   │   └── page.tsx
+    │   │   ├── checkout
+    │   │   │   └── page.tsx
+    │   │   ├── contact
+    │   │   │   └── page.tsx
+    │   │   ├── privacy
+    │   │   │   └── page.tsx
+    │   │   ├── products
+    │   │   │   ├── [slug]
+    │   │   │   │   └── page.tsx
+    │   │   │   └── page.tsx
+    │   │   ├── search
+    │   │   │   └── page.tsx
+    │   │   ├── shop
+    │   │   │   └── page.tsx
+    │   │   ├── terms
+    │   │   │   └── page.tsx
+    │   │   ├── layout.tsx
+    │   │   └── page.tsx
+    │   ├── api
+    │   │   ├── analytics
+    │   │   ├── auth
+    │   │   │   └── [...nextauth]
+    │   │   │       └── route.ts
+    │   │   ├── banner
+    │   │   ├── blog
+    │   │   ├── brands
+    │   │   │   └── route.ts
+    │   │   ├── cart
+    │   │   ├── categories
+    │   │   │   └── route.ts
+    │   │   ├── collections
+    │   │   │   └── route.ts
+    │   │   ├── coupons
+    │   │   ├── health
+    │   │   │   └── route.ts
+    │   │   ├── homepage
+    │   │   ├── newsletter
+    │   │   ├── orders
+    │   │   ├── products
+    │   │   │   ├── [id]
+    │   │   │   │   └── route.ts
+    │   │   │   └── route.ts
+    │   │   ├── reviews
+    │   │   ├── search
+    │   │   ├── settings
+    │   │   ├── upload
+    │   │   └── wishlist
+    │   ├── favicon.ico
+    │   ├── globals.css
+    │   ├── layout.tsx
+    │   └── not-found.tsx
+    ├── components
+    │   ├── account
+    │   ├── admin
+    │   │   └── ComingSoonPage.tsx
+    │   ├── animations
+    │   ├── cart
+    │   ├── checkout
+    │   ├── home
+    │   ├── layout
+    │   ├── product
+    │   ├── providers
+    │   ├── shop
+    │   └── ui
+    │       └── button.tsx
+    ├── config
+    │   ├── animations.ts
+    │   ├── navigation.ts
+    │   ├── site.ts
+    │   └── theme.ts
+    ├── data
+    ├── hooks
+    │   ├── useCart.ts
+    │   ├── useScroll.ts
+    │   ├── useTheme.ts
+    │   ├── useUser.ts
+    │   └── useWishlist.ts
+    ├── lib
+    │   ├── auth.ts
+    │   ├── cloudinary.ts
+    │   ├── constants.ts
+    │   ├── db.ts
+    │   ├── env.ts
+    │   ├── mongoose.ts
+    │   ├── pagination.ts
+    │   ├── permissions.ts
+    │   ├── razorpay.ts
+    │   ├── response.ts
+    │   ├── slug.ts
+    │   ├── utils.ts
+    │   └── validators.ts
+    ├── models
+    │   ├── ActivityLog.ts
+    │   ├── Address.ts
+    │   ├── Banner.ts
+    │   ├── Blog.ts
+    │   ├── Brand.ts
+    │   ├── Cart.ts
+    │   ├── Category.ts
+    │   ├── Collection.ts
+    │   ├── Coupon.ts
+    │   ├── Homepage.ts
+    │   ├── Media.ts
+    │   ├── Newsletter.ts
+    │   ├── Notification.ts
+    │   ├── Order.ts
+    │   ├── Product.ts
+    │   ├── Review.ts
+    │   ├── SiteSetting.ts
+    │   ├── User.ts
+    │   └── Wishlist.ts
+    ├── providers
+    │   ├── LenisProvider.tsx
+    │   ├── QueryProvider.tsx
+    │   ├── SessionProvider.tsx
+    │   ├── ThemeProvider.tsx
+    │   └── ToastProvider.tsx
+    ├── public
+    │   ├── fonts
+    │   ├── icons
+    │   ├── images
+    │   ├── lottie
+    │   ├── models
+    │   ├── sounds
+    │   ├── file.svg
+    │   ├── globe.svg
+    │   ├── next.svg
+    │   ├── vercel.svg
+    │   └── window.svg
+    ├── scripts
+    │   └── seed.ts
+    ├── services
+    │   ├── auth.service.ts
+    │   ├── cart.service.ts
+    │   ├── category.service.ts
+    │   ├── homepage.service.ts
+    │   ├── order.service.ts
+    │   ├── product.service.ts
+    │   ├── upload.service.ts
+    │   └── wishlist.service.ts
+    ├── store
+    │   ├── cartStore.ts
+    │   ├── themeStore.ts
+    │   ├── userStore.ts
+    │   └── wishlistStore.ts
+    ├── types
+    │   ├── brand.ts
+    │   ├── cart.ts
+    │   ├── category.ts
+    │   ├── collection.ts
+    │   ├── homepage.ts
+    │   ├── next-auth.d.ts
+    │   ├── order.ts
+    │   ├── product.ts
+    │   ├── review.ts
+    │   ├── settings.ts
+    │   └── user.ts
+    ├── AGENTS.md
+    ├── CLAUDE.md
+    ├── components.json
+    ├── eslint.config.mjs
+    ├── next-env.d.ts
+    ├── next.config.ts
+    ├── package.json
+    ├── postcss.config.mjs
+    ├── project_blueprint.py
+    ├── project_structure_20260807_100056.txt
+    ├── README.md
+    ├── tsconfig.json
+    └── tsconfig.tsbuildinfo
