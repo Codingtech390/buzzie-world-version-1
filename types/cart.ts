@@ -1,19 +1,30 @@
 export interface CartItem {
-  product: string;
+  productId: string;
   quantity: number;
-  variantId?: string;
-  price: number;
 }
 
-export interface Cart {
+export interface CartProduct {
   _id: string;
-  user: string;
-  items: CartItem[];
+  name: string;
+  slug: string;
+  price: number;
+  compareAtPrice?: number;
+  images: {
+    url: string;
+    alt?: string;
+  }[];
+  stock: number;
+  sku?: string;
+}
+
+export interface CartItemWithProduct extends CartItem {
+  product: CartProduct;
+  lineTotal: number;
+}
+
+export interface CartResponse {
+  success: boolean;
+  items: CartItemWithProduct[];
   subtotal: number;
-  discount: number;
-  shipping: number;
-  total: number;
-  couponCode?: string;
-  createdAt: string;
-  updatedAt: string;
+  itemCount: number;
 }

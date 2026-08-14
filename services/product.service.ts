@@ -4,6 +4,9 @@ import { Category } from "@/models/Category";
 import { Brand } from "@/models/Brand";
 import { Collection } from "@/models/Collection";
 import { createSlug } from "@/lib/slug";
+import type { SortOrder } from "mongoose";
+
+export type ProductSort = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
 
 export interface ProductFilters {
   search?: string;
@@ -12,8 +15,46 @@ export interface ProductFilters {
   collection?: string;
   status?: string;
   featured?: boolean;
+  sort?: ProductSort;
   page?: number;
   limit?: number;
+}
+
+function getProductSort(sort: ProductSort = "newest"): Record<string, SortOrder> {
+  switch (sort) {
+    case "oldest":
+      return {
+        createdAt: 1,
+      };
+
+    case "price-low":
+      return {
+        price: 1,
+        createdAt: -1,
+      };
+
+    case "price-high":
+      return {
+        price: -1,
+        createdAt: -1,
+      };
+
+    case "name-az":
+      return {
+        name: 1,
+      };
+
+    case "name-za":
+      return {
+        name: -1,
+      };
+
+    case "newest":
+    default:
+      return {
+        createdAt: -1,
+      };
+  }
 }
 
 export interface ProductImageInput {
@@ -109,17 +150,17 @@ function normalizeProductInput(data: ProductInput) {
   const stock = Number(data.stock);
 
   const compareAtPrice =
-    data.compareAtPrice === undefined || data.compareAtPrice === null || data.compareAtPrice === ""
+    data.compareAtPrice === undefined || data.compareAtPrice === null || data.compareAtPrice === null
       ? undefined
       : Number(data.compareAtPrice);
 
   const ageMin =
-    data.ageRange?.min === undefined || data.ageRange?.min === null || data.ageRange?.min === ""
+    data.ageRange?.min === undefined || data.ageRange?.min === null || data.ageRange?.min === null
       ? undefined
       : Number(data.ageRange.min);
 
   const ageMax =
-    data.ageRange?.max === undefined || data.ageRange?.max === null || data.ageRange?.max === ""
+    data.ageRange?.max === undefined || data.ageRange?.max === null || data.ageRange?.max === null
       ? undefined
       : Number(data.ageRange.max);
 
@@ -152,7 +193,17 @@ function normalizeProductInput(data: ProductInput) {
 export async function getProducts(filters: ProductFilters = {}) {
   await connectToDatabase();
 
-  const { search, category, brand, collection, status, featured, page = 1, limit = 20 } = filters;
+  const {
+    search,
+    category,
+    brand,
+    collection,
+    status,
+    sort = "newest",
+    featured,
+    page = 1,
+    limit = 20,
+  } = filters;
 
   const query: Record<string, unknown> = {};
 
@@ -189,7 +240,7 @@ export async function getProducts(filters: ProductFilters = {}) {
       .populate("category", "name slug")
       .populate("brand", "name slug")
       .populate("collection", "name slug")
-      .sort({ createdAt: -1 })
+      .sort(getProductSort(sort))
       .skip(skip)
       .limit(limit)
       .lean(),

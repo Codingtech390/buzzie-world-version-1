@@ -50,3 +50,34 @@ export interface Order {
   createdAt: string;
   updatedAt: string;
 }
+
+/**
+ * Shipping address submitted during checkout.
+ *
+ * Extends the existing OrderAddress so we preserve
+ * the current order structure while allowing checkout
+ * to collect the customer's email.
+ */
+export interface ShippingAddress extends OrderAddress {
+  email: string;
+}
+
+export interface CreateOrderPayload {
+  shippingAddress: ShippingAddress;
+}
+
+export interface OrderCreationResponse {
+  success: boolean;
+  order: {
+    id: string;
+    orderNumber: string;
+    total: number;
+    currency: string;
+  };
+  razorpay: {
+    keyId: string;
+    orderId: string;
+    amount: number;
+    currency: string;
+  };
+}

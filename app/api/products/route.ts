@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import {
-  createProduct,
-  getProducts,
-} from "@/services/product.service";
+import { createProduct, getProducts, type ProductSort } from "@/services/product.service";
 
-function parsePositiveInteger(
-  value: string | null,
-  fallback: number,
-): number {
+function parsePositiveInteger(value: string | null, fallback: number): number {
   if (!value) {
     return fallback;
   }
@@ -22,16 +16,28 @@ function parsePositiveInteger(
   return parsed;
 }
 
+function parseSort(value: string | null): ProductSort {
+  switch (value) {
+    case "oldest":
+    case "price-low":
+    case "price-high":
+    case "name-az":
+    case "name-za":
+      return value;
+
+    case "newest":
+    default:
+      return "newest";
+  }
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
 
     const page = parsePositiveInteger(searchParams.get("page"), 1);
 
-    const requestedLimit = parsePositiveInteger(
-      searchParams.get("limit"),
-      20,
-    );
+    const requestedLimit = parsePositiveInteger(searchParams.get("limit"), 20);
 
     const limit = Math.min(requestedLimit, 100);
 
@@ -53,6 +59,7 @@ export async function GET(request: NextRequest) {
       collection: searchParams.get("collection") || undefined,
       status: searchParams.get("status") || undefined,
       featured,
+      sort: parseSort(searchParams.get("sort")),
       page,
       limit,
     });
@@ -78,11 +85,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    if (
-      !body ||
-      typeof body !== "object" ||
-      Array.isArray(body)
-    ) {
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
       return NextResponse.json(
         {
           success: false,
@@ -92,10 +95,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (
-      typeof body.name !== "string" ||
-      !body.name.trim()
-    ) {
+    if (typeof body.name !== "string" || !body.name.trim()) {
       return NextResponse.json(
         {
           success: false,

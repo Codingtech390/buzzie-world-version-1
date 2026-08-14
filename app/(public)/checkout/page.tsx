@@ -1,7 +1,5 @@
-import ComingSoonPage from "@/components/admin/ComingSoonPage";
+import CheckoutClient from "@/components/checkout/CheckoutClient";
 
 export default function CheckoutPage() {
-  return (
-    <ComingSoonPage title="Checkout" description="The checkout flow will be implemented here." />
-  );
+  return <CheckoutClient />;
 }
