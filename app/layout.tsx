@@ -3,6 +3,7 @@ import { Poppins, Roboto } from "next/font/google";
 
 import "./globals.css";
 
+import { LenisProvider } from "@/providers/LenisProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { SessionProvider } from "@/providers/SessionProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -41,9 +42,7 @@ export const metadata: Metadata = {
   authors: [{ name: "BuzzieWorld" }],
   creator: "BuzzieWorld",
   publisher: "BuzzieWorld",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   robots: {
     index: true,
     follow: true,
@@ -65,8 +64,10 @@ export default function RootLayout({
         <SessionProvider>
           <QueryProvider>
             <ThemeProvider>
-              {children}
-              <ToastProvider />
+              <LenisProvider>
+                {children}
+                <ToastProvider />
+              </LenisProvider>
             </ThemeProvider>
           </QueryProvider>
         </SessionProvider>
