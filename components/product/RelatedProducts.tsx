@@ -7,32 +7,23 @@ import ProductCard from "@/components/product/ProductCard";
 import type { StorefrontProduct, StorefrontProductsResponse } from "@/types/storefront";
 
 interface RelatedProductsProps {
-  categoryId?: string;
   currentProductId: string;
 }
 
-export default function RelatedProducts({ categoryId, currentProductId }: RelatedProductsProps) {
+export default function RelatedProducts({ currentProductId }: RelatedProductsProps) {
   const [products, setProducts] = useState<StorefrontProduct[]>([]);
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!categoryId) {
-      setProducts([]);
-      setIsLoading(false);
-      return;
-    }
-
     const controller = new AbortController();
 
-    async function loadRelatedProducts() {
+    async function loadFeaturedProducts() {
       try {
         setIsLoading(true);
 
         const params = new URLSearchParams();
-
         params.set("status", "active");
-        params.set("category", categoryId);
+        params.set("featured", "true");
         params.set("limit", "5");
         params.set("sort", "newest");
 
@@ -41,13 +32,13 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
         });
 
         if (!response.ok) {
-          throw new Error("Failed to load related products");
+          throw new Error("Failed to load featured products");
         }
 
         const data: StorefrontProductsResponse = await response.json();
 
         if (!data.success) {
-          throw new Error(data.message || "Failed to load related products");
+          throw new Error(data.message || "Failed to load featured products");
         }
 
         setProducts(
@@ -66,12 +57,12 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
       }
     }
 
-    loadRelatedProducts();
+    loadFeaturedProducts();
 
     return () => {
       controller.abort();
     };
-  }, [categoryId, currentProductId]);
+  }, [currentProductId]);
 
   if (isLoading) {
     return (
@@ -97,10 +88,10 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
     <section className="mt-16">
       <div className="mb-6">
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#3F7DFF]">
-          You may also like
+          Featured picks
         </p>
 
-        <h2 className="mt-2 text-2xl font-bold text-[#252525]">More from this category</h2>
+        <h2 className="mt-2 text-2xl font-bold text-[#252525]">Featured treasures</h2>
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

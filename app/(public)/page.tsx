@@ -13,6 +13,7 @@ import FeaturedProducts from "@/components/home/FeaturedProducts";
 import Hero from "@/components/home/Hero";
 import KingdomBanner from "@/components/home/KingdomBanner";
 import Newsletter from "@/components/home/Newsletter";
+import ReviewsShowcase from "@/components/home/ReviewsShowcase";
 import ShopByAge from "@/components/home/ShopByAge";
 
 interface HomepageData {
@@ -57,13 +58,16 @@ async function getHomepageData(): Promise<HomepageData> {
       fetchJson<StorefrontProductsResponse>(
         "/api/products?status=active&featured=true&sort=newest&page=1&limit=8",
       ),
+
       fetchJson<StorefrontProductsResponse>(
         "/api/products?status=active&sort=newest&page=1&limit=8",
       ),
+
       fetchJson<{
         success: boolean;
         categories?: StorefrontSelector[];
       }>("/api/categories"),
+
       fetchJson<{
         success: boolean;
         collections?: StorefrontSelector[];
@@ -73,12 +77,15 @@ async function getHomepageData(): Promise<HomepageData> {
   return {
     featuredProducts:
       featuredResponse?.success && featuredResponse.products ? featuredResponse.products : [],
+
     latestProducts:
       latestResponse?.success && latestResponse.products ? latestResponse.products : [],
+
     categories:
       categoriesResponse?.success && categoriesResponse.categories
         ? categoriesResponse.categories
         : [],
+
     collections:
       collectionsResponse?.success && collectionsResponse.collections
         ? collectionsResponse.collections
@@ -98,27 +105,73 @@ export default async function HomePage() {
       : EMPTY_DATA;
 
   return (
-    <main className="min-w-0 overflow-hidden bg-[var(--background)]">
+    <main id="main-content" className="min-w-0 overflow-hidden bg-[#f7f4ec]">
+      {/* ================================================================
+          HERO
+         ================================================================ */}
+
       <Hero products={homepageData.featuredProducts} />
+
+      {/* ================================================================
+          BENEFITS
+         ================================================================ */}
 
       <BenefitsStrip />
 
+      {/* ================================================================
+          SHOP BY AGE
+         ================================================================ */}
+
       <ShopByAge products={homepageData.latestProducts} />
 
-      <FeaturedProducts products={homepageData.featuredProducts} />
+      {/* ================================================================
+          CATEGORIES
+         ================================================================ */}
 
       <CategoryShowcase categories={homepageData.categories} />
 
+      {/* ================================================================
+          FEATURED PRODUCTS
+         ================================================================ */}
+
+      <FeaturedProducts products={homepageData.featuredProducts} />
+
+      {/* ================================================================
+          KINGDOM BANNER
+         ================================================================ */}
+
       <KingdomBanner />
 
+      {/* ================================================================
+          COLLECTIONS
+         ================================================================ */}
+
       <CollectionShowcase collections={homepageData.collections} />
+
+      {/* ================================================================
+          BEST SELLERS
+         ================================================================ */}
 
       <BestSellers
         products={homepageData.latestProducts}
         featuredProducts={homepageData.featuredProducts}
       />
 
+      {/* ================================================================
+          REVIEWS
+         ================================================================ */}
+
+      <ReviewsShowcase />
+
+      {/* ================================================================
+          BRAND STORY
+         ================================================================ */}
+
       <BrandStory products={homepageData.featuredProducts} />
+
+      {/* ================================================================
+          NEWSLETTER
+         ================================================================ */}
 
       <Newsletter />
     </main>

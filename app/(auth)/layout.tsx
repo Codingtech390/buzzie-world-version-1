@@ -1,11 +1,14 @@
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-cream flex items-center justify-center">
-      {children}
-    </div>
+    <>
+      <Navbar />
+
+      <main id="main-content">{children}</main>
+
+      <Footer />
+    </>
   );
 }

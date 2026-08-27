@@ -13,22 +13,6 @@ interface RevealProps {
   once?: boolean;
 }
 
-const viewport = {
-  once: true,
-  amount: 0.16,
-};
-
-const baseVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
-};
-
 export default function Reveal({
   children,
   className,
@@ -41,6 +25,7 @@ export default function Reveal({
       opacity: 0,
       y,
     },
+
     visible: {
       opacity: 1,
       y: 0,
@@ -55,10 +40,13 @@ export default function Reveal({
   return (
     <motion.div
       className={className}
-      variants={variants || baseVariants}
+      variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ ...viewport, once }}
+      viewport={{
+        once,
+        amount: 0.14,
+      }}
     >
       {children}
     </motion.div>

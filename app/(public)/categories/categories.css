@@ -1,0 +1,883 @@
+/* ============================================================================
+   BUZZIEWORLD — CATEGORIES
+   Editorial / modern / 3–15 age positioning
+============================================================================ */
+
+.categories-modern-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #f8f5ef;
+  color: #111111;
+}
+
+.categories-modern-wrapper {
+  width: min(1380px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+/* ============================================================================
+   PAGE HEADING
+============================================================================ */
+
+.categories-page-heading {
+  padding: 72px 24px 48px;
+}
+
+.heading-kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #df1161;
+  font-family: var(--font-poppins);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+}
+
+.heading-kicker span {
+  width: 35px;
+  height: 2px;
+  background: #df1161;
+}
+
+.heading-kicker b {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f2a041;
+}
+
+.categories-page-heading h1 {
+  max-width: 1000px;
+  margin: 18px 0 0;
+
+  font-family: var(--font-poppins);
+  font-size: clamp(4rem, 9vw, 9.5rem);
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -0.085em;
+}
+
+.categories-page-heading h1 em {
+  color: #df1161;
+  font-style: normal;
+}
+
+.heading-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 35px;
+}
+
+.heading-bottom p {
+  max-width: 420px;
+  margin: 0;
+
+  color: #6c6c6c;
+  font-family: var(--font-roboto);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.heading-age {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  color: #111111;
+  font-family: var(--font-poppins);
+}
+
+.heading-age strong {
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.heading-age span {
+  color: #df1161;
+  font-size: 18px;
+}
+
+.heading-age small {
+  margin-left: 7px;
+
+  color: #888888;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+/* ============================================================================
+   GAME INSTRUCTIONS FEATURE
+============================================================================ */
+
+.game-instructions-feature {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #eeedf2;
+}
+
+/*
+   The actual client image does almost all of the visual work.
+   We intentionally don't add colourful overlays here.
+*/
+
+.game-instructions-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 8.5;
+  overflow: hidden;
+}
+
+.game-instructions-img {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 700ms cubic-bezier(.2,.8,.2,1);
+}
+
+.game-instructions-feature:hover .game-instructions-img {
+  transform: scale(1.015);
+}
+
+.game-instructions-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 17px 24px;
+
+  background: #111111;
+  color: #ffffff;
+}
+
+.game-instructions-caption span {
+  color: #f2a041;
+
+  font-family: var(--font-poppins);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.game-instructions-caption p {
+  margin: 0;
+
+  color: rgba(255,255,255,.65);
+  font-family: var(--font-roboto);
+  font-size: 11px;
+}
+
+/* ============================================================================
+   INTRO
+============================================================================ */
+
+.categories-intro {
+  display: grid;
+  grid-template-columns: 1fr .55fr;
+  gap: 70px;
+  align-items: end;
+
+  padding: 105px 24px 55px;
+}
+
+.intro-label {
+  color: #df1161;
+
+  font-family: var(--font-poppins);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .22em;
+}
+
+.categories-intro h2 {
+  margin: 12px 0 0;
+
+  font-family: var(--font-poppins);
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  font-weight: 900;
+  line-height: .84;
+  letter-spacing: -.075em;
+}
+
+.categories-intro h2 span {
+  color: #df1161;
+}
+
+.intro-side p {
+  max-width: 400px;
+  margin: 0;
+
+  color: #666666;
+  font-family: var(--font-roboto);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.intro-mark {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  margin-top: 25px;
+}
+
+.intro-mark span {
+  display: block;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.intro-mark span:nth-child(1) {
+  width: 42px;
+  background: #df1161;
+}
+
+.intro-mark span:nth-child(2) {
+  width: 18px;
+  background: #f2a041;
+}
+
+.intro-mark span:nth-child(3) {
+  width: 7px;
+  background: #536faf;
+}
+
+/* ============================================================================
+   CATEGORY SECTION
+============================================================================ */
+
+.category-section {
+  padding: 20px 0 0;
+}
+
+.category-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+
+  padding: 0 24px 30px;
+}
+
+.category-section-header > div > span {
+  color: #777777;
+
+  font-family: var(--font-poppins);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .2em;
+}
+
+.category-section-header h2 {
+  margin: 9px 0 0;
+
+  font-family: var(--font-poppins);
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: .82;
+  letter-spacing: -.075em;
+}
+
+.category-section-header h2 em {
+  color: #df1161;
+  font-style: normal;
+}
+
+.category-section-header p {
+  max-width: 310px;
+  margin: 0;
+
+  color: #777777;
+  font-family: var(--font-roboto);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ============================================================================
+   CATEGORY GRID
+============================================================================ */
+
+.modern-category-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* ============================================================================
+   CATEGORY CARD
+============================================================================ */
+
+.category-modern-card {
+  position: relative;
+
+  display: flex;
+  min-height: 330px;
+
+  flex-direction: column;
+  justify-content: flex-end;
+
+  overflow: hidden;
+
+  border-radius: 2px;
+
+  background: var(--category-bg);
+  color: var(--category-text);
+
+  isolation: isolate;
+
+  transition:
+    transform 280ms cubic-bezier(.2,.8,.2,1),
+    box-shadow 280ms ease;
+}
+
+.category-modern-card:hover {
+  z-index: 3;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.13);
+}
+
+.category-large {
+  grid-column: span 4;
+  min-height: 380px;
+}
+
+.category-wide {
+  grid-column: span 6;
+  min-height: 300px;
+}
+
+.category-small {
+  grid-column: span 4;
+  min-height: 285px;
+}
+
+/* ============================================================================
+   CARD CONTENT
+============================================================================ */
+
+.category-number {
+  position: absolute;
+  top: 17px;
+  left: 19px;
+
+  z-index: 5;
+
+  font-family: var(--font-poppins);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+
+  opacity: .6;
+}
+
+.category-icon {
+  position: absolute;
+  top: 18px;
+  right: 19px;
+
+  display: flex;
+
+  width: 50px;
+  height: 50px;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid currentColor;
+  border-radius: 50%;
+
+  opacity: .75;
+}
+
+.category-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.category-modern-content {
+  position: relative;
+  z-index: 5;
+
+  padding: 27px;
+}
+
+.category-modern-content h2 {
+  max-width: 370px;
+  margin: 0;
+
+  font-family: var(--font-poppins);
+  font-size: clamp(1.6rem, 2.6vw, 2.7rem);
+  font-weight: 900;
+  line-height: .88;
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+}
+
+.category-modern-content p {
+  max-width: 320px;
+  margin: 12px 0 0;
+
+  font-family: var(--font-roboto);
+  font-size: 11px;
+  line-height: 1.55;
+
+  opacity: .75;
+}
+
+.category-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 20px;
+
+  font-family: var(--font-poppins);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* ============================================================================
+   CARD DECORATION
+============================================================================ */
+
+.category-orb {
+  position: absolute;
+
+  right: -75px;
+  top: 45px;
+
+  z-index: -1;
+
+  width: 230px;
+  height: 230px;
+
+  border: 1px solid currentColor;
+  border-radius: 50%;
+
+  opacity: .15;
+
+  transition:
+    transform 450ms cubic-bezier(.2,.8,.2,1);
+}
+
+.category-modern-card:hover .category-orb {
+  transform: scale(1.12) rotate(12deg);
+}
+
+.category-line {
+  position: absolute;
+
+  left: -20px;
+  bottom: 80px;
+
+  width: 150px;
+  height: 1px;
+
+  background: currentColor;
+
+  opacity: .2;
+
+  transform: rotate(-8deg);
+}
+
+/* ============================================================================
+   AGE STRIP
+============================================================================ */
+
+.age-strip {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 25px;
+  align-items: center;
+
+  min-height: 180px;
+
+  margin-top: 70px;
+  padding: 30px 35px;
+
+  background: #111111;
+  color: #ffffff;
+}
+
+.age-strip-number {
+  color: #df1161;
+
+  font-family: var(--font-poppins);
+  font-size: 50px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.08em;
+}
+
+.age-strip-copy > span {
+  color: #f2a041;
+
+  font-family: var(--font-poppins);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .2em;
+}
+
+.age-strip-copy h3 {
+  margin: 7px 0 0;
+
+  font-family: var(--font-poppins);
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
+  font-weight: 900;
+  line-height: .9;
+  letter-spacing: -.06em;
+}
+
+.age-strip-copy h3 span {
+  color: #df1161;
+}
+
+.age-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--font-poppins);
+  font-size: 29px;
+  font-weight: 900;
+}
+
+.age-range-line {
+  width: 105px;
+  height: 2px;
+
+  background: rgba(255,255,255,.2);
+}
+
+.age-range-line div {
+  width: 68%;
+  height: 100%;
+
+  background: #df1161;
+}
+
+.age-range small {
+  align-self: end;
+
+  margin-bottom: 4px;
+
+  color: rgba(255,255,255,.4);
+
+  font-size: 7px;
+  letter-spacing: .15em;
+}
+
+/* ============================================================================
+   CTA
+============================================================================ */
+
+.categories-bottom-cta {
+  display: flex;
+  min-height: 280px;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  padding: 75px 24px;
+}
+
+.categories-bottom-cta > div > span {
+  color: #777777;
+
+  font-family: var(--font-poppins);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .2em;
+}
+
+.categories-bottom-cta h2 {
+  margin: 10px 0 0;
+
+  font-family: var(--font-poppins);
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: .82;
+  letter-spacing: -.075em;
+}
+
+.categories-bottom-cta h2 em {
+  color: #df1161;
+  font-style: normal;
+}
+
+.categories-cta-button {
+  display: inline-flex;
+
+  min-height: 52px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  padding: 0 24px;
+
+  border-radius: 999px;
+
+  background: #df1161;
+  color: #ffffff;
+
+  font-family: var(--font-poppins);
+  font-size: 10px;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+  transition:
+    transform 200ms ease,
+    background 200ms ease;
+}
+
+.categories-cta-button:hover {
+  background: #c70e55;
+  transform: translateY(-3px);
+}
+
+/* ============================================================================
+   TABLET
+============================================================================ */
+
+@media (max-width: 1000px) {
+
+  .categories-modern-wrapper {
+    width: min(100% - 32px, 800px);
+  }
+
+  .categories-page-heading {
+    padding-top: 55px;
+  }
+
+  .categories-page-heading h1 {
+    font-size: clamp(4rem, 12vw, 7rem);
+  }
+
+  .categories-intro {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .category-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .modern-category-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .category-large {
+    grid-column: span 3;
+  }
+
+  .category-wide {
+    grid-column: span 6;
+  }
+
+  .category-small {
+    grid-column: span 2;
+  }
+}
+
+/* ============================================================================
+   MOBILE
+============================================================================ */
+
+@media (max-width: 640px) {
+
+  .categories-modern-wrapper {
+    width: calc(100% - 16px);
+  }
+
+  .categories-page-heading {
+    padding: 48px 15px 35px;
+  }
+
+  .categories-page-heading h1 {
+    font-size: clamp(3.6rem, 17vw, 5.4rem);
+  }
+
+  .heading-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .heading-bottom p {
+    font-size: 12px;
+  }
+
+  .game-instructions-image {
+    aspect-ratio: 1 / .92;
+  }
+
+  .game-instructions-img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .game-instructions-caption {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+
+    padding: 15px 18px;
+  }
+
+  .categories-intro {
+    grid-template-columns: 1fr;
+    gap: 25px;
+
+    padding: 65px 15px 35px;
+  }
+
+  .categories-intro h2 {
+    font-size: clamp(2.8rem, 13vw, 4rem);
+  }
+
+  .intro-side p {
+    font-size: 12px;
+  }
+
+  .category-section-header {
+    padding-inline: 15px;
+  }
+
+  .category-section-header h2 {
+    font-size: clamp(3rem, 14vw, 4.3rem);
+  }
+
+  .modern-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .category-large,
+  .category-wide,
+  .category-small {
+    grid-column: span 1;
+    min-height: 250px;
+  }
+
+  .category-modern-content {
+    padding: 18px;
+  }
+
+  .category-modern-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .category-modern-content p {
+    font-size: 9px;
+  }
+
+  .category-icon {
+    width: 40px;
+    height: 40px;
+    top: 13px;
+    right: 13px;
+  }
+
+  .category-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .category-number {
+    top: 13px;
+    left: 13px;
+    font-size: 8px;
+  }
+
+  .age-strip {
+    grid-template-columns: 55px 1fr;
+
+    gap: 15px;
+
+    min-height: auto;
+
+    margin-top: 45px;
+
+    padding: 25px 20px;
+  }
+
+  .age-strip-number {
+    font-size: 38px;
+  }
+
+  .age-strip-copy h3 {
+    font-size: 1.45rem;
+  }
+
+  .age-range {
+    grid-column: 1 / -1;
+  }
+
+  .categories-bottom-cta {
+    align-items: flex-start;
+    flex-direction: column;
+
+    padding: 60px 15px;
+  }
+
+  .categories-bottom-cta h2 {
+    font-size: clamp(3.2rem, 15vw, 4.5rem);
+  }
+
+  .categories-cta-button {
+    width: 100%;
+  }
+}
+
+/* ============================================================================
+   VERY SMALL
+============================================================================ */
+
+@media (max-width: 380px) {
+
+  .modern-category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-large,
+  .category-wide,
+  .category-small {
+    grid-column: 1;
+    min-height: 280px;
+  }
+}
+
+/* ============================================================================
+   REDUCED MOTION
+============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .game-instructions-img,
+  .category-modern-card,
+  .category-orb,
+  .categories-cta-button {
+    transition: none;
+  }
+
+  .game-instructions-feature:hover .game-instructions-img,
+  .category-modern-card:hover {
+    transform: none;
+  }
+
+  .category-modern-card:hover .category-orb {
+    transform: none;
+  }
+}

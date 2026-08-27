@@ -1,9 +1,12 @@
+import { ArrowRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import ProductGallery from "@/components/product/ProductGallery";
+import ProductInfoArtwork from "@/components/product/ProductInfoArtwork";
 import RelatedProducts from "@/components/product/RelatedProducts";
-import AddToCartButton from "@/components/cart/AddToCartButton";
-import type { StorefrontProductResponse, StorefrontProduct } from "@/types/storefront";
+import type { StorefrontProduct, StorefrontProductResponse } from "@/types/storefront";
 
 interface ProductPageProps {
   params: Promise<{
@@ -11,8 +14,13 @@ interface ProductPageProps {
   }>;
 }
 
+/* ============================================================================
+   PRODUCT DATA
+============================================================================ */
+
 async function getProduct(slug: string): Promise<StorefrontProduct | null> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   const response = await fetch(`${baseUrl}/api/products/slug/${encodeURIComponent(slug)}`, {
     cache: "no-store",
@@ -35,6 +43,10 @@ async function getProduct(slug: string): Promise<StorefrontProduct | null> {
   return data.product;
 }
 
+/* ============================================================================
+   PRICE FORMATTER
+============================================================================ */
+
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -42,6 +54,34 @@ function formatPrice(price: number): string {
     maximumFractionDigits: 0,
   }).format(price);
 }
+
+/* ============================================================================
+   AGE LABEL
+============================================================================ */
+
+function getAgeLabel(ageRange?: StorefrontProduct["ageRange"]): string | null {
+  if (!ageRange) {
+    return null;
+  }
+
+  if (ageRange.min !== undefined && ageRange.max !== undefined) {
+    return `${ageRange.min}–${ageRange.max} years`;
+  }
+
+  if (ageRange.min !== undefined) {
+    return `${ageRange.min}+ years`;
+  }
+
+  if (ageRange.max !== undefined) {
+    return `Up to ${ageRange.max} years`;
+  }
+
+  return "All ages";
+}
+
+/* ============================================================================
+   PAGE
+============================================================================ */
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
@@ -52,150 +92,379 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  /* ==========================================================================
+     DERIVED PRODUCT DATA
+  ========================================================================== */
+
   const hasDiscount =
     typeof product.compareAtPrice === "number" && product.compareAtPrice > product.price;
 
+  const discount = hasDiscount
+    ? Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)
+    : 0;
+
   const isOutOfStock = product.stock <= 0;
 
-  const categoryId = product.category?._id;
+  const ageLabel = getAgeLabel(product.ageRange);
+
+  /* ==========================================================================
+     PRODUCT INFO PROPS
+
+     ProductInfoArtwork remains responsible for the complete
+     right-side product information/purchase experience.
+  ========================================================================== */
+
+  const productInfoArtworkProps = {
+    product,
+    hasDiscount,
+    discount,
+    isOutOfStock,
+    ageLabel,
+  };
 
   return (
-    <main className="min-h-screen bg-[#FFFDF9]">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <ProductGallery images={product.images} productName={product.name} />
+    <main className="min-h-screen overflow-hidden bg-white">
+      {/* =====================================================================
+          SUBTLE PAGE ATMOSPHERE
+      ====================================================================== */}
 
-          <div className="flex flex-col justify-center">
-            {product.category?.name && (
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#3F7DFF]">
-                {product.category.name}
-              </p>
-            )}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          fixed
+          inset-x-0
+          top-0
+          -z-0
+          h-[24rem]
+          bg-[radial-gradient(circle_at_12%_5%,rgba(231,45,90,0.055),transparent_28%),radial-gradient(circle_at_88%_8%,rgba(195,145,238,0.055),transparent_30%)]
+        "
+      />
 
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#252525] sm:text-4xl">
-              {product.name}
-            </h1>
+      <div className="container relative z-10 py-5 sm:py-7 lg:py-8">
+        {/* ===================================================================
+            BREADCRUMB
+        ==================================================================== */}
 
-            {product.shortDescription && (
-              <p className="mt-4 text-base leading-7 text-muted-foreground">
-                {product.shortDescription}
-              </p>
-            )}
+        <nav
+          aria-label="Breadcrumb"
+          className="
+            mb-6
+            flex
+            flex-wrap
+            items-center
+            gap-2
+            font-[var(--font-poppins)]
+            text-[10px]
+            font-medium
+            text-[#687489]
+            sm:mb-8
+            sm:text-xs
+          "
+        >
+          <Link
+            href="/shop"
+            className="
+              transition-colors
+              hover:text-[#E72D5A]
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[#E72D5A]
+              focus-visible:ring-offset-2
+            "
+          >
+            Shop
+          </Link>
 
-            <div className="mt-6 flex items-end gap-3">
-              <span className="text-3xl font-bold text-[#252525]">
-                {formatPrice(product.price)}
-              </span>
+          <ArrowRight className="size-3 text-[#B4B8C1]" />
 
-              {hasDiscount && (
-                <span className="pb-1 text-lg text-muted-foreground line-through">
-                  {formatPrice(product.compareAtPrice!)}
-                </span>
-              )}
-            </div>
+          {product.category?.name ? (
+            <>
+              <span className="text-[#9AA1AE]">{product.category.name}</span>
 
-            {product.sku && (
-              <p className="mt-3 text-xs text-muted-foreground">SKU: {product.sku}</p>
-            )}
+              <ArrowRight className="size-3 text-[#B4B8C1]" />
+            </>
+          ) : null}
 
-            <div className="mt-6">
-              {isOutOfStock ? (
-                <div className="rounded-2xl bg-[#F56B9A]/10 px-4 py-3 text-sm font-semibold text-[#C44770]">
-                  This product is currently out of stock.
-                </div>
-              ) : (
-                <div className="rounded-2xl bg-[#79D45C]/10 px-4 py-3 text-sm font-semibold text-[#4D9A38]">
-                  {product.stock <= 5
-                    ? `Only ${product.stock} left in stock`
-                    : "In stock and ready to ship"}
-                </div>
-              )}
-            </div>
+          <span className="max-w-[16rem] truncate font-semibold text-[#17131F]">
+            {product.name}
+          </span>
+        </nav>
 
-            {product.variants.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-sm font-semibold text-[#252525]">Available options</h2>
+        {/* ===================================================================
+            MAIN PRODUCT AREA
+        ==================================================================== */}
 
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {product.variants.map((variant) => (
-                    <span
-                      key={variant._id || `${variant.name}-${variant.value}`}
-                      className="rounded-full border border-[#F8EFD8] bg-white px-4 py-2 text-sm"
-                    >
-                      {variant.name}: {variant.value}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+        <div
+          className="
+    grid
+    gap-6
+    lg:grid-cols-[0.78fr_1.22fr]
+    lg:items-start
+    lg:gap-8
+    xl:grid-cols-[0.8fr_1.2fr]
+    xl:gap-10
+          "
+        >
+          {/* =================================================================
+              LEFT — PRODUCT GALLERY
+          ================================================================== */}
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <AddToCartButton
-                productId={product._id}
-                disabled={isOutOfStock}
-                quantity={1}
-                className="h-12 flex-1 rounded-full px-6 text-sm font-semibold"
-              />
+          <section className="min-w-0">
+            <ProductGallery images={product.images} productName={product.name} />
+          </section>
 
-              <button
-                type="button"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-[#F8EFD8] bg-white px-6 text-sm font-semibold text-[#252525] transition hover:bg-[#FFF8EC]"
-              >
-                Save for later
-              </button>
-            </div>
+          {/* =================================================================
+              RIGHT — PRODUCT INFORMATION
+          ================================================================== */}
 
-            <div className="mt-10 border-t border-[#F8EFD8] pt-8">
-              <h2 className="text-lg font-semibold text-[#252525]">About this product</h2>
-
-              <div className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">
-                {product.description}
-              </div>
-            </div>
-
-            {(product.brand?.name || product.collection?.name || product.ageRange) && (
-              <div className="mt-8 grid gap-3 border-t border-[#F8EFD8] pt-8 sm:grid-cols-2">
-                {product.brand?.name && (
-                  <div className="rounded-2xl bg-[#FFF8EC] p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      Brand
-                    </p>
-                    <p className="mt-1 font-semibold text-[#252525]">{product.brand.name}</p>
-                  </div>
-                )}
-
-                {product.collection?.name && (
-                  <div className="rounded-2xl bg-[#FFF8EC] p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      Collection
-                    </p>
-                    <p className="mt-1 font-semibold text-[#252525]">{product.collection.name}</p>
-                  </div>
-                )}
-
-                {product.ageRange && (
-                  <div className="rounded-2xl bg-[#FFF8EC] p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      Recommended age
-                    </p>
-
-                    <p className="mt-1 font-semibold text-[#252525]">
-                      {product.ageRange.min !== undefined && product.ageRange.max !== undefined
-                        ? `${product.ageRange.min}–${product.ageRange.max} years`
-                        : product.ageRange.min !== undefined
-                          ? `${product.ageRange.min}+ years`
-                          : product.ageRange.max !== undefined
-                            ? `Up to ${product.ageRange.max} years`
-                            : "All ages"}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          <section className="min-w-0">
+            <ProductInfoArtwork {...(productInfoArtworkProps as any)} />
+          </section>
         </div>
 
-        <RelatedProducts categoryId={categoryId} currentProductId={product._id} />
+        {/* ===================================================================
+            A+ CONTENT
+        ==================================================================== */}
+
+        <section
+          aria-labelledby="product-a-plus-heading"
+          className="
+            relative
+            mt-14
+            overflow-hidden
+            rounded-[24px]
+            border
+            border-[#F0E8EA]
+            bg-[#FFFDFD]
+            shadow-[0_20px_65px_rgba(30,20,25,0.055)]
+            sm:mt-18
+            sm:rounded-[30px]
+            lg:mt-24
+            lg:rounded-[36px]
+          "
+        >
+          {/* ================================================================
+              A+ SECTION HEADER
+          ================================================================= */}
+
+          <div
+            className="
+              flex
+              flex-col
+              items-center
+              px-5
+              pb-6
+              pt-8
+              text-center
+              sm:px-8
+              sm:pb-8
+              sm:pt-10
+              lg:px-12
+              lg:pb-10
+              lg:pt-12
+            "
+          >
+            {/* Eyebrow */}
+
+            <div
+              className="
+                flex
+                items-center
+                justify-center
+                gap-2.5
+              "
+            >
+              <span className="h-[2px] w-7 rounded-full bg-[#E72D5A] sm:w-9" />
+
+              <span
+                className="
+                  font-[var(--font-poppins)]
+                  text-[8px]
+                  font-black
+                  uppercase
+                  tracking-[0.2em]
+                  text-[#E72D5A]
+                  sm:text-[9px]
+                  lg:text-[10px]
+                "
+              >
+                Discover the experience
+              </span>
+
+              <span className="size-1.5 rounded-full bg-[#F59A23]" />
+            </div>
+
+            {/* Heading */}
+
+            <h2
+              id="product-a-plus-heading"
+              className="
+                mt-4
+                max-w-[800px]
+                font-[var(--font-roboto)]
+                text-[clamp(2rem,4vw,3.6rem)]
+                font-black
+                leading-[0.94]
+                tracking-[-0.055em]
+                text-[#17131F]
+              "
+            >
+              More than a product.
+              <br />
+              <span className="text-[#E72D5A]">It&apos;s an experience.</span>
+            </h2>
+
+            {/* Description */}
+
+            <p
+              className="
+                mx-auto
+                mt-5
+                max-w-[620px]
+                font-[var(--font-poppins)]
+                text-[12px]
+                leading-6
+                text-[#687489]
+                sm:text-[13px]
+                sm:leading-7
+              "
+            >
+              Take a closer look at what makes this BuzzieWorld experience special — designed to
+              bring more play, discovery and memorable moments into everyday life.
+            </p>
+          </div>
+
+          {/* ================================================================
+              COMPLETE A+ CONTENT IMAGE
+
+              The complete A+ artwork is now supplied as one HD image.
+              This replaces the previously manually-built A+ rows.
+          ================================================================= */}
+
+          <div
+            className="
+              relative
+              w-full
+              overflow-hidden
+              bg-white
+            "
+          >
+            <Image
+              src="/images/products/a-plus/a+combined.png"
+              alt={`${product.name} — product features, what's included, learning benefits and product experience`}
+              width={1600}
+              height={2400}
+              sizes="
+                100vw
+              "
+              className="
+                block
+                h-auto
+                w-full
+                object-contain
+              "
+            />
+          </div>
+
+          {/* ================================================================
+              A+ FOOTER ACCENT
+          ================================================================= */}
+
+          <div
+            aria-hidden="true"
+            className="
+              flex
+              items-center
+              justify-center
+              gap-1.5
+              border-t
+              border-[#F4E6E9]
+              bg-[#FFFDFD]
+              py-4
+            "
+          >
+            <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
+            <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
+            <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
+          </div>
+        </section>
+
+        {/* ===================================================================
+            RELATED PRODUCTS
+        ==================================================================== */}
+
+        <section className="mt-16 sm:mt-20 lg:mt-24">
+          <div className="mx-auto max-w-3xl text-center">
+            {/* Eyebrow */}
+
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                bg-[#FFF0F4]
+                px-4
+                py-2
+              "
+            >
+              <Sparkles className="size-3 text-[#E72D5A]" />
+
+              <span
+                className="
+                  font-[var(--font-poppins)]
+                  text-[9px]
+                  font-extrabold
+                  uppercase
+                  tracking-[0.18em]
+                  text-[#E72D5A]
+                "
+              >
+                Keep exploring
+              </span>
+            </div>
+
+            {/* Heading */}
+
+            <h2
+              className="
+                mt-4
+                font-[var(--font-roboto)]
+                text-3xl
+                font-black
+                tracking-[-0.045em]
+                text-[#17131F]
+                sm:text-4xl
+                lg:text-5xl
+              "
+            >
+              More to discover.
+            </h2>
+
+            {/* Description */}
+
+            <p
+              className="
+                mx-auto
+                mt-4
+                max-w-xl
+                font-[var(--font-poppins)]
+                text-[12px]
+                leading-6
+                text-[#687489]
+                sm:text-[13px]
+                sm:leading-7
+              "
+            >
+              Find another BuzzieWorld favourite to add to their next adventure.
+            </p>
+          </div>
+
+          <div className="mt-8 sm:mt-10 lg:mt-12">
+            <RelatedProducts currentProductId={product._id} />
+          </div>
+        </section>
       </div>
     </main>
   );
