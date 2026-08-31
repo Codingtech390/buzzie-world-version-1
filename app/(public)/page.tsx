@@ -111,7 +111,7 @@ export default async function HomePage() {
           HERO
          ================================================================ */}
 
-      <Hero products={homepageData.featuredProducts} />
+      <Hero />
 
       {/* ================================================================
           BENEFITS
