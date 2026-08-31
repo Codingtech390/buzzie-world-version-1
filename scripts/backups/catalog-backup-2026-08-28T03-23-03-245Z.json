@@ -1,0 +1,327 @@
+{
+  "metadata": {
+    "script": "seed-catalog-v2",
+    "createdAt": "2026-08-28T03:23:03.684Z",
+    "purpose": "Pre-migration backup of BuzzieWorld catalog collections.",
+    "counts": {
+      "products": 6,
+      "categories": 5,
+      "brands": 3,
+      "collections": 3
+    }
+  },
+  "products": [
+    {
+      "_id": "6a79ed5779349e89de4d1ea9",
+      "name": "Wooden Safari Puzzle",
+      "slug": "wooden-safari-puzzle",
+      "description": "A beautifully illustrated wooden puzzle that introduces children to animals and encourages problem-solving skills.",
+      "shortDescription": "A playful wooden animal puzzle for curious little explorers.",
+      "price": 799,
+      "compareAtPrice": 999,
+      "sku": "BZ-SAFARI-001",
+      "images": [
+        {
+          "url": "/images/products/wooden-safari-puzzle.jpg",
+          "alt": "Wooden Safari Puzzle"
+        }
+      ],
+      "category": "6a79ed5779349e89de4d1e9e",
+      "brand": "6a79ed5779349e89de4d1ea4",
+      "collection": "6a79ed5779349e89de4d1ea6",
+      "stock": 25,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 3,
+        "max": 6
+      },
+      "variants": [],
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.486Z",
+      "updatedAt": "2026-08-10T15:25:11.486Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1eaa",
+      "name": "Magnetic Building Blocks",
+      "slug": "magnetic-building-blocks",
+      "description": "Colorful magnetic building blocks designed to encourage creativity, spatial thinking and imaginative play.",
+      "shortDescription": "Build, create and explore with colorful magnetic blocks.",
+      "price": 1299,
+      "compareAtPrice": 1599,
+      "sku": "BZ-BLOCKS-001",
+      "images": [
+        {
+          "url": "/images/products/magnetic-building-blocks.jpg",
+          "alt": "Magnetic Building Blocks"
+        }
+      ],
+      "category": "6a79ed5779349e89de4d1e9e",
+      "brand": "6a79ed5779349e89de4d1ea3",
+      "collection": "6a79ed5779349e89de4d1ea6",
+      "stock": 17,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 3,
+        "max": 9
+      },
+      "variants": [],
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.487Z",
+      "updatedAt": "2026-08-14T12:25:07.153Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1eab",
+      "name": "My First Space Adventure",
+      "slug": "my-first-space-adventure",
+      "description": "An illustrated children's book introducing young readers to planets, stars and the wonders of outer space.",
+      "shortDescription": "A colorful first adventure through the universe.",
+      "price": 499,
+      "compareAtPrice": 599,
+      "sku": "BZ-SPACE-001",
+      "images": [
+        {
+          "url": "/images/products/space-adventure.jpg",
+          "alt": "My First Space Adventure"
+        }
+      ],
+      "category": "6a79ed5779349e89de4d1e9f",
+      "brand": "6a79ed5779349e89de4d1ea5",
+      "collection": "6a79ed5779349e89de4d1ea8",
+      "stock": 40,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 8
+      },
+      "variants": [],
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.487Z",
+      "updatedAt": "2026-08-10T15:25:11.487Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1eac",
+      "name": "Junior Science Lab",
+      "slug": "junior-science-lab",
+      "description": "A hands-on science activity kit that introduces children to exciting experiments and scientific thinking.",
+      "shortDescription": "Hands-on experiments for young scientists.",
+      "price": 1499,
+      "compareAtPrice": 1799,
+      "sku": "BZ-SCIENCE-001",
+      "images": [
+        {
+          "url": "/images/products/junior-science-lab.jpg",
+          "alt": "Junior Science Lab"
+        }
+      ],
+      "category": "6a79ed5779349e89de4d1ea0",
+      "brand": "6a79ed5779349e89de4d1ea5",
+      "collection": "6a79ed5779349e89de4d1ea8",
+      "stock": 12,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 6,
+        "max": 12
+      },
+      "variants": [],
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.487Z",
+      "updatedAt": "2026-08-10T15:25:11.487Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ead",
+      "name": "Rainbow Art Studio",
+      "slug": "rainbow-art-studio",
+      "description": "A creative art set with colorful materials designed to let children draw, paint and create their own masterpieces.",
+      "shortDescription": "Everything young artists need to start creating.",
+      "price": 999,
+      "compareAtPrice": 1199,
+      "sku": "BZ-ART-001",
+      "images": [
+        {
+          "url": "/images/products/rainbow-art-studio.jpg",
+          "alt": "Rainbow Art Studio"
+        }
+      ],
+      "category": "6a79ed5779349e89de4d1ea2",
+      "brand": "6a79ed5779349e89de4d1ea3",
+      "collection": "6a79ed5779349e89de4d1ea7",
+      "stock": 30,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 10
+      },
+      "variants": [],
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.487Z",
+      "updatedAt": "2026-08-10T15:25:11.487Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1eae",
+      "name": "Soft Cuddle Bunny",
+      "slug": "soft-cuddle-bunny",
+      "description": "A soft and comforting bunny designed to become a gentle companion for little ones.",
+      "shortDescription": "A soft cuddly companion for little dreamers.",
+      "price": 699,
+      "compareAtPrice": 799,
+      "sku": "BZ-BUNNY-001",
+      "images": [
+        {
+          "url": "/images/products/soft-cuddle-bunny.jpg",
+          "alt": "Soft Cuddle Bunny"
+        }
+      ],
+      "category": "6a79ed5779349e89de4d1ea1",
+      "brand": "6a79ed5779349e89de4d1ea4",
+      "collection": "6a79ed5779349e89de4d1ea6",
+      "stock": 22,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 1,
+        "max": 3
+      },
+      "variants": [],
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.487Z",
+      "updatedAt": "2026-08-10T15:25:11.487Z"
+    }
+  ],
+  "categories": [
+    {
+      "_id": "6a79ed5779349e89de4d1e9e",
+      "name": "Toys",
+      "slug": "toys",
+      "description": "Fun, engaging and imaginative toys designed for growing minds.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 1,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.208Z",
+      "updatedAt": "2026-08-10T15:25:11.208Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1e9f",
+      "name": "Books",
+      "slug": "books",
+      "description": "Storybooks, activity books and learning adventures for children.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 2,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.209Z",
+      "updatedAt": "2026-08-10T15:25:11.209Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea0",
+      "name": "STEM & Learning",
+      "slug": "stem-learning",
+      "description": "Hands-on learning products that make science, technology and creativity fun.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 3,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.210Z",
+      "updatedAt": "2026-08-10T15:25:11.210Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea1",
+      "name": "Baby & Toddler",
+      "slug": "baby-toddler",
+      "description": "Thoughtfully selected products for babies and growing toddlers.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 4,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.210Z",
+      "updatedAt": "2026-08-10T15:25:11.210Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea2",
+      "name": "Arts & Crafts",
+      "slug": "arts-crafts",
+      "description": "Creative products that encourage imagination and self-expression.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 5,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.210Z",
+      "updatedAt": "2026-08-10T15:25:11.210Z"
+    }
+  ],
+  "brands": [
+    {
+      "_id": "6a79ed5779349e89de4d1ea3",
+      "name": "Buzzie Originals",
+      "slug": "buzzie-originals",
+      "description": "Original products curated especially for the BuzzieWorld universe.",
+      "isActive": true,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.305Z",
+      "updatedAt": "2026-08-10T15:25:11.305Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea4",
+      "name": "Little Explorers",
+      "slug": "little-explorers",
+      "description": "Playful products designed to inspire curiosity and discovery.",
+      "isActive": true,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.305Z",
+      "updatedAt": "2026-08-10T15:25:11.305Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea5",
+      "name": "WonderKids",
+      "slug": "wonderkids",
+      "description": "Creative and educational products for curious young minds.",
+      "isActive": true,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.305Z",
+      "updatedAt": "2026-08-10T15:25:11.305Z"
+    }
+  ],
+  "collections": [
+    {
+      "_id": "6a79ed5779349e89de4d1ea6",
+      "name": "Little Explorers",
+      "slug": "little-explorers",
+      "description": "A collection created for curious children ready to explore the world.",
+      "isActive": true,
+      "featured": true,
+      "sortOrder": 1,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.402Z",
+      "updatedAt": "2026-08-10T15:25:11.402Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea7",
+      "name": "Creative Kingdom",
+      "slug": "creative-kingdom",
+      "description": "Art, creativity and imagination brought together in one collection.",
+      "isActive": true,
+      "featured": true,
+      "sortOrder": 2,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.402Z",
+      "updatedAt": "2026-08-10T15:25:11.402Z"
+    },
+    {
+      "_id": "6a79ed5779349e89de4d1ea8",
+      "name": "Learning Adventures",
+      "slug": "learning-adventures",
+      "description": "Products that turn everyday learning into an exciting adventure.",
+      "isActive": true,
+      "featured": true,
+      "sortOrder": 3,
+      "__v": 0,
+      "createdAt": "2026-08-10T15:25:11.402Z",
+      "updatedAt": "2026-08-10T15:25:11.402Z"
+    }
+  ]
+}

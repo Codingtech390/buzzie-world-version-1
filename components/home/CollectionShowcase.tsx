@@ -1,159 +1,654 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Compass,
-  Palette,
-  Sparkles,
-  Telescope,
-} from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { StorefrontSelector } from "@/types/storefront";
 
-import Reveal from "./Reveal";
+/* ============================================================================
+   TYPES
+============================================================================ */
 
 interface CollectionShowcaseProps {
   collections: StorefrontSelector[];
 }
 
-const collectionIcons = [Compass, Palette, Telescope] as const;
+interface ShowcaseSlide {
+  id: string;
+  image: string;
+  alt: string;
+  href: string;
+}
 
-const collectionColors = [
-  "#3F7DFF",
-  "#F56B9A",
-  "#79D45C",
-] as const;
+/* ============================================================================
+   SHOWCASE SLIDES
 
-export default function CollectionShowcase({
-  collections,
-}: CollectionShowcaseProps) {
-  if (collections.length === 0) {
+   These are your three promotional return-gift images.
+
+   IMPORTANT:
+   If your actual filenames are different, change only the image paths.
+============================================================================ */
+
+const SHOWCASE_SLIDES: ShowcaseSlide[] = [
+  {
+    id: "return-gift-1",
+    image: "/images/return-gifts/return-gift-1.png",
+    alt: "BuzzieWorld return gifts for kids",
+    href: "/crazy-deals",
+  },
+  {
+    id: "return-gift-2",
+    image: "/images/return-gifts/return-gift-2.png",
+    alt: "BuzzieWorld gifts for kids",
+    href: "/crazy-deals",
+  },
+  {
+    id: "return-gift-3",
+    image: "/images/return-gifts/return-gift-3.png",
+    alt: "BuzzieWorld fun return gifts",
+    href: "/crazy-deals",
+  },
+];
+
+/* ============================================================================
+   SETTINGS
+============================================================================ */
+
+const AUTOPLAY_DELAY = 5000;
+
+const pageEase = [0.22, 1, 0.36, 1] as const;
+
+const slideVariants = {
+  enter: {
+    opacity: 0,
+    scale: 1.015,
+  },
+
+  center: {
+    opacity: 1,
+    scale: 1,
+  },
+
+  exit: {
+    opacity: 0,
+    scale: 0.995,
+  },
+};
+
+/* ============================================================================
+   COMPONENT
+============================================================================ */
+
+export default function CollectionShowcase({ collections }: CollectionShowcaseProps) {
+  /*
+   * The collections prop is intentionally preserved.
+   *
+   * Your existing homepage may already pass backend collection data into
+   * this component. The promotional carousel itself uses the three
+   * manually-selected promotional artworks above.
+   */
+
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  /*
+   * Keep this memoized so the carousel does not unnecessarily recreate
+   * the slide array on every render.
+   */
+  const slides = useMemo(() => {
+    if (SHOWCASE_SLIDES.length > 0) {
+      return SHOWCASE_SLIDES;
+    }
+
+    /*
+     * Safety fallback.
+     *
+     * This should normally never execute because SHOWCASE_SLIDES contains
+     * your three promotional images.
+     */
+    return collections.slice(0, 3).map((collection) => ({
+      id: collection._id,
+      image: "",
+      alt: collection.name,
+      href: `/shop?collection=${encodeURIComponent(collection._id)}`,
+    }));
+  }, [collections]);
+
+  /* ==========================================================================
+     SAFETY FOR ACTIVE INDEX
+  ========================================================================== */
+
+  useEffect(() => {
+    if (activeSlide >= slides.length) {
+      setActiveSlide(0);
+    }
+  }, [activeSlide, slides.length]);
+
+  /* ==========================================================================
+     AUTOPLAY
+  ========================================================================== */
+
+  useEffect(() => {
+    if (slides.length <= 1 || isHovered) {
+      return;
+    }
+
+    autoplayRef.current = setInterval(() => {
+      setActiveSlide((current) => {
+        return (current + 1) % slides.length;
+      });
+    }, AUTOPLAY_DELAY);
+
+    return () => {
+      if (autoplayRef.current) {
+        clearInterval(autoplayRef.current);
+        autoplayRef.current = null;
+      }
+    };
+  }, [isHovered, slides.length]);
+
+  /* ==========================================================================
+     NAVIGATION
+  ========================================================================== */
+
+  function goToPrevious() {
+    setActiveSlide((current) => {
+      if (current === 0) {
+        return slides.length - 1;
+      }
+
+      return current - 1;
+    });
+  }
+
+  function goToNext() {
+    setActiveSlide((current) => {
+      return (current + 1) % slides.length;
+    });
+  }
+
+  function goToSlide(index: number) {
+    setActiveSlide(index);
+  }
+
+  /* ==========================================================================
+     EMPTY STATE
+  ========================================================================== */
+
+  if (slides.length === 0) {
     return null;
   }
 
-  const visibleCollections = collections.slice(0, 3);
+  const currentSlide = slides[activeSlide] ?? slides[0];
+
+  if (!currentSlide) {
+    return null;
+  }
 
   return (
-    <section className="section relative overflow-hidden bg-[#FFFDF9]">
+    <section
+      aria-label="BuzzieWorld return gifts"
+      className="
+        relative
+        isolate
+        w-full
+        overflow-hidden
+        bg-[#FFFDF9]
+      "
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* ======================================================================
+          FULLSCREEN CAROUSEL
+      ====================================================================== */}
+
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[-10rem] top-[-8rem] size-80 rounded-full bg-[#F8C83B]/7 blur-3xl"
-      />
+        className="
+          relative
+          w-full
+          overflow-hidden
+          bg-[#FFFDF9]
+        "
+      >
+        {/* ====================================================================
+            SLIDE AREA
+        ==================================================================== */}
 
-      <div className="container relative">
-        <Reveal>
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#3F7DFF]">
-                Curated little worlds
-              </p>
-
-              <h2 className="mt-3 font-[var(--font-roboto)] text-[clamp(2rem,4vw,3.3rem)] font-black leading-[1] tracking-[-0.045em] text-[#27344A]">
-                Collections with a little character.
-              </h2>
-
-              <p className="mt-4 text-sm leading-6 text-[#687489] sm:text-base">
-                Explore the themes currently shaping the BuzzieWorld catalog.
-              </p>
-            </div>
-
-            <Link
-              href="/shop"
-              className="group inline-flex min-h-10 items-center gap-2 text-sm font-bold text-[#3F7DFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3F7DFF] focus-visible:ring-offset-2"
+        <div
+          className="
+            relative
+            w-full
+            overflow-hidden
+          "
+        >
+          <AnimatePresence initial={false} mode="sync">
+            <motion.div
+              key={currentSlide.id}
+              className="
+                relative
+                w-full
+                overflow-hidden
+              "
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                duration: 0.65,
+                ease: pageEase,
+              }}
             >
-              View all
-              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </Reveal>
+              {/* ================================================================
+                  FULL-WIDTH PROMOTIONAL ARTWORK
 
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {visibleCollections.map((collection, index) => {
-            const Icon =
-              collectionIcons[index % collectionIcons.length] ?? Compass;
+                  Using normal img intentionally.
 
-            const color =
-              collectionColors[index % collectionColors.length] ?? "#3F7DFF";
+                  This avoids the Next/Image preload selector problem you were
+                  previously getting with complex responsive `sizes` strings.
+              ================================================================= */}
 
-            const large = index === 0;
+              <img
+                src={currentSlide.image}
+                alt={currentSlide.alt}
+                className="
+                  block
+                  h-auto
+                  w-full
+                  max-w-none
+                  select-none
+                  object-contain
+                "
+                draggable={false}
+              />
+
+              {/* ================================================================
+                  SUBTLE BOTTOM FADE
+
+                  Only helps the controls remain readable.
+              ================================================================= */}
+
+              <div
+                aria-hidden="true"
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-x-0
+                  bottom-0
+                  h-24
+                  bg-gradient-to-t
+                  from-black/[0.08]
+                  via-transparent
+                  to-transparent
+                "
+              />
+
+              {/* ================================================================
+                  EXPLORE GIFTS BUTTON
+
+                  Appears on hover.
+
+                  Mobile:
+                  The button remains available because touch devices do not
+                  have normal hover behavior. See the `[@media...]` utility
+                  below.
+              ================================================================= */}
+
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  flex
+                  items-center
+                  justify-center
+                  px-5
+                "
+              >
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 12,
+                    scale: 0.96,
+                  }}
+                  animate={{
+                    opacity: isHovered ? 1 : 0,
+                    y: isHovered ? 0 : 12,
+                    scale: isHovered ? 1 : 0.96,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: pageEase,
+                  }}
+                  className="
+                    pointer-events-auto
+
+                    [@media(hover:none)]:opacity-100
+                    [@media(hover:none)]:translate-y-0
+                    [@media(hover:none)]:scale-100
+                  "
+                >
+                  <Link
+                    href={currentSlide.href}
+                    aria-label={`Explore gifts — ${currentSlide.alt}`}
+                    className="
+                      group
+                      inline-flex
+                      min-h-12
+                      items-center
+                      justify-center
+                      gap-2
+                      rounded-full
+                      border
+                      border-white/30
+                      bg-[#C391EE]
+                      px-7
+                      py-3
+                      font-[var(--font-poppins)]
+                      text-sm
+                      font-bold
+                      !text-white
+                      no-underline
+                      shadow-[0_14px_35px_rgba(195,145,238,0.32)]
+                      backdrop-blur-md
+                      transition-all
+                      duration-300
+                      hover:-translate-y-1
+                      hover:bg-[#B77BE8]
+                      hover:!text-white
+                      hover:shadow-[0_18px_42px_rgba(195,145,238,0.4)]
+                      focus-visible:!text-white
+                      focus-visible:outline-none
+                      focus-visible:ring-4
+                      focus-visible:ring-[#C391EE]/30
+                      focus-visible:ring-offset-2
+                      focus-visible:ring-offset-white
+                    "
+                    /*
+                     * Inline color is intentional.
+                     *
+                     * This protects the CTA from any global anchor rule
+                     * in globals.css that may be forcing links to black.
+                     */
+                    style={{
+                      color: "#FFFFFF",
+                    }}
+                  >
+                    <Sparkles
+                      aria-hidden="true"
+                      className="
+                        size-4
+                        !text-white
+                        transition-transform
+                        duration-300
+                        group-hover:rotate-12
+                      "
+                      style={{
+                        color: "#FFFFFF",
+                      }}
+                      strokeWidth={2.2}
+                    />
+
+                    <span
+                      className="!text-white"
+                      style={{
+                        color: "#FFFFFF",
+                      }}
+                    >
+                      Explore Gifts
+                    </span>
+
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="
+                        size-4
+                        !text-white
+                        transition-transform
+                        duration-300
+                        group-hover:translate-x-1
+                      "
+                      style={{
+                        color: "#FFFFFF",
+                      }}
+                      strokeWidth={2.2}
+                    />
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* ====================================================================
+            BOTTOM-RIGHT NAVIGATION
+
+            Both arrows stay together.
+        ==================================================================== */}
+
+        <div
+          className="
+            absolute
+            bottom-5
+            right-5
+            z-30
+            flex
+            items-center
+            gap-2
+            sm:bottom-7
+            sm:right-7
+            lg:bottom-8
+            lg:right-9
+          "
+        >
+          {/* ================================================================
+              PREVIOUS
+          ================================================================= */}
+
+          <motion.button
+            type="button"
+            aria-label="Previous slide"
+            onClick={goToPrevious}
+            whileHover={{
+              y: -2,
+              scale: 1.03,
+            }}
+            whileTap={{
+              scale: 0.96,
+            }}
+            className="
+              flex
+              size-11
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/70
+              bg-white/90
+              text-[#27344A]
+              shadow-[0_8px_24px_rgba(39,52,74,0.14)]
+              backdrop-blur-md
+              transition-colors
+              duration-200
+              hover:bg-white
+              focus-visible:outline-none
+              focus-visible:ring-4
+              focus-visible:ring-[#C391EE]/25
+              sm:size-12
+            "
+          >
+            <ArrowLeft aria-hidden="true" className="size-4 sm:size-[18px]" strokeWidth={2.2} />
+          </motion.button>
+
+          {/* ================================================================
+              NEXT
+          ================================================================= */}
+
+          <motion.button
+            type="button"
+            aria-label="Next slide"
+            onClick={goToNext}
+            whileHover={{
+              y: -2,
+              scale: 1.03,
+            }}
+            whileTap={{
+              scale: 0.96,
+            }}
+            className="
+              flex
+              size-11
+              items-center
+              justify-center
+              rounded-full
+              bg-[#C391EE]
+              !text-white
+              shadow-[0_10px_26px_rgba(195,145,238,0.32)]
+              transition-colors
+              duration-200
+              hover:bg-[#B77BE8]
+              focus-visible:outline-none
+              focus-visible:ring-4
+              focus-visible:ring-[#C391EE]/25
+              focus-visible:ring-offset-2
+              sm:size-12
+            "
+            style={{
+              color: "#FFFFFF",
+            }}
+          >
+            <ArrowRight
+              aria-hidden="true"
+              className="size-4 !text-white sm:size-[18px]"
+              style={{
+                color: "#FFFFFF",
+              }}
+              strokeWidth={2.2}
+            />
+          </motion.button>
+        </div>
+
+        {/* ====================================================================
+            DESKTOP SLIDE INDICATORS
+
+            Hidden on small screens to keep the mobile artwork clean.
+        ==================================================================== */}
+
+        <div
+          className="
+            absolute
+            bottom-5
+            left-1/2
+            z-30
+            hidden
+            -translate-x-1/2
+            items-center
+            gap-1.5
+            rounded-full
+            border
+            border-white/70
+            bg-white/80
+            px-3
+            py-2
+            shadow-[0_8px_22px_rgba(39,52,74,0.1)]
+            backdrop-blur-md
+            sm:flex
+            sm:bottom-7
+          "
+        >
+          {slides.map((slide, index) => {
+            const isActive = activeSlide === index;
 
             return (
-              <Reveal
-                key={collection._id}
-                delay={index * 0.05}
+              <button
+                key={slide.id}
+                type="button"
+                aria-label={`Go to slide ${index + 1}`}
+                aria-current={isActive ? "true" : undefined}
+                onClick={() => goToSlide(index)}
+                className="
+                  flex
+                  h-4
+                  w-5
+                  items-center
+                  justify-center
+                  rounded-full
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#C391EE]
+                "
               >
-                <Link
-                  href={`/shop?collection=${encodeURIComponent(collection._id)}`}
-                  className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3F7DFF] focus-visible:ring-offset-4"
-                >
-                  <article
-                    className={[
-                      "relative h-full min-h-[300px] overflow-hidden rounded-[32px] border border-[#EEDDBB]/65 bg-white shadow-[0_15px_42px_rgba(39,52,74,0.055)]",
-                      "transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      "group-hover:-translate-y-1.5 group-hover:shadow-[0_28px_60px_rgba(39,52,74,0.1)]",
-                      large ? "lg:min-h-[390px]" : "",
-                    ].join(" ")}
-                  >
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background: `radial-gradient(circle at 78% 18%, ${color}1d, transparent 30%), linear-gradient(145deg,#FFFFFF 0%,#FFF8EC 100%)`,
-                      }}
-                    />
-
-                    <div
-                      aria-hidden="true"
-                      className="absolute right-[-4rem] top-[-4rem] size-52 rounded-full blur-3xl transition-transform duration-700 group-hover:scale-125"
-                      style={{ backgroundColor: `${color}18` }}
-                    />
-
-                    <div
-                      aria-hidden="true"
-                      className="absolute bottom-[-5rem] left-[-4rem] size-52 rounded-full blur-3xl"
-                      style={{ backgroundColor: `${color}10` }}
-                    />
-
-                    <div className="absolute right-7 top-7 flex size-16 items-center justify-center rounded-[22px] border border-white bg-white/85 shadow-[0_16px_30px_rgba(39,52,74,0.08)] backdrop-blur transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105">
-                      <Icon
-                        className="size-7"
-                        style={{ color }}
-                        strokeWidth={1.7}
-                      />
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
-                      <div className="flex items-center gap-2">
-                        <Sparkles
-                          className="size-3.5"
-                          style={{ color }}
-                        />
-
-                        <p
-                          className="text-[0.61rem] font-bold uppercase tracking-[0.16em]"
-                          style={{ color }}
-                        >
-                          Collection
-                        </p>
-                      </div>
-
-                      <h3 className="mt-2 max-w-[16rem] font-[var(--font-roboto)] text-2xl font-black tracking-[-0.035em] text-[#27344A] sm:text-3xl">
-                        {collection.name}
-                      </h3>
-
-                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#526075]">
-                        Explore collection
-
-                        <span className="flex size-7 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-300 group-hover:translate-x-1">
-                          <ArrowRight className="size-3.5" />
-                        </span>
-                      </span>
-                    </div>
-                  </article>
-                </Link>
-              </Reveal>
+                <span
+                  className={[
+                    "block h-1.5 rounded-full transition-all duration-300",
+                    isActive ? "w-5 bg-[#C391EE]" : "w-1.5 bg-[#27344A]/30",
+                  ].join(" ")}
+                />
+              </button>
             );
           })}
         </div>
       </div>
+
+      {/* ======================================================================
+          MOBILE SLIDE INDICATORS
+      ====================================================================== */}
+
+      <div
+        className="
+          absolute
+          bottom-5
+          left-5
+          z-30
+          flex
+          items-center
+          gap-1
+          rounded-full
+          border
+          border-white/70
+          bg-white/80
+          px-2.5
+          py-1.5
+          shadow-[0_6px_18px_rgba(39,52,74,0.1)]
+          backdrop-blur-md
+          sm:hidden
+        "
+      >
+        {slides.map((slide, index) => {
+          const isActive = activeSlide === index;
+
+          return (
+            <button
+              key={`mobile-${slide.id}`}
+              type="button"
+              aria-label={`Go to slide ${index + 1}`}
+              aria-current={isActive ? "true" : undefined}
+              onClick={() => goToSlide(index)}
+              className="
+                flex
+                h-4
+                w-4
+                items-center
+                justify-center
+                rounded-full
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#C391EE]
+              "
+            >
+              <span
+                className={[
+                  "block rounded-full transition-all duration-300",
+                  isActive ? "h-1.5 w-4 bg-[#C391EE]" : "size-1.5 bg-[#27344A]/30",
+                ].join(" ")}
+              />
+            </button>
+          );
+        })}
+      </div>
     </section>
   );
 }
+

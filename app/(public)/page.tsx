@@ -15,6 +15,7 @@ import KingdomBanner from "@/components/home/KingdomBanner";
 import Newsletter from "@/components/home/Newsletter";
 import ReviewsShowcase from "@/components/home/ReviewsShowcase";
 import ShopByAge from "@/components/home/ShopByAge";
+import FollowUsSection from "@/components/home/FollowUsSection";
 
 interface HomepageData {
   featuredProducts: StorefrontProduct[];
@@ -128,7 +129,9 @@ export default async function HomePage() {
           CATEGORIES
          ================================================================ */}
 
-      <CategoryShowcase categories={homepageData.categories} />
+      {/* <CategoryShowcase categories={homepageData.categories} /> */}
+      <FollowUsSection />
+
 
       {/* ================================================================
           FEATURED PRODUCTS

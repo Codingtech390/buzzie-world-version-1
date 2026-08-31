@@ -579,7 +579,7 @@ body[data-scroll-locked] {
    REDUCED MOTION
    ========================================================================== */
 
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
@@ -597,4 +597,28 @@ body[data-scroll-locked] {
   .depth-hover:hover {
     transform: none;
   }
+} */
+/* ============================================
+   Instagram Marquee Animation
+   ============================================ */
+
+@keyframes buzzie-instagram-marquee-animation {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+}
+
+.buzzie-instagram-marquee {
+  display: flex !important;
+  width: max-content !important;
+  max-width: none !important;
+  align-items: stretch;
+  will-change: transform;
+}
+
+.buzzie-instagram-marquee:hover {
+  animation-play-state: paused !important;
 }
