@@ -531,7 +531,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         relative
         z-10
         overflow-hidden
-        bg-[#F7F5FA]
+        bg-[#FFFFFF]
         pb-12
         pt-0
         sm:pb-16
@@ -594,19 +594,36 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
             {/* HEADING                                                      */}
             {/* ------------------------------------------------------------ */}
 
-            <div className="relative z-10 text-center">
+            <div
+              className="
+                relative
+                z-20
+                flex
+                flex-col
+                items-center
+                text-center
+              "
+            >
               <div
                 className="
                   mx-auto
-                  mb-2
+                  mb-4
                   flex
                   items-center
                   justify-center
                   gap-2
-                  sm:mb-3
+                  sm:mb-5
                 "
               >
-                <span className="h-[2px] w-6 rounded-full bg-[#A96FDB] sm:w-8" />
+                <span
+                  className="
+                    h-[2px]
+                    w-7
+                    rounded-full
+                    bg-[#E72D5A]
+                    sm:w-8
+                  "
+                />
 
                 <span
                   className="
@@ -614,64 +631,50 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                     text-[8px]
                     font-black
                     uppercase
-                    tracking-[0.22em]
-                    text-[#A96FDB]
-                    sm:text-[9px]
+                    tracking-[0.18em]
+                    text-[#E72D5A]
+                    sm:text-[10px]
+                    xl:text-[12px]
                   "
                 >
-                  Discover something special
+                  Latest & Trending
                 </span>
 
-                <span className="h-[2px] w-6 rounded-full bg-[#E72D5A] sm:w-8" />
+                <span className="size-1.5 rounded-full bg-[#F59A23]" />
               </div>
 
               <h2
                 className="
+                  mx-auto
+                  w-full
+                  max-w-[700px]
                   font-[var(--font-roboto)]
-                  text-[clamp(2.65rem,7vw,4.4rem)]
+                  text-[clamp(2.35rem,9vw,4.25rem)]
                   font-black
-                  uppercase
-                  leading-[0.86]
-                  tracking-[-0.065em]
+                  leading-[0.91]
+                  tracking-[-0.06em]
                   text-[#111111]
+                  sm:text-[clamp(2.8rem,7vw,4.25rem)]
+                  lg:text-[clamp(3rem,4.8vw,4.25rem)]
                 "
               >
-                BUZZIE <span className="text-[#FF5757]">PRODUCTS</span>
+                Buzzie <span className="text-[#E72D5A]">Products</span>
               </h2>
 
-              {/* Curved-arrow-like accent */}
               <div
-                aria-hidden="true"
                 className="
-                  relative
                   mx-auto
-                  mt-1
-                  h-8
-                  w-20
-                  sm:h-10
-                  sm:w-24
+                  mt-5
+                  flex
+                  items-center
+                  justify-center
+                  gap-1.5
+                  sm:mt-6
                 "
               >
-                <svg
-                  viewBox="0 0 100 45"
-                  className="absolute right-0 top-0 h-full w-full"
-                  fill="none"
-                >
-                  <path
-                    d="M10 7C42 2 73 8 82 29"
-                    stroke="#FF5757"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                  />
-
-                  <path
-                    d="M74 25L82 29L78 37"
-                    stroke="#FF5757"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
+                <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
+                <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
               </div>
             </div>
 
@@ -689,6 +692,8 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                   amount: 0.12,
                 }}
                 className="
+                bg-white
+                
                   mt-2
                   grid
                   grid-cols-1
