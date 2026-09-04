@@ -2,12 +2,20 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  AlertTriangle,
+  Ban,
   ChevronDown,
+  FileText,
   Gamepad2,
   Heart,
+  Info,
+  Mail,
   Menu,
+  RotateCcw,
   Search,
+  ShieldCheck,
   ShoppingBag,
+  Truck,
   UserRound,
   X,
 } from "lucide-react";
@@ -92,8 +100,8 @@ const desktopNavigation: NavigationItem[] = [
     href: "/crazy-deals",
   },
   {
-    label: "Customized Corner",
-    href: "/customized-corner",
+    label: "Return Gifts",
+    href: "/return-gifts",
   },
   {
     label: "Contact Us & Policies",
@@ -126,8 +134,8 @@ const mobileNavigation: NavigationItem[] = [
     href: "/crazy-deals",
   },
   {
-    label: "Customized Corner",
-    href: "/customized-corner",
+    label: "Return Gifts",
+    href: "/return-gifts",
   },
   {
     label: "Contact Us & Policies",
@@ -222,15 +230,34 @@ const contactNavigation = [
   },
 ] as const;
 
+function getContactNavigationIcon(href: string) {
+  switch (href) {
+    case "/about":
+      return Gamepad2;
+    case "/contact":
+      return Mail;
+    case "/privacy-policy":
+      return ShieldCheck;
+    case "/terms":
+      return FileText;
+    case "/shipping-policy":
+      return Truck;
+    case "/returns-refunds":
+      return RotateCcw;
+    case "/cancellation-policy":
+      return Ban;
+    case "/disclaimer":
+      return AlertTriangle;
+    default:
+      return Info;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* HELPERS                                                                    */
 /* -------------------------------------------------------------------------- */
 
-function isNavigationActive(
-  pathname: string,
-  href: string,
-  exact = false,
-): boolean {
+function isNavigationActive(pathname: string, href: string, exact = false): boolean {
   if (href === "/") {
     return pathname === "/";
   }
@@ -280,9 +307,7 @@ export default function Navbar() {
 
   const [isContactMenuOpen, setIsContactMenuOpen] = useState(false);
 
-  const [categoryLinks, setCategoryLinks] = useState<StorefrontCategory[]>(
-    [],
-  );
+  const [categoryLinks, setCategoryLinks] = useState<StorefrontCategory[]>([]);
 
   /* ------------------------------------------------------------------------ */
   /* REFS                                                                     */
@@ -293,6 +318,10 @@ export default function Navbar() {
   const categoryMenuRef = useRef<HTMLDivElement>(null);
 
   const contactMenuRef = useRef<HTMLDivElement>(null);
+
+  const categoryCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const contactCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ------------------------------------------------------------------------ */
   /* MOBILE MENU                                                              */
@@ -339,8 +368,15 @@ export default function Navbar() {
    * Close the mobile drawer and desktop dropdowns when the route changes.
    */
   useEffect(() => {
+    // Close transient navigation UI after route changes.
+    // These state updates are intentional.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobileMenuOpen(false);
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsCategoryMenuOpen(false);
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsContactMenuOpen(false);
   }, [pathname]);
 
@@ -404,11 +440,9 @@ export default function Navbar() {
         return;
       }
 
-      const clickedCategoryMenu =
-        categoryMenuRef.current?.contains(target) ?? false;
+      const clickedCategoryMenu = categoryMenuRef.current?.contains(target) ?? false;
 
-      const clickedContactMenu =
-        contactMenuRef.current?.contains(target) ?? false;
+      const clickedContactMenu = contactMenuRef.current?.contains(target) ?? false;
 
       if (clickedCategoryMenu || clickedContactMenu) {
         return;
@@ -476,19 +510,15 @@ export default function Navbar() {
 
   const accountHref = isAuthenticated ? "/account" : "/login";
 
-  const accountLabel = isAuthenticated
-    ? session?.user?.name || "Account"
-    : "Account";
+  const accountLabel = isAuthenticated ? session?.user?.name || "Account" : "Account";
 
-  const isAccountArea =
-    pathname.startsWith("/account") || pathname === "/login";
+  const isAccountArea = pathname.startsWith("/account") || pathname === "/login";
 
   /* ------------------------------------------------------------------------ */
   /* ACTIVE STATES                                                            */
   /* ------------------------------------------------------------------------ */
 
-  const isCategoriesArea =
-    pathname.startsWith("/categories") || pathname.startsWith("/shop");
+  const isCategoriesArea = pathname.startsWith("/categories") || pathname.startsWith("/shop");
 
   const isContactArea =
     pathname.startsWith("/about") ||
@@ -512,6 +542,48 @@ export default function Navbar() {
   const toggleContactMenu = useCallback(() => {
     setIsContactMenuOpen((current) => !current);
     setIsCategoryMenuOpen(false);
+  }, []);
+
+  const openCategoryMenuOnHover = useCallback(() => {
+    if (categoryCloseTimerRef.current) {
+      clearTimeout(categoryCloseTimerRef.current);
+      categoryCloseTimerRef.current = null;
+    }
+
+    setIsCategoryMenuOpen(true);
+    setIsContactMenuOpen(false);
+  }, []);
+
+  const closeCategoryMenuOnHover = useCallback(() => {
+    if (categoryCloseTimerRef.current) {
+      clearTimeout(categoryCloseTimerRef.current);
+    }
+
+    categoryCloseTimerRef.current = setTimeout(() => {
+      setIsCategoryMenuOpen(false);
+      categoryCloseTimerRef.current = null;
+    }, 180);
+  }, []);
+
+  const openContactMenuOnHover = useCallback(() => {
+    if (contactCloseTimerRef.current) {
+      clearTimeout(contactCloseTimerRef.current);
+      contactCloseTimerRef.current = null;
+    }
+
+    setIsContactMenuOpen(true);
+    setIsCategoryMenuOpen(false);
+  }, []);
+
+  const closeContactMenuOnHover = useCallback(() => {
+    if (contactCloseTimerRef.current) {
+      clearTimeout(contactCloseTimerRef.current);
+    }
+
+    contactCloseTimerRef.current = setTimeout(() => {
+      setIsContactMenuOpen(false);
+      contactCloseTimerRef.current = null;
+    }, 180);
   }, []);
 
   /* ------------------------------------------------------------------------ */
@@ -542,6 +614,8 @@ export default function Navbar() {
           key={item.label}
           ref={categoryMenuRef}
           className="relative flex shrink-0 items-center"
+          onMouseEnter={openCategoryMenuOnHover}
+          onMouseLeave={closeCategoryMenuOnHover}
         >
           <button
             type="button"
@@ -640,10 +714,7 @@ export default function Navbar() {
                     </p>
                   </div>
 
-                  <span
-                    aria-hidden="true"
-                    className="size-2 rounded-full bg-[#E72D5A]"
-                  />
+                  <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-1.5">
@@ -681,9 +752,7 @@ export default function Navbar() {
                           focus-visible:ring-inset
                         "
                       >
-                        <span className="font-[var(--font-poppins)]">
-                          {category.label}
-                        </span>
+                        <span className="font-[var(--font-poppins)]">{category.label}</span>
 
                         <span
                           aria-hidden="true"
@@ -703,7 +772,28 @@ export default function Navbar() {
                   })}
                 </div>
 
-                <div className="mt-2 border-t border-[#EDE2D6]/80 pt-2">
+                {/* Peeking kid decoration — intentionally only in Categories dropdown */}
+                <Image
+                  src="/images/hero/kid-peeking.png"
+                  alt=""
+                  aria-hidden="true"
+                  width={150}
+                  height={150}
+                  className="
+                    pointer-events-none
+                    absolute
+                    bottom-0
+                    right-0
+                    z-10
+                    h-auto
+                    w-[108px]
+                    translate-x-[4px]
+                    translate-y-[-44px]
+                    object-contain
+                  "
+                />
+
+                <div className="mt-2 border-t border-[#EDE2D6]/80 pt-2 pr-[92px]">
                   <Link
                     href="/categories"
                     onClick={() => setIsCategoryMenuOpen(false)}
@@ -731,7 +821,6 @@ export default function Navbar() {
                     "
                   >
                     View all categories
-
                     <span
                       aria-hidden="true"
                       className="h-px w-4 bg-current transition-transform duration-200 group-hover:w-6"
@@ -755,6 +844,8 @@ export default function Navbar() {
           key={item.label}
           ref={contactMenuRef}
           className="relative flex shrink-0 items-center"
+          onMouseEnter={openContactMenuOnHover}
+          onMouseLeave={closeContactMenuOnHover}
         >
           <button
             type="button"
@@ -769,9 +860,7 @@ export default function Navbar() {
                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins)] font-semibold">
-              Contact Us & Policies
-            </span>
+            <span className="font-[var(--font-poppins)] font-semibold">Contact Us & Policies</span>
 
             <ChevronDown
               aria-hidden="true"
@@ -849,10 +938,7 @@ export default function Navbar() {
 
                 <div className="space-y-1">
                   {contactNavigation.map((item) => {
-                    const activeLink = isNavigationActive(
-                      pathname,
-                      item.href,
-                    );
+                    const activeLink = isNavigationActive(pathname, item.href);
 
                     return (
                       <Link
@@ -865,9 +951,7 @@ export default function Navbar() {
                         className={[
                           "group flex min-h-[58px] items-center gap-3 rounded-xl px-3.5 outline-none transition-all duration-200",
                           "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                          activeLink
-                            ? "bg-[#FFF0F3]"
-                            : "hover:bg-[#FFF8EE]",
+                          activeLink ? "bg-[#FFF0F3]" : "hover:bg-[#FFF8EE]",
                         ].join(" ")}
                       >
                         <span
@@ -878,22 +962,17 @@ export default function Navbar() {
                               : "bg-[#FFF0F3] text-[#E72D5A] group-hover:bg-[#E72D5A] group-hover:text-white",
                           ].join(" ")}
                         >
-                          {item.href === "/about" ? (
-                            <Gamepad2 className="size-4" strokeWidth={2} />
-                          ) : item.href === "/contact" ? (
-                            <UserRound className="size-4" strokeWidth={2} />
-                          ) : (
-                            <Heart className="size-4" strokeWidth={2} />
-                          )}
+                          {(() => {
+                            const Icon = getContactNavigationIcon(item.href);
+                            return <Icon className="size-4" strokeWidth={2} />;
+                          })()}
                         </span>
 
                         <span className="min-w-0 flex-1">
                           <span
                             className={[
                               "block font-[var(--font-poppins)] text-[0.76rem] font-bold leading-none",
-                              activeLink
-                                ? "text-[#E72D5A]"
-                                : "text-[#263451]",
+                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
                             ].join(" ")}
                           >
                             {item.label}
@@ -908,9 +987,7 @@ export default function Navbar() {
                           aria-hidden="true"
                           className={[
                             "size-1.5 rounded-full transition-all duration-200",
-                            activeLink
-                              ? "bg-[#E72D5A]"
-                              : "bg-transparent group-hover:bg-[#E72D5A]",
+                            activeLink ? "bg-[#E72D5A]" : "bg-transparent group-hover:bg-[#E72D5A]",
                           ].join(" ")}
                         />
                       </Link>
@@ -977,7 +1054,7 @@ export default function Navbar() {
             relative
             border-b
             border-[#EDE2D6]/90
-            bg-[#FFFDF9]/95
+            bg-[#a092cd]
             shadow-[0_8px_30px_rgba(42,35,28,0.055)]
             backdrop-blur-xl
           "
@@ -1033,23 +1110,23 @@ export default function Navbar() {
                 "
               >
                 <Image
-                  src="/images/hero/Logo-2.png"
+                  src="/images/hero/Logo.png"
                   alt="BuzzieWorld"
                   width={190}
                   height={58}
                   priority
                   className="
                     h-auto
-                    w-[112px]
+                    w-[90px]
                     object-contain
                     transition-transform
                     duration-300
                     ease-[cubic-bezier(0.22,1,0.36,1)]
                     group-hover:-translate-y-0.5
-                    sm:w-[130px]
-                    md:w-[145px]
-                    lg:w-[155px]
-                    xl:w-[165px]
+                    sm:w-[104px]
+                    md:w-[116px]
+                    lg:w-[124px]
+                    xl:w-[132px]
                   "
                 />
               </Link>
@@ -1069,6 +1146,7 @@ export default function Navbar() {
                 "
                 aria-label="Main navigation"
               >
+                {/* ONE DESKTOP PILL: NAVIGATION + ACTIONS */}
                 <div
                   className="
                     flex
@@ -1083,153 +1161,160 @@ export default function Navbar() {
                     bg-white/75
                     p-1
                     shadow-[0_4px_18px_rgba(42,35,28,0.035)]
+                    backdrop-blur-md
                   "
                 >
-                  {desktopNavigation.map(renderDesktopNavigationItem)}
+                  {/* NAVIGATION */}
+                  <div className="flex min-w-0 items-center justify-center gap-0.5">
+                    {desktopNavigation.map(renderDesktopNavigationItem)}
+                  </div>
+
+                  {/* DESKTOP ACTIONS — PART OF THE SAME PILL */}
+                  <div
+                    className="
+                      ml-1
+                      flex
+                      shrink-0
+                      items-center
+                      gap-0.5
+                      border-l
+                      border-[#EDE2D6]/80
+                      pl-1.5
+                    "
+                  >
+                    {/* SEARCH */}
+
+                    <Link
+                      href="/search"
+                      aria-label="Search products"
+                      className="
+                        group
+                        flex
+                        size-10
+                        items-center
+                        justify-center
+                        rounded-full
+                        text-[#657086]
+                        outline-none
+                        transition-all
+                        duration-200
+                        hover:bg-[#FFF8EE]
+                        hover:text-[#263451]
+                        focus-visible:ring-2
+                        focus-visible:ring-[#E72D5A]
+                        focus-visible:ring-offset-2
+                      "
+                    >
+                      <Search
+                        className="size-[1.05rem] transition-transform duration-200 group-hover:scale-110"
+                        strokeWidth={2}
+                      />
+                    </Link>
+
+                    {/* WISHLIST */}
+
+                    <Link
+                      href="/account/wishlist"
+                      aria-label="Wishlist"
+                      aria-current={pathname.startsWith("/account/wishlist") ? "page" : undefined}
+                      className={[
+                        "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                        pathname.startsWith("/account/wishlist")
+                          ? "bg-[#FFF0F3] text-[#E72D5A] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
+                          : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#E72D5A]",
+                      ].join(" ")}
+                    >
+                      <Heart
+                        className="size-[1.05rem] transition-transform duration-200 group-hover:scale-110"
+                        strokeWidth={2}
+                      />
+                    </Link>
+
+                    {/* CART */}
+
+                    <Link
+                      href="/cart"
+                      aria-label={
+                        cartItemCount > 0 ? `Shopping cart, ${cartItemCount} items` : "Shopping cart"
+                      }
+                      aria-current={pathname === "/cart" ? "page" : undefined}
+                      className={[
+                        "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                        pathname === "/cart"
+                          ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
+                          : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                      ].join(" ")}
+                    >
+                      <ShoppingBag
+                        className="size-[1.05rem] transition-transform duration-200 group-hover:scale-105"
+                        strokeWidth={2}
+                      />
+
+                      {cartItemCount > 0 ? (
+                        <span
+                          aria-hidden="true"
+                          className="
+                            absolute
+                            -right-0.5
+                            -top-0.5
+                            flex
+                            min-h-[18px]
+                            min-w-[18px]
+                            items-center
+                            justify-center
+                            rounded-full
+                            border-2
+                            border-[#FFFDF9]
+                            bg-[#E72D5A]
+                            px-1
+                            font-[var(--font-poppins)]
+                            text-[0.57rem]
+                            font-bold
+                            leading-none
+                            text-white
+                            shadow-[0_3px_8px_rgba(231,45,90,0.28)]
+                          "
+                        >
+                          {cartItemCount > 99 ? "99+" : cartItemCount}
+                        </span>
+                      ) : null}
+                    </Link>
+
+                    {/* ACCOUNT */}
+
+                    <Link
+                      href={accountHref}
+                      aria-label={accountLabel}
+                      className={[
+                        "inline-flex h-9 max-w-[9.5rem] items-center gap-2 rounded-full border px-3 font-[var(--font-poppins)] !text-[0.74rem] font-semibold outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                        isAccountArea
+                          ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
+                          : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
+                      ].join(" ")}
+                    >
+                      <span
+                        className={[
+                          "flex size-7 shrink-0 items-center justify-center rounded-full",
+                          isAccountArea
+                            ? "bg-[#E72D5A] text-white"
+                            : "bg-[#FFF0F3] text-[#E72D5A]",
+                        ].join(" ")}
+                      >
+                        <UserRound className="size-3.5" strokeWidth={2.1} />
+                      </span>
+
+                      <span className="truncate font-[var(--font-poppins)]">
+                        {sessionStatus === "loading" ? "Account" : accountLabel}
+                      </span>
+                    </Link>
+                  </div>
                 </div>
               </nav>
 
               {/* ============================================================ */}
-              {/* DESKTOP ACTIONS                                               */}
-              {/* ============================================================ */}
-
-              <div className="hidden shrink-0 items-center gap-0.5 lg:flex">
-                {/* SEARCH */}
-
-                <Link
-                  href="/search"
-                  aria-label="Search products"
-                  className="
-                    group
-                    flex
-                    size-10
-                    items-center
-                    justify-center
-                    rounded-full
-                    text-[#657086]
-                    outline-none
-                    transition-all
-                    duration-200
-                    hover:bg-[#FFF8EE]
-                    hover:text-[#263451]
-                    focus-visible:ring-2
-                    focus-visible:ring-[#E72D5A]
-                    focus-visible:ring-offset-2
-                  "
-                >
-                  <Search
-                    className="size-[1.05rem] transition-transform duration-200 group-hover:scale-110"
-                    strokeWidth={2}
-                  />
-                </Link>
-
-                {/* WISHLIST */}
-
-                <Link
-                  href="/account/wishlist"
-                  aria-label="Wishlist"
-                  aria-current={
-                    pathname.startsWith("/account/wishlist")
-                      ? "page"
-                      : undefined
-                  }
-                  className={[
-                    "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
-                    pathname.startsWith("/account/wishlist")
-                      ? "bg-[#FFF0F3] text-[#E72D5A] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                      : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#E72D5A]",
-                  ].join(" ")}
-                >
-                  <Heart
-                    className="size-[1.05rem] transition-transform duration-200 group-hover:scale-110"
-                    strokeWidth={2}
-                  />
-                </Link>
-
-                {/* CART */}
-
-                <Link
-                  href="/cart"
-                  aria-label={
-                    cartItemCount > 0
-                      ? `Shopping cart, ${cartItemCount} items`
-                      : "Shopping cart"
-                  }
-                  aria-current={pathname === "/cart" ? "page" : undefined}
-                  className={[
-                    "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
-                    pathname === "/cart"
-                      ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                      : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
-                  ].join(" ")}
-                >
-                  <ShoppingBag
-                    className="size-[1.05rem] transition-transform duration-200 group-hover:scale-105"
-                    strokeWidth={2}
-                  />
-
-                  {cartItemCount > 0 ? (
-                    <span
-                      aria-hidden="true"
-                      className="
-                        absolute
-                        -right-0.5
-                        -top-0.5
-                        flex
-                        min-h-[18px]
-                        min-w-[18px]
-                        items-center
-                        justify-center
-                        rounded-full
-                        border-2
-                        border-[#FFFDF9]
-                        bg-[#E72D5A]
-                        px-1
-                        font-[var(--font-poppins)]
-                        text-[0.57rem]
-                        font-bold
-                        leading-none
-                        text-white
-                        shadow-[0_3px_8px_rgba(231,45,90,0.28)]
-                      "
-                    >
-                      {cartItemCount > 99 ? "99+" : cartItemCount}
-                    </span>
-                  ) : null}
-                </Link>
-
-                {/* ACCOUNT */}
-
-                <Link
-                  href={accountHref}
-                  aria-label={accountLabel}
-                  className={[
-                    "ml-1 inline-flex h-10 max-w-[9.5rem] items-center gap-2 rounded-full border px-3 font-[var(--font-poppins)] !text-[0.74rem] font-semibold outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
-                    isAccountArea
-                      ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
-                      : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
-                  ].join(" ")}
-                >
-                  <span
-                    className={[
-                      "flex size-7 shrink-0 items-center justify-center rounded-full",
-                      isAccountArea
-                        ? "bg-[#E72D5A] text-white"
-                        : "bg-[#FFF0F3] text-[#E72D5A]",
-                    ].join(" ")}
-                  >
-                    <UserRound className="size-3.5" strokeWidth={2.1} />
-                  </span>
-
-                  <span className="truncate font-[var(--font-poppins)]">
-                    {sessionStatus === "loading" ? "Account" : accountLabel}
-                  </span>
-                </Link>
-              </div>
-
-              {/* ============================================================ */}
               {/* MOBILE ACTIONS                                                */}
               {/* ============================================================ */}
+
 
               <div className="ml-auto flex shrink-0 items-center gap-0.5 lg:hidden">
                 {/* SEARCH */}
@@ -1317,11 +1402,7 @@ export default function Navbar() {
                   ref={menuButtonRef}
                   type="button"
                   onClick={toggleMobileMenu}
-                  aria-label={
-                    isMobileMenuOpen
-                      ? "Close navigation"
-                      : "Open navigation"
-                  }
+                  aria-label={isMobileMenuOpen ? "Close navigation" : "Open navigation"}
                   aria-expanded={isMobileMenuOpen}
                   aria-controls="mobile-navigation-drawer"
                   className="
@@ -1483,11 +1564,11 @@ export default function Navbar() {
                   "
                 >
                   <Image
-                    src="/images/hero/Logo-2.png"
+                    src="/images/hero/Logo.png"
                     alt="BuzzieWorld"
                     width={180}
                     height={55}
-                    className="h-auto w-[145px] object-contain"
+                    className="h-auto w-[116px] object-contain"
                   />
                 </Link>
 
@@ -1592,19 +1673,13 @@ export default function Navbar() {
                   {mobileNavigation.map((item, index) => {
                     const isCategories = item.label === "Categories";
 
-                    const isContactPolicies =
-                      item.label === "Contact Us & Policies";
+                    const isContactPolicies = item.label === "Contact Us & Policies";
 
                     const active = isCategories
-                      ? pathname.startsWith("/categories") ||
-                        isCategoryMenuOpen
+                      ? pathname.startsWith("/categories") || isCategoryMenuOpen
                       : isContactPolicies
                         ? isContactArea || isContactMenuOpen
-                        : isNavigationActive(
-                            pathname,
-                            item.href,
-                            item.exact,
-                          );
+                        : isNavigationActive(pathname, item.href, item.exact);
 
                     /* ======================================================== */
                     /* MOBILE CATEGORIES                                         */
@@ -1640,9 +1715,7 @@ export default function Navbar() {
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                             ].join(" ")}
                           >
-                            <span className="font-[var(--font-poppins)]">
-                              Categories
-                            </span>
+                            <span className="font-[var(--font-poppins)]">Categories</span>
 
                             <ChevronDown
                               className={[
@@ -1860,9 +1933,7 @@ export default function Navbar() {
                                         onClick={closeMobileMenu}
                                         className={[
                                           "group flex min-h-[52px] items-center gap-3 rounded-xl px-3 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                                          activeLink
-                                            ? "bg-[#FFF0F3]"
-                                            : "hover:bg-[#FFF8EE]",
+                                          activeLink ? "bg-[#FFF0F3]" : "hover:bg-[#FFF8EE]",
                                         ].join(" ")}
                                       >
                                         <span
@@ -1873,32 +1944,17 @@ export default function Navbar() {
                                               : "bg-[#FFF0F3] text-[#E72D5A] group-hover:bg-[#E72D5A] group-hover:text-white",
                                           ].join(" ")}
                                         >
-                                          {contactItem.href === "/about" ? (
-                                            <Gamepad2
-                                              className="size-3.5"
-                                              strokeWidth={2}
-                                            />
-                                          ) : contactItem.href ===
-                                            "/contact" ? (
-                                            <UserRound
-                                              className="size-3.5"
-                                              strokeWidth={2}
-                                            />
-                                          ) : (
-                                            <Heart
-                                              className="size-3.5"
-                                              strokeWidth={2}
-                                            />
-                                          )}
+                                          {(() => {
+                                            const Icon = getContactNavigationIcon(contactItem.href);
+                                            return <Icon className="size-3.5" strokeWidth={2} />;
+                                          })()}
                                         </span>
 
                                         <span className="min-w-0 flex-1">
                                           <span
                                             className={[
                                               "block font-[var(--font-poppins)] text-[0.74rem] font-bold leading-none",
-                                              activeLink
-                                                ? "text-[#E72D5A]"
-                                                : "text-[#263451]",
+                                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
                                             ].join(" ")}
                                           >
                                             {contactItem.label}
@@ -1953,20 +2009,12 @@ export default function Navbar() {
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                           ].join(" ")}
                         >
-                          <span className="font-[var(--font-poppins)]">
-                            {item.label}
-                          </span>
+                          <span className="font-[var(--font-poppins)]">{item.label}</span>
 
                           {item.label === "Crazy Deals" ? (
-                            <span
-                              aria-hidden="true"
-                              className="size-2 rounded-full bg-[#E72D5A]"
-                            />
+                            <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
                           ) : active ? (
-                            <span
-                              aria-hidden="true"
-                              className="size-2 rounded-full bg-[#E72D5A]"
-                            />
+                            <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
                           ) : null}
                         </Link>
                       </motion.div>
@@ -2002,9 +2050,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">
-                      Search
-                    </span>
+                    <span className="font-[var(--font-poppins)]">Search</span>
 
                     <Search className="size-4" strokeWidth={2} />
                   </Link>
@@ -2038,9 +2084,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">
-                      Wishlist
-                    </span>
+                    <span className="font-[var(--font-poppins)]">Wishlist</span>
 
                     <Heart className="size-4" strokeWidth={2} />
                   </Link>
@@ -2074,9 +2118,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">
-                      Cart
-                    </span>
+                    <span className="font-[var(--font-poppins)]">Cart</span>
 
                     <span className="flex items-center gap-2">
                       {cartItemCount > 0 ? (

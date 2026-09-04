@@ -27,11 +27,13 @@ export default function ProductGallery({
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  useEffect(() => {
-    if (selectedIndex >= validImages.length) {
-      setSelectedIndex(0);
-    }
-  }, [selectedIndex, validImages.length]);
+useEffect(() => {
+  if (selectedIndex >= validImages.length) {
+    // Keep selection valid when the product image list changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSelectedIndex(0);
+  }
+}, [selectedIndex, validImages.length]);
 
   const selectedImage =
     validImages[selectedIndex] ?? validImages[0];

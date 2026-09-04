@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Heart, ShieldCheck, Smile, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,20 +21,15 @@ interface BenefitsStripProps {
 
 const THEMED_STAR = "/images/hero/themed-icons/themed-star-red.png";
 
-const RIGHT_KIDS = "/images/benefits-vectors/shop-by-age-kid-right.png";
-
 /* -------------------------------------------------------------------------- */
-/*                                  COLORS                                    */
+/*                               MARQUEE                                      */
 /* -------------------------------------------------------------------------- */
 
-const CRIMSON = "#E72D5A";
-const PURPLE = "#C391EE";
-const PURPLE_DARK = "#A96FDB";
-const NAVY = "#17213D";
-const MUTED = "#687489";
+const MARQUEE_TEXT =
+  "BUZZIEWORLD - YOUR DAILY DOSE OF VITAMIN L - WHERE LEARNING MEETS FUN - BUZZIEWORLD - YOUR DAILY DOSE OF VITAMIN L - WHERE LEARNING ME";
 
 /* -------------------------------------------------------------------------- */
-/*                               AGE GROUPS                                   */
+/*                               SHOP BY AGE                                   */
 /* -------------------------------------------------------------------------- */
 
 const ageGroups = [
@@ -44,7 +38,7 @@ const ageGroups = [
     title: "Early Explorers",
     description: "Simple, safe play for little learners.",
     slug: "1-3-years",
-    image: "/images/shop-by-age/1.avif",
+    image: "/images/shop-by-age/0-3-1.png",
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
@@ -53,7 +47,7 @@ const ageGroups = [
     title: "Play & Discover",
     description: "Hands-on fun that sparks imagination.",
     slug: "3-6-years",
-    image: "/images/shop-by-age/2.avif",
+    image: "/images/shop-by-age/3+.png",
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
@@ -62,7 +56,7 @@ const ageGroups = [
     title: "Learn & Grow",
     description: "Build skills through curiosity and play.",
     slug: "6-9-years",
-    image: "/images/shop-by-age/3.avif",
+    image: "/images/shop-by-age/6+.png",
     tone: "#D9E9B8",
     accent: "#6CA83A",
   },
@@ -71,36 +65,9 @@ const ageGroups = [
     title: "Think & Master",
     description: "Challenges for curious, growing minds.",
     slug: "9-15-years",
-    image: "/images/shop-by-age/4.avif",
+    image: "/images/shop-by-age/8+.png",
     tone: "#DCD2F3",
     accent: "#7550A5",
-  },
-] as const;
-
-/* -------------------------------------------------------------------------- */
-/*                                  BENEFITS                                  */
-/* -------------------------------------------------------------------------- */
-
-const benefits = [
-  {
-    title: "Safe & Screen-free",
-    description: "Thoughtful experiences made for curious minds.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Loved by Parents",
-    description: "Picked with real families and real life in mind.",
-    icon: Heart,
-  },
-  {
-    title: "Designed to Learn",
-    description: "Build skills naturally through play and discovery.",
-    icon: Trophy,
-  },
-  {
-    title: "Made for Real Life",
-    description: "Fun products children actually want to use.",
-    icon: Smile,
   },
 ] as const;
 
@@ -118,12 +85,11 @@ const containerVariants: Variants = {
   },
 };
 
-const itemVariants: Variants = {
+const cardVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 18,
+    y: 28,
   },
-
   visible: {
     opacity: 1,
     y: 0,
@@ -133,6 +99,7 @@ const itemVariants: Variants = {
     },
   },
 };
+
 /* -------------------------------------------------------------------------- */
 /*                              DECORATIVE STAR                               */
 /* -------------------------------------------------------------------------- */
@@ -159,411 +126,404 @@ function DecorativeStar({ className = "", size = 20 }: { className?: string; siz
 }
 
 /* -------------------------------------------------------------------------- */
-/*                            RIGHT CHILDREN                                   */
+/*                              MARQUEE                                       */
 /* -------------------------------------------------------------------------- */
 
-function RightKidsVisual() {
-  return (
-    <div
-      aria-hidden="true"
-      className="
-        relative
-        z-10
-        mx-auto
-        mt-7
-        h-[190px]
-        w-[220px]
-        shrink-0
-
-        sm:mt-8
-        sm:h-[225px]
-        sm:w-[255px]
-
-        md:h-[255px]
-        md:w-[290px]
-
-        lg:absolute
-        lg:right-[0px]
-        lg:top-[-8px]
-        lg:mt-0
-        lg:h-[330px]
-        lg:w-[315px]
-
-        xl:right-[18px]
-        xl:top-[-10px]
-        xl:h-[355px]
-        xl:w-[340px]
-      "
-    >
-      <Image
-        src={RIGHT_KIDS}
-        alt=""
-        fill
-        priority
-        sizes="(max-width: 639px) 220px, (max-width: 767px) 255px, (max-width: 1023px) 290px, (max-width: 1279px) 315px, 340px"
-        className="
-          select-none
-          object-contain
-          object-center
-
-          lg:object-right-top
-        "
-      />
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                              BENEFITS ROW                                  */
-/* -------------------------------------------------------------------------- */
-
-function BenefitsRow() {
+function BrandMarquee() {
   return (
     <div
       className="
         relative
+        w-full
         overflow-hidden
-        rounded-[22px]
-        border
-        border-[#E7DFEF]
-        bg-white
-        shadow-[0_10px_35px_rgba(23,33,61,0.055)]
-
-        sm:rounded-[25px]
-
-        lg:rounded-[28px]
+        border-y
+        border-[#9E8BCB]/30
+        bg-[#A99AD2]
+        py-[9px]
+        sm:py-[10px]
+        xl:py-[18px]
       "
+      aria-label={MARQUEE_TEXT}
     >
-      <div
-        className="
-          grid
-          grid-cols-1
+      <div className="buzzieworld-marquee flex w-max">
+        <div className="flex shrink-0 items-center">
+          <span
+            className="
+              whitespace-nowrap
+              px-5
+              font-[var(--font-roboto)]
+              text-[13px]
+              font-bold
+              uppercase
+              tracking-[0.12em]
+              text-white
+              sm:text-[10px]
+              md:text-[11px]
+              lg:text-[13px]
+              xl:text-[13px]
+            "
+          >
+            {MARQUEE_TEXT}
+          </span>
 
-          sm:grid-cols-2
+          <span
+            aria-hidden="true"
+            className="
+              px-5
+              text-[10px]
+              font-black
+              text-white/70
+            "
+          >
+            •
+          </span>
+        </div>
 
-          lg:grid-cols-4
-        "
-      >
-        {benefits.map((benefit, index) => {
-          const Icon = benefit.icon;
+        <div className="flex shrink-0 items-center" aria-hidden="true">
+          <span
+            className="
+              whitespace-nowrap
+              px-5
+              font-[var(--font-roboto)]
+              text-[9px]
+              font-bold
+              uppercase
+              tracking-[0.12em]
+              text-white
+              sm:text-[10px]
+              md:text-[11px]
+              lg:text-[13px]
+              xl:text-[13px]
+            "
+          >
+            {MARQUEE_TEXT}
+          </span>
 
-          return (
-            <div
-              key={benefit.title}
-              className={`
-                flex
-                min-h-[82px]
-                items-center
-                gap-3
-                px-4
-                py-4
-
-                sm:min-h-[92px]
-                sm:px-5
-                sm:py-5
-
-                lg:min-h-[98px]
-                lg:px-6
-                lg:py-5
-
-                ${
-                  index < benefits.length - 1
-                    ? "border-b border-[#E7DFEF] lg:border-b-0 lg:border-r"
-                    : ""
-                }
-
-                ${index === 0 ? "sm:border-r sm:border-[#E7DFEF] lg:border-r" : ""}
-
-                ${index === 2 ? "sm:border-r sm:border-[#E7DFEF] lg:border-r" : ""}
-              `}
-            >
-              <span
-                className="
-                  flex
-                  size-10
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-white
-                  text-[#C391EE]
-                  shadow-[0_4px_14px_rgba(23,33,61,0.07)]
-
-                  sm:size-11
-
-                  lg:size-12
-                "
-              >
-                <Icon
-                  className="
-                    size-[18px]
-                    sm:size-[19px]
-                    lg:size-6
-                  "
-                  strokeWidth={1.8}
-                />
-              </span>
-
-              <div className="min-w-0">
-                <p
-                  className="
-                    font-[var(--font-poppins)]
-                    text-[10px]
-                    font-black
-                    leading-[1.25]
-                    tracking-[-0.01em]
-                    text-[#17213D]
-
-                    sm:text-[11px]
-
-                    lg:text-[14px]
-                  "
-                >
-                  {benefit.title}
-                </p>
-
-                <p
-                  className="
-                    mt-1
-                    max-w-[240px]
-                    font-[var(--font-poppins)]
-                    text-[8px]
-                    leading-[1.5]
-                    text-[#7C8493]
-
-                    sm:text-[8.5px]
-
-                    lg:text-[10px]
-                  "
-                >
-                  {benefit.description}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+          <span
+            className="
+              px-5
+              text-[10px]
+              font-black
+              text-white/70
+            "
+          >
+            •
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*                              AGE TILE                                      */
+/*                            PRODUCT IMAGE                                    */
 /* -------------------------------------------------------------------------- */
 
-function AgeTile({ age }: { age: (typeof ageGroups)[number] }) {
+function ProductArcCard({ product, index }: { product: StorefrontProduct; index: number }) {
+  const image = product.images?.[0]?.url;
+  const imageAlt = product.images?.[0]?.alt || product.name || "BuzzieWorld product";
+
+  const hasDiscount =
+    typeof product.compareAtPrice === "number" && product.compareAtPrice > product.price;
+
+  const discount = hasDiscount
+    ? Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)
+    : 0;
+
+  const description =
+    product.shortDescription || product.description || "A fun pick for curious young minds.";
+
   return (
-    <motion.div variants={itemVariants} className="min-w-0">
+    <motion.article variants={cardVariants} className="group min-w-0">
       <Link
-        href={`/shop/age/${age.slug}`}
-        aria-label={`Shop products for ${age.age}`}
-        className="group block h-full"
+        href={`/products/${product.slug}`}
+        aria-label={`View ${product.name}`}
+        className="
+          block
+          overflow-hidden
+          rounded-b-[4px]
+
+
+          transition-all
+          duration-300
+
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-[#A96FDB]
+          focus-visible:ring-offset-2
+        "
       >
-        <motion.div
-          whileHover={{ y: -5 }}
-          whileTap={{ scale: 0.985 }}
-          transition={{
-            duration: 0.25,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+        {/* -------------------------------------------------------------- */}
+        {/* ARC IMAGE                                                      */}
+        {/* -------------------------------------------------------------- */}
+
+        <div
           className="
             relative
-            flex
-            h-full
-            flex-col
-            items-center
+            aspect-[1.18/1]
+            w-full
             overflow-hidden
-            rounded-[28px]
-            bg-white
-            px-4
-            pb-5
-            pt-5
-            shadow-[0_8px_28px_rgba(23,33,61,0.035)]
-            transition-all
-            duration-300
-
-            sm:rounded-[32px]
-            sm:px-5
-            sm:pb-6
-            sm:pt-6
-
-            lg:px-6
-            lg:pb-7
-            lg:pt-7
+            rounded-t-[50%]
+            bg-transparent
           "
         >
-          {/* IMAGE CIRCLE */}
-
+          {/* Soft background glow */}
           <div
+            aria-hidden="true"
             className="
-              relative
-              flex
-              aspect-square
-              w-[150px]
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-              transition-transform
-              duration-500
-              ease-[cubic-bezier(0.22,1,0.36,1)]
-
-              group-hover:scale-[1.035]
-
-              sm:w-[170px]
-
-              md:w-[185px]
-
-              lg:w-[205px]
-
-              xl:w-[250px]
+              absolute
+              inset-0
+              bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.7),transparent_58%)]
             "
-          >
-            {/* Soft base */}
-            <div
-              aria-hidden="true"
-              className="
-                absolute
-                inset-0
-                rounded-full
-              "
-            />
+          />
 
-            {/* Dashed editorial ring */}
-            <div
-              aria-hidden="true"
-              className="
-                absolute
-                inset-[7px]
-                rounded-full
-                border
-                border-dashed
-                border-white/90
-              "
-            />
-
-            {/* Soft inner glow */}
-            <div
-              aria-hidden="true"
-              className="
-                pointer-events-none
-                absolute
-                inset-0
-                rounded-full
-                bg-[radial-gradient(circle_at_50%_34%,rgba(255,255,255,0.8),transparent_62%)]
-              "
-            />
-
-            {/* Age illustration */}
+          {image ? (
             <Image
-              src={age.image}
-              alt=""
+              src={image}
+              alt={imageAlt}
               fill
               sizes="
-                (max-width: 639px) 150px,
-                (max-width: 767px) 170px,
-                (max-width: 1023px) 185px,
-                (max-width: 1279px) 205px,
-                220px
+                (max-width: 639px) 92vw,
+                (max-width: 1023px) 45vw,
+                30vw
               "
               className="
                 relative
                 z-10
-                object-contain
-                p-2
+                object-cover
                 transition-transform
-                duration-500
-                group-hover:scale-[1.04]
+                duration-700
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+                group-hover:scale-[1.035]
               "
             />
+          ) : (
+            <div
+              className="
+                absolute
+                inset-0
+                flex
+                items-center
+                justify-center
+                bg-[#EEE8F6]
+                font-[var(--font-poppins)]
+                text-sm
+                font-bold
+                text-[#7A6A91]
+              "
+            >
+              Buzzie Product
+            </div>
+          )}
+
+          {/* Product number */}
+          <div
+            className="
+              absolute
+              left-4
+              top-4
+              z-20
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              bg-white/90
+              font-[var(--font-poppins)]
+              text-[10px]
+              font-black
+              text-[#111111]
+              shadow-sm
+              backdrop-blur-sm
+            "
+          >
+            0{index + 1}
           </div>
 
-          {/* TEXT */}
-
-          <div className="mt-5 text-center sm:mt-6">
-            <h4
-              className="
-                font-[var(--font-roboto)]
-                text-[16px]
-                font-black
-                tracking-[-0.035em]
-                text-[#17213D]
-
-                sm:text-[17px]
-
-                lg:text-[18px]
-              "
-            >
-              {age.title}
-            </h4>
-
-            <p
-              className="
-                mx-auto
-                mt-1.5
-                max-w-[190px]
-                font-[var(--font-poppins)]
-                text-[8.5px]
-                leading-[1.55]
-                text-[#7A8391]
-
-                sm:text-[9px]
-
-                lg:text-[9.5px]
-              "
-            >
-              {age.description}
-            </p>
-
+          {/* Discount */}
+          {discount > 0 && (
             <span
               className="
-                mt-4
-                inline-flex
-                items-center
-                gap-1.5
+                absolute
+                right-4
+                top-4
+                z-20
+                rounded-full
+                bg-[#E72D5A]
+                px-3
+                py-1.5
                 font-[var(--font-poppins)]
-                text-[8px]
+                text-[9px]
                 font-black
                 uppercase
                 tracking-[0.08em]
-                text-[#C391EE]
-                transition-colors
-                duration-300
-
-                group-hover:text-[#A96FDB]
-
-                sm:text-[8.5px]
+                text-white
+                shadow-sm
               "
             >
-              Explore age group
-              <ArrowRight
+              {discount}% OFF
+            </span>
+          )}
+        </div>
+
+        {/* -------------------------------------------------------------- */}
+        {/* PRODUCT INFORMATION                                            */}
+        {/* -------------------------------------------------------------- */}
+
+        <div className="px-4 pb-5 pt-4 sm:px-5 sm:pb-6">
+          <h3
+            className="
+            text-center
+              line-clamp-1
+              font-[var(--font-poppins)]
+              text-[17px]
+              font-extrabold
+              tracking-[-0.03em]
+              text-[#111111]
+              sm:text-[19px]
+            "
+          >
+            {product.name}
+          </h3>
+
+          <p
+            className="
+            text-center
+              mt-1.5
+              line-clamp-2
+              min-h-[36px]
+              font-[var(--font-roboto)]
+              text-[11px]
+              leading-[1.5]
+              text-[#687489]
+              sm:text-[12px]
+            "
+          >
+            {description}
+          </p>
+
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <div className="flex items-baseline gap-2">
+              <span
                 className="
-                  size-3
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
+                  font-[var(--font-poppins)]
+                  text-[15px]
+                  font-extrabold
+                  text-[#111111]
+                  sm:text-[17px]
                 "
-                strokeWidth={2.5}
-              />
+              >
+                ₹{product.price.toLocaleString("en-IN")}
+              </span>
+
+              {hasDiscount && (
+                <span
+                  className="
+                    font-[var(--font-roboto)]
+                    text-[10px]
+                    font-medium
+                    text-[#9AA2B1]
+                    line-through
+                    sm:text-[11px]
+                  "
+                >
+                  ₹{product.compareAtPrice!.toLocaleString("en-IN")}
+                </span>
+              )}
+            </div>
+
+            <span
+              className="
+                shrink-0
+                rounded-full
+                bg-[#FF8A4C]
+                px-3.5
+                py-2
+                font-[var(--font-poppins)]
+                text-[9px]
+                font-black
+                uppercase
+                tracking-[0.05em]
+                text-white
+                transition-transform
+                duration-300
+                group-hover:scale-[1.04]
+                sm:px-4
+                sm:text-[10px]
+              "
+            >
+              Add to Cart
             </span>
           </div>
-        </motion.div>
+        </div>
+      </Link>
+    </motion.article>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            AGE IMAGE                                       */
+/* -------------------------------------------------------------------------- */
+
+function AgeImage({ age }: { age: (typeof ageGroups)[number] }) {
+  return (
+    <motion.div
+      whileHover={{ y: -5, scale: 1.015 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{
+        duration: 0.25,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="min-w-0"
+    >
+      <Link
+        href={`/shop/age/${age.slug}`}
+        aria-label={`Shop products for ${age.age}`}
+        className="
+          group
+          relative
+          block
+          w-full
+          overflow-visible
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-[#E72D5A]
+          focus-visible:ring-offset-2
+        "
+      >
+        <Image
+          src={age.image}
+          alt={age.age}
+          width={800}
+          height={800}
+          sizes="
+            (max-width: 639px) 44vw,
+            (max-width: 1023px) 30vw,
+            23vw
+          "
+          className="
+            block
+            h-auto
+            w-full
+            object-contain
+            mix-blend-darken
+            transition-transform
+            duration-500
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+            group-hover:scale-[1.045]
+          "
+        />
       </Link>
     </motion.div>
   );
 }
-
 /* -------------------------------------------------------------------------- */
 /*                            MAIN COMPONENT                                  */
 /* -------------------------------------------------------------------------- */
 
 export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStripProps) {
-  /*
-   * Kept intentionally for backwards compatibility.
-   * The redesigned section does not currently need
-   * bestsellingProducts directly.
-   */
-  void bestsellingProducts;
+  const products = bestsellingProducts.slice(0, 3);
 
   return (
     <section
@@ -571,510 +531,328 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         relative
         z-10
         overflow-hidden
-        bg-white
-        py-10
-
-        sm:py-14
-
-        lg:py-18
-
-        xl:py-20
+        bg-[#F7F5FA]
+        pb-12
+        pt-0
+        sm:pb-16
+        lg:pb-20
       "
     >
+      {/* ================================================================== */}
+      {/* MARQUEE                                                           */}
+      {/* ================================================================== */}
+
+      <BrandMarquee />
+
       <div
         className="
           mx-auto
           w-full
           max-w-[1380px]
           px-4
-
           sm:px-6
-
           lg:px-8
-
           xl:px-10
         "
       >
+        {/* ================================================================ */}
+        {/* BUZZIE PRODUCTS                                                 */}
+        {/* ================================================================ */}
+
         <Reveal>
           <div
             className="
               relative
-              overflow-hidden
-              rounded-[28px]
-              border
-              border-[#EAE5DF]
-              bg-white
-              px-5
-              py-7
-              shadow-[0_16px_55px_rgba(23,33,61,0.045)]
-
-              sm:rounded-[34px]
-              sm:px-8
-              sm:py-9
-
-              md:px-10
-
-              lg:rounded-[42px]
-              lg:px-12
-              lg:py-11
-
-              xl:px-14
+              pt-8
+              sm:pt-10
+              lg:pt-12
             "
           >
-            {/* ---------------------------------------------------------------- */}
-            {/* SOFT BACKGROUND                                                  */}
-            {/* ---------------------------------------------------------------- */}
-
-            <div
-              aria-hidden="true"
+            {/* Decorative stars */}
+            <DecorativeStar
               className="
-                pointer-events-none
-                absolute
-                -left-40
-                top-0
-                size-80
-                rounded-full
-                bg-[#E72D5A]/[0.018]
-                blur-[90px]
+                left-[3%]
+                top-[15%]
+                rotate-[-8deg]
+                opacity-35
+                sm:left-[5%]
               "
+              size={16}
             />
-
-            <div
-              aria-hidden="true"
-              className="
-                pointer-events-none
-                absolute
-                -right-40
-                top-0
-                size-96
-                rounded-full
-                bg-[#C391EE]/[0.055]
-                blur-[90px]
-              "
-            />
-
-            {/* Small editorial details */}
 
             <DecorativeStar
               className="
-                left-[4%]
-                top-[8%]
+                right-[4%]
+                top-[20%]
+                rotate-[12deg]
                 opacity-30
-
-                sm:left-[5%]
               "
               size={14}
             />
 
-            <DecorativeStar
-              className="
-                bottom-[28%]
-                right-[3%]
-                rotate-[-10deg]
-                opacity-25
-              "
-              size={13}
-            />
+            {/* ------------------------------------------------------------ */}
+            {/* HEADING                                                      */}
+            {/* ------------------------------------------------------------ */}
 
-            {/* ================================================================== */}
-            {/* HERO                                                               */}
-            {/* ================================================================== */}
+            <div className="relative z-10 text-center">
+              <div
+                className="
+                  mx-auto
+                  mb-2
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  sm:mb-3
+                "
+              >
+                <span className="h-[2px] w-6 rounded-full bg-[#A96FDB] sm:w-8" />
+
+                <span
+                  className="
+                    font-[var(--font-poppins)]
+                    text-[8px]
+                    font-black
+                    uppercase
+                    tracking-[0.22em]
+                    text-[#A96FDB]
+                    sm:text-[9px]
+                  "
+                >
+                  Discover something special
+                </span>
+
+                <span className="h-[2px] w-6 rounded-full bg-[#E72D5A] sm:w-8" />
+              </div>
+
+              <h2
+                className="
+                  font-[var(--font-roboto)]
+                  text-[clamp(2.65rem,7vw,4.4rem)]
+                  font-black
+                  uppercase
+                  leading-[0.86]
+                  tracking-[-0.065em]
+                  text-[#111111]
+                "
+              >
+                BUZZIE <span className="text-[#FF5757]">PRODUCTS</span>
+              </h2>
+
+              {/* Curved-arrow-like accent */}
+              <div
+                aria-hidden="true"
+                className="
+                  relative
+                  mx-auto
+                  mt-1
+                  h-8
+                  w-20
+                  sm:h-10
+                  sm:w-24
+                "
+              >
+                <svg
+                  viewBox="0 0 100 45"
+                  className="absolute right-0 top-0 h-full w-full"
+                  fill="none"
+                >
+                  <path
+                    d="M10 7C42 2 73 8 82 29"
+                    stroke="#FF5757"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                  />
+
+                  <path
+                    d="M74 25L82 29L78 37"
+                    stroke="#FF5757"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* ------------------------------------------------------------ */}
+            {/* PRODUCT CARDS                                                */}
+            {/* ------------------------------------------------------------ */}
+
+            {products.length > 0 ? (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{
+                  once: true,
+                  amount: 0.12,
+                }}
+                className="
+                  mt-2
+                  grid
+                  grid-cols-1
+                  gap-4
+                  sm:grid-cols-2
+                  sm:gap-5
+                  lg:grid-cols-3
+                  lg:gap-6
+                  xl:gap-7
+                "
+              >
+                {products.map((product, index) => (
+                  <ProductArcCard key={product._id} product={product} index={index} />
+                ))}
+              </motion.div>
+            ) : (
+              <div
+                className="
+                  mx-auto
+                  mt-6
+                  max-w-[900px]
+                  rounded-[28px]
+                  bg-white
+                  px-6
+                  py-12
+                  text-center
+                  shadow-[0_10px_40px_rgba(23,33,61,0.04)]
+                "
+              >
+                <p
+                  className="
+                    font-[var(--font-poppins)]
+                    text-sm
+                    font-semibold
+                    text-[#687489]
+                  "
+                >
+                  Our little collection is getting ready.
+                </p>
+              </div>
+            )}
+          </div>
+        </Reveal>
+
+        {/* ================================================================ */}
+        {/* SHOP BY AGE                                                     */}
+        {/* ================================================================ */}
+
+        <Reveal>
+          <div
+            className="
+              relative
+              mt-14
+              px-0
+              py-7
+              sm:mt-18
+              sm:py-9
+              lg:mt-22
+              lg:py-11
+            "
+          >
+            {/* ------------------------------------------------------------ */}
+            {/* SHOP BY AGE HEADING                                          */}
+            {/* ------------------------------------------------------------ */}
 
             <div
               className="
                 relative
+                z-20
                 flex
                 flex-col
-
-                lg:min-h-[490px]
+                items-center
+                text-center
               "
             >
-              {/* -------------------------------------------------------------- */}
-              {/* HERO VISUAL                                                    */}
-              {/* -------------------------------------------------------------- */}
-
-              <RightKidsVisual />
-
-              {/* -------------------------------------------------------------- */}
-              {/* HERO COPY                                                      */}
-              {/* -------------------------------------------------------------- */}
-
               <div
                 className="
-                  relative
-                  z-20
-                  mt-1
-                  w-full
-
-                  lg:mt-0
-                  lg:max-w-[610px]
-                  lg:pt-3
-                  xl:pt-4
+                  mx-auto
+                  mb-4
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  sm:mb-5
                 "
               >
-                {/* Eyebrow */}
-
-                <div
+                <span
                   className="
-                    mb-4
-                    flex
-                    items-center
-                    gap-2
-
-                    sm:mb-5
+                    h-[2px]
+                    w-7
+                    rounded-full
+                    bg-[#E72D5A]
+                    sm:w-8
                   "
-                >
-                  <span
-                    className="
-                      h-[2px]
-                      w-7
-                      rounded-full
-                      bg-[#E72D5A]
+                />
 
-                      sm:w-8
-                    "
-                  />
-
-                  <span
-                    className="
-                      font-[var(--font-poppins)]
-                      text-[8px]
-                      font-black
-                      uppercase
-                      tracking-[0.18em]
-                      text-[#E72D5A]
-
-                      sm:text-[10px]
-
-                      xl:text-[12px]
-                    "
-                  >
-                    Find their next
-                  </span>
-
-                  <span
-                    className="
-                      size-1.5
-                      rounded-full
-                      bg-[#F59A23]
-                    "
-                  />
-                </div>
-
-                {/* Main heading */}
-
-                <h2
+                <span
                   className="
-                    max-w-[570px]
-                    font-[var(--font-roboto)]
-                    text-[clamp(2.35rem,9vw,4.25rem)]
-                    font-black
-                    leading-[0.91]
-                    tracking-[-0.06em]
-                    text-[#111111]
-
-                    sm:text-[clamp(2.8rem,7vw,4.25rem)]
-
-                    lg:text-[clamp(3rem,4.8vw,4.25rem)]
-                  "
-                >
-                  The perfect way
-                  <br />
-                  to <span className="text-[#E72D5A]">play & learn.</span>
-                </h2>
-
-                {/* Supporting copy */}
-
-                <p
-                  className="
-                    mt-9
-                    w-full
-                    max-w-[470px]
                     font-[var(--font-poppins)]
-                    text-[13px]
-                    font-medium
-                    leading-[1.75]
-                    tracking-[-0.01em]
-                    text-[#687489]
-
-                    sm:mt-10
-                    sm:max-w-[500px]
-                    sm:text-[13px]
-
-                    lg:mt-11
-                    lg:text-[13px]
-
-                    xl:mt-12
-                    xl:text-[14px]
+                    text-[8px]
+                    font-black
+                    uppercase
+                    tracking-[0.18em]
+                    text-[#E72D5A]
+                    sm:text-[10px]
+                    xl:text-[12px]
                   "
                 >
-                  Thoughtfully chosen games and learning experiences for every stage of growing up.
-                </p>
+                  Find their next
+                </span>
 
-                {/* Editorial accent */}
-
-                <div
-                  className="
-                    mt-5
-                    flex
-                    items-center
-                    gap-1.5
-
-                    sm:mt-6
-                  "
-                >
-                  <span
-                    className="
-                      h-[2px]
-                      w-8
-                      rounded-full
-                      bg-[#C391EE]
-                    "
-                  />
-
-                  <span
-                    className="
-                      h-[2px]
-                      w-2.5
-                      rounded-full
-                      bg-[#E72D5A]
-                    "
-                  />
-
-                  <span
-                    className="
-                      h-[2px]
-                      w-1.5
-                      rounded-full
-                      bg-[#F5B5C5]
-                    "
-                  />
-                </div>
+                <span className="size-1.5 rounded-full bg-[#F59A23]" />
               </div>
 
-              {/* -------------------------------------------------------------- */}
-              {/* BENEFITS                                                        */}
-              {/* -------------------------------------------------------------- */}
-
-              <div
+              <h2
                 className="
-                  relative
-                  z-30
-                  mt-7
+                  mx-auto
                   w-full
-
-                  sm:mt-8
-
-                  lg:absolute
-                  lg:bottom-[74px]
-                  lg:left-0
-                  lg:right-0
-                  lg:mt-0
+                  max-w-[700px]
+                  font-[var(--font-roboto)]
+                  text-[clamp(2.35rem,9vw,4.25rem)]
+                  font-black
+                  leading-[0.91]
+                  tracking-[-0.06em]
+                  text-[#111111]
+                  sm:text-[clamp(2.8rem,7vw,4.25rem)]
+                  lg:text-[clamp(3rem,4.8vw,4.25rem)]
                 "
               >
-                <BenefitsRow />
-              </div>
-
-              {/* -------------------------------------------------------------- */}
-              {/* CTA                                                             */}
-              {/* -------------------------------------------------------------- */}
+                Shop By <span className="text-[#E72D5A]">Age</span>
+              </h2>
 
               <div
                 className="
-                  relative
-                  z-30
+                  mx-auto
                   mt-5
-
+                  flex
+                  items-center
+                  justify-center
+                  gap-1.5
                   sm:mt-6
-
-                  lg:absolute
-                  lg:bottom-[8px]
-                  lg:left-0
-                  lg:mt-0
                 "
               >
-                <Link
-                  href="/shop"
-                  className="
-    group
-    inline-flex
-    min-h-[46px]
-    items-center
-    justify-center
-    gap-2.5
-    rounded-full
-    bg-[#C391EE]
-    px-6
-    py-3
-    font-[var(--font-poppins)]
-    text-[12px]
-    font-black
-    uppercase
-    tracking-[0.08em]
-    !text-white
-    shadow-[0_10px_24px_rgba(195,145,238,0.24)]
-    transition-all
-    duration-300
-    ease-out
-
-    hover:-translate-y-0.5
-    hover:bg-[#A96FDB]
-    hover:shadow-[0_14px_32px_rgba(169,111,219,0.28)]
-
-    focus-visible:outline-none
-    focus-visible:ring-2
-    focus-visible:ring-[#C391EE]
-    focus-visible:ring-offset-2
-
-    active:translate-y-0
-
-    sm:min-h-[50px]
-    sm:px-7
-    sm:py-3.5
-    sm:text-[9.5px]
-    xl:text-[12px]
-  "
-                >
-                  <span className="!text-white">Explore all ages</span>
-
-                  <span
-                    className="
-      flex
-      size-6
-      shrink-0
-      items-center
-      justify-center
-      rounded-full
-      bg-white/20
-      !text-white
-      transition-all
-      duration-300
-      group-hover:bg-white/30
-    "
-                  >
-                    <ArrowRight
-                      className="
-        size-3.5
-        !text-white
-        transition-transform
-        duration-300
-        group-hover:translate-x-1
-      "
-                      strokeWidth={2.5}
-                    />
-                  </span>
-                </Link>
+                <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
+                <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
+                <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
               </div>
             </div>
 
-            {/* ================================================================== */}
-            {/* AGE SECTION                                                        */}
-            {/* ================================================================== */}
+            {/* ------------------------------------------------------------ */}
+            {/* AGE IMAGES                                                   */}
+            {/* ------------------------------------------------------------ */}
 
             <div
               className="
                 relative
                 z-30
-                mt-10
+                mt-7
+                sm:mt-8
+                lg:mt-9
+                xl:mt-10
 
-                sm:mt-12
-
-                lg:mt-14
-
-                xl:mt-16
               "
             >
-              {/* -------------------------------------------------------------- */}
-              {/* HEADER                                                         */}
-              {/* -------------------------------------------------------------- */}
-
-              <div
-                className="
-                  mb-6
-                  flex
-                  flex-col
-                  gap-2
-
-                  sm:mb-7
-
-                  lg:mb-8
-                "
-              >
-                <div
-                  className="
-                    flex
-                    items-center
-                    gap-2
-                  "
-                >
-                  <span
-                    className="
-                      h-[2px]
-                      w-7
-                      rounded-full
-                      bg-[#E72D5A]
-
-                      sm:w-8
-                    "
-                  />
-
-                  <p
-                    className="
-                      font-[var(--font-poppins)]
-                      text-[8px]
-                      font-black
-                      uppercase
-                      tracking-[0.17em]
-                      text-[#E72D5A]
-
-                      sm:text-[9px]
-
-                      xl:text-[11px]
-                    "
-                  >
-                    Choose their adventure
-                  </p>
-                </div>
-
-                <h3
-                  className="
-                    font-[var(--font-roboto)]
-                    text-[22px]
-                    font-black
-                    leading-[1]
-                    tracking-[-0.045em]
-                    text-[#17213D]
-
-                    sm:text-[26px]
-
-                    lg:text-[30px]
-                  "
-                >
-                  Find their perfect age group.
-                </h3>
-
-                <p
-                  className="
-                    max-w-[500px]
-                    font-[var(--font-poppins)]
-                    text-[11px]
-                    leading-[1.65]
-                    text-[#7A8391]
-
-                    sm:text-[12px]
-
-                    lg:text-[13px]
-                  "
-                >
-                  Age-appropriate experiences designed to grow with their curiosity, confidence and
-                  imagination.
-                </p>
-              </div>
-
-              {/* -------------------------------------------------------------- */}
-              {/* AGE TILES                                                       */}
-              {/* -------------------------------------------------------------- */}
-
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -1085,117 +863,20 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                 }}
                 className="
                   grid
-                  grid-cols-1
+                  grid-cols-2
                   gap-4
-
                   sm:grid-cols-2
                   sm:gap-5
-
                   lg:grid-cols-4
                   lg:gap-5
-
                   xl:gap-6
+
                 "
               >
                 {ageGroups.map((age) => (
-                  <AgeTile key={age.slug} age={age} />
+                  <AgeImage key={age.slug} age={age} />
                 ))}
               </motion.div>
-
-              {/* -------------------------------------------------------------- */}
-              {/* BOTTOM LINK                                                     */}
-              {/* -------------------------------------------------------------- */}
-
-              <div
-                className="
-                  mt-7
-                  flex
-                  flex-col
-                  items-center
-                  gap-2
-
-                  sm:mt-8
-                "
-              >
-                <div
-                  className="
-                    flex
-                    w-full
-                    items-center
-                    justify-center
-                    gap-3
-                  "
-                >
-                  <span
-                    className="
-                      hidden
-                      h-px
-                      w-16
-                      bg-[#E8E2DC]
-
-                      sm:block
-                    "
-                  />
-
-                  <span
-                    className="
-                      font-[var(--font-poppins)]
-                      text-[8px]
-                      text-[#7B8491]
-
-                      sm:text-[9px]
-
-                      xl:text-[11px]
-                    "
-                  >
-                    Not sure what fits?
-                  </span>
-
-                  <span
-                    className="
-                      hidden
-                      h-px
-                      w-16
-                      bg-[#E8E2DC]
-
-                      sm:block
-                    "
-                  />
-                </div>
-
-                <Link
-                  href="/shop"
-                  className="
-                    group
-                    inline-flex
-                    items-center
-                    gap-1.5
-                    font-[var(--font-poppins)]
-                    text-[8px]
-                    font-black
-                    uppercase
-                    tracking-[0.08em]
-                    text-[#C391EE]
-                    transition-colors
-                    hover:text-[#A96FDB]
-
-                    sm:text-[9px]
-
-                    xl:text-[11px]
-                  "
-                >
-                  Browse everything
-                  <ArrowRight
-                    className="
-                      size-2.5
-                      transition-transform
-                      duration-300
-                      group-hover:translate-x-1
-                    "
-                    strokeWidth={2.5}
-                  />
-                </Link>
-              </div>
             </div>
           </div>
         </Reveal>

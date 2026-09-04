@@ -121,8 +121,8 @@ export default function ShippingPolicyPage() {
           title: "Delivery confirmation",
           content: (
             <p>
-              Delivery may be confirmed through the logistics provider's delivery records, tracking
-              system, OTP verification, signature or another applicable delivery mechanism.
+              Delivery may be confirmed through the logistics provider&apos;s delivery records,
+              tracking system, OTP verification, signature or another applicable delivery mechanism.
             </p>
           ),
         },

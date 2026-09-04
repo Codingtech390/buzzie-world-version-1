@@ -155,7 +155,7 @@ export default function KingdomBanner() {
               </div>
 
               <Link
-                href="/deals"
+                href="/return-gifts"
                 className="
                   group/shop
                   inline-flex
@@ -174,7 +174,7 @@ export default function KingdomBanner() {
                   sm:text-[8px]
                 "
               >
-                Explore deals
+                Explore Return Gifts
                 <ArrowRight
                   className="
                     size-3

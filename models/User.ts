@@ -1,6 +1,36 @@
 import mongoose, { Schema } from "mongoose";
 
-const AddressSchema = new Schema(
+export type UserRole = "customer" | "admin";
+
+export interface IUserAddress {
+  _id?: mongoose.Types.ObjectId;
+  fullName: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault: boolean;
+}
+
+export interface IUser {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  role: UserRole;
+  image?: string;
+  addresses: IUserAddress[];
+  isActive: boolean;
+  emailVerified?: Date | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const AddressSchema = new Schema<IUserAddress>(
   {
     fullName: {
       type: String,
@@ -59,7 +89,7 @@ const AddressSchema = new Schema(
   },
 );
 
-const UserSchema = new Schema(
+const UserSchema = new Schema<IUser>(
   {
     name: {
       type: String,
@@ -116,4 +146,4 @@ const UserSchema = new Schema(
   },
 );
 
-export const User = mongoose.models.User || mongoose.model("User", UserSchema);
+export const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);

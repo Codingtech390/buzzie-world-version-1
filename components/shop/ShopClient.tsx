@@ -228,9 +228,17 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   useEffect(() => {
     const urlPage = Number(searchParams.get("page"));
 
+    // URL → component state synchronization is intentional.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPage(Number.isInteger(urlPage) && urlPage > 0 ? urlPage : 1);
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearch(searchParams.get("search") ?? "");
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCategory(searchParams.get("category") ?? "");
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCollection(searchParams.get("collection") ?? "");
 
     const urlSort = searchParams.get("sort");

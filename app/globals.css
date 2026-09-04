@@ -622,3 +622,21 @@ body[data-scroll-locked] {
 .buzzie-instagram-marquee:hover {
   animation-play-state: paused !important;
 }
+
+.input {
+  @apply h-11 w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-violet-300 focus:bg-white focus:ring-4 focus:ring-violet-500/10;
+}
+
+@keyframes buzzieworld-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.buzzieworld-marquee {
+  animation: buzzieworld-marquee 28s linear infinite;
+}

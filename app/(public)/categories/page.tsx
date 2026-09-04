@@ -196,14 +196,9 @@ function GameInstructionsFeature() {
       </div>
 
       <div className="game-instructions-caption">
-        <span>
-          PLAY • LEARN • GROW
-        </span>
+        <span>PLAY • LEARN • GROW</span>
 
-        <p>
-          Because the best learning experiences
-          don't feel like lessons.
-        </p>
+        <p>Because the best learning experiences don&apos;t feel like lessons.</p>
       </div>
     </section>
   );

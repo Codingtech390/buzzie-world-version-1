@@ -189,3 +189,91 @@ export async function verifyPayment(
 
   return order;
 }
+
+export interface AdminOrderListOptions {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: string;
+  paymentStatus?: string;
+  sort?: "newest" | "oldest";
+}
+
+export async function getAdminOrders(
+  options: AdminOrderListOptions = {},
+) {
+  await connectToDatabase();
+
+  const page = Math.max(1, Number(options.page) || 1);
+  const limit = Math.min(
+    100,
+    Math.max(1, Number(options.limit) || 20),
+  );
+
+  const search = options.search?.trim() || "";
+  const status = options.status?.trim() || "";
+  const paymentStatus = options.paymentStatus?.trim() || "";
+  const sort = options.sort === "oldest" ? "oldest" : "newest";
+
+  const filter: Record<string, unknown> = {};
+
+  if (status && status !== "all") {
+    filter.status = status;
+  }
+
+  if (paymentStatus && paymentStatus !== "all") {
+    filter.paymentStatus = paymentStatus;
+  }
+
+  if (search) {
+    const escapedSearch = search.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&",
+    );
+
+    const searchRegex = new RegExp(
+      escapedSearch,
+      "i",
+    );
+
+    filter.$or = [
+      {
+        orderNumber: searchRegex,
+      },
+      {
+        "shippingAddress.fullName": searchRegex,
+      },
+      {
+        "shippingAddress.email": searchRegex,
+      },
+    ];
+  }
+
+  const skip = (page - 1) * limit;
+
+  const sortQuery = {
+    createdAt: sort === "newest" ? -1 : 1,
+  } as const;
+
+  const [orders, total] = await Promise.all([
+    Order.find(filter)
+      .sort(sortQuery)
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+
+    Order.countDocuments(filter),
+  ]);
+
+  const totalPages = Math.ceil(total / limit);
+
+  return {
+    orders,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages,
+    },
+  };
+}

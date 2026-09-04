@@ -202,7 +202,7 @@ function InstagramCard({ post }: { post: InstagramPost }) {
       <div
         className="
           flex min-h-[40px] w-full items-center justify-between gap-1.5
-          bg-white px-2.5 py-2
+          bg-[#a092cd] px-2.5 py-2
 
           sm:min-h-[42px] sm:px-3
           md:min-h-[44px] md:px-3.5
@@ -213,20 +213,23 @@ function InstagramCard({ post }: { post: InstagramPost }) {
           <p
             className="
               truncate text-[8px] font-extrabold uppercase leading-none
-              tracking-[0.04em] text-[#27344A]
+              tracking-[0.04em] text-[#ffffff]
 
-              sm:text-[8.5px]
+              sm:text-[9px]
               md:text-[9px]
+              xl:text-[13px]
             "
           >
             BuzzieWorld
           </p>
           <p
             className="
-              mt-1 truncate text-[7px] leading-none text-[#7A8495]
+              mt-1 truncate text-[7px] leading-none text-[#000]
 
               sm:text-[7.5px]
-              md:text-[8px]
+              md:text-[9px]
+              xl:text-[11px]
+              xl:font-semibold
             "
           >
             {post.type === "reel" ? "Watch our Reel" : "View our post"}

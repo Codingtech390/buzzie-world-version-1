@@ -1,163 +1,486 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ArrowLeft,
   ArrowRight,
+  Compass,
+  Crown,
   Heart,
+  Layers3,
   Sparkles,
+  Users,
   WandSparkles,
 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import type { StorefrontProduct } from "@/types/storefront";
-
-import { siteConfig } from "@/config/site";
-
 import Reveal from "./Reveal";
 
 interface BrandStoryProps {
   products: StorefrontProduct[];
 }
 
+interface StorySlide {
+  question: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  icon: typeof Compass;
+  buttonLabel: string;
+  href: string;
+}
+
+const STORY_SLIDES: StorySlide[] = [
+  {
+    question: "Why geography games?",
+    eyebrow: "DISCOVER THE WORLD",
+    title: "Big worlds. Little explorers.",
+    description:
+      "Geography games turn maps, places and curious questions into something children can explore together. Every game becomes a tiny adventure that makes learning feel natural.",
+    icon: Compass,
+    buttonLabel: "Explore Geography Games",
+    href: "/shop",
+  },
+  {
+    question: "Why you choose binders?",
+    eyebrow: "COLLECT • ORGANISE • DISCOVER",
+    title: "Keep their little world together.",
+    description:
+      "Binders give children a simple way to collect, organise and revisit the things they love. They turn loose cards and discoveries into something personal they can keep growing.",
+    icon: Layers3,
+    buttonLabel: "Explore Binders",
+    href: "/shop",
+  },
+  {
+    question: "Why family card games?",
+    eyebrow: "PLAY TOGETHER",
+    title: "The best games bring everyone in.",
+    description:
+      "Family card games create easy moments to sit down, laugh, think and play together. They are simple to pick up, exciting to replay and made for shared memories.",
+    icon: Users,
+    buttonLabel: "Explore Family Games",
+    href: "/shop",
+  },
+  {
+    question: "What are BuzzieWorld special edition games?",
+    eyebrow: "LIMITED • SPECIAL • MEMORABLE",
+    title: "A little more special.",
+    description:
+      "Our special edition games are made to feel different from the everyday favourites — distinctive themes, memorable play and extra little details that make them worth discovering.",
+    icon: Crown,
+    buttonLabel: "Discover Special Editions",
+    href: "/shop",
+  },
+  {
+    question: "Bestsellers / Featured Games",
+    eyebrow: "FAVOURITES RIGHT NOW",
+    title: "The games families are loving.",
+    description:
+      "Start with the games families are loving most. These featured picks bring together playful ideas, thoughtful design and plenty of reasons to come back for another round.",
+    icon: Heart,
+    buttonLabel: "Shop Featured Games",
+    href: "/shop",
+  },
+];
+
+function StoryProductImage({
+  url,
+  alt,
+  position,
+}: {
+  url?: string;
+  alt: string;
+  position: "left" | "right";
+}) {
+  return (
+    <div
+      className={`
+        relative
+        hidden
+        h-[516px]
+        w-[563px]
+        max-w-none
+        shrink-0
+        overflow-hidden
+        bg-[#E9E4F6]
+        lg:block
+        ${position === "left" ? "rounded-r-[22px]" : "rounded-l-[22px]"}
+      `}
+    >
+      {url ? (
+        <Image
+          src={url}
+          alt={alt}
+          fill
+          sizes="(max-width: 1279px) 34vw, 480px"
+          className="object-cover transition-transform duration-700 hover:scale-[1.025]"
+        />
+      ) : (
+        <div className="flex h-full items-center justify-center bg-[#D9D1F0]">
+          <Sparkles className="size-14 text-white/80" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MobileStoryImage({
+  url,
+  alt,
+}: {
+  url?: string;
+  alt: string;
+}) {
+  return (
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-[#D9D1F0]">
+      {url ? (
+        <Image
+          src={url}
+          alt={alt}
+          fill
+          sizes="(max-width: 1023px) 92vw, 600px"
+          className="object-cover"
+        />
+      ) : (
+        <div className="flex h-full items-center justify-center">
+          <Sparkles className="size-12 text-white/80" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function BrandStory({ products }: BrandStoryProps) {
-  const storyProducts = products.filter((product) =>
-    product.images?.some((image) => image.url),
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const storyProducts = useMemo(
+    () =>
+      products.filter((product) =>
+        product.images?.some((image) => image.url),
+      ),
+    [products],
   );
 
-  const leftProduct = storyProducts[0];
-  const rightProduct = storyProducts[1];
+  const activeSlide = STORY_SLIDES[activeIndex];
+
+  const leftProduct =
+    storyProducts.length > 0
+      ? storyProducts[activeIndex % storyProducts.length]
+      : undefined;
+
+  const rightProduct =
+    storyProducts.length > 1
+      ? storyProducts[(activeIndex + 1) % storyProducts.length]
+      : storyProducts[0];
 
   const leftImage = leftProduct?.images?.find((image) => image.url)?.url;
   const rightImage = rightProduct?.images?.find((image) => image.url)?.url;
 
+  const goTo = (index: number) => {
+    const next =
+      (index + STORY_SLIDES.length) % STORY_SLIDES.length;
+    setActiveIndex(next);
+  };
+
+  const Icon = activeSlide.icon;
+
   return (
-    <section className="section relative overflow-hidden bg-[#FFF8EC]">
+    <section className="relative overflow-hidden bg-[#5D50A8] text-white">
+      {/* ================================================================
+          SOFT BACKGROUND GRAPHICS
+      ================================================================ */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-[-12rem] top-[-8rem] size-96 rounded-full bg-[#F8C83B]/10 blur-3xl"
+        className="
+          pointer-events-none
+          absolute
+          -left-32
+          -top-32
+          size-[28rem]
+          rounded-full
+          bg-white/[0.045]
+          blur-3xl
+        "
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute right-[-10rem] bottom-[-8rem] size-96 rounded-full bg-[#3F7DFF]/8 blur-3xl"
+        className="
+          pointer-events-none
+          absolute
+          -bottom-40
+          -right-32
+          size-[32rem]
+          rounded-full
+          bg-[#E83D59]/[0.055]
+          blur-3xl
+        "
       />
 
-      <div className="container relative">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-          <Reveal>
-            <div className="relative mx-auto w-full max-w-[580px]">
-              <div className="relative aspect-square">
-                <div
-                  aria-hidden="true"
-                  className="absolute left-[3%] top-[12%] h-[65%] w-[58%] rotate-[-7deg] rounded-[35px] bg-[#F8C83B]/25 blur-xl"
-                />
+      {/* ================================================================
+          DESKTOP CAROUSEL
+      ================================================================ */}
 
-                <div
-                  aria-hidden="true"
-                  className="absolute bottom-[8%] right-[3%] h-[65%] w-[55%] rotate-[7deg] rounded-[35px] bg-[#3F7DFF]/12 blur-xl"
-                />
+      <div
+        className="
+          relative
+          hidden
+          min-h-[580px]
+          w-full
+          overflow-hidden
+          lg:flex
+        "
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeSlide.question}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="absolute left-0 right-0 top-[32px] flex h-[516px] items-start pl-[72px]"
+          >
+            <StoryProductImage
+              url={leftImage}
+              alt={leftProduct?.name || "BuzzieWorld game"}
+              position="left"
+            />
 
-                <div className="absolute left-[6%] top-[8%] w-[57%] rotate-[-5deg] overflow-hidden rounded-[34px] border border-white bg-white p-2 shadow-[0_28px_65px_rgba(39,52,74,0.11)] transition-transform duration-500 hover:-rotate-3">
-                  <div className="relative aspect-[0.9] overflow-hidden rounded-[27px] bg-white">
-                    {leftImage ? (
-                      <Image
-                        src={leftImage}
-                        alt={leftProduct?.name || "BuzzieWorld product"}
-                        fill
-                        sizes="(max-width: 1023px) 48vw, 30vw"
-                        className="object-cover transition-transform duration-700 hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-[#FFFDF9]">
-                        <Sparkles className="size-10 text-[#3F7DFF]" />
+            {/* ============================================================
+                CENTER CONTENT
+            ============================================================ */}
+
+            <div
+              className="
+                flex
+                h-[516px]
+                w-[505px]
+                shrink-0
+                items-center
+                justify-center
+                px-11
+              "
+            >
+              <div className="w-full max-w-[405px]">
+                <Reveal key={activeSlide.question}>
+                  <div className="text-left">
+                    <div className="flex items-center gap-3">
+                      <span className="h-4 w-9 rounded-full bg-white" />
+
+                      <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.17em] text-[white/90] sm:text-[11px]">
+                        <Icon className="size-3.5" />
+                        {activeSlide.eyebrow}
+                      </span>
+                    </div>
+
+                    <div className="mt-5 flex items-start gap-3 mb-5">
+                      <div className="min-w-0 flex-1">
+                        <h2 className="font-[var(--font-roboto)] text-[clamp(2rem,2.8vw,1rem)] font-black leading-[0.96] tracking-[-0.055em] text-[#FFD54F]">
+                          {activeSlide.question}
+                        </h2>
                       </div>
-                    )}
+                    </div>
+
+                    <p className="mt-9 max-w-[520px] text-[15px] font-medium leading-[1.45] text-white sm:text-[16px] sm:leading-[1.45]">
+                      {activeSlide.description}
+                    </p>
+
+                    <Link
+                      href={activeSlide.href}
+                      className="
+                        group
+                        mt-8
+                        inline-flex
+                        min-h-16
+                        w-[320px]
+                        items-center
+                        justify-center
+                        gap-2
+                        rounded-full
+                        bg-[#C391EE]
+                        px-6
+                        text-[12px]
+                        font-black
+                        uppercase
+                        tracking-[0.02em]
+                        text-[#17142A]
+                        shadow-[0_12px_28px_rgba(0,0,0,0.13)]
+                        transition-all
+                        duration-300
+                        hover:-translate-y-0.5
+                        hover:bg-[#E83D59]
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-white
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-[#5D50A8]
+
+                        xl:text-[14px]
+                      "
+                    >
+                      {activeSlide.buttonLabel}
+                      <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
                   </div>
-                </div>
-
-                <div className="absolute bottom-[4%] right-[4%] w-[57%] rotate-[6deg] overflow-hidden rounded-[34px] border border-white bg-white p-2 shadow-[0_28px_65px_rgba(39,52,74,0.11)] transition-transform duration-500 hover:rotate-3">
-                  <div className="relative aspect-[0.9] overflow-hidden rounded-[27px] bg-[#FFF8EC]">
-                    {rightImage ? (
-                      <Image
-                        src={rightImage}
-                        alt={rightProduct?.name || "BuzzieWorld product"}
-                        fill
-                        sizes="(max-width: 1023px) 48vw, 30vw"
-                        className="object-cover transition-transform duration-700 hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-[#FFF8EC]">
-                        <Heart className="size-10 text-[#F56B9A]" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="absolute right-[10%] top-[5%] flex size-16 items-center justify-center rounded-full bg-[#79D45C] text-white shadow-[0_16px_35px_rgba(121,212,92,0.24)] sm:size-20">
-                  <Heart className="size-7 fill-current" />
-                </div>
-
-                <div
-                  aria-hidden="true"
-                  className="absolute bottom-[11%] left-[3%] flex size-12 items-center justify-center rounded-[17px] bg-white text-[#3F7DFF] shadow-[0_15px_30px_rgba(39,52,74,0.08)]"
-                >
-                  <Sparkles className="size-5" />
-                </div>
+                </Reveal>
               </div>
             </div>
-          </Reveal>
 
-          <Reveal delay={0.08}>
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/75 px-3.5 py-2 text-xs font-bold uppercase tracking-[0.15em] text-[#3F7DFF] shadow-sm">
-                <WandSparkles className="size-3.5" />
-                The BuzzieWorld idea
+            <StoryProductImage
+              url={rightImage}
+              alt={rightProduct?.name || "BuzzieWorld game"}
+              position="right"
+            />
+
+            {/* Previous */}
+
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex - 1)}
+              aria-label="Previous story"
+              className="
+                absolute
+                left-[82px]
+                top-[292px]
+                z-30
+                flex
+                h-11 w-11
+                -translate-y-0
+                items-center
+                justify-center
+                rounded-md
+                border
+                border-black/10
+                bg-white
+                text-[#242038]
+                shadow-[0_8px_22px_rgba(0,0,0,0.16)]
+                transition-all
+                hover:scale-105
+                hover:bg-[#F8F6FF]
+              "
+            >
+              <ArrowLeft className="size-5" />
+            </button>
+
+            {/* Next */}
+
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex + 1)}
+              aria-label="Next story"
+              className="
+                absolute
+                right-[82px]
+                top-[292px]
+                z-30
+                flex
+                h-11 w-11
+                -translate-y-0
+                items-center
+                justify-center
+                rounded-md
+                border
+                border-black/10
+                bg-white
+                text-[#242038]
+                shadow-[0_8px_22px_rgba(0,0,0,0.16)]
+                transition-all
+                hover:scale-105
+                hover:bg-[#F8F6FF]
+              "
+            >
+              <ArrowRight className="size-5" />
+            </button>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* ================================================================
+          MOBILE / TABLET
+      ================================================================ */}
+
+      <div className="relative px-4 py-10 sm:px-6 sm:py-12 lg:hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeSlide.question}
+            initial={{ opacity: 0, x: 14 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -14 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="mx-auto max-w-[680px]"
+          >
+            <MobileStoryImage url={leftImage} alt={leftProduct?.name || "BuzzieWorld game"} />
+
+            <div className="pt-6 text-center">
+              <div className="flex items-center justify-center gap-3">
+                <span className="h-1.5 w-8 rounded-full bg-white" />
+
+                <p className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.16em] text-white/80 sm:text-[10px]">
+                  <Icon className="size-3.5" />
+                  {activeSlide.eyebrow}
+                </p>
+
+                <span className="h-2 w-2 rounded-full bg-[#E83D59]" />
               </div>
 
-              <h2 className="mt-5 font-[var(--font-roboto)] text-[clamp(2.4rem,5vw,4.8rem)] font-black leading-[0.94] tracking-[-0.055em] text-[#27344A]">
-                More than things to play with.
+              <h2 className="mt-4 font-[var(--font-roboto)] text-[clamp(2rem,8vw,3.2rem)] font-black leading-[0.96] tracking-[-0.05em] text-white">
+                {activeSlide.question}
               </h2>
 
-              <p className="mt-6 text-base leading-8 text-[#687489] sm:text-lg">
-                {siteConfig.description} We believe the best childhood
-                products do more than fill a shelf — they create an invitation
-                to imagine, make, discover and share.
+              <p className="mx-auto mt-5 max-w-[570px] text-[12px] leading-6 text-white/90 sm:text-[13px] sm:leading-7">
+                {activeSlide.description}
               </p>
-
-              <p className="mt-4 max-w-xl text-sm leading-7 text-[#687489]">
-                That is why BuzzieWorld is being shaped as a place families
-                can return to whenever they are looking for the next tiny spark
-                of curiosity.
-              </p>
-
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                {[
-                  "Play with purpose",
-                  "Discover together",
-                  "Choose with confidence",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-white bg-white/65 p-4 shadow-sm"
-                  >
-                    <span className="flex size-7 items-center justify-center rounded-full bg-[#3F7DFF]/10 text-[#3F7DFF]">
-                      <Sparkles className="size-3.5" />
-                    </span>
-
-                    <p className="mt-3 text-xs font-bold leading-5 text-[#526075]">
-                      {item}
-                    </p>
-                  </div>
-                ))}
-              </div>
 
               <Link
-                href="/about"
-                className="group mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#27344A] px-6 text-sm font-bold text-white shadow-[0_15px_30px_rgba(39,52,74,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1D2739] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3F7DFF] focus-visible:ring-offset-2"
+                href={activeSlide.href}
+                className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#E83D59] px-5 text-[10px] font-black uppercase text-[#17142A] shadow-[0_10px_24px_rgba(0,0,0,0.12)]"
               >
-                Discover BuzzieWorld
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                {activeSlide.buttonLabel}
+                <ArrowRight className="size-4" />
               </Link>
             </div>
-          </Reveal>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Mobile navigation */}
+
+        <div className="mt-7 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => goTo(activeIndex - 1)}
+            aria-label="Previous story"
+            className="flex size-10 items-center justify-center rounded-full bg-white text-[#5D50A8] shadow-md transition-transform hover:scale-105"
+          >
+            <ArrowLeft className="size-4" />
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            {STORY_SLIDES.map((slide, index) => (
+              <button
+                key={slide.question}
+                type="button"
+                onClick={() => goTo(index)}
+                aria-label={`Go to story ${index + 1}`}
+                className={`
+                  h-1.5 rounded-full transition-all duration-300
+                  ${index === activeIndex ? "w-7 bg-[#E83D59]" : "w-1.5 bg-white/45"}
+                `}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => goTo(activeIndex + 1)}
+            aria-label="Next story"
+            className="flex size-10 items-center justify-center rounded-full bg-white text-[#5D50A8] shadow-md transition-transform hover:scale-105"
+          >
+            <ArrowRight className="size-4" />
+          </button>
         </div>
       </div>
     </section>

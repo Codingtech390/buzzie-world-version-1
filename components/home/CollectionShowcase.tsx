@@ -36,19 +36,19 @@ const SHOWCASE_SLIDES: ShowcaseSlide[] = [
     id: "return-gift-1",
     image: "/images/return-gifts/return-gift-1.png",
     alt: "BuzzieWorld return gifts for kids",
-    href: "/crazy-deals",
+    href: "/return-gifts",
   },
   {
     id: "return-gift-2",
     image: "/images/return-gifts/return-gift-2.png",
     alt: "BuzzieWorld gifts for kids",
-    href: "/crazy-deals",
+    href: "/return-gifts",
   },
   {
     id: "return-gift-3",
     image: "/images/return-gifts/return-gift-3.png",
     alt: "BuzzieWorld fun return gifts",
-    href: "/crazy-deals",
+    href: "/return-gifts",
   },
 ];
 
@@ -122,11 +122,13 @@ export default function CollectionShowcase({ collections }: CollectionShowcasePr
      SAFETY FOR ACTIVE INDEX
   ========================================================================== */
 
-  useEffect(() => {
-    if (activeSlide >= slides.length) {
-      setActiveSlide(0);
-    }
-  }, [activeSlide, slides.length]);
+useEffect(() => {
+  if (activeSlide >= slides.length) {
+    // Reset is intentional when the available slide count changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActiveSlide(0);
+  }
+}, [activeSlide, slides.length]);
 
   /* ==========================================================================
      AUTOPLAY
@@ -398,7 +400,7 @@ export default function CollectionShowcase({ collections }: CollectionShowcasePr
                         color: "#FFFFFF",
                       }}
                     >
-                      Explore Gifts
+                      Explore Return Gifts
                     </span>
 
                     <ArrowRight
@@ -651,4 +653,3 @@ export default function CollectionShowcase({ collections }: CollectionShowcasePr
     </section>
   );
 }
-

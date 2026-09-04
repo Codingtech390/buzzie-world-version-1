@@ -40,9 +40,11 @@ export function useCart() {
     }
   }, []);
 
-  useEffect(() => {
-    void refreshCart();
-  }, [refreshCart]);
+useEffect(() => {
+  // Intentionally hydrate the cart from the backend on mount.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  refreshCart();
+}, [refreshCart]);
 
   const addItem = useCallback(async (productId: string, quantity = 1) => {
     const response = await fetch("/api/cart", {

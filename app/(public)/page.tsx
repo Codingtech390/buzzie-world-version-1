@@ -117,7 +117,7 @@ export default async function HomePage() {
           BENEFITS
          ================================================================ */}
 
-      <BenefitsStrip />
+      <BenefitsStrip bestsellingProducts={homepageData.latestProducts} />
 
       {/* ================================================================
           SHOP BY AGE
@@ -131,7 +131,6 @@ export default async function HomePage() {
 
       {/* <CategoryShowcase categories={homepageData.categories} /> */}
       <FollowUsSection />
-
 
       {/* ================================================================
           FEATURED PRODUCTS
