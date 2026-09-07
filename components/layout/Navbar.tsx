@@ -184,6 +184,69 @@ const categoryNavigation = [
 ] as const;
 
 /* -------------------------------------------------------------------------- */
+/* CATEGORY DROPDOWN THUMBNAILS                                               */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * These are intentionally local presentation assets.
+ *
+ * Category URLs are still resolved from the backend category collection.
+ * The images are only used to make the navigation dropdown visual.
+ */
+const CATEGORY_THUMBNAILS: Record<
+  string,
+  {
+    image: string;
+    alt: string;
+  }
+> = {
+  binder: {
+    image: "/images/products/brain-binder-1.png",
+    alt: "Binder products",
+  },
+
+  mythology: {
+    image: "/images/products/logo-lblitz-1.png",
+    alt: "Mythology products",
+  },
+
+  "mind-games": {
+    image: "/images/products/treasure-product-3.png",
+    alt: "Mind games",
+  },
+
+  "on-the-go-games": {
+    image: "/images/products/treasure-product-4.png",
+    alt: "On-the-go games",
+  },
+
+  phonics: {
+    image: "/images/products/treasure-product-1.png",
+    alt: "Phonics products",
+  },
+
+  "card-games": {
+    image: "/images/products/car-logo-1.png",
+    alt: "Card games",
+  },
+
+  geography: {
+    image: "/images/products/car-logo-1.png",
+    alt: "Geography products",
+  },
+
+  "return-gifts": {
+    image: "/images/products/treasure-product-3.png",
+    alt: "Return gifts",
+  },
+
+  "customized-products": {
+    image: "/images/products/brain-binder-1.png",
+    alt: "Customized products",
+  },
+};
+
+/* -------------------------------------------------------------------------- */
 /* CONTACT / POLICY NAVIGATION                                                */
 /* -------------------------------------------------------------------------- */
 
@@ -257,15 +320,15 @@ function getContactNavigationIcon(href: string) {
 /* HELPERS                                                                    */
 /* -------------------------------------------------------------------------- */
 
-function isNavigationActive(pathname: string, href: string, exact = false): boolean {
+function isNavigationActive(
+  pathname: string,
+  href: string,
+  exact = false,
+): boolean {
   if (href === "/") {
     return pathname === "/";
   }
 
-  /*
-   * Hash links such as /#faq should not appear active based
-   * purely on the pathname.
-   */
   if (href.includes("#")) {
     return false;
   }
@@ -302,11 +365,8 @@ export default function Navbar() {
   /* ------------------------------------------------------------------------ */
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
-
   const [isContactMenuOpen, setIsContactMenuOpen] = useState(false);
-
   const [categoryLinks, setCategoryLinks] = useState<StorefrontCategory[]>([]);
 
   /* ------------------------------------------------------------------------ */
@@ -314,14 +374,14 @@ export default function Navbar() {
   /* ------------------------------------------------------------------------ */
 
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-
   const categoryMenuRef = useRef<HTMLDivElement>(null);
-
   const contactMenuRef = useRef<HTMLDivElement>(null);
 
-  const categoryCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const categoryCloseTimerRef =
+    useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const contactCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const contactCloseTimerRef =
+    useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ------------------------------------------------------------------------ */
   /* MOBILE MENU                                                              */
@@ -337,9 +397,6 @@ export default function Navbar() {
     setIsMobileMenuOpen((current) => !current);
   }, []);
 
-  /*
-   * Escape key + body scroll lock.
-   */
   useEffect(() => {
     if (!isMobileMenuOpen) {
       return;
@@ -354,22 +411,19 @@ export default function Navbar() {
     const originalOverflow = document.body.style.overflow;
 
     window.addEventListener("keydown", handleKeyDown);
-
     document.body.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-
       document.body.style.overflow = originalOverflow;
     };
   }, [closeMobileMenu, isMobileMenuOpen]);
 
-  /*
-   * Close the mobile drawer and desktop dropdowns when the route changes.
-   */
+  /* ------------------------------------------------------------------------ */
+  /* ROUTE CHANGE                                                             */
+  /* ------------------------------------------------------------------------ */
+
   useEffect(() => {
-    // Close transient navigation UI after route changes.
-    // These state updates are intentional.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobileMenuOpen(false);
 
@@ -425,9 +479,6 @@ export default function Navbar() {
   /* DESKTOP DROPDOWNS                                                        */
   /* ------------------------------------------------------------------------ */
 
-  /*
-   * Close desktop dropdowns when clicking outside.
-   */
   useEffect(() => {
     if (!isCategoryMenuOpen && !isContactMenuOpen) {
       return;
@@ -440,9 +491,11 @@ export default function Navbar() {
         return;
       }
 
-      const clickedCategoryMenu = categoryMenuRef.current?.contains(target) ?? false;
+      const clickedCategoryMenu =
+        categoryMenuRef.current?.contains(target) ?? false;
 
-      const clickedContactMenu = contactMenuRef.current?.contains(target) ?? false;
+      const clickedContactMenu =
+        contactMenuRef.current?.contains(target) ?? false;
 
       if (clickedCategoryMenu || clickedContactMenu) {
         return;
@@ -473,9 +526,9 @@ export default function Navbar() {
   /* ------------------------------------------------------------------------ */
 
   /*
-   * Convert the requested category slug into the real backend category ID.
+   * Keep the existing backend-driven category URL behavior.
    *
-   * This preserves the existing shop API behavior.
+   * The dropdown presentation does NOT change how category URLs are built.
    */
   const getCategoryHref = useCallback(
     (slug: string) => {
@@ -487,10 +540,6 @@ export default function Navbar() {
           normalizeCategoryValue(item.name) === requestedSlug,
       );
 
-      /*
-       * Safe fallback if the category does not currently exist
-       * in the backend.
-       */
       if (!category?._id) {
         return "/categories";
       }
@@ -510,15 +559,19 @@ export default function Navbar() {
 
   const accountHref = isAuthenticated ? "/account" : "/login";
 
-  const accountLabel = isAuthenticated ? session?.user?.name || "Account" : "Account";
+  const accountLabel = isAuthenticated
+    ? session?.user?.name || "Account"
+    : "Account";
 
-  const isAccountArea = pathname.startsWith("/account") || pathname === "/login";
+  const isAccountArea =
+    pathname.startsWith("/account") || pathname === "/login";
 
   /* ------------------------------------------------------------------------ */
   /* ACTIVE STATES                                                            */
   /* ------------------------------------------------------------------------ */
 
-  const isCategoriesArea = pathname.startsWith("/categories") || pathname.startsWith("/shop");
+  const isCategoriesArea =
+    pathname.startsWith("/categories") || pathname.startsWith("/shop");
 
   const isContactArea =
     pathname.startsWith("/about") ||
@@ -592,12 +645,8 @@ export default function Navbar() {
 
   const renderDesktopNavigationItem = (item: NavigationItem) => {
     const isCategories = item.label === "Categories";
-
     const isContactPolicies = item.label === "Contact Us & Policies";
 
-    /*
-     * Categories has its own active state.
-     */
     const active = isCategories
       ? pathname.startsWith("/categories") || isCategoryMenuOpen
       : isContactPolicies
@@ -623,18 +672,16 @@ export default function Navbar() {
             aria-expanded={isCategoryMenuOpen}
             onClick={toggleCategoryMenu}
             className={[
-              /*
-               * Every desktop navigation item deliberately uses
-               * the exact same typography.
-               */
-              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins)] !text-[0.78rem] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
-              `focus-visible:ring-2 focus-visible:ring-[${NAV_THEME.crimson}] focus-visible:ring-offset-2`,
+              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+              "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
               active
                 ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins)] font-semibold">Categories</span>
+            <span className="font-[var(--font-poppins)] font-bold">
+              Categories
+            </span>
 
             <ChevronDown
               aria-hidden="true"
@@ -653,7 +700,9 @@ export default function Navbar() {
             ) : null}
           </button>
 
-          {/* CATEGORY DROPDOWN */}
+          {/* ================================================================ */}
+          {/* CATEGORY DROPDOWN                                                 */}
+          {/* ================================================================ */}
 
           <AnimatePresence>
             {isCategoryMenuOpen ? (
@@ -684,14 +733,14 @@ export default function Navbar() {
                   left-1/2
                   top-[calc(100%+10px)]
                   z-[80]
-                  w-[min(92vw,560px)]
+                  w-[min(92vw,620px)]
                   -translate-x-1/2
                   overflow-hidden
                   rounded-[24px]
                   border
                   border-[#EDE2D6]
                   bg-[#FFFDF9]/98
-                  p-3
+                  p-4
                   shadow-[0_24px_70px_rgba(42,35,28,0.15)]
                   backdrop-blur-xl
                 "
@@ -700,26 +749,36 @@ export default function Navbar() {
 
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-8 right-8 top-0 h-px bg-gradient-to-r from-transparent via-[#E72D5A]/35 to-transparent"
+                  className="pointer-events-none absolute left-10 right-10 top-0 h-px bg-gradient-to-r from-transparent via-[#E72D5A]/35 to-transparent"
                 />
 
-                <div className="mb-2 flex items-center justify-between px-3 pt-1">
+                {/* Dropdown heading */}
+
+                <div className="mb-3 flex items-center justify-between px-2 pt-1">
                   <div>
-                    <p className="font-[var(--font-poppins)] text-[0.62rem] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
+                    <p className="font-[var(--font-poppins)] text-[16px] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
                       Explore
                     </p>
 
-                    <p className="mt-0.5 font-[var(--font-poppins)] text-[0.72rem] font-semibold text-[#263451]">
+                    <p className="mt-1 font-[var(--font-poppins)] text-[20px] font-bold leading-none text-[#263451]">
                       Shop by category
                     </p>
                   </div>
 
-                  <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
+                  <span
+                    aria-hidden="true"
+                    className="size-2 rounded-full bg-[#E72D5A]"
+                  />
                 </div>
 
-                <div className="grid grid-cols-2 gap-1.5">
+                {/* ========================================================== */}
+                {/* CATEGORY CARDS                                              */}
+                {/* ========================================================== */}
+
+                <div className="grid grid-cols-3 gap-2">
                   {categoryNavigation.map((category) => {
                     const href = getCategoryHref(category.slug);
+                    const thumbnail = CATEGORY_THUMBNAILS[category.slug];
 
                     return (
                       <Link
@@ -732,74 +791,99 @@ export default function Navbar() {
                         className="
                           group
                           flex
-                          min-h-11
+                          min-h-[104px]
+                          flex-col
                           items-center
-                          justify-between
-                          rounded-xl
-                          px-3.5
-                          font-[var(--font-poppins)]
-                          !text-[0.78rem]
-                          font-semibold
-                          leading-none
-                          text-[#657086]
+                          justify-center
+                          rounded-[10px]
+                          border
+                          border-[#EDE2D6]/90
+                          bg-white
+                          px-2.5
+                          py-3
+                          text-center
                           outline-none
                           transition-all
                           duration-200
-                          hover:bg-[#FFF0F3]
-                          hover:text-[#263451]
+                          hover:-translate-y-0.5
+                          hover:border-[#E72D5A]/20
+                          hover:bg-[#FFF8EE]
+                          hover:shadow-[0_8px_20px_rgba(42,35,28,0.07)]
                           focus-visible:ring-2
                           focus-visible:ring-[#E72D5A]
                           focus-visible:ring-inset
                         "
                       >
-                        <span className="font-[var(--font-poppins)]">{category.label}</span>
+                        {/* Product thumbnail */}
 
                         <span
-                          aria-hidden="true"
                           className="
-                            size-1.5
+                            relative
+                            flex
+                            h-[52px]
+                            w-[80px]
                             shrink-0
-                            rounded-full
-                            bg-transparent
-                            transition-all
+                            items-center
+                            justify-center
+                            overflow-hidden
+                            rounded-[12px]
+                            bg-[#FFF8EE]
+                            transition-transform
                             duration-200
-                            group-hover:bg-[#E72D5A]
-                            group-hover:scale-125
+                            group-hover:scale-[1.04]
                           "
-                        />
+                        >
+                          {thumbnail ? (
+                            <Image
+                              src={thumbnail.image}
+                              alt={thumbnail.alt}
+                              width={80}
+                              height={70}
+                              sizes="70px"
+                              className="h-full w-full object-contain p-1.5"
+                            />
+                          ) : (
+                            <span
+                              aria-hidden="true"
+                              className="size-2 rounded-full bg-[#E72D5A]/40"
+                            />
+                          )}
+                        </span>
+
+                        {/* Category name */}
+
+                        <span
+                          className="
+                            mt-2
+                            line-clamp-2
+                            font-[var(--font-poppins)]
+                            text-[16px]
+                            font-bold
+                            leading-[1.1]
+                            tracking-[-0.01em]
+                            text-[#263451]
+                            transition-colors
+                            duration-200
+                            group-hover:text-[#E72D5A]
+                          "
+                        >
+                          {category.label}
+                        </span>
                       </Link>
                     );
                   })}
                 </div>
 
-                {/* Peeking kid decoration — intentionally only in Categories dropdown */}
-                <Image
-                  src="/images/hero/kid-peeking.png"
-                  alt=""
-                  aria-hidden="true"
-                  width={150}
-                  height={150}
-                  className="
-                    pointer-events-none
-                    absolute
-                    bottom-0
-                    right-0
-                    z-10
-                    h-auto
-                    w-[108px]
-                    translate-x-[4px]
-                    translate-y-[-44px]
-                    object-contain
-                  "
-                />
+                {/* View all */}
 
-                <div className="mt-2 border-t border-[#EDE2D6]/80 pt-2 pr-[92px]">
+                <div className="mt-3 border-t border-[#EDE2D6]/80 pt-3">
                   <Link
                     href="/categories"
                     onClick={() => setIsCategoryMenuOpen(false)}
                     className="
                       group
                       flex
+                      min-h-10
                       items-center
                       justify-center
                       gap-2
@@ -807,7 +891,7 @@ export default function Navbar() {
                       px-3
                       py-2.5
                       font-[var(--font-poppins)]
-                      !text-[0.78rem]
+                      text-[12px]
                       font-bold
                       leading-none
                       text-[#657086]
@@ -821,6 +905,7 @@ export default function Navbar() {
                     "
                   >
                     View all categories
+
                     <span
                       aria-hidden="true"
                       className="h-px w-4 bg-current transition-transform duration-200 group-hover:w-6"
@@ -853,14 +938,16 @@ export default function Navbar() {
             aria-expanded={isContactMenuOpen}
             onClick={toggleContactMenu}
             className={[
-              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins)] !text-[0.78rem] font-semibold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
               "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
               active
                 ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins)] font-semibold">Contact Us & Policies</span>
+            <span className="font-[var(--font-poppins)] font-bold">
+              Contact Us & Policies
+            </span>
 
             <ChevronDown
               aria-hidden="true"
@@ -879,7 +966,9 @@ export default function Navbar() {
             ) : null}
           </button>
 
-          {/* CONTACT DROPDOWN */}
+          {/* ================================================================ */}
+          {/* CONTACT DROPDOWN                                                  */}
+          {/* ================================================================ */}
 
           <AnimatePresence>
             {isContactMenuOpen ? (
@@ -906,6 +995,7 @@ export default function Navbar() {
                   ease: easings.smooth,
                 }}
                 className="
+
                   absolute
                   right-0
                   top-[calc(100%+10px)]
@@ -927,23 +1017,26 @@ export default function Navbar() {
                 />
 
                 <div className="px-3 pb-2 pt-1">
-                  <p className="font-[var(--font-poppins)] text-[0.62rem] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
+                  <p className="font-[var(--font-poppins)] text-[16px] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
                     BuzzieWorld
                   </p>
 
-                  <p className="mt-0.5 font-[var(--font-poppins)] text-[0.72rem] font-semibold text-[#263451]">
+                  <p className="mt-1 font-[var(--font-poppins)] text-[20px] font-bold text-[#263451]">
                     We'd love to hear from you
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  {contactNavigation.map((item) => {
-                    const activeLink = isNavigationActive(pathname, item.href);
+                  {contactNavigation.map((contactItem) => {
+                    const activeLink = isNavigationActive(
+                      pathname,
+                      contactItem.href,
+                    );
 
                     return (
                       <Link
-                        key={item.href}
-                        href={item.href}
+                        key={contactItem.href}
+                        href={contactItem.href}
                         role="menuitem"
                         onClick={() => {
                           setIsContactMenuOpen(false);
@@ -951,7 +1044,9 @@ export default function Navbar() {
                         className={[
                           "group flex min-h-[58px] items-center gap-3 rounded-xl px-3.5 outline-none transition-all duration-200",
                           "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                          activeLink ? "bg-[#FFF0F3]" : "hover:bg-[#FFF8EE]",
+                          activeLink
+                            ? "bg-[#FFF0F3]"
+                            : "hover:bg-[#FFF8EE]",
                         ].join(" ")}
                       >
                         <span
@@ -963,23 +1058,33 @@ export default function Navbar() {
                           ].join(" ")}
                         >
                           {(() => {
-                            const Icon = getContactNavigationIcon(item.href);
-                            return <Icon className="size-4" strokeWidth={2} />;
+                            const Icon = getContactNavigationIcon(
+                              contactItem.href,
+                            );
+
+                            return (
+                              <Icon
+                                className="size-4"
+                                strokeWidth={2}
+                              />
+                            );
                           })()}
                         </span>
 
                         <span className="min-w-0 flex-1">
                           <span
                             className={[
-                              "block font-[var(--font-poppins)] text-[0.76rem] font-bold leading-none",
-                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
+                              "block font-[var(--font-poppins)] text-[14px] font-bold leading-none",
+                              activeLink
+                                ? "text-[#E72D5A]"
+                                : "text-[#263451]",
                             ].join(" ")}
                           >
-                            {item.label}
+                            {contactItem.label}
                           </span>
 
-                          <span className="mt-1 block font-[var(--font-poppins)] text-[0.61rem] font-medium leading-none text-[#7B8495]">
-                            {item.description}
+                          <span className="mt-1 block font-[var(--font-poppins)] text-[16px] font-medium leading-none text-[#7B8495]">
+                            {contactItem.description}
                           </span>
                         </span>
 
@@ -987,7 +1092,9 @@ export default function Navbar() {
                           aria-hidden="true"
                           className={[
                             "size-1.5 rounded-full transition-all duration-200",
-                            activeLink ? "bg-[#E72D5A]" : "bg-transparent group-hover:bg-[#E72D5A]",
+                            activeLink
+                              ? "bg-[#E72D5A]"
+                              : "bg-transparent group-hover:bg-[#E72D5A]",
                           ].join(" ")}
                         />
                       </Link>
@@ -1011,10 +1118,7 @@ export default function Navbar() {
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={[
-          /*
-           * EXACT SAME TYPOGRAPHY FOR EVERY STANDARD NAV LINK.
-           */
-          "group relative flex h-10 shrink-0 items-center rounded-full px-3 font-[var(--font-poppins)] !text-[0.78rem] font-semibold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+          "group relative flex h-10 shrink-0 items-center rounded-full px-3 font-[var(--font-poppins)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
           "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
           active
             ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
@@ -1023,7 +1127,9 @@ export default function Navbar() {
               : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
         ].join(" ")}
       >
-        <span className="font-[var(--font-poppins)]">{item.label}</span>
+        <span className="font-[var(--font-poppins)] font-bold">
+          {item.label}
+        </span>
 
         {active ? (
           <span
@@ -1147,6 +1253,7 @@ export default function Navbar() {
                 aria-label="Main navigation"
               >
                 {/* ONE DESKTOP PILL: NAVIGATION + ACTIONS */}
+
                 <div
                   className="
                     flex
@@ -1154,32 +1261,34 @@ export default function Navbar() {
                     max-w-full
                     items-center
                     justify-center
-                    gap-0.5
+                    gap-1
                     rounded-full
                     border
                     border-[#EDE2D6]/80
                     bg-white/75
-                    p-1
+                    p-1.5
                     shadow-[0_4px_18px_rgba(42,35,28,0.035)]
                     backdrop-blur-md
                   "
                 >
                   {/* NAVIGATION */}
+
                   <div className="flex min-w-0 items-center justify-center gap-0.5">
                     {desktopNavigation.map(renderDesktopNavigationItem)}
                   </div>
 
-                  {/* DESKTOP ACTIONS — PART OF THE SAME PILL */}
+                  {/* DESKTOP ACTIONS */}
+
                   <div
                     className="
-                      ml-1
+                      ml-2
                       flex
                       shrink-0
                       items-center
-                      gap-0.5
+                      gap-1
                       border-l
                       border-[#EDE2D6]/80
-                      pl-1.5
+                      pl-2
                     "
                   >
                     {/* SEARCH */}
@@ -1216,7 +1325,11 @@ export default function Navbar() {
                     <Link
                       href="/account/wishlist"
                       aria-label="Wishlist"
-                      aria-current={pathname.startsWith("/account/wishlist") ? "page" : undefined}
+                      aria-current={
+                        pathname.startsWith("/account/wishlist")
+                          ? "page"
+                          : undefined
+                      }
                       className={[
                         "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         pathname.startsWith("/account/wishlist")
@@ -1235,9 +1348,13 @@ export default function Navbar() {
                     <Link
                       href="/cart"
                       aria-label={
-                        cartItemCount > 0 ? `Shopping cart, ${cartItemCount} items` : "Shopping cart"
+                        cartItemCount > 0
+                          ? `Shopping cart, ${cartItemCount} items`
+                          : "Shopping cart"
                       }
-                      aria-current={pathname === "/cart" ? "page" : undefined}
+                      aria-current={
+                        pathname === "/cart" ? "page" : undefined
+                      }
                       className={[
                         "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         pathname === "/cart"
@@ -1280,13 +1397,15 @@ export default function Navbar() {
                       ) : null}
                     </Link>
 
-                    {/* ACCOUNT */}
+                    {/* ====================================================== */}
+                    {/* ACCOUNT — EXTRA LEFT SPACE FROM CART                  */}
+                    {/* ====================================================== */}
 
                     <Link
                       href={accountHref}
                       aria-label={accountLabel}
                       className={[
-                        "inline-flex h-9 max-w-[9.5rem] items-center gap-2 rounded-full border px-3 font-[var(--font-poppins)] !text-[0.74rem] font-semibold outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                        "ml-1 inline-flex h-10 max-w-[9.5rem] items-center gap-2 rounded-full border px-3.5 font-[var(--font-poppins)] !text-[14px] font-bold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         isAccountArea
                           ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
                           : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
@@ -1300,11 +1419,16 @@ export default function Navbar() {
                             : "bg-[#FFF0F3] text-[#E72D5A]",
                         ].join(" ")}
                       >
-                        <UserRound className="size-3.5" strokeWidth={2.1} />
+                        <UserRound
+                          className="size-3.5"
+                          strokeWidth={2.1}
+                        />
                       </span>
 
-                      <span className="truncate font-[var(--font-poppins)]">
-                        {sessionStatus === "loading" ? "Account" : accountLabel}
+                      <span className="truncate font-[var(--font-poppins)] font-bold">
+                        {sessionStatus === "loading"
+                          ? "Account"
+                          : accountLabel}
                       </span>
                     </Link>
                   </div>
@@ -1314,7 +1438,6 @@ export default function Navbar() {
               {/* ============================================================ */}
               {/* MOBILE ACTIONS                                                */}
               {/* ============================================================ */}
-
 
               <div className="ml-auto flex shrink-0 items-center gap-0.5 lg:hidden">
                 {/* SEARCH */}
@@ -1365,7 +1488,10 @@ export default function Navbar() {
                     focus-visible:ring-offset-2
                   "
                 >
-                  <ShoppingBag className="size-[1.1rem]" strokeWidth={2} />
+                  <ShoppingBag
+                    className="size-[1.1rem]"
+                    strokeWidth={2}
+                  />
 
                   {cartItemCount > 0 ? (
                     <span
@@ -1402,7 +1528,11 @@ export default function Navbar() {
                   ref={menuButtonRef}
                   type="button"
                   onClick={toggleMobileMenu}
-                  aria-label={isMobileMenuOpen ? "Close navigation" : "Open navigation"}
+                  aria-label={
+                    isMobileMenuOpen
+                      ? "Close navigation"
+                      : "Open navigation"
+                  }
                   aria-expanded={isMobileMenuOpen}
                   aria-controls="mobile-navigation-drawer"
                   className="
@@ -1428,7 +1558,10 @@ export default function Navbar() {
                   {isMobileMenuOpen ? (
                     <X className="size-[1.15rem]" strokeWidth={2} />
                   ) : (
-                    <Menu className="size-[1.15rem]" strokeWidth={2} />
+                    <Menu
+                      className="size-[1.15rem]"
+                      strokeWidth={2}
+                    />
                   )}
                 </button>
               </div>
@@ -1444,9 +1577,7 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen ? (
           <>
-            {/* ================================================================== */}
-            {/* OVERLAY                                                            */}
-            {/* ================================================================== */}
+            {/* OVERLAY */}
 
             <motion.button
               type="button"
@@ -1470,9 +1601,7 @@ export default function Navbar() {
               onClick={closeMobileMenu}
             />
 
-            {/* ================================================================== */}
-            {/* DRAWER                                                             */}
-            {/* ================================================================== */}
+            {/* DRAWER */}
 
             <motion.aside
               id="mobile-navigation-drawer"
@@ -1532,9 +1661,9 @@ export default function Navbar() {
                 "
               />
 
-              {/* ================================================================ */}
-              {/* DRAWER HEADER                                                     */}
-              {/* ================================================================ */}
+              {/* ============================================================ */}
+              {/* DRAWER HEADER                                                 */}
+              {/* ============================================================ */}
 
               <div
                 className="
@@ -1602,9 +1731,9 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {/* ================================================================ */}
-              {/* DRAWER CONTENT                                                   */}
-              {/* ================================================================ */}
+              {/* ============================================================ */}
+              {/* DRAWER CONTENT                                               */}
+              {/* ============================================================ */}
 
               <nav
                 className="
@@ -1617,9 +1746,7 @@ export default function Navbar() {
                 "
                 aria-label="Mobile navigation"
               >
-                {/* ============================================================ */}
-                {/* INTRO                                                          */}
-                {/* ============================================================ */}
+                {/* INTRO */}
 
                 <div
                   className="
@@ -1665,25 +1792,28 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                {/* ============================================================ */}
-                {/* MOBILE LINKS                                                   */}
-                {/* ============================================================ */}
+                {/* MOBILE LINKS */}
 
                 <div className="space-y-1.5">
                   {mobileNavigation.map((item, index) => {
                     const isCategories = item.label === "Categories";
-
-                    const isContactPolicies = item.label === "Contact Us & Policies";
+                    const isContactPolicies =
+                      item.label === "Contact Us & Policies";
 
                     const active = isCategories
-                      ? pathname.startsWith("/categories") || isCategoryMenuOpen
+                      ? pathname.startsWith("/categories") ||
+                        isCategoryMenuOpen
                       : isContactPolicies
                         ? isContactArea || isContactMenuOpen
-                        : isNavigationActive(pathname, item.href, item.exact);
+                        : isNavigationActive(
+                            pathname,
+                            item.href,
+                            item.exact,
+                          );
 
-                    /* ======================================================== */
-                    /* MOBILE CATEGORIES                                         */
-                    /* ======================================================== */
+                    /* ====================================================== */
+                    /* MOBILE CATEGORIES                                     */
+                    /* ====================================================== */
 
                     if (isCategories) {
                       return (
@@ -1715,7 +1845,9 @@ export default function Navbar() {
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                             ].join(" ")}
                           >
-                            <span className="font-[var(--font-poppins)]">Categories</span>
+                            <span className="font-[var(--font-poppins)]">
+                              Categories
+                            </span>
 
                             <ChevronDown
                               className={[
@@ -1841,9 +1973,9 @@ export default function Navbar() {
                       );
                     }
 
-                    /* ======================================================== */
-                    /* MOBILE CONTACT DROPDOWN                                  */
-                    /* ======================================================== */
+                    /* ====================================================== */
+                    /* MOBILE CONTACT DROPDOWN                              */
+                    /* ====================================================== */
 
                     if (isContactPolicies) {
                       return (
@@ -1921,10 +2053,11 @@ export default function Navbar() {
                                   "
                                 >
                                   {contactNavigation.map((contactItem) => {
-                                    const activeLink = isNavigationActive(
-                                      pathname,
-                                      contactItem.href,
-                                    );
+                                    const activeLink =
+                                      isNavigationActive(
+                                        pathname,
+                                        contactItem.href,
+                                      );
 
                                     return (
                                       <Link
@@ -1933,7 +2066,9 @@ export default function Navbar() {
                                         onClick={closeMobileMenu}
                                         className={[
                                           "group flex min-h-[52px] items-center gap-3 rounded-xl px-3 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                                          activeLink ? "bg-[#FFF0F3]" : "hover:bg-[#FFF8EE]",
+                                          activeLink
+                                            ? "bg-[#FFF0F3]"
+                                            : "hover:bg-[#FFF8EE]",
                                         ].join(" ")}
                                       >
                                         <span
@@ -1945,8 +2080,17 @@ export default function Navbar() {
                                           ].join(" ")}
                                         >
                                           {(() => {
-                                            const Icon = getContactNavigationIcon(contactItem.href);
-                                            return <Icon className="size-3.5" strokeWidth={2} />;
+                                            const Icon =
+                                              getContactNavigationIcon(
+                                                contactItem.href,
+                                              );
+
+                                            return (
+                                              <Icon
+                                                className="size-3.5"
+                                                strokeWidth={2}
+                                              />
+                                            );
                                           })()}
                                         </span>
 
@@ -1954,7 +2098,9 @@ export default function Navbar() {
                                           <span
                                             className={[
                                               "block font-[var(--font-poppins)] text-[0.74rem] font-bold leading-none",
-                                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
+                                              activeLink
+                                                ? "text-[#E72D5A]"
+                                                : "text-[#263451]",
                                             ].join(" ")}
                                           >
                                             {contactItem.label}
@@ -1975,9 +2121,9 @@ export default function Navbar() {
                       );
                     }
 
-                    /* ======================================================== */
-                    /* STANDARD MOBILE LINK                                     */
-                    /* ======================================================== */
+                    /* ====================================================== */
+                    /* STANDARD MOBILE LINK                                 */
+                    /* ====================================================== */
 
                     return (
                       <motion.div
@@ -2009,21 +2155,27 @@ export default function Navbar() {
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                           ].join(" ")}
                         >
-                          <span className="font-[var(--font-poppins)]">{item.label}</span>
+                          <span className="font-[var(--font-poppins)]">
+                            {item.label}
+                          </span>
 
                           {item.label === "Crazy Deals" ? (
-                            <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
+                            <span
+                              aria-hidden="true"
+                              className="size-2 rounded-full bg-[#E72D5A]"
+                            />
                           ) : active ? (
-                            <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
+                            <span
+                              aria-hidden="true"
+                              className="size-2 rounded-full bg-[#E72D5A]"
+                            />
                           ) : null}
                         </Link>
                       </motion.div>
                     );
                   })}
 
-                  {/* ========================================================== */}
-                  {/* SEARCH                                                       */}
-                  {/* ========================================================== */}
+                  {/* SEARCH */}
 
                   <Link
                     href="/search"
@@ -2048,16 +2200,17 @@ export default function Navbar() {
                       focus-visible:ring-2
                       focus-visible:ring-[#E72D5A]
                       focus-visible:ring-offset-1
+
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">Search</span>
+                    <span className="font-[var(--font-poppins)] ">
+                      Search
+                    </span>
 
                     <Search className="size-4" strokeWidth={2} />
                   </Link>
 
-                  {/* ========================================================== */}
-                  {/* WISHLIST                                                     */}
-                  {/* ========================================================== */}
+                  {/* WISHLIST */}
 
                   <Link
                     href="/account/wishlist"
@@ -2084,14 +2237,14 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">Wishlist</span>
+                    <span className="font-[var(--font-poppins)]">
+                      Wishlist
+                    </span>
 
                     <Heart className="size-4" strokeWidth={2} />
                   </Link>
 
-                  {/* ========================================================== */}
-                  {/* CART                                                         */}
-                  {/* ========================================================== */}
+                  {/* CART */}
 
                   <Link
                     href="/cart"
@@ -2118,7 +2271,9 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">Cart</span>
+                    <span className="font-[var(--font-poppins)]">
+                      Cart
+                    </span>
 
                     <span className="flex items-center gap-2">
                       {cartItemCount > 0 ? (
@@ -2138,15 +2293,18 @@ export default function Navbar() {
                         </span>
                       ) : null}
 
-                      <ShoppingBag className="size-4" strokeWidth={2} />
+                      <ShoppingBag
+                        className="size-4"
+                        strokeWidth={2}
+                      />
                     </span>
                   </Link>
                 </div>
               </nav>
 
-              {/* ================================================================ */}
-              {/* DRAWER FOOTER                                                    */}
-              {/* ================================================================ */}
+              {/* ============================================================ */}
+              {/* DRAWER FOOTER                                                */}
+              {/* ============================================================ */}
 
               <div
                 className="

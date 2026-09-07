@@ -154,10 +154,10 @@ export default async function HomePage() {
           BEST SELLERS
          ================================================================ */}
 
-      <BestSellers
+      {/* <BestSellers
         products={homepageData.latestProducts}
         featuredProducts={homepageData.featuredProducts}
-      />
+      /> */}
 
       {/* ================================================================
           REVIEWS

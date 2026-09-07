@@ -510,22 +510,6 @@ export default function ReviewsShowcase({ reviews }: ReviewsShowcaseProps) {
 
   return (
     <section className="relative overflow-hidden bg-white">
-      {/* =====================================================
-          TOP HEADER BANNER
-         ===================================================== */}
-
-      <div className="w-full overflow-hidden">
-        <Image
-          src="/images/banners/reviews-top-header-1.png"
-          alt="What parents are saying about BuzzieWorld"
-          width={2048}
-          height={1024}
-          priority
-          quality={85}
-          sizes="100vw"
-          className="block h-auto w-full"
-        />
-      </div>
 
       {/* =====================================================
           REVIEWS
@@ -795,45 +779,7 @@ export default function ReviewsShowcase({ reviews }: ReviewsShowcaseProps) {
         </div>
       </div>
 
-      {/* =====================================================
-          BOTTOM BANNER
-         ===================================================== */}
 
-      <div
-        className="
-          px-4
-          pb-12
-          sm:px-6
-          sm:pb-16
-          lg:px-8
-          lg:pb-8
-        "
-      >
-        <div
-          className="
-            mx-auto
-            w-full
-            max-w-[1380px]
-            overflow-hidden
-            rounded-[28px]
-            sm:rounded-[34px]
-          "
-        >
-          <Image
-            src="/images/banners/reviews-bottom-banner-1.png"
-            alt="Join thousands of happy families who learn, play and grow with BuzzieWorld"
-            width={2048}
-            height={1024}
-            quality={85}
-            sizes="
-              (max-width: 639px) 100vw,
-              (max-width: 1023px) 94vw,
-              1380px
-            "
-            className="block h-auto w-full"
-          />
-        </div>
-      </div>
     </section>
   );
 }

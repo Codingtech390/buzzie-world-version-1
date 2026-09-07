@@ -7,6 +7,30 @@
    ========================================================================== */
 
 :root {
+   /*
+   * ==========================================================================
+   * BUZZIEWORLD TYPOGRAPHY
+   *
+   * Keep the old variable names as compatibility aliases.
+   * This means existing components using:
+   *
+   *   var(--font-poppins)
+   *   var(--font-roboto)
+   *
+   * automatically receive the new brand fonts.
+   * ==========================================================================
+   */
+
+  --font-league-gothic: "League Gothic", sans-serif;
+  --font-bebas-neue: "Bebas Neue", sans-serif;
+
+  /*
+   * Backward-compatible typography aliases.
+   *
+   * Existing components do NOT need to change.
+   */
+  --font-poppins: var(--font-bebas-neue);
+  --font-roboto: var(--font-league-gothic);
   /* ------------------------------------------------------------------------
      COLOR SYSTEM
      ------------------------------------------------------------------------ */

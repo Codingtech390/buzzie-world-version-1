@@ -1,8 +1,10 @@
 "use client";
-
+import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Heart } from "lucide-react"
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -219,63 +221,126 @@ function BrandMarquee() {
 /*                            PRODUCT IMAGE                                    */
 /* -------------------------------------------------------------------------- */
 
-function ProductArcCard({ product, index }: { product: StorefrontProduct; index: number }) {
+/* -------------------------------------------------------------------------- */
+/*                            PRODUCT ARC CARD                                */
+/* -------------------------------------------------------------------------- */
+
+function ProductArcCard({
+  product,
+  index,
+}: {
+  product: StorefrontProduct;
+  index: number;
+}) {
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
   const image = product.images?.[0]?.url;
-  const imageAlt = product.images?.[0]?.alt || product.name || "BuzzieWorld product";
+  const imageAlt =
+    product.images?.[0]?.alt ||
+    product.name ||
+    "BuzzieWorld product";
 
   const hasDiscount =
-    typeof product.compareAtPrice === "number" && product.compareAtPrice > product.price;
+    typeof product.compareAtPrice === "number" &&
+    product.compareAtPrice > product.price;
 
   const discount = hasDiscount
-    ? Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)
+    ? Math.round(
+        ((product.compareAtPrice! - product.price) /
+          product.compareAtPrice!) *
+          100,
+      )
     : 0;
 
   const description =
-    product.shortDescription || product.description || "A fun pick for curious young minds.";
+    product.shortDescription ||
+    product.description ||
+    "A fun pick for curious young minds.";
+
+  const toggleWishlist = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setIsWishlisted((current) => !current);
+  };
 
   return (
-    <motion.article variants={cardVariants} className="group min-w-0">
+    <motion.article
+      variants={cardVariants}
+      className="
+        group
+        min-w-0
+      "
+    >
       <Link
         href={`/products/${product.slug}`}
         aria-label={`View ${product.name}`}
         className="
           block
           overflow-hidden
-          rounded-b-[4px]
+          rounded-[30px]
 
 
           transition-all
           duration-300
 
+          hover:-translate-y-1
+
+
           focus-visible:outline-none
           focus-visible:ring-2
           focus-visible:ring-[#A96FDB]
           focus-visible:ring-offset-2
+
+          sm:rounded-[34px]
+          lg:rounded-[38px]
         "
       >
-        {/* -------------------------------------------------------------- */}
-        {/* ARC IMAGE                                                      */}
-        {/* -------------------------------------------------------------- */}
+        {/* ------------------------------------------------------------------
+            ARC IMAGE
+            ------------------------------------------------------------------ */}
 
         <div
           className="
             relative
-            aspect-[1.18/1]
+            aspect-[1.08/1]
             w-full
             overflow-hidden
-            rounded-t-[50%]
-            bg-transparent
+
+            rounded-[50%_50%_28px_28px]
+
+            bg-[#F8F5F2]
           "
         >
           {/* Soft background glow */}
+
           <div
             aria-hidden="true"
             className="
               absolute
               inset-0
-              bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.7),transparent_58%)]
+              bg-[radial-gradient(circle_at_50%_32%,rgba(255,255,255,0.85),transparent_62%)]
             "
           />
+
+          {/* Subtle inner arc */}
+
+          <div
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              inset-[5%]
+              rounded-[50%_50%_24px_24px]
+              border
+              border-white/40
+              opacity-70
+            "
+          />
+
+          {/* Product image */}
 
           {image ? (
             <Image
@@ -283,9 +348,10 @@ function ProductArcCard({ product, index }: { product: StorefrontProduct; index:
               alt={imageAlt}
               fill
               sizes="
-                (max-width: 639px) 92vw,
-                (max-width: 1023px) 45vw,
-                30vw
+                (max-width: 639px) 44vw,
+                (max-width: 1023px) 44vw,
+                (max-width: 1279px) 23vw,
+                22vw
               "
               className="
                 relative
@@ -294,7 +360,7 @@ function ProductArcCard({ product, index }: { product: StorefrontProduct; index:
                 transition-transform
                 duration-700
                 ease-[cubic-bezier(0.22,1,0.36,1)]
-                group-hover:scale-[1.035]
+                group-hover:scale-[1.045]
               "
             />
           ) : (
@@ -307,59 +373,46 @@ function ProductArcCard({ product, index }: { product: StorefrontProduct; index:
                 justify-center
                 bg-[#EEE8F6]
                 font-[var(--font-poppins)]
-                text-sm
+                text-xs
                 font-bold
                 text-[#7A6A91]
+
+                sm:text-sm
               "
             >
               Buzzie Product
             </div>
           )}
 
-          {/* Product number */}
-          <div
-            className="
-              absolute
-              left-4
-              top-4
-              z-20
-              flex
-              h-8
-              w-8
-              items-center
-              justify-center
-              rounded-full
-              bg-white/90
-              font-[var(--font-poppins)]
-              text-[10px]
-              font-black
-              text-[#111111]
-              shadow-sm
-              backdrop-blur-sm
-            "
-          >
-            0{index + 1}
-          </div>
 
-          {/* Discount */}
+          {/* ----------------------------------------------------------------
+              DISCOUNT
+              ---------------------------------------------------------------- */}
+
           {discount > 0 && (
             <span
               className="
                 absolute
-                right-4
-                top-4
+                bottom-3
+                left-3
                 z-20
                 rounded-full
                 bg-[#E72D5A]
-                px-3
-                py-1.5
+                px-2.5
+                py-1
                 font-[var(--font-poppins)]
-                text-[9px]
+                text-[8px]
                 font-black
                 uppercase
-                tracking-[0.08em]
+                tracking-[0.06em]
                 text-white
-                shadow-sm
+                shadow-[0_4px_12px_rgba(231,45,90,0.18)]
+
+                sm:bottom-4
+                sm:left-4
+                sm:px-3
+                sm:py-1.5
+                sm:text-[9px]
               "
             >
               {discount}% OFF
@@ -367,21 +420,33 @@ function ProductArcCard({ product, index }: { product: StorefrontProduct; index:
           )}
         </div>
 
-        {/* -------------------------------------------------------------- */}
-        {/* PRODUCT INFORMATION                                            */}
-        {/* -------------------------------------------------------------- */}
+        {/* ------------------------------------------------------------------
+            PRODUCT INFORMATION
+            ------------------------------------------------------------------ */}
 
-        <div className="px-4 pb-5 pt-4 sm:px-5 sm:pb-6">
+        <div
+          className="
+            px-3
+            pb-4
+            pt-3.5
+
+            sm:px-5
+            sm:pb-6
+            sm:pt-4
+          "
+        >
           <h3
             className="
-            text-center
               line-clamp-1
+              text-center
               font-[var(--font-poppins)]
-              text-[17px]
+              text-[13px]
               font-extrabold
-              tracking-[-0.03em]
+              leading-tight
+              tracking-[-0.025em]
               text-[#111111]
-              sm:text-[19px]
+
+              sm:text-[18px]
             "
           >
             {product.name}
@@ -389,79 +454,110 @@ function ProductArcCard({ product, index }: { product: StorefrontProduct; index:
 
           <p
             className="
-            text-center
-              mt-1.5
+              mt-1
               line-clamp-2
-              min-h-[36px]
+              min-h-[30px]
+              text-center
               font-[var(--font-roboto)]
-              text-[11px]
-              leading-[1.5]
+              text-[9px]
+              leading-[1.4]
               text-[#687489]
+
+              sm:mt-1.5
+              sm:min-h-[36px]
               sm:text-[12px]
+              sm:leading-[1.5]
             "
           >
             {description}
           </p>
 
-          <div className="mt-4 flex items-center justify-between gap-3">
-            <div className="flex items-baseline gap-2">
-              <span
+          {/* Price + Add to Cart */}
+
+          <div
+            className="
+              mt-3
+              flex
+              items-center
+              justify-between
+              gap-2
+
+              sm:mt-4
+              sm:gap-3
+            "
+          >
+            <div className="min-w-0 flex-1">
+              <div
                 className="
-                  font-[var(--font-poppins)]
-                  text-[15px]
-                  font-extrabold
-                  text-[#111111]
-                  sm:text-[17px]
+                  flex
+                  flex-wrap
+                  items-baseline
+                  gap-1.5
                 "
               >
-                ₹{product.price.toLocaleString("en-IN")}
-              </span>
-
-              {hasDiscount && (
                 <span
                   className="
-                    font-[var(--font-roboto)]
-                    text-[10px]
-                    font-medium
-                    text-[#9AA2B1]
-                    line-through
-                    sm:text-[11px]
+                    font-[var(--font-poppins)]
+                    text-[13px]
+                    font-extrabold
+                    text-[#111111]
+
+                    sm:text-[17px]
                   "
                 >
-                  ₹{product.compareAtPrice!.toLocaleString("en-IN")}
+                  ₹{product.price.toLocaleString("en-IN")}
                 </span>
-              )}
+
+                {hasDiscount && (
+                  <span
+                    className="
+                      font-[var(--font-roboto)]
+                      text-[8px]
+                      font-medium
+                      text-[#9AA2B1]
+                      line-through
+
+                      sm:text-[11px]
+                    "
+                  >
+                    ₹{product.compareAtPrice!.toLocaleString("en-IN")}
+                  </span>
+                )}
+              </div>
             </div>
+
 
             <span
               className="
                 shrink-0
                 rounded-full
                 bg-[#FF8A4C]
-                px-3.5
-                py-2
+                px-2.5
+                py-1.5
                 font-[var(--font-poppins)]
-                text-[9px]
+                text-[7px]
                 font-black
                 uppercase
-                tracking-[0.05em]
+                tracking-[0.04em]
                 text-white
                 transition-transform
                 duration-300
                 group-hover:scale-[1.04]
+
                 sm:px-4
+                sm:py-2
                 sm:text-[10px]
               "
             >
               Add to Cart
             </span>
+
           </div>
         </div>
       </Link>
     </motion.article>
   );
 }
-
 /* -------------------------------------------------------------------------- */
 /*                            AGE IMAGE                                       */
 /* -------------------------------------------------------------------------- */
@@ -523,7 +619,7 @@ function AgeImage({ age }: { age: (typeof ageGroups)[number] }) {
 /* -------------------------------------------------------------------------- */
 
 export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStripProps) {
-  const products = bestsellingProducts.slice(0, 3);
+  const products = bestsellingProducts.slice(0, 4);
 
   return (
     <section
@@ -645,6 +741,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
               <h2
                 className="
+                uppercase
                   mx-auto
                   w-full
                   max-w-[700px]
@@ -692,16 +789,16 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                   amount: 0.12,
                 }}
                 className="
-                bg-white
-                
                   mt-2
                   grid
-                  grid-cols-1
-                  gap-4
-                  sm:grid-cols-2
+                  grid-cols-2
+                  gap-3
+
                   sm:gap-5
-                  lg:grid-cols-3
+
+                  lg:grid-cols-4
                   lg:gap-6
+
                   xl:gap-7
                 "
               >
@@ -810,6 +907,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
               <h2
                 className="
+                uppercase
                   mx-auto
                   w-full
                   max-w-[700px]

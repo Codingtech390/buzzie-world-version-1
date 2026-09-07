@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
+import { Bebas_Neue, League_Gothic } from "next/font/google";
 
 import "./globals.css";
 
@@ -9,17 +9,17 @@ import { SessionProvider } from "@/providers/SessionProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const leagueGothic = League_Gothic({
+  variable: "--font-league-gothic",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400",
   display: "swap",
 });
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas-neue",
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+  weight: "400",
   display: "swap",
 });
 
@@ -57,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${roboto.variable} antialiased`}
+      className={`${leagueGothic.variable} ${bebasNeue.variable} antialiased`}
       suppressHydrationWarning
     >
       <body>

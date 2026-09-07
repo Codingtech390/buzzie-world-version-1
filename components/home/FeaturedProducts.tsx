@@ -115,12 +115,11 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               />
             </div>
           ))}
+
           {/* ============================================================
               NATURAL IMAGE-SIZE LAYER
 
-              Keeps the carousel at the exact 1920:700 aspect ratio.
-              This prevents fixed-height cropping while the active slide
-              remains absolutely positioned above it.
+              Keeps the carousel at the natural 1920:700 ratio.
               ============================================================ */}
 
           <Image
@@ -142,7 +141,18 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
           />
 
           {/* ============================================================
-    RIGHT CONTENT — TEXT / CTA
+    RESPONSIVE RIGHT CONTENT
+
+    MOBILE:
+    - Text stays on the right side of the artwork
+    - Larger readable heading
+    - Compact description
+    - Limited text lines
+    - Compact CTA
+    - Everything vertically centered
+
+    DESKTOP:
+    - Original wider layout is preserved
     ============================================================ */}
 
           <div
@@ -152,28 +162,41 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
     right-0
     z-20
     flex
-    w-full
+    w-[54%]
     items-center
-    justify-end
-    px-6
-    py-8
+    justify-center
+    px-2
+    py-2
+
+    xs:w-[53%]
+    xs:px-2.5
+
     sm:w-[58%]
+    sm:justify-end
     sm:px-9
     sm:py-10
+
     md:w-[54%]
     md:px-11
+
     lg:w-[50%]
     lg:px-12
     lg:py-12
+
     xl:w-[48%]
     xl:px-32
+
     2xl:px-20
   "
           >
             <div
               className="
+      flex
       w-full
       max-w-[470px]
+      flex-col
+      items-start
+      justify-center
       text-left
     "
             >
@@ -183,34 +206,54 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
               <div
                 className="
-        mb-3
+        mb-1
         flex
+        max-w-full
         items-center
-        gap-2
+        gap-1
+        overflow-hidden
+
+        xs:mb-1.5
+        xs:gap-1.5
+
         sm:mb-3.5
+        sm:gap-2
+
         lg:mb-4
       "
               >
                 <span
                   aria-hidden="true"
                   className="
-          size-1.5
+          size-1
           shrink-0
           rounded-full
           bg-white
+
+          xs:size-1.5
+
           sm:size-2
         "
                 />
 
                 <p
                   className="
+          truncate
           font-[var(--font-poppins)]
-          text-[7px]
+          text-[5px]
           font-black
           uppercase
-          tracking-[0.19em]
-          text-white/90
+          leading-none
+          tracking-[0.12em]
+          text-white
+          drop-shadow-[0_1px_4px_rgba(30,20,45,0.25)]
+
+          xs:text-[5.5px]
+          xs:tracking-[0.14em]
+
           sm:text-[8px]
+          sm:tracking-[0.19em]
+
           lg:text-[9px]
         "
                 >
@@ -220,21 +263,35 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
               {/* ==========================================================
         HEADING
+
+        Mobile intentionally uses a readable size because the
+        previous 15px heading was too small on real phones.
         ========================================================== */}
 
               <h2
                 className="
-        max-w-[440px]
+        w-full
+        max-w-[205px]
         font-[var(--font-roboto)]
-        text-[26px]
+        text-[18px]
         font-black
-        leading-[0.94]
-        tracking-[-0.044em]
+        leading-[0.9]
+        tracking-[-0.045em]
         text-white
-        drop-shadow-[0_2px_10px_rgba(30,20,45,0.18)]
+        drop-shadow-[0_2px_8px_rgba(30,20,45,0.28)]
+
+        xs:max-w-[220px]
+        xs:text-[19px]
+
+        sm:max-w-[440px]
         sm:text-[28px]
+        sm:leading-[0.94]
+        sm:tracking-[-0.044em]
+
         md:text-[28px]
+
         lg:text-[28px]
+
         xl:text-[32px]
       "
               >
@@ -243,24 +300,45 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
               {/* ==========================================================
         DESCRIPTION
+
+        Only 2 lines on mobile so the banner doesn't become
+        overloaded.
         ========================================================== */}
 
               <p
                 className="
-        mt-3
-        max-w-[410px]
+        mt-1
+        w-full
+        max-w-[205px]
+        overflow-hidden
         font-[var(--font-poppins)]
-        text-[9px]
-        leading-[1.55]
-        text-white/90
-        drop-shadow-[0_1px_5px_rgba(30,20,45,0.16)]
+        text-[6.5px]
+        font-medium
+        leading-[1.35]
+        text-white
+        drop-shadow-[0_1px_5px_rgba(30,20,45,0.24)]
+        [display:-webkit-box]
+        [-webkit-box-orient:vertical]
+        [-webkit-line-clamp:2]
+
+        xs:mt-1.5
+        xs:max-w-[220px]
+        xs:text-[7px]
+
         sm:mt-3.5
+        sm:max-w-[410px]
         sm:text-[10px]
+        sm:leading-[1.55]
+        sm:[display:block]
+        sm:[-webkit-line-clamp:unset]
+
         md:text-[11px]
-        xl:text-[14px]
+
         lg:mt-4
         lg:text-[12px]
         lg:leading-[1.6]
+
+        xl:text-[14px]
         xl:mt-8
       "
               >
@@ -269,20 +347,34 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
               {/* ==========================================================
         AGE / SECONDARY TEXT
+
+        One compact line on mobile.
         ========================================================== */}
 
               <p
                 className="
-        mt-8
-        max-w-[410px]
+        mt-1
+        w-full
+        max-w-[205px]
+        truncate
         font-[var(--font-poppins)]
-        text-[9px]
-        leading-[1.5]
-        text-white/80
-        drop-shadow-[0_1px_5px_rgba(30,20,45,0.14)]
+        text-[6px]
+        font-medium
+        leading-none
+        text-white/90
+        drop-shadow-[0_1px_5px_rgba(30,20,45,0.22)]
+
+        xs:mt-1.5
+        xs:max-w-[220px]
+        xs:text-[6.5px]
+
         sm:mt-2.5
+        sm:max-w-[410px]
         sm:text-[10px]
+        sm:leading-[1.5]
+
         md:text-[11px]
+
         lg:text-[14px]
       "
               >
@@ -296,75 +388,93 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               {activeProduct ? (
                 <div
                   className="
-          mt-5
+          mt-1.5
+
+          xs:mt-2
+
           sm:mt-5
+
           lg:mt-6
         "
                 >
                   <Link
                     href={`/products/${activeProduct.slug}`}
                     className="
-    group/button
-    inline-flex
-    min-h-[48px]
-    w-fit
-    shrink-0
-    items-center
-    justify-center
-    gap-2.5
-    rounded-full
-    bg-[#C391EE]
-    px-5
+            group/button
+            inline-flex
+            min-h-[27px]
+            w-fit
+            shrink-0
+            items-center
+            justify-center
+            gap-1.5
+            rounded-full
+            bg-[#C391EE]
+            px-3
 
-    font-[var(--font-poppins)]
-    text-[10px]
-    font-black
-    uppercase
-    tracking-[0.07em]
-    !text-white
+            font-[var(--font-poppins)]
+            text-[6.5px]
+            font-black
+            uppercase
+            leading-none
+            tracking-[0.04em]
+            !text-white
 
-    shadow-[0_10px_24px_rgba(231,45,90,0.20)]
+            shadow-[0_5px_14px_rgba(30,20,45,0.20)]
 
-    transition-all
-    duration-300
+            transition-all
+            duration-300
 
-    hover:-translate-y-0.5
-    hover:bg-[#D92350]
-    hover:shadow-[0_14px_32px_rgba(231,45,90,0.28)]
+            hover:-translate-y-0.5
+            hover:bg-[#D92350]
 
-    active:translate-y-0
+            active:translate-y-0
 
-    focus-visible:outline-none
-    focus-visible:ring-2
-    focus-visible:ring-[#E72D5A]
-    focus-visible:ring-offset-3
-  "
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#E72D5A]
+            focus-visible:ring-offset-2
+
+            xs:min-h-[29px]
+            xs:px-3.5
+            xs:text-[7px]
+
+            sm:min-h-[48px]
+            sm:px-5
+            sm:gap-2.5
+            sm:text-[10px]
+            sm:tracking-[0.07em]
+          "
                   >
                     <span className="!text-white">Buy Product</span>
 
                     <span
                       className="
-      flex
-      size-7
-      shrink-0
-      items-center
-      justify-center
-      rounded-full
-      bg-white/20
+              flex
+              size-4
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-white/20
 
-      sm:size-8
-    "
+              xs:size-[18px]
+
+              sm:size-8
+            "
                     >
                       <ArrowRight
                         className="
-        size-3.5
-        !text-white
-        transition-transform
-        duration-300
-        group-hover/button:translate-x-1
+                size-2.5
+                !text-white
+                transition-transform
+                duration-300
+                group-hover/button:translate-x-1
 
-        sm:size-4
-      "
+                xs:size-3
+
+                sm:size-4
+              "
                         strokeWidth={2.5}
                       />
                     </span>
@@ -378,10 +488,14 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
               <div
                 className="
-        mt-4
+        mt-1.5
         flex
         items-center
-        gap-1.5
+        gap-1
+
+        xs:mt-2
+        xs:gap-1.5
+
         sm:mt-5
       "
               >
@@ -393,11 +507,16 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                     aria-current={activeSlide === index}
                     onClick={() => setActiveSlide(index)}
                     className={`
-            h-[3px]
+            h-[2px]
             rounded-full
             transition-all
             duration-300
-            ${activeSlide === index ? "w-8 bg-white sm:w-10" : "w-3 bg-white/45 hover:bg-white/75"}
+
+            ${
+              activeSlide === index
+                ? "w-5 bg-white xs:w-6 sm:w-10"
+                : "w-2 bg-white/45 hover:bg-white/75 xs:w-2.5"
+            }
           `}
                   />
                 ))}
@@ -415,11 +534,11 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
             aria-label="Previous featured slide"
             className="
               absolute
-              left-3
+              left-2
               top-1/2
               z-30
               flex
-              size-8
+              size-6
               -translate-y-1/2
               items-center
               justify-center
@@ -428,7 +547,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               border-white/80
               bg-white/90
               text-[#24385E]
-              shadow-[0_6px_18px_rgba(30,30,50,0.14)]
+              shadow-[0_5px_14px_rgba(30,30,50,0.14)]
               backdrop-blur-sm
               transition-all
               duration-200
@@ -438,12 +557,24 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               focus-visible:ring-2
               focus-visible:ring-[#E83D59]
               focus-visible:ring-offset-2
+
+              xs:left-2.5
+              xs:size-7
+
               sm:left-4
               sm:size-9
+
               lg:left-5
             "
           >
-            <ArrowLeft className="size-3.5 sm:size-4" strokeWidth={2.2} />
+            <ArrowLeft
+              className="
+                size-3
+                xs:size-3.5
+                sm:size-4
+              "
+              strokeWidth={2.2}
+            />
           </button>
 
           {/* ============================================================
@@ -456,11 +587,11 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
             aria-label="Next featured slide"
             className="
               absolute
-              right-3
+              right-2
               top-1/2
               z-30
               flex
-              size-8
+              size-6
               -translate-y-1/2
               items-center
               justify-center
@@ -469,7 +600,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               border-white/80
               bg-white/90
               text-[#24385E]
-              shadow-[0_6px_18px_rgba(30,30,50,0.14)]
+              shadow-[0_5px_14px_rgba(30,30,50,0.14)]
               backdrop-blur-sm
               transition-all
               duration-200
@@ -479,12 +610,24 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               focus-visible:ring-2
               focus-visible:ring-[#E83D59]
               focus-visible:ring-offset-2
+
+              xs:right-2.5
+              xs:size-7
+
               sm:right-4
               sm:size-9
+
               lg:right-5
             "
           >
-            <ArrowRight className="size-3.5 sm:size-4" strokeWidth={2.2} />
+            <ArrowRight
+              className="
+                size-3
+                xs:size-3.5
+                sm:size-4
+              "
+              strokeWidth={2.2}
+            />
           </button>
         </div>
       </section>
@@ -1060,6 +1203,7 @@ function GeographySection() {
 
         <h2
           className="
+          uppercase
             text-balance
             font-[var(--font-roboto)]
             text-[clamp(2.3rem,6vw,5rem)]
@@ -1385,6 +1529,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
             {/* Main Heading */}
             <h2
               className="
+              uppercase
                 mx-auto
                 mt-5
                 w-full
@@ -1449,211 +1594,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
          ========================================================= */}
 
         <MythologySeriesSection products={products} />
-
         <GeographySection />
-
-        {/* =========================================================
-            PRODUCTS SECTION HEADER
-           ========================================================= */}
-
-        <Reveal>
-          <div
-            className="
-              mt-12
-              flex
-              w-full
-              flex-col
-              gap-6
-
-              sm:mt-14
-
-              lg:mt-16
-              lg:flex-row
-              lg:items-end
-              lg:justify-between
-              lg:gap-8
-            "
-          >
-            {/* Heading */}
-            <div className="min-w-0">
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-2
-                "
-              >
-                <span
-                  aria-hidden="true"
-                  className="
-                    h-[2px]
-                    w-7
-                    shrink-0
-                    rounded-full
-                    bg-[#E72D5A]
-                    sm:w-9
-                  "
-                />
-
-                <p
-                  className="
-                    font-[var(--font-poppins)]
-                    text-[9px]
-                    font-black
-                    uppercase
-                    tracking-[0.18em]
-                    text-[#E72D5A]
-
-                    sm:text-[10px]
-
-                    lg:text-[11px]
-                  "
-                >
-                  Handpicked favourites
-                </p>
-
-                <span
-                  aria-hidden="true"
-                  className="
-                    size-1.5
-                    shrink-0
-                    rounded-full
-                    bg-[#F59A23]
-                  "
-                />
-              </div>
-
-              <h3
-                className="
-                  mt-4
-                  font-[var(--font-roboto)]
-                  text-[34px]
-                  font-black
-                  leading-[0.94]
-                  tracking-[-0.055em]
-                  text-[#111111]
-
-                  sm:text-[42px]
-
-                  lg:text-[48px]
-                "
-              >
-                Pick your favourite.
-              </h3>
-            </div>
-
-            {/* =====================================================
-                VIEW ALL PRODUCTS BUTTON
-               ===================================================== */}
-
-            <Link
-              href="/shop"
-              className="
-                group
-                inline-flex
-                min-h-[48px]
-                w-fit
-                shrink-0
-                items-center
-                justify-center
-                gap-2.5
-                rounded-full
-                bg-[#C391EE]
-                px-5
-
-                font-[var(--font-poppins)]
-                text-[10px]
-                font-black
-                uppercase
-                tracking-[0.07em]
-                !text-white
-
-                shadow-[0_10px_24px_rgba(231,45,90,0.20)]
-
-                transition-all
-                duration-300
-
-                hover:-translate-y-0.5
-                hover:bg-[#D92350]
-                hover:shadow-[0_14px_32px_rgba(231,45,90,0.28)]
-
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[#E72D5A]
-                focus-visible:ring-offset-3
-
-                sm:min-h-[50px]
-                sm:px-6
-                sm:text-[11px]
-
-                lg:min-h-[52px]
-                lg:px-7
-              "
-            >
-              <span className="!text-white">View all products</span>
-
-              <span
-                className="
-                  flex
-                  size-7
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-white/20
-
-                  sm:size-8
-                "
-              >
-                <ArrowRight
-                  className="
-                    size-3.5
-                    !text-white
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-1
-
-                    sm:size-4
-                  "
-                  strokeWidth={2.5}
-                />
-              </span>
-            </Link>
-          </div>
-        </Reveal>
-
-        {/* =========================================================
-            PRODUCT GRID
-           ========================================================= */}
-
-        <div
-          className="
-            mt-9
-            grid
-            grid-cols-2
-            gap-x-3
-            gap-y-9
-
-            sm:mt-10
-            sm:grid-cols-2
-            sm:gap-x-5
-            sm:gap-y-11
-
-            lg:mt-11
-            lg:grid-cols-4
-            lg:gap-x-6
-            lg:gap-y-12
-
-            xl:gap-x-7
-          "
-        >
-          {products.slice(0, 8).map((product, index) => (
-            <Reveal key={product._id} delay={index * 0.035}>
-              <ProductCard product={product} />
-            </Reveal>
-          ))}
-        </div>
-
 
       </div>
     </section>
