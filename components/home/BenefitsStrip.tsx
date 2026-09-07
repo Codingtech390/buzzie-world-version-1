@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Heart } from "lucide-react"
+import { CornerRightDown, Heart } from "lucide-react"
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -760,18 +760,48 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
               <div
                 className="
-                  mx-auto
-                  mt-5
-                  flex
-                  items-center
-                  justify-center
-                  gap-1.5
-                  sm:mt-6
-                "
+    mx-auto
+    mt-4
+    flex
+    items-center
+    justify-center
+    sm:mt-5
+  "
               >
-                <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
-                <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
-                <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
+                <svg
+                  width="92"
+                  height="76"
+                  viewBox="0 0 92 76"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="overflow-visible"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="
+        M7 10
+        C17 5 28 5 38 8
+        C51 11 62 19 68 30
+        C74 41 75 53 72 64
+      "
+                    stroke="#FF5558"
+                    strokeWidth="3.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+
+                  <path
+                    d="
+        M61 55
+        C65 59 68 62 72 66
+        C75 62 78 58 81 54
+      "
+                    stroke="#FF5558"
+                    strokeWidth="3.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             </div>
 

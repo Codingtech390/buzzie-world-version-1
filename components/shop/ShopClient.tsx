@@ -24,18 +24,11 @@ import type {
   StorefrontSelectorResponse,
 } from "@/types/storefront";
 
-type ShopSort =
-  | "newest"
-  | "oldest"
-  | "price-low"
-  | "price-high"
-  | "name-az"
-  | "name-za";
+type ShopSort = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
 
 type AgeGroup = "1–3" | "3–6" | "6–9" | "9–15" | "All Ages";
 
 const PRODUCTS_PER_PAGE = 12;
-
 
 const CATEGORY_DEFINITIONS = [
   {
@@ -59,12 +52,7 @@ const CATEGORY_DEFINITIONS = [
   {
     key: "on-the-go-games",
     label: "On-the-Go Games",
-    aliases: [
-      "on-the-go games",
-      "on the go games",
-      "on-the-go",
-      "travel games",
-    ],
+    aliases: ["on-the-go games", "on the go games", "on-the-go", "travel games"],
     tone: "#9CB8D0",
   },
   {
@@ -94,12 +82,7 @@ const CATEGORY_DEFINITIONS = [
   {
     key: "customised-products",
     label: "Customised Products",
-    aliases: [
-      "customised products",
-      "customized products",
-      "customised",
-      "customized",
-    ],
+    aliases: ["customised products", "customized products", "customised", "customized"],
     tone: "#D4B8E8",
   },
 ] as const;
@@ -118,36 +101,25 @@ function matchesCategoryDefinition(
   category: StorefrontSelector,
   definition: (typeof CATEGORY_DEFINITIONS)[number],
 ) {
-  const value = `${normalizeCategoryText(category.name)} ${normalizeCategoryText(
-    category.slug,
-  )}`;
+  const value = `${normalizeCategoryText(category.name)} ${normalizeCategoryText(category.slug)}`;
 
-  return definition.aliases.some((alias) =>
-    value.includes(normalizeCategoryText(alias)),
-  );
+  return definition.aliases.some((alias) => value.includes(normalizeCategoryText(alias)));
 }
 
 function getMatchingCategory(
   categories: StorefrontSelector[],
   definition: (typeof CATEGORY_DEFINITIONS)[number],
 ) {
-  return categories.find((category) =>
-    matchesCategoryDefinition(category, definition),
-  );
+  return categories.find((category) => matchesCategoryDefinition(category, definition));
 }
 
-function getCategoryProductImage(
-  products: StorefrontProduct[],
-  category?: StorefrontSelector,
-) {
+function getCategoryProductImage(products: StorefrontProduct[], category?: StorefrontSelector) {
   if (!category) return null;
 
   const product = products.find(
     (item) =>
       item.category?._id === category._id ||
-      normalizeCategoryText(item.category?.name).includes(
-        normalizeCategoryText(category.name),
-      ),
+      normalizeCategoryText(item.category?.name).includes(normalizeCategoryText(category.name)),
   );
 
   return product?.images?.find((image) => Boolean(image.url))?.url ?? null;
@@ -216,7 +188,7 @@ export default function ShopClient() {
   const [collection, setCollection] = useState("");
   const [sort, setSort] = useState<ShopSort>("newest");
   const [selectedAge, setSelectedAge] = useState<AgeGroup>("All Ages");
-const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
+  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
 
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [showSort, setShowSort] = useState(false);
@@ -265,11 +237,10 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
         setFilterLoading(true);
         setFilterError(null);
 
-        const [categoriesResponse, collectionsResponse] =
-          await Promise.all([
-            fetch("/api/categories", { signal: controller.signal }),
-            fetch("/api/collections", { signal: controller.signal }),
-          ]);
+        const [categoriesResponse, collectionsResponse] = await Promise.all([
+          fetch("/api/categories", { signal: controller.signal }),
+          fetch("/api/collections", { signal: controller.signal }),
+        ]);
 
         if (!categoriesResponse.ok || !collectionsResponse.ok) {
           throw new Error("Unable to load filters.");
@@ -278,19 +249,14 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
         const [categoriesData, collectionsData]: [
           StorefrontSelectorResponse,
           StorefrontSelectorResponse,
-        ] = await Promise.all([
-          categoriesResponse.json(),
-          collectionsResponse.json(),
-        ]);
+        ] = await Promise.all([categoriesResponse.json(), collectionsResponse.json()]);
 
         setCategories(categoriesData.categories ?? []);
         setCollections(collectionsData.collections ?? []);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;
 
-        setFilterError(
-          err instanceof Error ? err.message : "Unable to load filters.",
-        );
+        setFilterError(err instanceof Error ? err.message : "Unable to load filters.");
       } finally {
         if (!controller.signal.aborted) setFilterLoading(false);
       }
@@ -355,9 +321,7 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;
 
-        setError(
-          err instanceof Error ? err.message : "Unable to load products.",
-        );
+        setError(err instanceof Error ? err.message : "Unable to load products.");
       } finally {
         if (!controller.signal.aborted) setLoading(false);
       }
@@ -410,9 +374,7 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
     [categories],
   );
 
-  const activeFilterCount =
-    Number(Boolean(category)) +
-    Number(Boolean(collection));
+  const activeFilterCount = Number(Boolean(category)) + Number(Boolean(collection));
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#FCFAF7] text-[#17213D] font-[var(--font-poppins)]">
@@ -524,42 +486,44 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
         xl:gap-7
       "
           >
-            {([
-              {
-                label: "1–3",
-                displayLabel: "1–3 YEARS",
-                image: "/images/shop-by-age/1-3-removebg-preview.png",
-                background: "#F8D8E5",
-                accent: "#E72D5A",
-              },
-              {
-                label: "3–6",
-                displayLabel: "3–6 YEARS",
-                image: "/images/shop-by-age/3-6-removebg-preview.png",
-                background: "#F8E5B7",
-                accent: "#E99A25",
-              },
-              {
-                label: "6–9",
-                displayLabel: "6–9 YEARS",
-                image: "/images/shop-by-age/6-9-removebg-preview.png",
-                background: "#D9E9B8",
-                accent: "#6CA83A",
-              },
-              {
-                label: "9–15",
-                displayLabel: "9–15 YEARS",
-                image: "/images/shop-by-age/9-15-removebg-preview.png",
-                background: "#DCD2F3",
-                accent: "#7550A5",
-              },
-            ] as {
-              label: AgeGroup;
-              displayLabel: string;
-              image: string;
-              background: string;
-              accent: string;
-            }[]).map((age) => {
+            {(
+              [
+                {
+                  label: "1–3",
+                  displayLabel: "1–3 YEARS",
+                  image: "/images/shop-by-age/1-3-removebg-preview.png",
+                  background: "#F8D8E5",
+                  accent: "#E72D5A",
+                },
+                {
+                  label: "3–6",
+                  displayLabel: "3–6 YEARS",
+                  image: "/images/shop-by-age/3-6-removebg-preview.png",
+                  background: "#F8E5B7",
+                  accent: "#E99A25",
+                },
+                {
+                  label: "6–9",
+                  displayLabel: "6–9 YEARS",
+                  image: "/images/shop-by-age/6-9-removebg-preview.png",
+                  background: "#D9E9B8",
+                  accent: "#6CA83A",
+                },
+                {
+                  label: "9–15",
+                  displayLabel: "9–15 YEARS",
+                  image: "/images/shop-by-age/9-15-removebg-preview.png",
+                  background: "#DCD2F3",
+                  accent: "#7550A5",
+                },
+              ] as {
+                label: AgeGroup;
+                displayLabel: string;
+                image: string;
+                background: string;
+                accent: string;
+              }[]
+            ).map((age) => {
               const active = selectedAge === age.label;
 
               return (
@@ -697,51 +661,34 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
       <section className="mx-auto w-full max-w-[1500px] px-4 pb-14 pt-7 sm:px-7 lg:px-10 lg:pt-9 xl:px-14">
         <div className="grid gap-7 lg:grid-cols-[235px_minmax(0,1fr)] xl:grid-cols-[250px_minmax(0,1fr)] xl:gap-9">
           {/* SIDEBAR — BRAND INTENTIONALLY REMOVED */}
+
           <aside className="hidden lg:block">
             <div className="sticky top-5 overflow-hidden rounded-[20px] border border-[#E5DED4] bg-[#FFFDFC] shadow-[0_8px_28px_rgba(28,24,20,0.035)]">
+              {/* Sidebar Header */}
               <div className="flex items-center justify-between border-b border-[#EEE8DF] px-5 py-4">
                 <div>
-                  <p className="text-[8px] font-black uppercase tracking-[0.15em] text-[#E72D5A]">
+                  <p className="text-[13px] font-black uppercase tracking-[0.15em] text-[#E72D5A]">
                     Refine
                   </p>
-                  <h2 className="mt-1 text-[15px] font-black">Filters</h2>
+
+                  <h2 className="mt-1 text-[17px] font-black">Filters</h2>
                 </div>
 
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="rounded-full px-2.5 py-1.5 text-[8px] font-black text-[#E72D5A] hover:bg-[#FFF0F4]"
+                  className="rounded-full px-2.5 py-1.5 text-[13px] font-black text-[#E72D5A] transition hover:bg-[#FFF0F4]"
                 >
                   Clear all
                 </button>
               </div>
 
-              <FilterBlock title="Shop by Age">
-                <div className="grid grid-cols-2 gap-1.5">
-                  {AGE_GROUPS.map((age) => (
-                    <button
-                      key={age.label}
-                      type="button"
-                      onClick={() => setSelectedAge(age.label)}
-                      className={[
-                        "rounded-[10px] border px-2 py-2 text-[9px] font-black transition",
-                        age.className,
-                        selectedAge === age.label
-                          ? "ring-2 ring-[#C391EE]/25"
-                          : "opacity-85 hover:opacity-100",
-                      ].join(" ")}
-                    >
-                      {age.label}
-                    </button>
-                  ))}
-                </div>
-              </FilterBlock>
-
+              {/* CATEGORY */}
               <FilterBlock title="Category">
                 {filterLoading ? (
                   <FilterSkeleton />
                 ) : filterError ? (
-                  <p className="text-[9px] leading-4 text-[#A05A5A]">{filterError}</p>
+                  <p className="text-[13px] leading-5 text-[#A05A5A]">{filterError}</p>
                 ) : (
                   <div className="space-y-2.5">
                     {categoryItems.map(({ definition, category: matchedCategory }) => {
@@ -764,20 +711,25 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
                 )}
               </FilterBlock>
 
+              {/* PRICE RANGE */}
               <FilterBlock title="Price Range">
                 <div className="px-1">
                   <div className="relative h-1.5 rounded-full bg-[#E8E1D8]">
                     <div className="absolute inset-y-0 left-0 w-[80%] rounded-full bg-[#17213D]" />
+
                     <span className="absolute left-0 top-1/2 size-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-[#17213D] shadow-md" />
+
                     <span className="absolute left-[80%] top-1/2 size-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-[#17213D] shadow-md" />
                   </div>
-                  <div className="mt-2 flex justify-between text-[9px] font-medium text-[#747987]">
+
+                  <div className="mt-2 flex justify-between text-[13px] font-medium text-[#747987]">
                     <span>₹199</span>
                     <span>₹4,999+</span>
                   </div>
                 </div>
               </FilterBlock>
 
+              {/* RATING */}
               <FilterBlock title="Rating">
                 <div className="space-y-2.5">
                   {[5, 4, 3, 2, 1].map((rating) => {
@@ -798,12 +750,12 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
                       >
                         <span
                           className={[
-                            "flex size-3.5 shrink-0 items-center justify-center rounded-[4px] border",
+                            "flex size-4 shrink-0 items-center justify-center rounded-[4px] border",
                             active ? "border-[#C391EE] bg-[#C391EE]" : "border-[#CFC7BC] bg-white",
                           ].join(" ")}
                         >
                           {active ? (
-                            <span className="text-[8px] font-black text-white">✓</span>
+                            <span className="text-[11px] font-black text-white">✓</span>
                           ) : null}
                         </span>
 
@@ -811,28 +763,29 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
                           {Array.from({ length: 5 }).map((_, index) => (
                             <Star
                               key={index}
-                              size={10}
+                              size={12}
                               fill={index < rating ? "currentColor" : "none"}
                               className={index < rating ? "text-[#F2A91A]" : "text-[#D6CEC4]"}
                             />
                           ))}
                         </span>
 
-                        <span className="text-[9px] font-medium text-[#666D7C]">& up</span>
+                        <span className="text-[13px] font-medium text-[#666D7C]">& up</span>
                       </button>
                     );
                   })}
                 </div>
               </FilterBlock>
 
+              {/* COLLECTION */}
               <FilterBlock title="Collection">
                 {filterLoading ? (
                   <FilterSkeleton />
                 ) : (
                   <div className="space-y-2.5">
-                    {collections.slice(0, 5).map((item) => (
+                    {collections.slice(0, 5).map((item, index) => (
                       <FilterCheckbox
-                        key={item._id}
+                        key={`${item._id || item.name}-${index}`}
                         checked={collection === item._id}
                         label={item.name}
                         onClick={() => updateCollection(collection === item._id ? "" : item._id)}
@@ -842,13 +795,14 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
                 )}
               </FilterBlock>
 
+              {/* APPLY FILTERS */}
               <div className="p-5">
                 <button
                   type="button"
                   onClick={() => setShowMobileFilters(false)}
-                  className="flex h-10 w-full items-center justify-center gap-2 rounded-full bg-[#C391EE] text-[9px] font-black text-white shadow-[0_7px_18px_rgba(195,145,238,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#E72D5A]"
+                  className="flex h-10 w-full items-center justify-center gap-2 rounded-full bg-[#C391EE] text-[13px] font-black text-white shadow-[0_7px_18px_rgba(195,145,238,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#E72D5A]"
                 >
-                  <SlidersHorizontal size={12} />
+                  <SlidersHorizontal size={14} />
                   Apply Filters
                 </button>
               </div>
@@ -1207,9 +1161,9 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
 
             <FilterBlock title="Collection">
               <div className="space-y-2.5">
-                {collections.map((item) => (
+                {collections.map((item, index) => (
                   <FilterCheckbox
-                    key={item._id}
+                    key={`${item._id || item.name}-${index}`}
                     checked={collection === item._id}
                     label={item.name}
                     onClick={() => updateCollection(collection === item._id ? "" : item._id)}
@@ -1289,13 +1243,7 @@ const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   );
 }
 
-function FilterBlock({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function FilterBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="border-b border-[#EEE8DF] px-5 py-5">
       <div className="mb-3.5 flex items-center justify-between">
@@ -1341,14 +1289,10 @@ function FilterCheckbox({
       <span
         className={[
           "flex size-3.5 shrink-0 items-center justify-center rounded-[4px] border",
-          checked
-            ? "border-[#C391EE] bg-[#C391EE]"
-            : "border-[#CFC7BC] bg-white",
+          checked ? "border-[#C391EE] bg-[#C391EE]" : "border-[#CFC7BC] bg-white",
         ].join(" ")}
       >
-        {checked ? (
-          <span className="text-[8px] font-black text-white">✓</span>
-        ) : null}
+        {checked ? <span className="text-[8px] font-black text-white">✓</span> : null}
       </span>
 
       <span className="min-w-0 truncate text-[9px] font-medium leading-4 text-[#3D4657]">
@@ -1358,15 +1302,7 @@ function FilterCheckbox({
   );
 }
 
-function Benefit({
-  title,
-  text,
-  image,
-}: {
-  title: string;
-  text: string;
-  image: string;
-}) {
+function Benefit({ title, text, image }: { title: string; text: string; image: string }) {
   return (
     <div className="group flex min-h-[145px] flex-col items-center justify-center border-b border-[#E7DED5] px-5 py-6 text-center last:border-b-0 sm:min-h-[160px] lg:border-b-0 lg:border-r lg:last:border-r-0">
       <div className="relative flex h-[58px] w-[72px] items-center justify-center">
@@ -1385,9 +1321,7 @@ function Benefit({
         <h3 className="text-[12px] font-bold tracking-[-0.015em] text-[#17213D] sm:text-[13px]">
           {title}
         </h3>
-        <p className="mt-1 text-[10px] leading-[1.5] text-[#737A87] sm:text-[11px]">
-          {text}
-        </p>
+        <p className="mt-1 text-[10px] leading-[1.5] text-[#737A87] sm:text-[11px]">{text}</p>
       </div>
     </div>
   );

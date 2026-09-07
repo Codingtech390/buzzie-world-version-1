@@ -223,7 +223,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   bg-[#E83D59]
                   px-2
                   py-1
-                  text-[7px]
+                  text-[12px]
                   font-black
                   uppercase
                   leading-none
@@ -243,7 +243,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   bg-[#17213D]
                   px-2
                   py-1
-                  text-[7px]
+                  text-[12px]
                   font-black
                   uppercase
                   leading-none
@@ -272,10 +272,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           >
             <h3
               className="
+              text-center
                 line-clamp-2
                 min-h-[2.8rem]
                 font-[var(--font-poppins)]
-                text-[11px]
+                text-[12px]
                 font-bold
                 leading-[1.4]
                 tracking-[-0.02em]
@@ -284,6 +285,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 duration-200
                 group-hover:text-[#69419A]
                 sm:text-[12px]
+                xl:text-[18px]
               "
             >
               {product.name}
@@ -296,16 +298,18 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           <p
             className="
+            text-center
               mt-1
               line-clamp-2
               min-h-[2rem]
               max-w-full
               font-[var(--font-poppins)]
-              text-[9px]
+              text-[12px]
               font-medium
               leading-4
               text-[#7B8495]
               sm:text-[9.5px]
+              xl:text-[14px]
             "
           >
             {getShortDescription(product)}
@@ -324,6 +328,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   font-black
                   tracking-[-0.025em]
                   text-[#17213D]
+                  xl:text-xl
                 "
               >
                 {formatPrice(product.price)}
@@ -333,11 +338,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                   <p
                     className="
-                      text-[10px]
+                      text-[12px]
                       font-semibold
                       text-[#8F929A]
                       line-through
                       sm:text-[11px]
+                      xl:text-[13px]
                     "
                   >
                     {formatPrice(product.compareAtPrice)}
