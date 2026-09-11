@@ -15,19 +15,19 @@ interface LandingSlide {
 const LANDING_SLIDES: LandingSlide[] = [
   {
     id: "slide-1",
-    image: "/images/home/landing/slide-1.png",
+    image: "/images/home/landing/hero-1.png",
     alt: "BuzzieWorld special offer",
     href: "/crazy-deals",
   },
   {
     id: "slide-2",
-    image: "/images/home/landing/slide-2.png",
+    image: "/images/home/landing/hero-2.png",
     alt: "BuzzieWorld celebration and gifting",
     href: "/crazy-deals",
   },
   {
     id: "slide-3",
-    image: "/images/home/landing/slide-3.png",
+    image: "/images/home/landing/hero-3.png",
     alt: "BuzzieWorld learning through play",
     href: "/crazy-deals",
   },
@@ -343,4 +343,3 @@ export default function Hero() {
     </section>
   );
 }
-

@@ -108,21 +108,6 @@ const navigation: NavGroup[] = [
     ],
   },
   {
-    label: "Marketing",
-    items: [
-      {
-        label: "Coupons",
-        href: "/admin/coupons",
-        icon: Tag,
-      },
-      {
-        label: "Newsletter",
-        href: "/admin/newsletter",
-        icon: ShoppingCart,
-      },
-    ],
-  },
-  {
     label: "System",
     items: [
       {

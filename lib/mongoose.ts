@@ -23,15 +23,31 @@ export async function connectToDatabase() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(env.MONGODB_URI, {
-      bufferCommands: false,
-      dbName: "buzzieworld",
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-    });
+    cached.promise = mongoose
+      .connect(env.MONGODB_URI, {
+        bufferCommands: false,
+        dbName: "buzzieworld",
+        maxPoolSize: 10,
+        serverSelectionTimeoutMS: 5000,
+      })
+      .catch((error) => {
+        // Allow the next request to make a fresh connection attempt.
+        cached.promise = null;
+        cached.conn = null;
+
+        console.error("MongoDB connection failed:", error);
+
+        throw error;
+      });
   }
 
-  cached.conn = await cached.promise;
-
-  return cached.conn;
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    cached.promise = null;
+    cached.conn = null;
+    throw error;
+  }
 }
+

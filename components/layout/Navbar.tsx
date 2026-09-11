@@ -184,69 +184,6 @@ const categoryNavigation = [
 ] as const;
 
 /* -------------------------------------------------------------------------- */
-/* CATEGORY DROPDOWN THUMBNAILS                                               */
-/* -------------------------------------------------------------------------- */
-
-/*
- * These are intentionally local presentation assets.
- *
- * Category URLs are still resolved from the backend category collection.
- * The images are only used to make the navigation dropdown visual.
- */
-const CATEGORY_THUMBNAILS: Record<
-  string,
-  {
-    image: string;
-    alt: string;
-  }
-> = {
-  binder: {
-    image: "/images/products/brain-binder-1.png",
-    alt: "Binder products",
-  },
-
-  mythology: {
-    image: "/images/products/logo-lblitz-1.png",
-    alt: "Mythology products",
-  },
-
-  "mind-games": {
-    image: "/images/products/treasure-product-3.png",
-    alt: "Mind games",
-  },
-
-  "on-the-go-games": {
-    image: "/images/products/treasure-product-4.png",
-    alt: "On-the-go games",
-  },
-
-  phonics: {
-    image: "/images/products/treasure-product-1.png",
-    alt: "Phonics products",
-  },
-
-  "card-games": {
-    image: "/images/products/car-logo-1.png",
-    alt: "Card games",
-  },
-
-  geography: {
-    image: "/images/products/car-logo-1.png",
-    alt: "Geography products",
-  },
-
-  "return-gifts": {
-    image: "/images/products/treasure-product-3.png",
-    alt: "Return gifts",
-  },
-
-  "customized-products": {
-    image: "/images/products/brain-binder-1.png",
-    alt: "Customized products",
-  },
-};
-
-/* -------------------------------------------------------------------------- */
 /* CONTACT / POLICY NAVIGATION                                                */
 /* -------------------------------------------------------------------------- */
 
@@ -672,16 +609,14 @@ export default function Navbar() {
             aria-expanded={isCategoryMenuOpen}
             onClick={toggleCategoryMenu}
             className={[
-              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+              "group relative flex h-10 shrink-0 items-center gap-2 rounded-full px-4 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
               "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
               active
                 ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins)] font-bold">
-              Categories
-            </span>
+            <span className="font-[var(--font-poppins-brand)] font-bold">Categories</span>
 
             <ChevronDown
               aria-hidden="true"
@@ -701,7 +636,7 @@ export default function Navbar() {
           </button>
 
           {/* ================================================================ */}
-          {/* CATEGORY DROPDOWN                                                 */}
+          {/* CATEGORY DROPDOWN — EARLIER TEXT + KID-PEEKING DESIGN             */}
           {/* ================================================================ */}
 
           <AnimatePresence>
@@ -729,56 +664,140 @@ export default function Navbar() {
                   ease: easings.smooth,
                 }}
                 className="
-                  absolute
-                  left-1/2
-                  top-[calc(100%+10px)]
-                  z-[80]
-                  w-[min(92vw,620px)]
-                  -translate-x-1/2
-                  overflow-hidden
-                  rounded-[24px]
-                  border
-                  border-[#EDE2D6]
-                  bg-[#FFFDF9]/98
-                  p-4
-                  shadow-[0_24px_70px_rgba(42,35,28,0.15)]
-                  backdrop-blur-xl
-                "
+              absolute
+              left-1/2
+              top-[calc(100%+12px)]
+              z-[80]
+              w-[min(94vw,620px)]
+              -translate-x-1/2
+              overflow-hidden
+              rounded-[22px]
+              border
+              border-[#EDE2D6]
+              bg-[#FFFDF9]/98
+              p-6 sm:p-7
+              shadow-[0_24px_70px_rgba(42,35,28,0.15)]
+              backdrop-blur-xl
+            "
               >
-                {/* Dropdown accent */}
+                {/* ========================================================== */}
+                {/* TOP ACCENT                                                  */}
+                {/* ========================================================== */}
 
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-10 right-10 top-0 h-px bg-gradient-to-r from-transparent via-[#E72D5A]/35 to-transparent"
+                  className="
+                pointer-events-none
+                absolute
+                left-10
+                right-10
+                top-0
+                h-px
+                bg-gradient-to-r
+                from-transparent
+                via-[#E72D5A]/35
+                to-transparent
+              "
                 />
 
-                {/* Dropdown heading */}
+                {/* ========================================================== */}
+                {/* KID PEEKING                                                 */}
+                {/* ========================================================== */}
 
-                <div className="mb-3 flex items-center justify-between px-2 pt-1">
-                  <div>
-                    <p className="font-[var(--font-poppins)] text-[16px] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
-                      Explore
-                    </p>
-
-                    <p className="mt-1 font-[var(--font-poppins)] text-[20px] font-bold leading-none text-[#263451]">
-                      Shop by category
-                    </p>
-                  </div>
-
-                  <span
-                    aria-hidden="true"
-                    className="size-2 rounded-full bg-[#E72D5A]"
+                <div
+                  aria-hidden="true"
+                  className="
+                pointer-events-none
+                absolute
+                bottom-1
+                right-3
+                z-20
+                w-[68px]
+                sm:w-[76px]
+              "
+                >
+                  <Image
+                    src="/images/hero/kid-peeking.png"
+                    alt=""
+                    width={220}
+                    height={300}
+                    sizes="76px"
+                    className="
+                  h-auto
+                  w-full
+                  object-contain
+                "
                   />
                 </div>
 
                 {/* ========================================================== */}
-                {/* CATEGORY CARDS                                              */}
+                {/* DROPDOWN HEADING                                             */}
                 {/* ========================================================== */}
 
-                <div className="grid grid-cols-3 gap-2">
+                <div
+                  className="
+                relative
+                z-10
+                mb-6
+                px-2
+                pt-1
+                pr-4
+              "
+                >
+                  <p
+                    className="
+                  font-[var(--font-poppins-brand)]
+                  text-[12px]
+                  font-extrabold
+                  uppercase
+                  tracking-[0.16em]
+                  text-[#E72D5A]
+                "
+                  >
+                    Explore
+                  </p>
+
+                  <p
+                    className="
+                  mt-1.5
+                  font-[var(--font-poppins-brand)]
+                  text-[21px]
+                  font-bold
+                  leading-none
+                  text-[#263451]
+                "
+                  >
+                    Shop by category
+                  </p>
+                </div>
+
+                {/* ========================================================== */}
+                {/* CATEGORY LINKS                                               */}
+                {/* ========================================================== */}
+
+                <div
+                  className="
+                relative
+                z-10
+                grid
+                grid-cols-2
+                gap-x-4
+                gap-y-2.5
+                pr-2
+                sm:grid-cols-3
+              "
+                >
                   {categoryNavigation.map((category) => {
                     const href = getCategoryHref(category.slug);
-                    const thumbnail = CATEGORY_THUMBNAILS[category.slug];
+
+                    const activeLink =
+                      pathname === href ||
+                      categoryLinks.some(
+                        (item) =>
+                          normalizeCategoryValue(item.slug) ===
+                            normalizeCategoryValue(category.slug) &&
+                          pathname === getCategoryHref(item.slug),
+                      );
 
                     return (
                       <Link
@@ -788,127 +807,104 @@ export default function Navbar() {
                         onClick={() => {
                           setIsCategoryMenuOpen(false);
                         }}
-                        className="
-                          group
-                          flex
-                          min-h-[104px]
-                          flex-col
-                          items-center
-                          justify-center
-                          rounded-[10px]
-                          border
-                          border-[#EDE2D6]/90
-                          bg-white
-                          px-2.5
-                          py-3
-                          text-center
-                          outline-none
-                          transition-all
-                          duration-200
-                          hover:-translate-y-0.5
-                          hover:border-[#E72D5A]/20
-                          hover:bg-[#FFF8EE]
-                          hover:shadow-[0_8px_20px_rgba(42,35,28,0.07)]
-                          focus-visible:ring-2
-                          focus-visible:ring-[#E72D5A]
-                          focus-visible:ring-inset
-                        "
+                        className={[
+                          `
+                        group
+                        flex
+                        min-h-[46px]
+                        items-center
+                        gap-2.5
+                        rounded-xl
+                        px-4
+                        py-2.5
+                        font-[var(--font-poppins-brand)]
+                        text-[13px]
+                        font-semibold
+                        leading-tight
+                        outline-none
+                        transition-all
+                        duration-200
+                      `,
+                          "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
+                          activeLink
+                            ? "bg-[#FFF0F3] text-[#E72D5A]"
+                            : "text-[#263451] hover:bg-[#FFF8EE] hover:text-[#E72D5A]",
+                        ].join(" ")}
                       >
-                        {/* Product thumbnail */}
-
                         <span
+                          aria-hidden="true"
                           className="
-                            relative
-                            flex
-                            h-[52px]
-                            w-[80px]
-                            shrink-0
-                            items-center
-                            justify-center
-                            overflow-hidden
-                            rounded-[12px]
-                            bg-[#FFF8EE]
-                            transition-transform
-                            duration-200
-                            group-hover:scale-[1.04]
-                          "
-                        >
-                          {thumbnail ? (
-                            <Image
-                              src={thumbnail.image}
-                              alt={thumbnail.alt}
-                              width={80}
-                              height={70}
-                              sizes="70px"
-                              className="h-full w-full object-contain p-1.5"
-                            />
-                          ) : (
-                            <span
-                              aria-hidden="true"
-                              className="size-2 rounded-full bg-[#E72D5A]/40"
-                            />
-                          )}
-                        </span>
+                        size-1.5
+                        shrink-0
+                        rounded-full
+                        bg-[#E72D5A]/30
+                        transition-all
+                        duration-200
+                        group-hover:scale-125
+                        group-hover:bg-[#E72D5A]
+                      "
+                        />
 
-                        {/* Category name */}
-
-                        <span
-                          className="
-                            mt-2
-                            line-clamp-2
-                            font-[var(--font-poppins)]
-                            text-[16px]
-                            font-bold
-                            leading-[1.1]
-                            tracking-[-0.01em]
-                            text-[#263451]
-                            transition-colors
-                            duration-200
-                            group-hover:text-[#E72D5A]
-                          "
-                        >
-                          {category.label}
-                        </span>
+                        <span className="font-[var(--font-poppins-brand)]">{category.label}</span>
                       </Link>
                     );
                   })}
                 </div>
 
-                {/* View all */}
+                {/* ========================================================== */}
+                {/* VIEW ALL                                                     */}
+                {/* ========================================================== */}
 
-                <div className="mt-3 border-t border-[#EDE2D6]/80 pt-3">
+                <div
+                  className="
+                relative
+                z-10
+                mt-6
+                border-t
+                border-[#EDE2D6]/80
+                pt-5
+                pr-2
+              "
+                >
                   <Link
                     href="/categories"
                     onClick={() => setIsCategoryMenuOpen(false)}
                     className="
-                      group
-                      flex
-                      min-h-10
-                      items-center
-                      justify-center
-                      gap-2
-                      rounded-xl
-                      px-3
-                      py-2.5
-                      font-[var(--font-poppins)]
-                      text-[12px]
-                      font-bold
-                      leading-none
-                      text-[#657086]
-                      outline-none
-                      transition-all
-                      duration-200
-                      hover:bg-[#E72D5A]
-                      hover:text-white
-                      focus-visible:ring-2
-                      focus-visible:ring-[#E72D5A]
-                    "
+                  group
+                  flex
+                  min-h-11
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  px-4
+                  py-2.5
+                  font-[var(--font-poppins-brand)]
+                  text-[12px]
+                  font-bold
+                  leading-none
+                  text-[#657086]
+                  outline-none
+                  transition-all
+                  duration-200
+                  hover:bg-[#E72D5A]
+                  hover:text-white
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E72D5A]
+                "
                   >
-                    View all categories
+                    <span className="font-[var(--font-poppins-brand)]">View all categories</span>
 
                     <span
                       aria-hidden="true"
-                      className="h-px w-4 bg-current transition-transform duration-200 group-hover:w-6"
+                      className="
+                    h-px
+                    w-4
+                    bg-current
+                    transition-all
+                    duration-200
+                    group-hover:w-6
+                  "
                     />
                   </Link>
                 </div>
@@ -938,14 +934,14 @@ export default function Navbar() {
             aria-expanded={isContactMenuOpen}
             onClick={toggleContactMenu}
             className={[
-              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
               "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
               active
                 ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins)] font-bold">
+            <span className="font-[var(--font-poppins-brand)] font-bold">
               Contact Us & Policies
             </span>
 
@@ -1017,21 +1013,18 @@ export default function Navbar() {
                 />
 
                 <div className="px-3 pb-2 pt-1">
-                  <p className="font-[var(--font-poppins)] text-[16px] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
+                  <p className="font-[var(--font-poppins-brand)] text-[16px] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
                     BuzzieWorld
                   </p>
 
-                  <p className="mt-1 font-[var(--font-poppins)] text-[20px] font-bold text-[#263451]">
+                  <p className="mt-1 font-[var(--font-poppins-brand)] text-[20px] font-bold text-[#263451]">
                     We'd love to hear from you
                   </p>
                 </div>
 
                 <div className="space-y-1">
                   {contactNavigation.map((contactItem) => {
-                    const activeLink = isNavigationActive(
-                      pathname,
-                      contactItem.href,
-                    );
+                    const activeLink = isNavigationActive(pathname, contactItem.href);
 
                     return (
                       <Link
@@ -1044,9 +1037,7 @@ export default function Navbar() {
                         className={[
                           "group flex min-h-[58px] items-center gap-3 rounded-xl px-3.5 outline-none transition-all duration-200",
                           "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                          activeLink
-                            ? "bg-[#FFF0F3]"
-                            : "hover:bg-[#FFF8EE]",
+                          activeLink ? "bg-[#FFF0F3]" : "hover:bg-[#FFF8EE]",
                         ].join(" ")}
                       >
                         <span
@@ -1058,32 +1049,23 @@ export default function Navbar() {
                           ].join(" ")}
                         >
                           {(() => {
-                            const Icon = getContactNavigationIcon(
-                              contactItem.href,
-                            );
+                            const Icon = getContactNavigationIcon(contactItem.href);
 
-                            return (
-                              <Icon
-                                className="size-4"
-                                strokeWidth={2}
-                              />
-                            );
+                            return <Icon className="size-4" strokeWidth={2} />;
                           })()}
                         </span>
 
                         <span className="min-w-0 flex-1">
                           <span
                             className={[
-                              "block font-[var(--font-poppins)] text-[14px] font-bold leading-none",
-                              activeLink
-                                ? "text-[#E72D5A]"
-                                : "text-[#263451]",
+                              "block font-[var(--font-poppins-brand)] text-[14px] font-bold leading-none",
+                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
                             ].join(" ")}
                           >
                             {contactItem.label}
                           </span>
 
-                          <span className="mt-1 block font-[var(--font-poppins)] text-[16px] font-medium leading-none text-[#7B8495]">
+                          <span className="mt-1 block font-[var(--font-poppins-brand)] text-[16px] font-medium leading-none text-[#7B8495]">
                             {contactItem.description}
                           </span>
                         </span>
@@ -1092,9 +1074,7 @@ export default function Navbar() {
                           aria-hidden="true"
                           className={[
                             "size-1.5 rounded-full transition-all duration-200",
-                            activeLink
-                              ? "bg-[#E72D5A]"
-                              : "bg-transparent group-hover:bg-[#E72D5A]",
+                            activeLink ? "bg-[#E72D5A]" : "bg-transparent group-hover:bg-[#E72D5A]",
                           ].join(" ")}
                         />
                       </Link>
@@ -1118,7 +1098,7 @@ export default function Navbar() {
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={[
-          "group relative flex h-10 shrink-0 items-center rounded-full px-3 font-[var(--font-poppins)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+          "group relative flex h-10 shrink-0 items-center rounded-full px-3 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
           "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
           active
             ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
@@ -1127,9 +1107,7 @@ export default function Navbar() {
               : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
         ].join(" ")}
       >
-        <span className="font-[var(--font-poppins)] font-bold">
-          {item.label}
-        </span>
+        <span className="font-[var(--font-poppins-brand)] font-bold">{item.label}</span>
 
         {active ? (
           <span
@@ -1146,7 +1124,7 @@ export default function Navbar() {
         ) : null}
       </Link>
     );
-  };
+  };;;
 
   /* ------------------------------------------------------------------------ */
   /* RENDER                                                                   */
@@ -1216,7 +1194,7 @@ export default function Navbar() {
                 "
               >
                 <Image
-                  src="/images/hero/Logo.png"
+                  src="/images/hero/buzzie-logo.png"
                   alt="BuzzieWorld"
                   width={190}
                   height={58}
@@ -1384,7 +1362,7 @@ export default function Navbar() {
                             border-[#FFFDF9]
                             bg-[#E72D5A]
                             px-1
-                            font-[var(--font-poppins)]
+                            font-[var(--font-poppins-brand)]
                             text-[0.57rem]
                             font-bold
                             leading-none
@@ -1405,7 +1383,7 @@ export default function Navbar() {
                       href={accountHref}
                       aria-label={accountLabel}
                       className={[
-                        "ml-1 inline-flex h-10 max-w-[9.5rem] items-center gap-2 rounded-full border px-3.5 font-[var(--font-poppins)] !text-[14px] font-bold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                        "ml-1 inline-flex h-10 max-w-[9.5rem] items-center gap-2 rounded-full border px-3.5 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         isAccountArea
                           ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
                           : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
@@ -1425,7 +1403,7 @@ export default function Navbar() {
                         />
                       </span>
 
-                      <span className="truncate font-[var(--font-poppins)] font-bold">
+                      <span className="truncate font-[var(--font-poppins-brand)] font-bold">
                         {sessionStatus === "loading"
                           ? "Account"
                           : accountLabel}
@@ -1510,7 +1488,7 @@ export default function Navbar() {
                         border-[#FFFDF9]
                         bg-[#E72D5A]
                         px-1
-                        font-[var(--font-poppins)]
+                        font-[var(--font-poppins-brand)]
                         text-[0.57rem]
                         font-bold
                         leading-none
@@ -1781,11 +1759,11 @@ export default function Navbar() {
                     </span>
 
                     <div>
-                      <p className="font-[var(--font-poppins)] text-sm font-bold tracking-[-0.02em] text-[#263451]">
+                      <p className="font-[var(--font-poppins-brand)] text-sm font-bold tracking-[-0.02em] text-[#263451]">
                         Welcome to BuzzieWorld
                       </p>
 
-                      <p className="mt-0.5 font-[var(--font-poppins)] text-[0.68rem] font-medium leading-4 text-[#7B8495]">
+                      <p className="mt-0.5 font-[var(--font-poppins-brand)] text-[0.68rem] font-medium leading-4 text-[#7B8495]">
                         Learn · Play · Imagine
                       </p>
                     </div>
@@ -1839,13 +1817,13 @@ export default function Navbar() {
                             aria-expanded={isCategoryMenuOpen}
                             onClick={toggleCategoryMenu}
                             className={[
-                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-poppins)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
+                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-poppins-brand)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
                               active
                                 ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                             ].join(" ")}
                           >
-                            <span className="font-[var(--font-poppins)]">
+                            <span className="font-[var(--font-poppins-brand)]">
                               Categories
                             </span>
 
@@ -1906,7 +1884,7 @@ export default function Navbar() {
                                         justify-between
                                         rounded-xl
                                         px-3
-                                        font-[var(--font-poppins)]
+                                        font-[var(--font-poppins-brand)]
                                         !text-[0.78rem]
                                         font-semibold
                                         leading-none
@@ -1921,7 +1899,7 @@ export default function Navbar() {
                                         focus-visible:ring-inset
                                       "
                                     >
-                                      <span className="font-[var(--font-poppins)]">
+                                      <span className="font-[var(--font-poppins-brand)]">
                                         {category.label}
                                       </span>
 
@@ -1952,7 +1930,7 @@ export default function Navbar() {
                                       rounded-xl
                                       bg-[#FFF0F3]
                                       px-3
-                                      font-[var(--font-poppins)]
+                                      font-[var(--font-poppins-brand)]
                                       !text-[0.78rem]
                                       font-bold
                                       leading-none
@@ -2001,13 +1979,13 @@ export default function Navbar() {
                             aria-expanded={isContactMenuOpen}
                             onClick={toggleContactMenu}
                             className={[
-                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-poppins)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
+                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-poppins-brand)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
                               active
                                 ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                             ].join(" ")}
                           >
-                            <span className="font-[var(--font-poppins)]">
+                            <span className="font-[var(--font-poppins-brand)]">
                               Contact Us & Policies
                             </span>
 
@@ -2097,7 +2075,7 @@ export default function Navbar() {
                                         <span className="min-w-0 flex-1">
                                           <span
                                             className={[
-                                              "block font-[var(--font-poppins)] text-[0.74rem] font-bold leading-none",
+                                              "block font-[var(--font-poppins-brand)] text-[0.74rem] font-bold leading-none",
                                               activeLink
                                                 ? "text-[#E72D5A]"
                                                 : "text-[#263451]",
@@ -2106,7 +2084,7 @@ export default function Navbar() {
                                             {contactItem.label}
                                           </span>
 
-                                          <span className="mt-1 block font-[var(--font-poppins)] text-[0.58rem] font-medium leading-none text-[#7B8495]">
+                                          <span className="mt-1 block font-[var(--font-poppins-brand)] text-[0.58rem] font-medium leading-none text-[#7B8495]">
                                             {contactItem.description}
                                           </span>
                                         </span>
@@ -2147,7 +2125,7 @@ export default function Navbar() {
                           onClick={closeMobileMenu}
                           aria-current={active ? "page" : undefined}
                           className={[
-                            "group flex min-h-12 items-center justify-between rounded-2xl px-4 font-[var(--font-poppins)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
+                            "group flex min-h-12 items-center justify-between rounded-2xl px-4 font-[var(--font-poppins-brand)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
                             active
                               ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                               : item.label === "Crazy Deals"
@@ -2155,7 +2133,7 @@ export default function Navbar() {
                                 : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
                           ].join(" ")}
                         >
-                          <span className="font-[var(--font-poppins)]">
+                          <span className="font-[var(--font-poppins-brand)]">
                             {item.label}
                           </span>
 
@@ -2187,7 +2165,7 @@ export default function Navbar() {
                       justify-between
                       rounded-2xl
                       px-4
-                      font-[var(--font-poppins)]
+                      font-[var(--font-poppins-brand)]
                       !text-[0.78rem]
                       font-semibold
                       leading-none
@@ -2203,7 +2181,7 @@ export default function Navbar() {
 
                     "
                   >
-                    <span className="font-[var(--font-poppins)] ">
+                    <span className="font-[var(--font-poppins-brand)] ">
                       Search
                     </span>
 
@@ -2222,7 +2200,7 @@ export default function Navbar() {
                       justify-between
                       rounded-2xl
                       px-4
-                      font-[var(--font-poppins)]
+                      font-[var(--font-poppins-brand)]
                       !text-[0.78rem]
                       font-semibold
                       leading-none
@@ -2237,7 +2215,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">
+                    <span className="font-[var(--font-poppins-brand)]">
                       Wishlist
                     </span>
 
@@ -2256,7 +2234,7 @@ export default function Navbar() {
                       justify-between
                       rounded-2xl
                       px-4
-                      font-[var(--font-poppins)]
+                      font-[var(--font-poppins-brand)]
                       !text-[0.78rem]
                       font-semibold
                       leading-none
@@ -2271,7 +2249,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins)]">
+                    <span className="font-[var(--font-poppins-brand)]">
                       Cart
                     </span>
 
@@ -2283,7 +2261,7 @@ export default function Navbar() {
                             bg-[#E72D5A]
                             px-2
                             py-0.5
-                            font-[var(--font-poppins)]
+                            font-[var(--font-poppins-brand)]
                             text-[0.6rem]
                             font-bold
                             text-white
@@ -2329,7 +2307,7 @@ export default function Navbar() {
                     rounded-2xl
                     bg-[#E72D5A]
                     px-4
-                    font-[var(--font-poppins)]
+                    font-[var(--font-poppins-brand)]
                     text-sm
                     font-bold
                     !text-white
@@ -2346,12 +2324,12 @@ export default function Navbar() {
                 >
                   <UserRound className="size-4" strokeWidth={2} />
 
-                  <span className="font-[var(--font-poppins)]">
+                  <span className="font-[var(--font-poppins-brand)]">
                     {isAuthenticated ? "My Account" : "Sign In"}
                   </span>
                 </Link>
 
-                <p className="mt-3 text-center font-[var(--font-poppins)] text-[0.66rem] font-medium leading-5 text-[#7A8495]">
+                <p className="mt-3 text-center font-[var(--font-poppins-brand)] text-[0.66rem] font-medium leading-5 text-[#7A8495]">
                   {siteConfig.description}
                 </p>
               </div>

@@ -3,9 +3,10 @@
 import { ArrowRight, Eye, EyeOff, LockKeyhole, LogIn, Mail } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 
-const LOGIN_ENDPOINT = "/api/auth/login";
+// const LOGIN_ENDPOINT = "/api/auth/login";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,117 +16,73 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
 
-    setError("");
+  setError("");
 
-    const normalizedEmail = email.trim();
+  const normalizedEmail = email.trim().toLowerCase();
 
-    if (!normalizedEmail) {
-      setError("Please enter your email address.");
-      return;
-    }
-
-    if (!password) {
-      setError("Please enter your password.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      /*
-       * ================================================================
-       * AUTHENTICATION ENDPOINT
-       * ================================================================
-       *
-       * Keep this endpoint unchanged until the real authentication
-       * implementation is connected.
-       *
-       * Current expected payload:
-       *
-       * {
-       *   email: string;
-       *   password: string;
-       * }
-       */
-
-      const response = await fetch(LOGIN_ENDPOINT, {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          email: normalizedEmail,
-          password,
-        }),
-      });
-
-      /*
-       * Some failed API responses may not contain valid JSON.
-       * Therefore, don't allow response.json() itself to crash
-       * the login flow.
-       */
-
-      const data = await response.json().catch(() => null);
-
-      /*
-       * ================================================================
-       * API ERROR HANDLING
-       * ================================================================
-       */
-
-      if (!response.ok) {
-        throw new Error(
-          data?.message ||
-            data?.error ||
-            "We couldn't sign you in. Please check your details and try again.",
-        );
-      }
-
-      /*
-       * ================================================================
-       * SUCCESSFUL AUTHENTICATION
-       * ================================================================
-       *
-       * If the backend returns a redirect URL, respect it.
-       *
-       * Example:
-       *
-       * {
-       *   success: true,
-       *   redirectUrl: "/account"
-       * }
-       */
-
-      if (data?.redirectUrl) {
-        window.location.href = data.redirectUrl;
-        return;
-      }
-
-      /*
-       * ================================================================
-       * DEFAULT SUCCESS DESTINATION
-       * ================================================================
-       *
-       * Once proper session handling is implemented, this section
-       * can be replaced by the final authentication flow.
-       */
-
-      window.location.href = "/account";
-    } catch (submitError) {
-      setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "Something went wrong. Please try again.",
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
+  if (!normalizedEmail) {
+    setError("Please enter your email address.");
+    return;
   }
+
+  if (!password) {
+    setError("Please enter your password.");
+    return;
+  }
+
+  setIsSubmitting(true);
+
+  try {
+    const result = await signIn("credentials", {
+      email: normalizedEmail,
+      password,
+      redirect: false,
+    });
+
+    if (!result) {
+      throw new Error("We couldn't sign you in. Please try again.");
+    }
+
+    if (result.error) {
+      throw new Error("Invalid email or password. Please try again.");
+    }
+
+    /*
+     * NextAuth has successfully authenticated the user.
+     *
+     * Fetch the current session so we can determine whether
+     * this is an admin or customer account.
+     */
+    const sessionResponse = await fetch("/api/auth/session", {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    const session = await sessionResponse.json();
+
+    if (!session?.user) {
+      throw new Error("Your account was authenticated, but we couldn't load your session.");
+    }
+
+    if (session.user.role === "admin") {
+      window.location.href = "/admin";
+      return;
+    }
+
+    window.location.href = "/account";
+  } catch (submitError) {
+    setError(
+      submitError instanceof Error
+        ? submitError.message
+        : "Something went wrong. Please try again.",
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+}
 
   return (
     <main
@@ -450,6 +407,7 @@ export default function LoginPage() {
                         }}
                         disabled={isSubmitting}
                         className="
+                        
                           h-[50px]
                           w-full
                           rounded-[14px]
@@ -508,6 +466,7 @@ export default function LoginPage() {
                       />
 
                       <input
+
                         id="login-password"
                         name="password"
                         type={showPassword ? "text" : "password"}
@@ -523,6 +482,7 @@ export default function LoginPage() {
                         }}
                         disabled={isSubmitting}
                         className="
+
                           h-[50px]
                           w-full
                           rounded-[14px]

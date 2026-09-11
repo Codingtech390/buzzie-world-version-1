@@ -1,12 +1,10 @@
 "use client";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import type { StorefrontProduct } from "@/types/storefront";
-
-import ProductCard from "@/components/product/ProductCard";
 
 import Reveal from "./Reveal";
 
@@ -16,21 +14,36 @@ interface FeaturedProductsProps {
 
 const featuredSlides = [
   {
-    image: "/images/products/featured-top/feel-1.png",
-    alt: "Featured BuzzieWorld games, books and learning products",
-    eyebrow: "BUZZIEWORLD FAVOURITES",
-    title: "Emoji's were actually fun. We just didn't stop guessing !",
-    description: "Kiara and Sanaya",
-    age: "10 Years and & 7 Years",
+    image: "/images/products/featured-top/day-feel-1.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
   },
-
   {
-    image: "/images/products/featured-top/feel-2.png",
-    alt: "More featured BuzzieWorld games, books and learning products",
-    eyebrow: "BUZZIEWORLD FAVOURITES",
-    title: "She just couldn't stop playing!",
-    description: "Puja and Shivani",
-    age: "6 Years and & 7 Years",
+    image: "/images/products/featured-top/day-feel-2.png",
+    alt: "BuzzieWorld day feel — kids playing and learning",
+  },
+  {
+    image: "/images/products/featured-top/day-feel-3.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
+  },
+  {
+    image: "/images/products/featured-top/day-feel-4.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
+  },
+  {
+    image: "/images/products/featured-top/day-feel-5.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
+  },
+  {
+    image: "/images/products/featured-top/day-feel-6.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
+  },
+  {
+    image: "/images/products/featured-top/day-feel-7.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
+  },
+  {
+    image: "/images/products/featured-top/day-feel-8.png",
+    alt: "BuzzieWorld day feel — featured customer experience",
   },
 ];
 
@@ -42,10 +55,11 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const slideCount = featuredSlides.length;
-
   const activeProduct = products.length > 0 ? products[activeSlide % products.length] : null;
 
   useEffect(() => {
+    if (slideCount <= 1) return;
+
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % slideCount);
     }, 6000);
@@ -53,15 +67,11 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
     return () => window.clearInterval(timer);
   }, [slideCount]);
 
-  function previousSlide() {
-    setActiveSlide((current) => (current - 1 + slideCount) % slideCount);
-  }
-
-  function nextSlide() {
-    setActiveSlide((current) => (current + 1) % slideCount);
-  }
-
-  const slide = featuredSlides[activeSlide];
+  useEffect(() => {
+    if (activeSlide >= slideCount) {
+      setActiveSlide(0);
+    }
+  }, [activeSlide, slideCount]);
 
   return (
     <Reveal>
@@ -78,9 +88,20 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
           lg:mt-12
         "
       >
-        <div className="relative w-full">
+        <div
+          className="
+            relative
+            w-full
+            overflow-hidden
+            aspect-[16/9]
+          "
+        >
           {/* ============================================================
-              SLIDE IMAGES
+              FULL-WIDTH ARTWORK
+
+              The supplied day-feel artwork already contains the photo,
+              testimonial copy, decorative artwork and product artwork.
+              Nothing is recreated in HTML.
               ============================================================ */}
 
           {featuredSlides.map((item, index) => (
@@ -99,536 +120,167 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
               <Image
                 src={item.image}
                 alt={item.alt}
-                width={1920}
-                height={700}
+                fill
                 priority={index === 0}
                 quality={90}
                 sizes="100vw"
                 className="
-                  block
-                  h-auto
-                  w-full
-                  max-w-none
-                  object-contain
+                  object-cover
                   object-center
+                  select-none
                 "
               />
             </div>
           ))}
 
           {/* ============================================================
-              NATURAL IMAGE-SIZE LAYER
+              BUY NOW CTA
 
-              Keeps the carousel at the natural 1920:700 ratio.
+              Positioned over the decorative arrow area on the left side
+              of the supplied artwork. The image remains untouched.
               ============================================================ */}
 
-          <Image
-            src={slide.image}
-            alt=""
-            aria-hidden="true"
-            width={1920}
-            height={700}
-            quality={1}
-            sizes="100vw"
-            className="
-              pointer-events-none
-              invisible
-              block
-              h-auto
-              w-full
-              select-none
-            "
-          />
-
-          {/* ============================================================
-    RESPONSIVE RIGHT CONTENT
-
-    MOBILE:
-    - Text stays on the right side of the artwork
-    - Larger readable heading
-    - Compact description
-    - Limited text lines
-    - Compact CTA
-    - Everything vertically centered
-
-    DESKTOP:
-    - Original wider layout is preserved
-    ============================================================ */}
-
-          <div
-            className="
-    absolute
-    inset-y-0
-    right-0
-    z-20
-    flex
-    w-[54%]
-    items-center
-    justify-center
-    px-2
-    py-2
-
-    xs:w-[53%]
-    xs:px-2.5
-
-    sm:w-[58%]
-    sm:justify-end
-    sm:px-9
-    sm:py-10
-
-    md:w-[54%]
-    md:px-11
-
-    lg:w-[50%]
-    lg:px-12
-    lg:py-12
-
-    xl:w-[48%]
-    xl:px-32
-
-    2xl:px-20
-  "
-          >
+          {activeProduct ? (
             <div
               className="
-      flex
-      w-full
-      max-w-[470px]
-      flex-col
-      items-start
-      justify-center
-      text-left
-    "
+                absolute
+                left-[4.5%]
+                top-[28%]
+                z-30
+                -translate-y-1/2
+              "
             >
-              {/* ==========================================================
-        EYEBROW
-        ========================================================== */}
-
-              <div
+              <Link
+                href={`/products/${activeProduct.slug}`}
+                aria-label={`Buy ${activeProduct.name} now`}
                 className="
-        mb-1
-        flex
-        max-w-full
-        items-center
-        gap-1
-        overflow-hidden
-
-        xs:mb-1.5
-        xs:gap-1.5
-
-        sm:mb-3.5
-        sm:gap-2
-
-        lg:mb-4
-      "
+                  group/button
+                  inline-flex
+                  min-h-[38px]
+                  items-center
+                  justify-center
+                  gap-1.5
+                  rounded-full
+                  bg-[#C391EE]
+                  px-4
+                  font-[var(--font-poppins-brand)]
+                  text-[10px]
+                  font-bold
+                  leading-none
+                  text-white
+                  shadow-[0_8px_20px_rgba(40,25,65,0.24)]
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-[#E72D5A]
+                  hover:shadow-[0_10px_24px_rgba(40,25,65,0.30)]
+                  active:translate-y-0
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-white
+                  focus-visible:ring-offset-2
+                  focus-visible:ring-offset-transparent
+                  max-sm:mt-60
+                  max-sm:min-h-[28px]
+                  sm:min-h-[44px]
+                  sm:gap-2
+                  sm:px-5
+                  sm:text-[12px]
+                  md:min-h-[48px]
+                  md:px-6
+                  md:text-[13px]
+                  lg:min-h-[52px]
+                  lg:px-7
+                  lg:text-[14px]
+                  xl:min-h-[46px]
+                  xl:px-8
+                  xl:text-[15px]
+                  xl:mt-90
+                "
               >
+                <span className="text-white">Buy now</span>
+
                 <span
                   aria-hidden="true"
                   className="
-          size-1
-          shrink-0
-          rounded-full
-          bg-white
-
-          xs:size-1.5
-
-          sm:size-2
-        "
-                />
-
-                <p
-                  className="
-          truncate
-          font-[var(--font-poppins)]
-          text-[5px]
-          font-black
-          uppercase
-          leading-none
-          tracking-[0.12em]
-          text-white
-          drop-shadow-[0_1px_4px_rgba(30,20,45,0.25)]
-
-          xs:text-[5.5px]
-          xs:tracking-[0.14em]
-
-          sm:text-[8px]
-          sm:tracking-[0.19em]
-
-          lg:text-[9px]
-        "
+                    flex
+                    size-5
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-white/20
+                    sm:size-6
+                    lg:size-7
+                  "
                 >
-                  {slide.eyebrow}
-                </p>
-              </div>
-
-              {/* ==========================================================
-        HEADING
-
-        Mobile intentionally uses a readable size because the
-        previous 15px heading was too small on real phones.
-        ========================================================== */}
-
-              <h2
-                className="
-        w-full
-        max-w-[205px]
-        font-[var(--font-roboto)]
-        text-[18px]
-        font-black
-        leading-[0.9]
-        tracking-[-0.045em]
-        text-white
-        drop-shadow-[0_2px_8px_rgba(30,20,45,0.28)]
-
-        xs:max-w-[220px]
-        xs:text-[19px]
-
-        sm:max-w-[440px]
-        sm:text-[28px]
-        sm:leading-[0.94]
-        sm:tracking-[-0.044em]
-
-        md:text-[28px]
-
-        lg:text-[28px]
-
-        xl:text-[32px]
-      "
-              >
-                {slide.title}
-              </h2>
-
-              {/* ==========================================================
-        DESCRIPTION
-
-        Only 2 lines on mobile so the banner doesn't become
-        overloaded.
-        ========================================================== */}
-
-              <p
-                className="
-        mt-1
-        w-full
-        max-w-[205px]
-        overflow-hidden
-        font-[var(--font-poppins)]
-        text-[6.5px]
-        font-medium
-        leading-[1.35]
-        text-white
-        drop-shadow-[0_1px_5px_rgba(30,20,45,0.24)]
-        [display:-webkit-box]
-        [-webkit-box-orient:vertical]
-        [-webkit-line-clamp:2]
-
-        xs:mt-1.5
-        xs:max-w-[220px]
-        xs:text-[7px]
-
-        sm:mt-3.5
-        sm:max-w-[410px]
-        sm:text-[10px]
-        sm:leading-[1.55]
-        sm:[display:block]
-        sm:[-webkit-line-clamp:unset]
-
-        md:text-[11px]
-
-        lg:mt-4
-        lg:text-[12px]
-        lg:leading-[1.6]
-
-        xl:text-[14px]
-        xl:mt-8
-      "
-              >
-                {slide.description}
-              </p>
-
-              {/* ==========================================================
-        AGE / SECONDARY TEXT
-
-        One compact line on mobile.
-        ========================================================== */}
-
-              <p
-                className="
-        mt-1
-        w-full
-        max-w-[205px]
-        truncate
-        font-[var(--font-poppins)]
-        text-[6px]
-        font-medium
-        leading-none
-        text-white/90
-        drop-shadow-[0_1px_5px_rgba(30,20,45,0.22)]
-
-        xs:mt-1.5
-        xs:max-w-[220px]
-        xs:text-[6.5px]
-
-        sm:mt-2.5
-        sm:max-w-[410px]
-        sm:text-[10px]
-        sm:leading-[1.5]
-
-        md:text-[11px]
-
-        lg:text-[14px]
-      "
-              >
-                {slide.age}
-              </p>
-
-              {/* ==========================================================
-        CTA
-        ========================================================== */}
-
-              {activeProduct ? (
-                <div
-                  className="
-          mt-1.5
-
-          xs:mt-2
-
-          sm:mt-5
-
-          lg:mt-6
-        "
-                >
-                  <Link
-                    href={`/products/${activeProduct.slug}`}
+                  <ArrowRight
                     className="
-            group/button
-            inline-flex
-            min-h-[27px]
-            w-fit
-            shrink-0
-            items-center
-            justify-center
-            gap-1.5
-            rounded-full
-            bg-[#C391EE]
-            px-3
-
-            font-[var(--font-poppins)]
-            text-[6.5px]
-            font-black
-            uppercase
-            leading-none
-            tracking-[0.04em]
-            !text-white
-
-            shadow-[0_5px_14px_rgba(30,20,45,0.20)]
-
-            transition-all
-            duration-300
-
-            hover:-translate-y-0.5
-            hover:bg-[#D92350]
-
-            active:translate-y-0
-
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-[#E72D5A]
-            focus-visible:ring-offset-2
-
-            xs:min-h-[29px]
-            xs:px-3.5
-            xs:text-[7px]
-
-            sm:min-h-[48px]
-            sm:px-5
-            sm:gap-2.5
-            sm:text-[10px]
-            sm:tracking-[0.07em]
-          "
-                  >
-                    <span className="!text-white">Buy Product</span>
-
-                    <span
-                      className="
-              flex
-              size-4
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-              bg-white/20
-
-              xs:size-[18px]
-
-              sm:size-8
-            "
-                    >
-                      <ArrowRight
-                        className="
-                size-2.5
-                !text-white
-                transition-transform
-                duration-300
-                group-hover/button:translate-x-1
-
-                xs:size-3
-
-                sm:size-4
-              "
-                        strokeWidth={2.5}
-                      />
-                    </span>
-                  </Link>
-                </div>
-              ) : null}
-
-              {/* ==========================================================
-        SLIDE INDICATORS
-        ========================================================== */}
-
-              <div
-                className="
-        mt-1.5
-        flex
-        items-center
-        gap-1
-
-        xs:mt-2
-        xs:gap-1.5
-
-        sm:mt-5
-      "
-              >
-                {featuredSlides.map((item, index) => (
-                  <button
-                    key={item.image}
-                    type="button"
-                    aria-label={`Go to featured slide ${index + 1}`}
-                    aria-current={activeSlide === index}
-                    onClick={() => setActiveSlide(index)}
-                    className={`
-            h-[2px]
-            rounded-full
-            transition-all
-            duration-300
-
-            ${
-              activeSlide === index
-                ? "w-5 bg-white xs:w-6 sm:w-10"
-                : "w-2 bg-white/45 hover:bg-white/75 xs:w-2.5"
-            }
-          `}
+                      size-3
+                      text-white
+                      transition-transform
+                      duration-300
+                      group-hover/button:translate-x-0.5
+                      sm:size-3.5
+                      lg:size-4
+                    "
+                    strokeWidth={2.5}
                   />
-                ))}
-              </div>
+                </span>
+              </Link>
             </div>
-          </div>
+          ) : null}
 
           {/* ============================================================
-              PREVIOUS BUTTON
+              CAROUSEL INDICATORS
+
+              Kept deliberately minimal because the artwork contains all
+              visual storytelling and text.
               ============================================================ */}
 
-          <button
-            type="button"
-            onClick={previousSlide}
-            aria-label="Previous featured slide"
-            className="
-              absolute
-              left-2
-              top-1/2
-              z-30
-              flex
-              size-6
-              -translate-y-1/2
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/80
-              bg-white/90
-              text-[#24385E]
-              shadow-[0_5px_14px_rgba(30,30,50,0.14)]
-              backdrop-blur-sm
-              transition-all
-              duration-200
-              hover:scale-105
-              hover:bg-white
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#E83D59]
-              focus-visible:ring-offset-2
-
-              xs:left-2.5
-              xs:size-7
-
-              sm:left-4
-              sm:size-9
-
-              lg:left-5
-            "
-          >
-            <ArrowLeft
+          {slideCount > 1 ? (
+            <div
               className="
-                size-3
-                xs:size-3.5
-                sm:size-4
+                absolute
+                bottom-[3.5%]
+                left-1/2
+                z-30
+                flex
+                -translate-x-1/2
+                items-center
+                gap-1.5
+                rounded-full
+                bg-black/10
+                px-2.5
+                py-1.5
+                backdrop-blur-[2px]
+                sm:gap-2
+                sm:px-3
+                sm:py-2
               "
-              strokeWidth={2.2}
-            />
-          </button>
-
-          {/* ============================================================
-              NEXT BUTTON
-              ============================================================ */}
-
-          <button
-            type="button"
-            onClick={nextSlide}
-            aria-label="Next featured slide"
-            className="
-              absolute
-              right-2
-              top-1/2
-              z-30
-              flex
-              size-6
-              -translate-y-1/2
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/80
-              bg-white/90
-              text-[#24385E]
-              shadow-[0_5px_14px_rgba(30,30,50,0.14)]
-              backdrop-blur-sm
-              transition-all
-              duration-200
-              hover:scale-105
-              hover:bg-white
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#E83D59]
-              focus-visible:ring-offset-2
-
-              xs:right-2.5
-              xs:size-7
-
-              sm:right-4
-              sm:size-9
-
-              lg:right-5
-            "
-          >
-            <ArrowRight
-              className="
-                size-3
-                xs:size-3.5
-                sm:size-4
-              "
-              strokeWidth={2.2}
-            />
-          </button>
+            >
+              {featuredSlides.map((item, index) => (
+                <button
+                  key={item.image}
+                  type="button"
+                  aria-label={`Show day feel ${index + 1}`}
+                  aria-current={activeSlide === index}
+                  onClick={() => setActiveSlide(index)}
+                  className={`
+                    h-[3px]
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      activeSlide === index
+                        ? "w-6 bg-white sm:w-8"
+                        : "w-2 bg-white/50 hover:bg-white/80 sm:w-2.5"
+                    }
+                  `}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
     </Reveal>
@@ -639,11 +291,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
    MYTHOLOGY SERIES
    ========================================================================== */
 
-function MythologySeriesSection({
-  products,
-}: {
-  products: StorefrontProduct[];
-}) {
+function MythologySeriesSection({ products }: { products: StorefrontProduct[] }) {
   const mythologyProducts = products.slice(0, 3);
 
   return (
@@ -735,22 +383,22 @@ function MythologySeriesSection({
 
         <h2
           className="
-      text-balance
-      text-center
-      font-[var(--font-roboto)]
-      text-[clamp(2.3rem,6vw,5rem)]
-      font-black
-      uppercase
-      leading-[0.9]
-      tracking-[-0.06em]
-      text-[#24385E]
-    "
+    mx-auto
+    w-full
+    max-w-[950px]
+    text-balance
+    text-center
+    font-[var(--font-poppins-brand)]
+    text-[clamp(3.4rem,11vw,5.8rem)]
+    font-bold
+    uppercase
+    leading-[0.82]
+    tracking-[-0.025em]
+    text-[#111111]
+  "
         >
-          Buzzie Special
-          <br />
-          <span className="text-[#E83D59]">Mythology Series</span>
+          Buzzie Special <span className="text-[#E83D59]">Mythology Series</span>
         </h2>
-
         {/* ================================================================
       DESCRIPTION
       ================================================================ */}
@@ -772,8 +420,9 @@ function MythologySeriesSection({
         sm:text-[11px]
         lg:max-w-[680px]
         lg:text-[13px]
-        xl:max-w-[720px]
-        xl:text-[14px]
+        xl:max-w-[680px]
+        xl:text-[16px]
+
       "
           >
             Games and kits designed for kids to walk them through tales of Krishna, Ram, Mahabharata
@@ -841,6 +490,7 @@ function MythologySeriesSection({
             w-[82%]
             sm:bottom-[2%]
             sm:right-[-2%]
+            max-sm:w-[80%]
             sm:w-[80%]
             lg:bottom-[3%]
             lg:right-0
@@ -970,6 +620,9 @@ function MythologySeriesSection({
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name}`}
                 className={`
+
+                  mt-12
+                  max-sm:mb-8
                   group
                   absolute
                   flex
@@ -979,6 +632,7 @@ function MythologySeriesSection({
                   duration-500
                   hover:z-50
                   hover:scale-[1.05]
+
 
                   ${
                     index === 0
@@ -1034,6 +688,8 @@ function MythologySeriesSection({
                   "
                 />
               </Link>
+
+
             );
           })}
         </div>
@@ -1078,6 +734,87 @@ function MythologySeriesSection({
         >
           ✦
         </div>
+      </div>
+
+           {/* ================================================================
+          EXPLORE MORE CTA
+          ================================================================ */}
+      <div
+        className="
+          relative
+          z-30
+          mt-5
+          flex
+          justify-center
+          px-4
+          sm:mt-7
+          lg:mt-9
+        "
+      >
+        <Link
+          href="/shop/mythology"
+          className="
+            group
+            inline-flex
+            min-h-[48px]
+            w-fit
+            max-w-full
+            items-center
+            justify-center
+            gap-2.5
+            rounded-full
+            bg-[#C391EE]
+            px-6
+            font-[var(--font-poppins-brand)]
+            text-[12px]
+            font-bold
+            leading-none
+            text-white
+            shadow-[0_10px_24px_rgba(195,145,238,0.25)]
+            transition-all
+            duration-300
+            hover:-translate-y-1
+            hover:bg-[#E83D59]
+            hover:shadow-[0_14px_30px_rgba(232,61,89,0.22)]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#E83D59]
+            focus-visible:ring-offset-2
+            sm:min-h-[52px]
+            sm:px-7
+            sm:text-[13px]
+            lg:min-h-[54px]
+            lg:px-8
+            lg:text-[14px]
+          "
+        >
+          <span className="text-white">Explore More Mythology Products</span>
+
+          <span
+            className="
+              flex
+              size-7
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-white/20
+              sm:size-8
+            "
+          >
+            <ArrowRight
+              className="
+                size-3.5
+                text-white
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+                sm:size-4
+              "
+              strokeWidth={2.5}
+            />
+          </span>
+        </Link>
       </div>
 
       {/* ================================================================
@@ -1138,6 +875,7 @@ function GeographySection() {
 
       <div
         className="
+
           relative
           z-20
           mx-auto
@@ -1203,50 +941,25 @@ function GeographySection() {
 
         <h2
           className="
-          uppercase
-            text-balance
-            font-[var(--font-roboto)]
-            text-[clamp(2.3rem,6vw,5rem)]
-            font-black
-            leading-[0.9]
-            tracking-[-0.06em]
-            text-[#24385E]
-          "
+
+    mx-auto
+    w-full
+    max-w-[1150px]
+    text-balance
+    text-center
+    font-[var(--font-poppins-brand)]
+    text-[clamp(3.4rem,11vw,5.8rem)]
+    font-bold
+    uppercase
+    leading-[0.82]
+    tracking-[-0.025em]
+    text-[#111111]
+  "
         >
-          Buzzie
-          <br />
-          <span className="text-[#E83D59]">Geography Edition</span>
+          Buzzie <span className="text-[#E83D59]">Geography Edition</span>
         </h2>
 
-        {/* ================================================================
-    DESCRIPTION
-    ================================================================ */}
 
-        <div className="mx-auto flex w-full justify-center">
-          <p
-            className="
-              mt-8
-              w-full
-              max-w-[560px]
-              text-center
-              font-[var(--font-poppins)]
-              text-[10px]
-              font-medium
-              leading-[1.65]
-              text-[#687489]
-              sm:mt-5
-              sm:max-w-[620px]
-              sm:text-[11px]
-              lg:max-w-[680px]
-              lg:text-[13px]
-              xl:max-w-[720px]
-              xl:text-[14px]
-    "
-          >
-            Explore the world through playful discoveries, fascinating places and fun learning
-            adventures made for curious little minds.
-          </p>
-        </div>
       </div>
 
       {/* ================================================================
@@ -1291,7 +1004,7 @@ function GeographySection() {
           "
         >
           <img
-            src="/images/hero/Buzzie-geography.png"
+            src="/images/hero/Buzzie-geography-1.png"
             alt="Buzzie Geography Edition"
             className="
               mx-auto
@@ -1387,7 +1100,7 @@ function GeographySection() {
     lg:px-7
   "
         >
-          <span className="!text-white">Check Geography Products</span>
+          <span className="!text-white">Explore more Geography Products</span>
 
           <span
             className="
@@ -1418,30 +1131,10 @@ function GeographySection() {
         </Link>
       </div>
 
-      {/* ================================================================
-          BOTTOM SPACING / DECORATIVE DETAIL
-          ================================================================ */}
-
-      <div
-        aria-hidden="true"
-        className="
-          mx-auto
-          mt-10
-          flex
-          items-center
-          justify-center
-          gap-1.5
-          sm:mt-12
-        "
-      >
-        <span className="h-[3px] w-8 rounded-full bg-[#E83D59]" />
-        <span className="h-[3px] w-3 rounded-full bg-[#F5C84B]" />
-        <span className="h-[3px] w-3 rounded-full bg-[#8B6BD9]" />
-      </div>
+  
     </section>
   );
 }
-
 
 export default function FeaturedProducts({ products }: FeaturedProductsProps) {
   if (products.length === 0) {
@@ -1529,57 +1222,26 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
             {/* Main Heading */}
             <h2
               className="
-              uppercase
-                mx-auto
-                mt-5
-                w-full
-                text-center
-                font-[var(--font-roboto)]
-                text-[40px]
-                font-black
-                leading-[0.94]
-                tracking-[-0.055em]
-                text-[#111111]
+    mx-auto
+    mt-5
+    w-full
+    max-w-[800px]
+    text-center
+    font-[var(--font-poppins-brand)]
+    text-[clamp(3.4rem,11vw,5.8rem)]
+    font-bold
+    uppercase
+    leading-[0.82]
+    tracking-[-0.025em]
+    text-[#111111]
 
-                sm:mt-6
-                sm:text-[50px]
+    sm:mt-6
 
-                lg:mt-6
-                lg:text-[60px]
-
-                xl:text-[66px]
-              "
+    lg:mt-6
+  "
             >
               What Buzzie Day <span className="text-[#E72D5A]">Feels like</span>
             </h2>
-
-            {/* Description */}
-            <p
-              className="
-                mx-auto
-                mt-6
-                w-full
-                max-w-[650px]
-                px-4
-                text-center
-                font-[var(--font-poppins)]
-                text-[13px]
-                leading-6
-                text-[#687489]
-
-                sm:mt-7
-                sm:px-0
-                sm:text-[14px]
-                sm:leading-7
-
-                lg:mt-8
-                lg:max-w-[700px]
-                lg:text-[15px]
-                lg:leading-7
-              "
-            >
-              Our favourites, picked for curious minds and unforgettable playtime.
-            </p>
           </div>
         </Reveal>
 
@@ -1595,7 +1257,6 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
 
         <MythologySeriesSection products={products} />
         <GeographySection />
-
       </div>
     </section>
   );

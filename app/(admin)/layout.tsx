@@ -5,10 +5,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   await requireAdmin();
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen bg-[#FCFAF7]">
+      {/* Admin Sidebar */}
       <AdminSidebar />
 
-      <main>{children}</main>
+      {/* Admin Content */}
+      <main className="min-w-0 flex-1">{children}</main>
     </div>
   );
 }

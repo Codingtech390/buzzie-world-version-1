@@ -268,61 +268,120 @@ function InstagramCardGroup({ groupId }: { groupId: string }) {
   );
 }
 
-/* ============================================================================
-   FOLLOW US SECTION
-   ============================================================================ */
-
 export default function FollowUsSection() {
   if (INSTAGRAM_POSTS.length === 0) return null;
 
   return (
     <section
       aria-label="Follow BuzzieWorld on Instagram"
-      className="relative isolate w-full max-w-full overflow-hidden bg-[#F8F1DE]"
+      className="
+        relative
+        isolate
+        w-full
+        overflow-hidden
+        bg-[#F8F1DE]
+      "
     >
-      {/* Background */}
+      {/* ================================================================
+          FULL BANNER IMAGE
+
+          The artwork is displayed FIRST and completely.
+          No background-cover cropping.
+          ================================================================ */}
+
+      <div className="relative w-full overflow-hidden">
+        <Image
+          src="/images/backgrounds/insta-video-banner.png"
+          alt="BuzzieWorld"
+          width={1920}
+          height={700}
+          priority
+          quality={90}
+          sizes="100vw"
+          className="
+            block
+            h-auto
+            w-full
+            max-w-none
+            object-contain
+          "
+        />
+      </div>
+
+      {/* ================================================================
+          INSTAGRAM CARDS
+
+          Cards now sit BELOW the artwork instead of covering it.
+          ================================================================ */}
+
       <div
-        aria-hidden="true"
         className="
-          pointer-events-none absolute inset-0 -z-10
+          relative
+          w-full
+          overflow-hidden
           bg-[#F8F1DE]
-          bg-[url('/images/backgrounds/perfect-background.png')]
-          bg-cover bg-center bg-no-repeat
+          py-5
+          sm:py-6
+          md:py-7
+          lg:py-8
         "
-      />
+      >
+        {/* Left fade */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-y-0
+            left-0
+            z-20
+            w-8
+            bg-gradient-to-r
+            from-[#F8F1DE]
+            to-transparent
+            sm:w-12
+            md:w-16
+            lg:w-20
+          "
+        />
 
-      <div className="relative w-full max-w-full overflow-hidden pt-1 pb-5 sm:pt-2 sm:pb-6 md:pt-3 md:pb-7 lg:pt-4 lg:pb-8">
-        {/* Heading */}
-        <div className="mx-auto w-[94%] max-w-[1150px] sm:w-[90%] md:w-[84%] lg:w-[78%] xl:w-[72%]">
-          <Image
-            src="/images/backgrounds/perfect-heading.png"
-            alt="The perfect birthday gift page doesn't exist. Follow us on Instagram."
-            width={2048}
-            height={682}
-            priority={false}
-            unoptimized
-            className="block h-auto w-full select-none"
-          />
-        </div>
+        {/* Right fade */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-y-0
+            right-0
+            z-20
+            w-8
+            bg-gradient-to-l
+            from-[#F8F1DE]
+            to-transparent
+            sm:w-12
+            md:w-16
+            lg:w-20
+          "
+        />
 
-        <div className="h-2 sm:h-3 md:h-4 lg:h-5" />
+        {/* ==============================================================
+            HORIZONTAL MARQUEE
+            ============================================================== */}
 
-        {/* Marquee viewport */}
-        <div className="relative w-full max-w-full overflow-hidden">
-          {/* Left fade */}
+        <div
+          className="
+            relative
+            w-full
+            overflow-hidden
+          "
+        >
           <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 z-20 w-3 bg-gradient-to-r from-[#F8F1DE] to-transparent sm:w-5 md:w-7 lg:w-10"
-          />
-          {/* Right fade */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 z-20 w-3 bg-gradient-to-l from-[#F8F1DE] to-transparent sm:w-5 md:w-7 lg:w-10"
-          />
-
-          {/* Moving track */}
-          <div
-            className="buzzie-instagram-marquee"
+            className="
+              buzzie-instagram-marquee
+              flex
+              w-max
+              items-stretch
+            "
             style={{
               animation: "buzzie-instagram-marquee-animation 30s linear infinite",
             }}
@@ -332,8 +391,6 @@ export default function FollowUsSection() {
             <InstagramCardGroup groupId="group-three" />
           </div>
         </div>
-
-        <div className="h-4 sm:h-5 md:h-6 lg:h-7" />
       </div>
     </section>
   );

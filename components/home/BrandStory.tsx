@@ -127,13 +127,7 @@ function StoryProductImage({
   );
 }
 
-function MobileStoryImage({
-  url,
-  alt,
-}: {
-  url?: string;
-  alt: string;
-}) {
+function MobileStoryImage({ url, alt }: { url?: string; alt: string }) {
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-[#D9D1F0]">
       {url ? (
@@ -157,19 +151,14 @@ export default function BrandStory({ products }: BrandStoryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const storyProducts = useMemo(
-    () =>
-      products.filter((product) =>
-        product.images?.some((image) => image.url),
-      ),
+    () => products.filter((product) => product.images?.some((image) => image.url)),
     [products],
   );
 
   const activeSlide = STORY_SLIDES[activeIndex];
 
   const leftProduct =
-    storyProducts.length > 0
-      ? storyProducts[activeIndex % storyProducts.length]
-      : undefined;
+    storyProducts.length > 0 ? storyProducts[activeIndex % storyProducts.length] : undefined;
 
   const rightProduct =
     storyProducts.length > 1
@@ -180,15 +169,14 @@ export default function BrandStory({ products }: BrandStoryProps) {
   const rightImage = rightProduct?.images?.find((image) => image.url)?.url;
 
   const goTo = (index: number) => {
-    const next =
-      (index + STORY_SLIDES.length) % STORY_SLIDES.length;
+    const next = (index + STORY_SLIDES.length) % STORY_SLIDES.length;
     setActiveIndex(next);
   };
 
   const Icon = activeSlide.icon;
 
   return (
-    <section className="relative overflow-hidden bg-[#5D50A8] text-white">
+    <section className="relative overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white">
       {/* ================================================================
           SOFT BACKGROUND GRAPHICS
       ================================================================ */}
@@ -279,13 +267,13 @@ export default function BrandStory({ products }: BrandStoryProps) {
 
                     <div className="mt-5 flex items-start gap-3 mb-5">
                       <div className="min-w-0 flex-1">
-                        <h2 className="font-[var(--font-roboto)] text-[clamp(2rem,2.8vw,1rem)] font-black leading-[0.96] tracking-[-0.055em] text-[#FFD54F]">
+                        <h2 className="font-[var(--font-poppins-brand)] text-[clamp(2rem,2.8vw,1rem)] font-bold leading-[0.9] tracking-[-0.035em] text-[#FFD54F]">
                           {activeSlide.question}
                         </h2>
                       </div>
                     </div>
 
-                    <p className="mt-9 max-w-[520px] text-[15px] font-medium leading-[1.45] text-white sm:text-[16px] sm:leading-[1.45]">
+                    <p className="mt-9 max-w-[520px] font-[var(--font-poppins-brand)] text-[15px] font-medium leading-[1.45] normal-case text-white sm:text-[16px] sm:leading-[1.45]">
                       {activeSlide.description}
                     </p>
 
@@ -427,11 +415,11 @@ export default function BrandStory({ products }: BrandStoryProps) {
                 <span className="h-2 w-2 rounded-full bg-[#E83D59]" />
               </div>
 
-              <h2 className="mt-4 font-[var(--font-roboto)] text-[clamp(2rem,8vw,3.2rem)] font-black leading-[0.96] tracking-[-0.05em] text-white">
+              <h2 className="mt-4 font-[var(--font-poppins-brand)] text-[clamp(2rem,8vw,3.2rem)] font-bold leading-[0.9] tracking-[-0.035em] text-white">
                 {activeSlide.question}
               </h2>
 
-              <p className="mx-auto mt-5 max-w-[570px] text-[12px] leading-6 text-white/90 sm:text-[13px] sm:leading-7">
+              <p className="mx-auto mt-5 max-w-[570px] font-[var(--font-poppins-brand)] text-[12px] leading-6 normal-case text-white/90 sm:text-[13px] sm:leading-7">
                 {activeSlide.description}
               </p>
 

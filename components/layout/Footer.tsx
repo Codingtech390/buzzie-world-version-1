@@ -8,7 +8,7 @@ import { siteConfig } from "@/config/site";
 const FOOTER_VIDEO =
   "/images/hero/video/night-sky-rockets-stars-loop-v2.mp4";
 
-const FOOTER_LOGO = "/images/hero/Logo-1.jpeg";
+const FOOTER_LOGO = "/images/hero/buzzie-logo.png";
 
 /* ================================================================
    FOOTER NAVIGATION

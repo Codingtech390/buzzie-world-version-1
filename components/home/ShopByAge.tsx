@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -30,20 +30,67 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
   const favorites = products.slice(0, 3);
 
+  useEffect(() => {
+    if (favorites.length <= 1) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % favorites.length);
+    }, 5000);
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [favorites.length]);
+
   if (!favorites.length) {
     return null;
   }
 
-  const product = favorites[activeIndex];
+  const product = favorites[activeIndex % favorites.length];
+
   const productImage = product.images?.[0]?.url;
 
-  const previous = () => {
-    setActiveIndex((current) => (current === 0 ? favorites.length - 1 : current - 1));
-  };
+  /* ==========================================================================
+     PRODUCT DATA
+     ========================================================================== */
 
-  const next = () => {
-    setActiveIndex((current) => (current === favorites.length - 1 ? 0 : current + 1));
-  };
+  const ageLabel = (() => {
+    const ageRange = product.ageRange;
+
+    if (!ageRange) {
+      return "All Ages";
+    }
+
+    if (
+      ageRange.min !== undefined &&
+      ageRange.max !== undefined
+    ) {
+      return `Ages ${ageRange.min}–${ageRange.max}`;
+    }
+
+    if (ageRange.min !== undefined) {
+      return `Ages ${ageRange.min}+`;
+    }
+
+    if (ageRange.max !== undefined) {
+      return `Up to ${ageRange.max}`;
+    }
+
+    return "All Ages";
+  })();
+
+
+  const stockLabel =
+    product.stock > 0
+      ? `${product.stock.toLocaleString("en-IN")} Pieces`
+      : "Out of Stock";
+
+
+  const featuredLabel = product.featured
+    ? "Featured"
+    : "Our Pick";
 
   return (
     <section
@@ -58,7 +105,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       "
     >
       {/* ================================================================
-          HERO BACKGROUND
+          OVERALL SECTION BACKGROUND
           ================================================================ */}
 
       <div
@@ -75,10 +122,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
         "
       />
 
-      {/* ================================================================
-          VERY LIGHT OVERLAY
-          Keeps the text readable without washing out hero-bg.png.
-          ================================================================ */}
+      {/* Very light overlay */}
 
       <div
         aria-hidden="true"
@@ -98,9 +142,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       <Reveal>
         <div
           className="
-            mt-8
             relative
             z-20
+            mt-8
             flex
             flex-col
             items-center
@@ -140,7 +184,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 xl:text-[12px]
               "
             >
-              Latest & Trending
+              Latest &amp; Trending
             </span>
 
             <span className="size-1.5 rounded-full bg-[#F59A23]" />
@@ -148,21 +192,20 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
           <h2
             className="
-            uppercase
-              mx-auto
-              w-full
-              max-w-[700px]
-              font-[var(--font-roboto)]
-              text-[clamp(2.35rem,9vw,4.25rem)]
-              font-black
-              leading-[0.91]
-              tracking-[-0.06em]
-              text-[#111111]
-              sm:text-[clamp(2.8rem,7vw,4.25rem)]
-              lg:text-[clamp(3rem,4.8vw,4.25rem)]
-            "
+    m-0
+    mx-auto
+    w-full
+    max-w-[700px]
+    font-[var(--font-poppins-brand)]
+    text-[clamp(3.4rem,11vw,5.8rem)]
+    font-bold
+    uppercase
+    leading-[0.82]
+    tracking-[-0.025em]
+    text-[#111111]
+  "
           >
-            Buzzie <span className="text-[#E72D5A]">Favorite</span>
+            Buzzie <span className="text-[#FF5558]">Favorite</span>
           </h2>
 
           <div
@@ -184,7 +227,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       </Reveal>
 
       {/* ================================================================
-          MAIN HERO CONTENT
+          MAIN CONTENT
           ================================================================ */}
 
       <div
@@ -228,263 +271,217 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
           <div
             className="
-              relative
-              z-30
-              flex
-              flex-col
-              justify-center
-              px-2
-              py-2
-              text-center
-              sm:px-5
-              sm:py-3
-              lg:px-0
-              lg:pl-6
-              lg:text-left
-              xl:pl-10
-            "
+    relative
+    z-30
+    flex
+    flex-col
+    justify-center
+    px-5
+    py-8
+    text-center
+    sm:px-8
+    sm:py-10
+    lg:px-0
+    lg:pl-8
+    lg:pr-6
+    lg:text-left
+    xl:pl-12
+    xl:pr-10
+  "
           >
-            {/* Eyebrow */}
-
-            <div
+            {/* Product Name */}
+            <h3
               className="
-                flex
-                items-center
-                justify-center
-                gap-2
-                lg:justify-start
-              "
+      m-0
+      max-w-[620px]
+      font-[var(--font-poppins-brand)]
+      text-[clamp(2.2rem,5vw,4.5rem)]
+      font-bold
+      leading-[0.94]
+      tracking-[-0.035em]
+      text-[#24385E]
+    "
             >
-              <span
-                className="
-                  size-1.5
-                  rounded-full
-                  bg-[#E83D59]
-                  sm:size-2
-                "
-              />
+              {product.name}
+            </h3>
 
-              <span
-                className="
-                  font-[var(--font-poppins)]
-                  text-[8px]
-                  font-extrabold
-                  uppercase
-                  tracking-[0.22em]
-                  text-[#52627D]
-                  sm:text-[9px]
-                  lg:text-[10px]
-                "
-              >
-                BUZZIEWORLD
-              </span>
-
-              <span
-                className="
-                  h-px
-                  w-6
-                  bg-[#52627D]/45
-                  sm:w-8
-                "
-              />
-            </div>
-
-            {/* Heading */}
-
-            <h2
-              className="
-                mt-3
-                max-w-[520px]
-                font-[var(--font-poppins)]
-                text-[clamp(2.35rem,7.5vw,4.75rem)]
-                font-extrabold
-                leading-[0.91]
-                tracking-[-0.065em]
-                text-[#24385E]
-                lg:mt-5
-              "
-            >
-              Big ideas
-              <br />
-              begin with
-              <br />
-              <span className="text-[#E83D59]">little hands.</span>
-            </h2>
-
-            {/* Description */}
-
+            {/* Product Description */}
             <p
               className="
-                mx-auto
-                mt-4
-                max-w-[430px]
-                font-[var(--font-roboto)]
-                text-[11px]
-                leading-[1.65]
-                text-[#4E5970]
-                sm:text-[12px]
-                lg:mx-0
-                lg:mt-5
-                lg:max-w-[440px]
-                lg:text-[13px]
-                lg:leading-[1.65]
-              "
+      mx-auto
+      mt-8
+      max-w-[520px]
+      font-[var(--font-poppins-brand)]
+      text-[13px]
+      font-medium
+      leading-[1.65]
+      tracking-[-0.01em]
+      text-[#58647A]
+      sm:mt-6
+      sm:text-[14px]
+      lg:mx-0
+      lg:mt-6
+      lg:max-w-[500px]
+      lg:text-[15px]
+      lg:leading-[1.65]
+      lg:mt-5
+    "
             >
-              A story-led game set introducing children to memorable characters, creatures and
-              stories through fun, simple facts and playful matching challenges.
+              {product.description}
             </p>
 
-            {/* CTA + PRICE */}
-
+            {/* CTA + Price */}
             <div
               className="
-                mt-5
-                flex
-                flex-col
-                items-center
-                gap-4
-                sm:flex-row
-                sm:justify-center
-                lg:justify-start
-              "
+      mt-7
+      flex
+      flex-col
+      items-center
+      gap-4
+      sm:mt-8
+      sm:flex-row
+      sm:items-center
+      sm:justify-center
+      lg:justify-start
+    "
             >
+              {/* Themed CTA */}
               <Link
                 href={`/products/${product.slug}`}
                 className="
-                  group
-                  inline-flex
-                  min-h-[42px]
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-full
-                  bg-[#C391EE]
-                  px-5
-                  font-[var(--font-poppins)]
-                  text-[10px]
-                  font-extrabold
-                  text-white
-                  shadow-[0_10px_24px_rgba(35,150,180,0.18)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-0.5
-                  hover:bg-[#E83D59]
-                  hover:text-white
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                  sm:min-h-[44px]
-                  sm:px-6
-                  sm:text-[11px]
-                "
+        group
+        inline-flex
+        min-h-[50px]
+        items-center
+        justify-center
+        gap-2.5
+        rounded-full
+        bg-[#C391EE]
+        px-7
+        font-[var(--font-poppins-brand)]
+        text-[14px]
+        font-bold
+        leading-none
+        text-white
+        shadow-[0_12px_28px_rgba(195,145,238,0.28)]
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:bg-[#E83D59]
+        hover:text-white
+        hover:shadow-[0_14px_30px_rgba(232,61,89,0.22)]
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-[#E83D59]
+        focus-visible:ring-offset-2
+        sm:min-h-[54px]
+        sm:px-8
+        sm:text-[15px]
+      "
               >
                 Discover Product
                 <ArrowRight
                   className="
-                    size-3.5
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-1
-                  "
+          size-4
+          transition-transform
+          duration-300
+          group-hover:translate-x-1
+          sm:size-[18px]
+        "
                 />
               </Link>
 
-              <div className="text-left">
-                <p
+              {/* Price */}
+              <div
+                className="
+        flex
+        items-baseline
+        gap-2
+        font-[var(--font-poppins-brand)]
+      "
+              >
+                <span
                   className="
-                    font-[var(--font-poppins)]
-                    text-[7px]
-                    font-extrabold
-                    uppercase
-                    tracking-[0.18em]
-                    text-[#687489]
-                  "
+          text-[20px]
+          font-bold
+          leading-none
+          tracking-[-0.025em]
+          text-[#24385E]
+          sm:text-[22px]
+        "
                 >
-                  FROM
-                </p>
+                  ₹{product.price.toLocaleString("en-IN")}
+                </span>
 
-                <div className="mt-0.5 flex items-baseline gap-2">
+                {product.compareAtPrice && product.compareAtPrice > product.price ? (
                   <span
                     className="
-                      font-[var(--font-poppins)]
-                      text-[15px]
-                      font-extrabold
-                      tracking-[-0.02em]
-                      text-[#24385E]
-                    "
+            font-[var(--font-poppins-brand)]
+            text-[12px]
+            font-medium
+            leading-none
+            text-[#8A91A0]
+            line-through
+            sm:text-[13px]
+          "
                   >
-                    ₹{product.price.toLocaleString("en-IN")}
+                    ₹{product.compareAtPrice.toLocaleString("en-IN")}
                   </span>
-
-                  {product.compareAtPrice && product.compareAtPrice > product.price ? (
-                    <span
-                      className="
-                        font-[var(--font-roboto)]
-                        text-[9px]
-                        text-[#7B8090]
-                        line-through
-                      "
-                    >
-                      ₹{product.compareAtPrice.toLocaleString("en-IN")}
-                    </span>
-                  ) : null}
-                </div>
+                ) : null}
               </div>
             </div>
 
-            {/* Slider indicator */}
-
+            {/* Carousel Indicators */}
             {favorites.length > 1 ? (
               <div
                 className="
-                  mt-4
-                  flex
-                  items-center
-                  justify-center
-                  gap-1.5
-                  lg:justify-start
-                "
+        mt-7
+        flex
+        items-center
+        justify-center
+        gap-1.5
+        lg:justify-start
+      "
               >
                 {favorites.map((item, index) => (
                   <button
                     key={item._id}
                     type="button"
                     onClick={() => setActiveIndex(index)}
-                    aria-label={`Show favorite ${index + 1}`}
+                    aria-label={`Show ${item.name}`}
                     aria-current={activeIndex === index}
                     className={`
-                      h-[3px]
-                      rounded-full
-                      transition-all
-                      duration-300
-                      ${
-                        activeIndex === index
-                          ? "w-8 bg-[#E83D59]"
-                          : "w-4 bg-[#24385E]/25 hover:bg-[#24385E]/45"
-                      }
-                    `}
+            h-[4px]
+            rounded-full
+            transition-all
+            duration-300
+            ${
+              activeIndex === index
+                ? "w-9 bg-[#E83D59]"
+                : "w-4 bg-[#24385E]/20 hover:bg-[#24385E]/40"
+            }
+          `}
                   />
                 ))}
               </div>
             ) : null}
 
-            {/* Small supporting line */}
-
+            {/* Supporting Line */}
             <div
               className="
-                mt-5
-                flex
-                items-center
-                justify-center
-                gap-2
-                font-[var(--font-roboto)]
-                text-[8px]
-                font-medium
-                text-[#58647A]
-                lg:justify-start
-                lg:text-[9px]
-              "
+      mt-6
+      flex
+      items-center
+      justify-center
+      gap-2
+      font-[var(--font-poppins-brand)]
+      text-[10px]
+      font-medium
+      leading-none
+      text-[#687489]
+      lg:justify-start
+      lg:text-[11px]
+    "
             >
               <span className="size-1.5 rounded-full bg-[#65C9DC]" />
               Made for little curious minds
@@ -492,94 +489,52 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           </div>
 
           {/* ============================================================
-              RIGHT — PAPER PRODUCT PRESENTATION
+              RIGHT — PRODUCT CARD + BUTTONS
               ============================================================ */}
 
           <div
             className="
               relative
               flex
-              min-h-[285px]
+              min-h-[260px]
               items-center
               justify-center
-              px-1
-              max-sm:min-h-[140px]
-              md:min-h-[390px]
-              lg:min-h-[470px]
-              lg:px-0
-              xl:min-h-[568px]
+              sm:min-h-[330px]
+              md:min-h-[410px]
+              lg:min-h-[500px]
+              xl:min-h-[560px]
             "
           >
             {/* ==========================================================
-                NAVIGATION ARROW — LEFT
-                ========================================================== */}
-
-            <button
-              type="button"
-              onClick={previous}
-              aria-label="Previous favorite"
-              className="
-                absolute
-                left-0
-                top-1/2
-                z-50
-                flex
-                size-8
-                -translate-y-1/2
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-[#24385E]/15
-                bg-white/80
-                text-[#24385E]
-                shadow-[0_6px_18px_rgba(35,45,75,0.12)]
-                backdrop-blur-sm
-                transition-all
-                duration-200
-                hover:scale-105
-                hover:bg-white
-                lg:left-1
-                xl:left-1
-              "
-            >
-              <ArrowLeft className="size-4" />
-            </button>
-
-            {/* ==========================================================
-                PAPER CARD
+                3D PRODUCT CARD
                 ========================================================== */}
 
             <div
+              key={product._id}
               className="
                 relative
                 z-20
-                flex
-                w-[132%]
-                max-w-none
-                -translate-x-[2%]
-                items-center
-                justify-center
+                w-[58%]
+                min-w-0
+                max-w-[372px]
+                -translate-x-[4%]
                 rotate-[-2deg]
-                transition-transform
+                transition-all
                 duration-500
-                hover:rotate-[-1deg]
-                sm:w-[245%]
-                sm:-translate-x-[4%]
-                md:w-[165%]
-                md:-translate-x-[6%]
-                lg:w-[192%]
-                lg:-translate-x-[8%]
-                xl:w-[188%]
-                xl:-translate-x-[9%]
+                sm:w-[60%]
+                sm:-translate-x-[3%]
+                md:w-[60%]
+                md:-translate-x-[2%]
+                lg:w-[60%]
+                lg:translate-x-0
               "
             >
               {/* ========================================================
-                  PAPER TEXTURE
+                  RAW 3D CARD
                   ======================================================== */}
 
               <img
-                src="/images/hero/home-paper.png"
+                src="/images/products/card-buzzie-fav-raw.png"
                 alt=""
                 aria-hidden="true"
                 className="
@@ -591,19 +546,21 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                   select-none
                   object-contain
                 "
+                draggable={false}
               />
 
               {/* ========================================================
-                  PRODUCT
+                  PRODUCT IMAGE FROM BACKEND
                   ======================================================== */}
 
               <div
-                key={product._id}
                 className="
                   absolute
-                  inset-[11%]
+                  inset-x-[9%]
+                  top-[10%]
                   z-10
                   flex
+                  h-[66%]
                   items-center
                   justify-center
                 "
@@ -614,126 +571,134 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     alt={product.images?.[0]?.alt || product.name}
                     className="
                       block
-                      h-auto
-                      max-h-[82%]
-                      w-[78%]
+                      max-h-full
+                      max-w-[88%]
                       object-contain
-                      drop-shadow-[0_22px_24px_rgba(38,34,55,0.24)]
+                      drop-shadow-[0_18px_22px_rgba(20,30,55,0.28)]
                       transition-transform
                       duration-500
-                      hover:scale-[1.025]
-                      sm:w-[80%]
-                      md:w-[81%]
-                      lg:w-[82%]
                     "
+                    draggable={false}
                   />
                 ) : (
                   <div
                     className="
                       flex
-                      aspect-[4/3]
-                      w-[72%]
+                      h-[55%]
+                      w-[65%]
                       items-center
                       justify-center
                       rounded-2xl
-                      bg-white/50
+                      bg-white/20
+                      px-5
+                      text-center
                       font-[var(--font-poppins)]
                       text-sm
                       font-bold
-                      text-[#687489]
-                      backdrop-blur-sm
+                      text-[#24385E]
                     "
                   >
                     {product.name}
                   </div>
                 )}
               </div>
+
+              {/* ========================================================
+                  PRODUCT NAME
+                  SLIGHTLY TILTED
+                  ======================================================== */}
+
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-x-[17%]
+                  bottom-[8.2%]
+                  z-20
+                  flex
+                  h-[15.5%]
+                  items-center
+                  justify-center
+                  px-[7%]
+                  text-center
+                "
+              >
+                <span
+                  className="
+                  mt-5
+                    line-clamp-2
+                    max-w-full
+                    rotate-[-3deg]
+                    font-[var(--font-poppins)]
+                    text-[clamp(0.78rem,2.5vw,2.04rem)]
+                    font-extrabold
+                    leading-[0.95]
+                    tracking-[-0.035em]
+                    text-white
+                    drop-shadow-[0_3px_4px_rgba(90,20,35,0.28)]
+                    sm:text-[clamp(0.95rem,2.25vw,2.04rem)]
+                    xl:text-[clamp(1.05rem,2.25vw,1.50rem)]
+                  "
+                >
+                  {product.name}
+                </span>
+              </div>
             </div>
 
             {/* ==========================================================
-                NAVIGATION ARROW — RIGHT
-                ========================================================== */}
+                RIGHT-SIDE BUTTONS
 
-            <button
-              type="button"
-              onClick={next}
-              aria-label="Next favorite"
-              className="
-                absolute
-                right-0
-                top-1/2
-                z-50
-                flex
-                size-8
-                -translate-y-1/2
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-[#24385E]/15
-                bg-white/80
-                text-[#24385E]
-                shadow-[0_6px_18px_rgba(35,45,75,0.12)]
-                backdrop-blur-sm
-                transition-all
-                duration-200
-                hover:scale-105
-                hover:bg-white
-                lg:right-1
-                xl:right-28
-              "
-            >
-              <ArrowRight className="size-4" />
-            </button>
+                SAME VERTICAL STACK AT ALL BREAKPOINTS.
 
-            {/* ==========================================================
-                SIDE INFORMATION ICON BUTTONS
+                There is deliberately NO:
+                  hidden
+                  lg:flex
+
+                Therefore the buttons remain visible on mobile.
                 ========================================================== */}
 
             <div
               className="
+              gap-4
+              max-sm:gap-3
                 absolute
-                right-0
+                right-[1%]
                 top-1/2
                 z-40
-                hidden
+                flex
+                w-[25%]
+                max-w-[150px]
                 -translate-y-1/2
                 flex-col
-                lg:flex
-                xl:right-[-8px]
+                items-center
+                gap-0
+                max-sm:right-[-2%]
+                sm:w-[24%]
+                md:right-[1%]
+                md:w-[23%]
+                lg:right-[-1%]
+                lg:w-[22%]
+                lg:max-w-[150px]
+                xl:right-[1%]
               "
             >
               {/* ========================================================
-                  OVERVIEW — BLUE
+                  YELLOW — AGE
                   ======================================================== */}
 
-              <button
-                type="button"
-                aria-label="Overview"
-                title="Overview"
-                onClick={() => {
-                  // Add overview interaction here when required.
-                }}
+              <Link
+                href={`/products/${product.slug}`}
+                aria-label={`View ${product.name} — ${ageLabel}`}
                 className="
                   group
                   relative
                   z-40
-                  flex
-                  size-[88px]
-                  shrink-0
-                  items-center
-                  justify-center
-                  overflow-visible
-                  border-0
-                  bg-transparent
-                  p-0
-                  shadow-none
+                  block
+                  w-full
                   transition-all
-                  duration-200
-                  hover:-translate-y-0.5
+                  duration-300
+                  hover:-translate-y-1
                   hover:scale-[1.03]
-                  active:translate-y-0
-                  active:scale-[0.97]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -741,80 +706,64 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 "
               >
                 <img
-                  src="/images/hero/themed-buttons/themed-blue-button.png"
+                  src="/images/buttons/right-yellow.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    z-0
-                    h-full
+                    block
+                    h-auto
                     w-full
                     select-none
                     object-contain
                   "
+                  draggable={false}
                 />
 
                 <span
                   className="
                     pointer-events-none
                     absolute
-                    inset-0
-                    z-10
+                    inset-y-0
+                    left-[31%]
+                    right-[7%]
                     flex
-                    -translate-y-[18px]
                     items-center
                     justify-center
+                    px-[4%]
+                    text-center
+                    font-[var(--font-poppins)]
+                    text-[clamp(0.42rem,1.9vw,0.82rem)]
+                    font-extrabold
+                    leading-[1]
+                    tracking-[-0.025em]
+                    text-[#17365F]
+                    transition-transform
+                    duration-300
+                    group-hover:scale-[1.03]
                   "
                 >
-                  <Eye
-                    className="
-                      size-[24px]
-                      shrink-0
-                      text-white
-                      drop-shadow-[0_2px_3px_rgba(0,0,0,0.20)]
-                      transition-transform
-                      duration-200
-                      group-hover:scale-105
-                    "
-                    strokeWidth={1.8}
-                  />
+                  {ageLabel}
                 </span>
-              </button>
+              </Link>
 
               {/* ========================================================
-                  DETAILS — RED
+                  GREEN — STOCK
                   ======================================================== */}
 
-              <button
-                type="button"
-                aria-label="Product details"
-                title="Details"
-                onClick={() => {
-                  // Add details interaction here when required.
-                }}
+              <Link
+                href={`/products/${product.slug}`}
+                aria-label={`View ${product.name} — ${stockLabel}`}
                 className="
                   group
                   relative
                   z-30
-                  -mt-[26px]
-                  flex
-                  size-[88px]
-                  shrink-0
-                  items-center
-                  justify-center
-                  overflow-visible
-                  border-0
-                  bg-transparent
-                  p-0
-                  shadow-none
+                  -mt-[3%]
+                  block
+                  w-full
                   transition-all
-                  duration-200
-                  hover:-translate-y-0.5
+                  duration-300
+                  hover:-translate-y-1
                   hover:scale-[1.03]
-                  active:translate-y-0
-                  active:scale-[0.97]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -822,80 +771,64 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 "
               >
                 <img
-                  src="/images/hero/themed-buttons/themed-red-button.png"
+                  src="/images/buttons/right-green.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    z-0
-                    h-full
+                    block
+                    h-auto
                     w-full
                     select-none
                     object-contain
                   "
+                  draggable={false}
                 />
 
                 <span
                   className="
                     pointer-events-none
                     absolute
-                    inset-0
-                    z-10
+                    inset-y-0
+                    left-[31%]
+                    right-[7%]
                     flex
-                    -translate-y-[18px]
                     items-center
                     justify-center
+                    px-[4%]
+                    text-center
+                    font-[var(--font-poppins)]
+                    text-[clamp(0.38rem,1.75vw,0.76rem)]
+                    font-extrabold
+                    leading-[0.95]
+                    tracking-[-0.025em]
+                    text-[#125C2A]
+                    transition-transform
+                    duration-300
+                    group-hover:scale-[1.03]
                   "
                 >
-                  <Info
-                    className="
-                      size-[24px]
-                      shrink-0
-                      text-white
-                      drop-shadow-[0_2px_3px_rgba(0,0,0,0.20)]
-                      transition-transform
-                      duration-200
-                      group-hover:scale-105
-                    "
-                    strokeWidth={1.9}
-                  />
+                  {stockLabel}
                 </span>
-              </button>
+              </Link>
 
               {/* ========================================================
-                  RATING — VIOLET
+                  PINK — FEATURED
                   ======================================================== */}
 
-              <button
-                type="button"
-                aria-label="Product rating 4.8 out of 5"
-                title="Rating: 4.8"
-                onClick={() => {
-                  // Add reviews interaction here when required.
-                }}
+              <Link
+                href={`/products/${product.slug}`}
+                aria-label={`View ${product.name} — ${featuredLabel}`}
                 className="
                   group
                   relative
                   z-20
-                  -mt-[26px]
-                  flex
-                  size-[88px]
-                  shrink-0
-                  items-center
-                  justify-center
-                  overflow-visible
-                  border-0
-                  bg-transparent
-                  p-0
-                  shadow-none
+                  -mt-[3%]
+                  block
+                  w-full
                   transition-all
-                  duration-200
-                  hover:-translate-y-0.5
+                  duration-300
+                  hover:-translate-y-1
                   hover:scale-[1.03]
-                  active:translate-y-0
-                  active:scale-[0.97]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -903,80 +836,64 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 "
               >
                 <img
-                  src="/images/hero/themed-buttons/themed-violet-button.png"
+                  src="/images/buttons/right-pink.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    z-0
-                    h-full
+                    block
+                    h-auto
                     w-full
                     select-none
                     object-contain
                   "
+                  draggable={false}
                 />
 
                 <span
                   className="
                     pointer-events-none
                     absolute
-                    inset-0
-                    z-10
+                    inset-y-0
+                    left-[31%]
+                    right-[7%]
                     flex
-                    -translate-y-[18px]
                     items-center
                     justify-center
+                    px-[4%]
+                    text-center
+                    font-[var(--font-poppins)]
+                    text-[clamp(0.42rem,1.9vw,0.82rem)]
+                    font-extrabold
+                    leading-[1]
+                    tracking-[-0.025em]
+                    text-[#B90D45]
+                    transition-transform
+                    duration-300
+                    group-hover:scale-[1.03]
                   "
                 >
-                  <Star
-                    className="
-                      size-[24px]
-                      shrink-0
-                      text-white
-                      drop-shadow-[0_2px_3px_rgba(0,0,0,0.20)]
-                      transition-transform
-                      duration-200
-                      group-hover:scale-105
-                    "
-                    strokeWidth={1.8}
-                  />
+                  {featuredLabel}
                 </span>
-              </button>
+              </Link>
 
               {/* ========================================================
-                  DEMO / PLAY — YELLOW
+                  BLUE — WATCH DEMO
                   ======================================================== */}
 
-              <button
-                type="button"
-                aria-label="Watch product demo"
-                title="Watch Demo"
-                onClick={() => {
-                  // Add demo/video interaction here when required.
-                }}
+              <Link
+                href={`/products/${product.slug}`}
+                aria-label={`Watch demo for ${product.name}`}
                 className="
                   group
                   relative
                   z-10
-                  -mt-[26px]
-                  flex
-                  size-[88px]
-                  shrink-0
-                  items-center
-                  justify-center
-                  overflow-visible
-                  border-0
-                  bg-transparent
-                  p-0
-                  shadow-none
+                  -mt-[3%]
+                  block
+                  w-full
                   transition-all
-                  duration-200
-                  hover:-translate-y-0.5
+                  duration-300
+                  hover:-translate-y-1
                   hover:scale-[1.03]
-                  active:translate-y-0
-                  active:scale-[0.97]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -984,47 +901,45 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 "
               >
                 <img
-                  src="/images/hero/themed-buttons/themed-yellow-button.png"
+                  src="/images/buttons/right-blue.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    z-0
-                    h-full
+                    block
+                    h-auto
                     w-full
                     select-none
                     object-contain
                   "
+                  draggable={false}
                 />
 
                 <span
                   className="
                     pointer-events-none
                     absolute
-                    inset-0
-                    z-10
+                    inset-y-0
+                    left-[31%]
+                    right-[7%]
                     flex
-                    -translate-y-[18px]
                     items-center
                     justify-center
+                    px-[4%]
+                    text-center
+                    font-[var(--font-poppins)]
+                    text-[clamp(0.4rem,1.8vw,0.78rem)]
+                    font-extrabold
+                    leading-[0.9]
+                    tracking-[-0.025em]
+                    text-[#2E2188]
+                    transition-transform
+                    duration-300
+                    group-hover:scale-[1.03]
                   "
                 >
-                  <CirclePlay
-                    className="
-                      size-[24px]
-                      shrink-0
-                      text-white
-                      drop-shadow-[0_2px_3px_rgba(0,0,0,0.20)]
-                      transition-transform
-                      duration-200
-                      group-hover:scale-105
-                    "
-                    strokeWidth={1.8}
-                  />
+                  Watch Demo
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -1065,8 +980,6 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     </section>
   );
 }
-
-
 /* ==========================================================================
    MAIN COMPONENT
    ========================================================================== */
