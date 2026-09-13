@@ -257,11 +257,7 @@ function getContactNavigationIcon(href: string) {
 /* HELPERS                                                                    */
 /* -------------------------------------------------------------------------- */
 
-function isNavigationActive(
-  pathname: string,
-  href: string,
-  exact = false,
-): boolean {
+function isNavigationActive(pathname: string, href: string, exact = false): boolean {
   if (href === "/") {
     return pathname === "/";
   }
@@ -314,11 +310,9 @@ export default function Navbar() {
   const categoryMenuRef = useRef<HTMLDivElement>(null);
   const contactMenuRef = useRef<HTMLDivElement>(null);
 
-  const categoryCloseTimerRef =
-    useRef<ReturnType<typeof setTimeout> | null>(null);
+  const categoryCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const contactCloseTimerRef =
-    useRef<ReturnType<typeof setTimeout> | null>(null);
+  const contactCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ------------------------------------------------------------------------ */
   /* MOBILE MENU                                                              */
@@ -428,11 +422,9 @@ export default function Navbar() {
         return;
       }
 
-      const clickedCategoryMenu =
-        categoryMenuRef.current?.contains(target) ?? false;
+      const clickedCategoryMenu = categoryMenuRef.current?.contains(target) ?? false;
 
-      const clickedContactMenu =
-        contactMenuRef.current?.contains(target) ?? false;
+      const clickedContactMenu = contactMenuRef.current?.contains(target) ?? false;
 
       if (clickedCategoryMenu || clickedContactMenu) {
         return;
@@ -496,19 +488,15 @@ export default function Navbar() {
 
   const accountHref = isAuthenticated ? "/account" : "/login";
 
-  const accountLabel = isAuthenticated
-    ? session?.user?.name || "Account"
-    : "Account";
+  const accountLabel = isAuthenticated ? session?.user?.name || "Account" : "Account";
 
-  const isAccountArea =
-    pathname.startsWith("/account") || pathname === "/login";
+  const isAccountArea = pathname.startsWith("/account") || pathname === "/login";
 
   /* ------------------------------------------------------------------------ */
   /* ACTIVE STATES                                                            */
   /* ------------------------------------------------------------------------ */
 
-  const isCategoriesArea =
-    pathname.startsWith("/categories") || pathname.startsWith("/shop");
+  const isCategoriesArea = pathname.startsWith("/categories") || pathname.startsWith("/shop");
 
   const isContactArea =
     pathname.startsWith("/about") ||
@@ -609,14 +597,16 @@ export default function Navbar() {
             aria-expanded={isCategoryMenuOpen}
             onClick={toggleCategoryMenu}
             className={[
-              "group relative flex h-10 shrink-0 items-center gap-2 rounded-full px-4 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+              "group relative flex h-10 shrink-0 items-center gap-1.5 rounded-full px-3 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none tracking-[-0.005em] whitespace-nowrap !normal-case outline-none transition-all duration-200",
               "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
               active
-                ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                ? "bg-[#FFF0F3] !text-[#111111] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
+                : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins-brand)] font-bold">Categories</span>
+            <span className="font-[var(--font-playpen-sans)] font-semibold !normal-case !text-[#111111]">
+              Categories
+            </span>
 
             <ChevronDown
               aria-hidden="true"
@@ -668,12 +658,11 @@ export default function Navbar() {
               left-1/2
               top-[calc(100%+12px)]
               z-[80]
-              w-[min(94vw,620px)]
+              w-[min(94vw,600px)]
               -translate-x-1/2
               overflow-hidden
               rounded-[22px]
-              border
-              border-[#EDE2D6]
+
               bg-[#FFFDF9]/98
               p-6 sm:p-7
               shadow-[0_24px_70px_rgba(42,35,28,0.15)]
@@ -701,212 +690,230 @@ export default function Navbar() {
                 />
 
                 {/* ========================================================== */}
-                {/* KID PEEKING                                                 */}
-                {/* ========================================================== */}
-
-                <div
-                  aria-hidden="true"
-                  className="
-                pointer-events-none
-                absolute
-                bottom-1
-                right-3
-                z-20
-                w-[68px]
-                sm:w-[76px]
-              "
-                >
-                  <Image
-                    src="/images/hero/kid-peeking.png"
-                    alt=""
-                    width={220}
-                    height={300}
-                    sizes="76px"
-                    className="
-                  h-auto
-                  w-full
-                  object-contain
-                "
-                  />
-                </div>
-
-                {/* ========================================================== */}
-                {/* DROPDOWN HEADING                                             */}
+                {/* CATEGORY DROPDOWN CONTENT — COMPACT 2-COLUMN + KID PANEL      */}
                 {/* ========================================================== */}
 
                 <div
                   className="
-                relative
-                z-10
-                mb-6
-                px-2
-                pt-1
-                pr-4
-              "
+                    relative
+                    z-10
+                    grid
+                    grid-cols-[minmax(0,1fr)_122px]
+                    gap-x-1
+                    sm:grid-cols-[minmax(0,1fr)_132px]
+                    sm:gap-x-2
+                  "
                 >
-                  <p
-                    className="
-                  font-[var(--font-poppins-brand)]
-                  text-[12px]
-                  font-extrabold
-                  uppercase
-                  tracking-[0.16em]
-                  text-[#E72D5A]
-                "
-                  >
-                    Explore
-                  </p>
+                  {/* ======================================================== */}
+                  {/* LEFT CONTENT                                               */}
+                  {/* ======================================================== */}
 
-                  <p
-                    className="
-                  mt-1.5
-                  font-[var(--font-poppins-brand)]
-                  text-[21px]
-                  font-bold
-                  leading-none
-                  text-[#263451]
-                "
-                  >
-                    Shop by category
-                  </p>
-                </div>
-
-                {/* ========================================================== */}
-                {/* CATEGORY LINKS                                               */}
-                {/* ========================================================== */}
-
-                <div
-                  className="
-                relative
-                z-10
-                grid
-                grid-cols-2
-                gap-x-4
-                gap-y-2.5
-                pr-2
-                sm:grid-cols-3
-              "
-                >
-                  {categoryNavigation.map((category) => {
-                    const href = getCategoryHref(category.slug);
-
-                    const activeLink =
-                      pathname === href ||
-                      categoryLinks.some(
-                        (item) =>
-                          normalizeCategoryValue(item.slug) ===
-                            normalizeCategoryValue(category.slug) &&
-                          pathname === getCategoryHref(item.slug),
-                      );
-
-                    return (
-                      <Link
-                        key={category.slug}
-                        href={href}
-                        role="menuitem"
-                        onClick={() => {
-                          setIsCategoryMenuOpen(false);
-                        }}
-                        className={[
-                          `
-                        group
-                        flex
-                        min-h-[46px]
-                        items-center
-                        gap-2.5
-                        rounded-xl
-                        px-4
-                        py-2.5
-                        font-[var(--font-poppins-brand)]
-                        text-[13px]
-                        font-semibold
-                        leading-tight
-                        outline-none
-                        transition-all
-                        duration-200
-                      `,
-                          "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                          activeLink
-                            ? "bg-[#FFF0F3] text-[#E72D5A]"
-                            : "text-[#263451] hover:bg-[#FFF8EE] hover:text-[#E72D5A]",
-                        ].join(" ")}
+                  <div className="min-w-0">
+                    {/* DROPDOWN HEADING */}
+                    <div className="mb-5 px-1 pt-1 sm:mb-5">
+                      <p
+                        className="
+                          font-[var(--font-playpen-sans)]
+                          !text-[13px]
+                          !normal-case
+                          font-extrabold
+                          tracking-[0.16em]
+                          text-[#E72D5A]
+                        "
                       >
+                        Explore
+                      </p>
+
+                      <p
+                        className="
+                          mt-1.5
+                          font-[var(--font-playpen-sans)]
+                          text-[20px]
+                          font-bold
+                          leading-none
+                          normal-case
+                          text-[#263451]
+                          sm:text-[21px]
+                        "
+                      >
+                        Shop by category
+                      </p>
+                    </div>
+
+                    {/* CATEGORY LINKS — 5 + 4 */}
+                    <div
+                      className="
+                        grid
+                        grid-flow-col
+                        grid-rows-5
+                        grid-cols-2
+                        gap-x-3
+                        gap-y-1
+                        sm:gap-x-4
+                        sm:gap-y-1.5
+                      "
+                    >
+                      {categoryNavigation.map((category) => {
+                        const href = getCategoryHref(category.slug);
+
+                        const activeLink =
+                          pathname === href ||
+                          categoryLinks.some(
+                            (item) =>
+                              normalizeCategoryValue(item.slug) ===
+                                normalizeCategoryValue(category.slug) &&
+                              pathname === getCategoryHref(item.slug),
+                          );
+
+                        return (
+                          <Link
+                            key={category.slug}
+                            href={href}
+                            role="menuitem"
+                            onClick={() => {
+                              setIsCategoryMenuOpen(false);
+                            }}
+                            className={[
+                              `
+                                group
+                                flex
+                                min-h-[44px]
+                                min-w-0
+                                items-center
+                                gap-2
+                                rounded-xl
+                                px-2.5
+                                py-2
+                                font-[var(--font-playpen-sans)]
+                                !text-[13px]
+                                !normal-case
+                                font-semibold
+                                leading-tight
+                                outline-none
+                                transition-all
+                                duration-200
+                                sm:px-3
+                              `,
+                              "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
+                              activeLink
+                                ? "bg-[#FFF0F3] !text-[#111111]"
+                                : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
+                            ].join(" ")}
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="
+                                size-1.5
+                                shrink-0
+                                rounded-full
+                                bg-[#E72D5A]/30
+                                transition-all
+                                duration-200
+                                group-hover:scale-125
+                                group-hover:bg-[#E72D5A]
+                              "
+                            />
+
+                            <span className="truncate font-[var(--font-playpen-sans)] !normal-case !text-[#111111]">
+                              {category.label}
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    {/* VIEW ALL */}
+                    <div
+                      className="
+                        mt-4
+                        flex
+                        items-center
+                        justify-center
+                        border-t
+                        border-[#EDE2D6]/80
+                        pt-4
+                        sm:mt-5
+                        sm:pt-5
+                      "
+                    >
+                      <Link
+                        href="/categories"
+                        onClick={() => setIsCategoryMenuOpen(false)}
+                        className="
+                          group
+                          inline-flex
+                          min-h-11
+                          items-center
+                          justify-center
+                          gap-2
+                          rounded-full
+                          bg-[#C391EE]
+                          px-6
+                          py-3
+                          font-[var(--font-playpen-sans)]
+                          text-[13px]
+                          font-bold
+                          leading-none
+                          !text-white
+                          normal-case
+                          shadow-[0_8px_20px_rgba(195,145,238,0.22)]
+                          outline-none
+                          transition-all
+                          duration-200
+                          hover:bg-[#E83D59]
+                          hover:shadow-[0_10px_24px_rgba(232,61,89,0.22)]
+                          focus-visible:ring-2
+                          focus-visible:ring-[#C391EE]
+                          focus-visible:ring-offset-2
+                        "
+                      >
+                        <span className="font-[var(--font-playpen-sans)]">View all categories</span>
+
                         <span
                           aria-hidden="true"
                           className="
-                        size-1.5
-                        shrink-0
-                        rounded-full
-                        bg-[#E72D5A]/30
-                        transition-all
-                        duration-200
-                        group-hover:scale-125
-                        group-hover:bg-[#E72D5A]
-                      "
+                            h-px
+                            w-4
+                            bg-white
+                            transition-all
+                            duration-200
+                            group-hover:w-6
+                          "
                         />
-
-                        <span className="font-[var(--font-poppins-brand)]">{category.label}</span>
                       </Link>
-                    );
-                  })}
-                </div>
+                    </div>
+                  </div>
 
-                {/* ========================================================== */}
-                {/* VIEW ALL                                                     */}
-                {/* ========================================================== */}
-
-                <div
-                  className="
-                relative
-                z-10
-                mt-6
-                border-t
-                border-[#EDE2D6]/80
-                pt-5
-                pr-2
-              "
-                >
-                  <Link
-                    href="/categories"
-                    onClick={() => setIsCategoryMenuOpen(false)}
+                  {/* ======================================================== */}
+                  {/* KID PEEKING — NOW IN ITS OWN ADJACENT COLUMN             */}
+                  {/* ======================================================== */}
+                  <div
+                    aria-hidden="true"
                     className="
-                  group
-                  flex
-                  min-h-11
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-xl
-                  px-4
-                  py-2.5
-                  font-[var(--font-poppins-brand)]
-                  text-[12px]
-                  font-bold
-                  leading-none
-                  text-[#657086]
-                  outline-none
-                  transition-all
-                  duration-200
-                  hover:bg-[#E72D5A]
-                  hover:text-white
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E72D5A]
-                "
+                      pointer-events-none
+                      relative
+                      flex
+                      min-w-0
+                      items-end
+                      justify-start
+                      self-stretch
+                    "
                   >
-                    <span className="font-[var(--font-poppins-brand)]">View all categories</span>
-
-                    <span
-                      aria-hidden="true"
+                    <Image
+                      src="/images/hero/kid-peeking.png"
+                      alt=""
+                      width={220}
+                      height={300}
+                      sizes="132px"
                       className="
-                    h-px
-                    w-4
-                    bg-current
-                    transition-all
-                    duration-200
-                    group-hover:w-6
-                  "
+                        h-auto
+                        w-[108px]
+                        max-w-none
+                        object-contain
+                        sm:w-[118px]
+                      "
                     />
-                  </Link>
+                  </div>
                 </div>
               </motion.div>
             ) : null}
@@ -934,14 +941,14 @@ export default function Navbar() {
             aria-expanded={isContactMenuOpen}
             onClick={toggleContactMenu}
             className={[
-              "group relative flex h-10 shrink-0 items-center gap-1 rounded-full px-3 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+              "group relative flex h-10 shrink-0 items-center gap-1.5 rounded-full px-3 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none tracking-[-0.005em] whitespace-nowrap !normal-case outline-none transition-all duration-200",
               "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
               active
-                ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                ? "bg-[#FFF0F3] !text-[#111111] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
+                : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
             ].join(" ")}
           >
-            <span className="font-[var(--font-poppins-brand)] font-bold">
+            <span className="font-[var(--font-playpen-sans)] font-semibold !normal-case !text-[#111111]">
               Contact Us & Policies
             </span>
 
@@ -1013,11 +1020,11 @@ export default function Navbar() {
                 />
 
                 <div className="px-3 pb-2 pt-1">
-                  <p className="font-[var(--font-poppins-brand)] text-[16px] font-black uppercase tracking-[0.16em] text-[#E72D5A]">
+                  <p className="font-[var(--font-roboto)] text-[16px] font-bold !normal-case tracking-[0.04em] text-[#E72D5A]">
                     BuzzieWorld
                   </p>
 
-                  <p className="mt-1 font-[var(--font-poppins-brand)] text-[20px] font-bold text-[#263451]">
+                  <p className="mt-1 font-[var(--font-roboto)] text-[20px] font-bold text-[#263451]">
                     We'd love to hear from you
                   </p>
                 </div>
@@ -1058,14 +1065,14 @@ export default function Navbar() {
                         <span className="min-w-0 flex-1">
                           <span
                             className={[
-                              "block font-[var(--font-poppins-brand)] text-[14px] font-bold leading-none",
-                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
+                              "block font-[var(--font-playpen-sans)] text-[13px] font-semibold leading-none !normal-case !text-[#111111]",
+                              activeLink ? "!text-[#111111]" : "!text-[#111111]",
                             ].join(" ")}
                           >
                             {contactItem.label}
                           </span>
 
-                          <span className="mt-1 block font-[var(--font-poppins-brand)] text-[16px] font-medium leading-none text-[#7B8495]">
+                          <span className="mt-1 block font-[var(--font-playpen-sans)] text-[13px] font-medium leading-[1.25] !normal-case !text-[#111111]">
                             {contactItem.description}
                           </span>
                         </span>
@@ -1098,16 +1105,18 @@ export default function Navbar() {
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={[
-          "group relative flex h-10 shrink-0 items-center rounded-full px-3 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none tracking-[-0.01em] whitespace-nowrap outline-none transition-all duration-200",
+          "group relative flex h-10 shrink-0 items-center rounded-full px-3 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none tracking-[-0.005em] whitespace-nowrap !normal-case outline-none transition-all duration-200",
           "focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
           active
-            ? "bg-[#FFF0F3] !text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
+            ? "bg-[#FFF0F3] !text-[#111111] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
             : item.label === "Crazy Deals"
-              ? "text-[#E72D5A] hover:bg-[#FFF0F3] hover:text-[#D5224E]"
-              : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+              ? "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]"
+              : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
         ].join(" ")}
       >
-        <span className="font-[var(--font-poppins-brand)] font-bold">{item.label}</span>
+        <span className="font-[var(--font-playpen-sans)] font-semibold !normal-case !text-[#111111]">
+          {item.label}
+        </span>
 
         {active ? (
           <span
@@ -1124,7 +1133,7 @@ export default function Navbar() {
         ) : null}
       </Link>
     );
-  };;;
+  };
 
   /* ------------------------------------------------------------------------ */
   /* RENDER                                                                   */
@@ -1235,11 +1244,12 @@ export default function Navbar() {
                 <div
                   className="
                     flex
+                    w-full
                     min-w-0
-                    max-w-full
+                    w-fit max-w-full
                     items-center
                     justify-center
-                    gap-1
+                    gap-2
                     rounded-full
                     border
                     border-[#EDE2D6]/80
@@ -1259,14 +1269,14 @@ export default function Navbar() {
 
                   <div
                     className="
-                      ml-2
+                      ml-3
                       flex
                       shrink-0
                       items-center
                       gap-1
                       border-l
                       border-[#EDE2D6]/80
-                      pl-2
+                      pl-3
                     "
                   >
                     {/* SEARCH */}
@@ -1303,11 +1313,7 @@ export default function Navbar() {
                     <Link
                       href="/account/wishlist"
                       aria-label="Wishlist"
-                      aria-current={
-                        pathname.startsWith("/account/wishlist")
-                          ? "page"
-                          : undefined
-                      }
+                      aria-current={pathname.startsWith("/account/wishlist") ? "page" : undefined}
                       className={[
                         "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         pathname.startsWith("/account/wishlist")
@@ -1330,14 +1336,12 @@ export default function Navbar() {
                           ? `Shopping cart, ${cartItemCount} items`
                           : "Shopping cart"
                       }
-                      aria-current={
-                        pathname === "/cart" ? "page" : undefined
-                      }
+                      aria-current={pathname === "/cart" ? "page" : undefined}
                       className={[
                         "group relative flex size-10 items-center justify-center rounded-full outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         pathname === "/cart"
                           ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                          : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                          : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
                       ].join(" ")}
                     >
                       <ShoppingBag
@@ -1362,7 +1366,7 @@ export default function Navbar() {
                             border-[#FFFDF9]
                             bg-[#E72D5A]
                             px-1
-                            font-[var(--font-poppins-brand)]
+                            font-[var(--font-playpen-sans)]
                             text-[0.57rem]
                             font-bold
                             leading-none
@@ -1383,7 +1387,7 @@ export default function Navbar() {
                       href={accountHref}
                       aria-label={accountLabel}
                       className={[
-                        "ml-1 inline-flex h-10 max-w-[9.5rem] items-center gap-2 rounded-full border px-3.5 font-[var(--font-poppins-brand)] !text-[14px] font-bold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                        "inline-flex h-10 max-w-[9.75rem] items-center gap-2 rounded-full border px-3 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none !normal-case outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
                         isAccountArea
                           ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
                           : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
@@ -1392,21 +1396,14 @@ export default function Navbar() {
                       <span
                         className={[
                           "flex size-7 shrink-0 items-center justify-center rounded-full",
-                          isAccountArea
-                            ? "bg-[#E72D5A] text-white"
-                            : "bg-[#FFF0F3] text-[#E72D5A]",
+                          isAccountArea ? "bg-[#E72D5A] text-white" : "bg-[#FFF0F3] text-[#E72D5A]",
                         ].join(" ")}
                       >
-                        <UserRound
-                          className="size-3.5"
-                          strokeWidth={2.1}
-                        />
+                        <UserRound className="size-3.5" strokeWidth={2.1} />
                       </span>
 
-                      <span className="truncate font-[var(--font-poppins-brand)] font-bold">
-                        {sessionStatus === "loading"
-                          ? "Account"
-                          : accountLabel}
+                      <span className="truncate font-[var(--font-playpen-sans)] font-bold">
+                        {sessionStatus === "loading" ? "Account" : accountLabel}
                       </span>
                     </Link>
                   </div>
@@ -1466,10 +1463,7 @@ export default function Navbar() {
                     focus-visible:ring-offset-2
                   "
                 >
-                  <ShoppingBag
-                    className="size-[1.1rem]"
-                    strokeWidth={2}
-                  />
+                  <ShoppingBag className="size-[1.1rem]" strokeWidth={2} />
 
                   {cartItemCount > 0 ? (
                     <span
@@ -1488,7 +1482,7 @@ export default function Navbar() {
                         border-[#FFFDF9]
                         bg-[#E72D5A]
                         px-1
-                        font-[var(--font-poppins-brand)]
+                        font-[var(--font-playpen-sans)]
                         text-[0.57rem]
                         font-bold
                         leading-none
@@ -1506,11 +1500,7 @@ export default function Navbar() {
                   ref={menuButtonRef}
                   type="button"
                   onClick={toggleMobileMenu}
-                  aria-label={
-                    isMobileMenuOpen
-                      ? "Close navigation"
-                      : "Open navigation"
-                  }
+                  aria-label={isMobileMenuOpen ? "Close navigation" : "Open navigation"}
                   aria-expanded={isMobileMenuOpen}
                   aria-controls="mobile-navigation-drawer"
                   className="
@@ -1536,10 +1526,7 @@ export default function Navbar() {
                   {isMobileMenuOpen ? (
                     <X className="size-[1.15rem]" strokeWidth={2} />
                   ) : (
-                    <Menu
-                      className="size-[1.15rem]"
-                      strokeWidth={2}
-                    />
+                    <Menu className="size-[1.15rem]" strokeWidth={2} />
                   )}
                 </button>
               </div>
@@ -1692,7 +1679,7 @@ export default function Navbar() {
                     border
                     border-[#EDE2D6]
                     bg-white
-                    text-[#657086]
+                    !text-[#111111]
                     shadow-[0_4px_12px_rgba(42,35,28,0.05)]
                     outline-none
                     transition-all
@@ -1759,11 +1746,11 @@ export default function Navbar() {
                     </span>
 
                     <div>
-                      <p className="font-[var(--font-poppins-brand)] text-sm font-bold tracking-[-0.02em] text-[#263451]">
+                      <p className="font-[var(--font-roboto)] text-[13px] font-bold tracking-[-0.02em] text-[#263451]">
                         Welcome to BuzzieWorld
                       </p>
 
-                      <p className="mt-0.5 font-[var(--font-poppins-brand)] text-[0.68rem] font-medium leading-4 text-[#7B8495]">
+                      <p className="mt-0.5 font-[var(--font-playpen-sans)] text-[13px] font-medium leading-4 !normal-case !text-[#111111]">
                         Learn · Play · Imagine
                       </p>
                     </div>
@@ -1775,19 +1762,13 @@ export default function Navbar() {
                 <div className="space-y-1.5">
                   {mobileNavigation.map((item, index) => {
                     const isCategories = item.label === "Categories";
-                    const isContactPolicies =
-                      item.label === "Contact Us & Policies";
+                    const isContactPolicies = item.label === "Contact Us & Policies";
 
                     const active = isCategories
-                      ? pathname.startsWith("/categories") ||
-                        isCategoryMenuOpen
+                      ? pathname.startsWith("/categories") || isCategoryMenuOpen
                       : isContactPolicies
                         ? isContactArea || isContactMenuOpen
-                        : isNavigationActive(
-                            pathname,
-                            item.href,
-                            item.exact,
-                          );
+                        : isNavigationActive(pathname, item.href, item.exact);
 
                     /* ====================================================== */
                     /* MOBILE CATEGORIES                                     */
@@ -1817,13 +1798,13 @@ export default function Navbar() {
                             aria-expanded={isCategoryMenuOpen}
                             onClick={toggleCategoryMenu}
                             className={[
-                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-poppins-brand)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
+                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none !normal-case outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
                               active
                                 ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                                : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                                : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
                             ].join(" ")}
                           >
-                            <span className="font-[var(--font-poppins-brand)]">
+                            <span className="font-[var(--font-playpen-sans)] !normal-case">
                               Categories
                             </span>
 
@@ -1884,11 +1865,11 @@ export default function Navbar() {
                                         justify-between
                                         rounded-xl
                                         px-3
-                                        font-[var(--font-poppins-brand)]
-                                        !text-[0.78rem]
+                                        font-[var(--font-playpen-sans)]
+                                        !text-[13px]
                                         font-semibold
                                         leading-none
-                                        text-[#687489]
+                                        !text-[#111111]
                                         outline-none
                                         transition-all
                                         duration-200
@@ -1899,7 +1880,7 @@ export default function Navbar() {
                                         focus-visible:ring-inset
                                       "
                                     >
-                                      <span className="font-[var(--font-poppins-brand)]">
+                                      <span className="font-[var(--font-playpen-sans)]">
                                         {category.label}
                                       </span>
 
@@ -1927,17 +1908,19 @@ export default function Navbar() {
                                       min-h-10
                                       items-center
                                       justify-center
-                                      rounded-xl
-                                      bg-[#FFF0F3]
-                                      px-3
-                                      font-[var(--font-poppins-brand)]
-                                      !text-[0.78rem]
+                                      rounded-full
+                                      bg-[#C391EE]
+                                      px-5
+                                      font-[var(--font-playpen-sans)]
+                                      !text-[13px]
                                       font-bold
+                                      !normal-case
                                       leading-none
-                                      text-[#E72D5A]
+                                      !text-white
+                                      shadow-[0_7px_18px_rgba(195,145,238,0.2)]
                                       transition-all
                                       duration-200
-                                      hover:bg-[#E72D5A]
+                                      hover:bg-[#E83D59]
                                       hover:text-white
                                     "
                                   >
@@ -1979,13 +1962,13 @@ export default function Navbar() {
                             aria-expanded={isContactMenuOpen}
                             onClick={toggleContactMenu}
                             className={[
-                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-poppins-brand)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
+                              "group flex min-h-12 w-full items-center justify-between rounded-2xl px-4 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none !normal-case outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
                               active
                                 ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
-                                : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                                : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
                             ].join(" ")}
                           >
-                            <span className="font-[var(--font-poppins-brand)]">
+                            <span className="font-[var(--font-playpen-sans)] !normal-case">
                               Contact Us & Policies
                             </span>
 
@@ -2031,11 +2014,10 @@ export default function Navbar() {
                                   "
                                 >
                                   {contactNavigation.map((contactItem) => {
-                                    const activeLink =
-                                      isNavigationActive(
-                                        pathname,
-                                        contactItem.href,
-                                      );
+                                    const activeLink = isNavigationActive(
+                                      pathname,
+                                      contactItem.href,
+                                    );
 
                                     return (
                                       <Link
@@ -2044,9 +2026,7 @@ export default function Navbar() {
                                         onClick={closeMobileMenu}
                                         className={[
                                           "group flex min-h-[52px] items-center gap-3 rounded-xl px-3 outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-inset",
-                                          activeLink
-                                            ? "bg-[#FFF0F3]"
-                                            : "hover:bg-[#FFF8EE]",
+                                          activeLink ? "bg-[#FFF0F3]" : "hover:bg-[#FFF8EE]",
                                         ].join(" ")}
                                       >
                                         <span
@@ -2058,33 +2038,23 @@ export default function Navbar() {
                                           ].join(" ")}
                                         >
                                           {(() => {
-                                            const Icon =
-                                              getContactNavigationIcon(
-                                                contactItem.href,
-                                              );
+                                            const Icon = getContactNavigationIcon(contactItem.href);
 
-                                            return (
-                                              <Icon
-                                                className="size-3.5"
-                                                strokeWidth={2}
-                                              />
-                                            );
+                                            return <Icon className="size-3.5" strokeWidth={2} />;
                                           })()}
                                         </span>
 
                                         <span className="min-w-0 flex-1">
                                           <span
                                             className={[
-                                              "block font-[var(--font-poppins-brand)] text-[0.74rem] font-bold leading-none",
-                                              activeLink
-                                                ? "text-[#E72D5A]"
-                                                : "text-[#263451]",
+                                              "block font-[var(--font-playpen-sans)] text-[13px] font-semibold leading-none",
+                                              activeLink ? "text-[#E72D5A]" : "text-[#263451]",
                                             ].join(" ")}
                                           >
                                             {contactItem.label}
                                           </span>
 
-                                          <span className="mt-1 block font-[var(--font-poppins-brand)] text-[0.58rem] font-medium leading-none text-[#7B8495]">
+                                          <span className="mt-1 block font-[var(--font-playpen-sans)] text-[13px] font-medium leading-[1.25] !normal-case !text-[#111111]">
                                             {contactItem.description}
                                           </span>
                                         </span>
@@ -2125,28 +2095,22 @@ export default function Navbar() {
                           onClick={closeMobileMenu}
                           aria-current={active ? "page" : undefined}
                           className={[
-                            "group flex min-h-12 items-center justify-between rounded-2xl px-4 font-[var(--font-poppins-brand)] !text-[0.78rem] font-semibold leading-none outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
+                            "group flex min-h-12 items-center justify-between rounded-2xl px-4 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none !normal-case outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-1",
                             active
                               ? "bg-[#FFF0F3] text-[#263451] shadow-[inset_0_0_0_1px_rgba(231,45,90,0.08)]"
                               : item.label === "Crazy Deals"
-                                ? "text-[#E72D5A] hover:bg-[#FFF0F3] hover:text-[#D5224E]"
-                                : "text-[#657086] hover:bg-[#FFF8EE] hover:text-[#263451]",
+                                ? "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]"
+                                : "!text-[#111111] hover:bg-[#FFF8EE] hover:!text-[#111111]",
                           ].join(" ")}
                         >
-                          <span className="font-[var(--font-poppins-brand)]">
+                          <span className="font-[var(--font-playpen-sans)] !normal-case">
                             {item.label}
                           </span>
 
                           {item.label === "Crazy Deals" ? (
-                            <span
-                              aria-hidden="true"
-                              className="size-2 rounded-full bg-[#E72D5A]"
-                            />
+                            <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
                           ) : active ? (
-                            <span
-                              aria-hidden="true"
-                              className="size-2 rounded-full bg-[#E72D5A]"
-                            />
+                            <span aria-hidden="true" className="size-2 rounded-full bg-[#E72D5A]" />
                           ) : null}
                         </Link>
                       </motion.div>
@@ -2165,11 +2129,11 @@ export default function Navbar() {
                       justify-between
                       rounded-2xl
                       px-4
-                      font-[var(--font-poppins-brand)]
-                      !text-[0.78rem]
+                      font-[var(--font-playpen-sans)]
+                      !text-[13px]
                       font-semibold
                       leading-none
-                      text-[#657086]
+                      !text-[#111111]
                       outline-none
                       transition-colors
                       duration-200
@@ -2181,9 +2145,7 @@ export default function Navbar() {
 
                     "
                   >
-                    <span className="font-[var(--font-poppins-brand)] ">
-                      Search
-                    </span>
+                    <span className="font-[var(--font-playpen-sans)] ">Search</span>
 
                     <Search className="size-4" strokeWidth={2} />
                   </Link>
@@ -2200,11 +2162,11 @@ export default function Navbar() {
                       justify-between
                       rounded-2xl
                       px-4
-                      font-[var(--font-poppins-brand)]
-                      !text-[0.78rem]
+                      font-[var(--font-playpen-sans)]
+                      !text-[13px]
                       font-semibold
                       leading-none
-                      text-[#657086]
+                      !text-[#111111]
                       outline-none
                       transition-colors
                       duration-200
@@ -2215,9 +2177,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins-brand)]">
-                      Wishlist
-                    </span>
+                    <span className="font-[var(--font-playpen-sans)]">Wishlist</span>
 
                     <Heart className="size-4" strokeWidth={2} />
                   </Link>
@@ -2234,11 +2194,11 @@ export default function Navbar() {
                       justify-between
                       rounded-2xl
                       px-4
-                      font-[var(--font-poppins-brand)]
-                      !text-[0.78rem]
+                      font-[var(--font-playpen-sans)]
+                      !text-[13px]
                       font-semibold
                       leading-none
-                      text-[#657086]
+                      !text-[#111111]
                       outline-none
                       transition-colors
                       duration-200
@@ -2249,9 +2209,7 @@ export default function Navbar() {
                       focus-visible:ring-offset-1
                     "
                   >
-                    <span className="font-[var(--font-poppins-brand)]">
-                      Cart
-                    </span>
+                    <span className="font-[var(--font-playpen-sans)]">Cart</span>
 
                     <span className="flex items-center gap-2">
                       {cartItemCount > 0 ? (
@@ -2261,7 +2219,7 @@ export default function Navbar() {
                             bg-[#E72D5A]
                             px-2
                             py-0.5
-                            font-[var(--font-poppins-brand)]
+                            font-[var(--font-playpen-sans)]
                             text-[0.6rem]
                             font-bold
                             text-white
@@ -2271,10 +2229,7 @@ export default function Navbar() {
                         </span>
                       ) : null}
 
-                      <ShoppingBag
-                        className="size-4"
-                        strokeWidth={2}
-                      />
+                      <ShoppingBag className="size-4" strokeWidth={2} />
                     </span>
                   </Link>
                 </div>
@@ -2307,7 +2262,7 @@ export default function Navbar() {
                     rounded-2xl
                     bg-[#E72D5A]
                     px-4
-                    font-[var(--font-poppins-brand)]
+                    font-[var(--font-playpen-sans)]
                     text-sm
                     font-bold
                     !text-white
@@ -2324,12 +2279,12 @@ export default function Navbar() {
                 >
                   <UserRound className="size-4" strokeWidth={2} />
 
-                  <span className="font-[var(--font-poppins-brand)]">
+                  <span className="font-[var(--font-playpen-sans)]">
                     {isAuthenticated ? "My Account" : "Sign In"}
                   </span>
                 </Link>
 
-                <p className="mt-3 text-center font-[var(--font-poppins-brand)] text-[0.66rem] font-medium leading-5 text-[#7A8495]">
+                <p className="mt-3 text-center font-[var(--font-playpen-sans)] text-[0.66rem] font-medium leading-5 text-[#7A8495]">
                   {siteConfig.description}
                 </p>
               </div>
@@ -2340,3 +2295,4 @@ export default function Navbar() {
     </>
   );
 }
+

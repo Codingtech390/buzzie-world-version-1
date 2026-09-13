@@ -2,24 +2,39 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* =========================================================
+   GLOBAL WEBSITE SCALE
+   Makes the entire BuzzieWorld UI feel more compact
+   without changing individual section dimensions.
+   ========================================================= */
+
+@media (min-width: 768px) {
+  html {
+    zoom: 0.9;
+  }
+}
+
 /* ==========================================================================
    BUZZIEWORLD — GLOBAL DESIGN SYSTEM
    ========================================================================== */
 
 :root {
-   /*
-   * ==========================================================================
-   * BUZZIEWORLD TYPOGRAPHY
-   *
-   * Keep the old variable names as compatibility aliases.
-   * This means existing components using:
-   *
-   *   var(--font-poppins)
-   *   var(--font-roboto)
-   *
-   * automatically receive the new brand fonts.
-   * ==========================================================================
-   */
+    /* ------------------------------------------------------------------------
+     BUZZIEWORLD TYPOGRAPHY
+     ------------------------------------------------------------------------ */
+
+  --font-playpen-sans: "Playpen Sans", sans-serif;
+  --font-poppins-brand: "Poppins", sans-serif;
+
+  /* Legacy compatibility aliases.
+     Existing components using the old variables will automatically
+     use the current BuzzieWorld brand typography. */
+  --font-poppins: var(--font-poppins-brand);
+  --font-roboto: var(--font-poppins-brand);
+
+  /* Kept available for legacy components that explicitly need them. */
+  --font-league-gothic: "League Gothic", sans-serif;
+  --font-bebas-neue: "Bebas Neue", sans-serif;
 
   --font-league-gothic: "League Gothic", sans-serif;
   --font-bebas-neue: "Bebas Neue", sans-serif;
@@ -203,7 +218,7 @@ body {
     var(--background);
 
   color: var(--foreground);
-  font-family: var(--font-poppins), sans-serif;
+  font-family: var(--font-playpen-sans), sans-serif;
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -663,4 +678,32 @@ body[data-scroll-locked] {
 
 .buzzieworld-marquee {
   animation: buzzieworld-marquee 28s linear infinite;
+}
+
+
+/* ================================================================
+   BUZZIEWORLD FOOTER WAVE
+   ================================================================ */
+
+.footer-wave {
+  animation-name: footerWaveDrift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes footerWaveDrift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-wave {
+    animation: none;
+  }
 }

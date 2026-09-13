@@ -5,7 +5,10 @@ import { notFound } from "next/navigation";
 
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInfoArtwork from "@/components/product/ProductInfoArtwork";
+import ProductInfoDiary from "@/components/product/ProductInfoDiary";
 import RelatedProducts from "@/components/product/RelatedProducts";
+import ProductPurchaseCard from "@/components/product/ProductPurchaseCard";
+
 import Reveal from "@/components/home/Reveal";
 import type { StorefrontProduct, StorefrontProductResponse } from "@/types/storefront";
 
@@ -790,34 +793,83 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </nav>
 
         {/* ===================================================================
-            MAIN PRODUCT AREA
-        ==================================================================== */}
+    MAIN PRODUCT AREA
+
+    Desktop structure:
+
+    ┌──────────────┬──────────────────────┬──────────────┐
+    │   GALLERY    │   PRODUCT INFO       │   PURCHASE   │
+    │              │                      │              │
+    │   TRUST      │   NAME               │   CART       │
+    │   BADGES     │   PRICE              │   SHIPPING   │
+    ├──────────────┴──────────────────────┤              │
+    │                                     │              │
+    │          PRODUCT DIARY               │              │
+    │                                     │              │
+    └─────────────────────────────────────┴──────────────┘
+==================================================================== */}
 
         <div
           className="
     grid
+    items-start
     gap-6
-    lg:grid-cols-[0.78fr_1.22fr]
-    lg:items-start
+    lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)_255px]
     lg:gap-8
-    xl:grid-cols-[0.8fr_1.2fr]
+    xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_270px]
     xl:gap-10
-          "
+  "
         >
-          {/* =================================================================
-              LEFT — PRODUCT GALLERY
-          ================================================================== */}
+          {/* ================================================================
+      LEFT — PRODUCT GALLERY
+  ================================================================= */}
 
           <section className="min-w-0">
             <ProductGallery images={product.images} productName={product.name} />
           </section>
 
-          {/* =================================================================
-              RIGHT — PRODUCT INFORMATION
-          ================================================================== */}
+          {/* ================================================================
+      CENTER — PRODUCT INFORMATION
+  ================================================================= */}
 
           <section className="min-w-0">
             <ProductInfoArtwork {...(productInfoArtworkProps as any)} />
+          </section>
+
+          {/* ================================================================
+      RIGHT — PURCHASE / DELIVERY
+
+      The purchase card spans the diary row on desktop.
+  ================================================================= */}
+
+          <section className="min-w-0 lg:row-span-2">
+            <ProductPurchaseCard product={product} isOutOfStock={isOutOfStock} />
+          </section>
+
+          {/* ================================================================
+      PRODUCT DIARY
+
+      Starts directly below the gallery + product information.
+
+      col-span-2 means:
+      gallery column + product-info column
+
+      It does NOT enter the purchase column.
+  ================================================================= */}
+
+          <section
+            className="
+      min-w-0
+      lg:col-span-2
+      lg:mt-0
+    "
+          >
+            <ProductInfoDiary
+              product={product}
+              ageLabel={ageLabel}
+              hasDiscount={hasDiscount}
+              discount={discount}
+            />
           </section>
         </div>
 
@@ -912,8 +964,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               Watch
               <span className="text-[#E72D5A]"> & Buy</span>
             </h2>
-
-
           </div>
 
           {/* ==================================================================

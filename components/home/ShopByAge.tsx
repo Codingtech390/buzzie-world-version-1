@@ -63,10 +63,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       return "All Ages";
     }
 
-    if (
-      ageRange.min !== undefined &&
-      ageRange.max !== undefined
-    ) {
+    if (ageRange.min !== undefined && ageRange.max !== undefined) {
       return `Ages ${ageRange.min}–${ageRange.max}`;
     }
 
@@ -81,44 +78,67 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     return "All Ages";
   })();
 
-
   const stockLabel =
-    product.stock > 0
-      ? `${product.stock.toLocaleString("en-IN")} Pieces`
-      : "Out of Stock";
+    product.stock > 0 ? `${product.stock.toLocaleString("en-IN")} Pieces` : "Out of Stock";
 
-
-  const featuredLabel = product.featured
-    ? "Featured"
-    : "Our Pick";
+  const featuredLabel = product.featured ? "Featured" : "Our Pick";
 
   return (
     <section
       className="
         relative
         isolate
-        mb-14
         overflow-hidden
         bg-[#F8F5F2]
-        sm:mb-18
-        lg:mb-20
+        pt-8
+        pb-8
+        sm:pt-10
+        sm:pb-10
+        lg:pt-12
+        lg:pb-12
       "
     >
       {/* ================================================================
           OVERALL SECTION BACKGROUND
           ================================================================ */}
 
+      {/* ================================================================
+          SPLIT BACKGROUND LAYERS
+          The left half keeps the existing artwork.
+          The right half uses the new homepage background artwork.
+          ================================================================ */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          inset-0
+          inset-y-0
+          left-0
           -z-10
+          w-full
           bg-[url('/images/hero/hero-bg-1.png')]
           bg-cover
           bg-center
           bg-no-repeat
+          md:w-1/2
+        "
+      />
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-y-0
+          right-0
+          -z-10
+          hidden
+          w-1/2
+          bg-[url('/images/hero/homepage-background-1.png')]
+          bg-cover
+          bg-center
+          bg-no-repeat
+          md:block
         "
       />
 
@@ -144,7 +164,6 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           className="
             relative
             z-20
-            mt-8
             flex
             flex-col
             items-center
@@ -179,7 +198,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 font-black
                 uppercase
                 tracking-[0.18em]
-                text-[#E72D5A]
+                text-[#E83D59]
                 sm:text-[10px]
                 xl:text-[12px]
               "
@@ -205,7 +224,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     text-[#111111]
   "
           >
-            Buzzie <span className="text-[#FF5558]">Favorite</span>
+            Buzzie <span className="text-[#E83D59]">Favorite</span>
           </h2>
 
           <div
@@ -252,17 +271,11 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       >
         <div
           className="
-            grid
+            relative
             min-h-0
-            grid-cols-1
-            items-center
-            gap-4
-            sm:gap-6
-            lg:min-h-[500px]
-            lg:grid-cols-[0.88fr_1.12fr]
-            lg:gap-4
-            xl:min-h-[530px]
-            xl:grid-cols-[0.86fr_1.14fr]
+            lg:min-h-[560px]
+            xl:min-h-[620px]
+            2xl:min-h-[660px]
           "
         >
           {/* ============================================================
@@ -281,12 +294,16 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     text-center
     sm:px-8
     sm:py-10
-    lg:px-0
-    lg:pl-8
-    lg:pr-6
+    lg:min-h-[560px]
+    lg:w-1/2
+    lg:px-8
+    lg:py-12
+    lg:pr-20
     lg:text-left
+    xl:min-h-[620px]
     xl:pl-12
-    xl:pr-10
+    xl:pr-24
+    2xl:min-h-[660px]
   "
           >
             {/* Product Name */}
@@ -495,14 +512,28 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           <div
             className="
               relative
+              z-40
+              mt-4
               flex
-              min-h-[260px]
+              min-h-[360px]
+              w-full
               items-center
               justify-center
-              sm:min-h-[330px]
-              md:min-h-[410px]
-              lg:min-h-[500px]
-              xl:min-h-[560px]
+              sm:min-h-[430px]
+              md:min-h-[500px]
+              lg:absolute
+              lg:left-1/2
+              lg:top-1/2
+              lg:mt-0
+              lg:h-[560px]
+              lg:min-h-0
+              lg:w-[560px]
+              lg:-translate-x-[25%]
+              lg:-translate-y-1/2
+              xl:h-[620px]
+              xl:w-[620px]
+              2xl:h-[660px]
+              2xl:w-[660px]
             "
           >
             {/* ==========================================================
@@ -514,19 +545,22 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               className="
                 relative
                 z-20
-                w-[58%]
+                w-[68%]
                 min-w-0
-                max-w-[372px]
-                -translate-x-[4%]
+                max-w-[430px]
+                -translate-x-[2%]
                 rotate-[-2deg]
                 transition-all
                 duration-500
-                sm:w-[60%]
-                sm:-translate-x-[3%]
-                md:w-[60%]
-                md:-translate-x-[2%]
-                lg:w-[60%]
+                sm:w-[66%]
+                sm:-translate-x-[2%]
+                md:w-[68%]
+                md:-translate-x-[1%]
+                lg:w-[72%]
+                lg:max-w-[500px]
                 lg:translate-x-0
+                xl:w-[74%]
+                xl:max-w-[530px]
               "
             >
               {/* ========================================================
@@ -662,7 +696,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               gap-4
               max-sm:gap-3
                 absolute
-                right-[1%]
+                right-[-1%]
                 top-1/2
                 z-40
                 flex
@@ -992,14 +1026,10 @@ export default function ShopByAge({ products }: ShopByAgeProps) {
         isolate
         overflow-hidden
         bg-white
-        py-8
-        sm:py-12
-        lg:py-16
+        py-0
       "
     >
       <BuzzieFavorites products={products} />
-
-
     </section>
   );
 }

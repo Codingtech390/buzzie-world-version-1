@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowLeft, ArrowRight, Heart, Star, ThumbsUp } from "lucide-react";
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Heart, Star, ThumbsUp } from "lucide-react";
 
 import Reveal from "./Reveal";
 
@@ -234,8 +233,14 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
         {/* Reviewer */}
         <div
           className="
-            relative z-10 mt-5
-            flex shrink-0 items-center justify-between gap-3
+            relative
+            z-10
+            mt-5
+            flex
+            shrink-0
+            items-center
+            justify-between
+            gap-3
           "
         >
           <div className="flex min-w-0 items-center gap-3">
@@ -308,227 +313,100 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
 export default function ReviewsShowcase({ reviews }: ReviewsShowcaseProps) {
   const visibleReviews = reviews && reviews.length > 0 ? reviews : fallbackReviews;
 
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const positionRef = useRef(0);
+  const lastTimeRef = useRef<number | null>(null);
 
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   /* =========================================================
-     CLEAR AUTOPLAY
-     ========================================================= */
+     CONTINUOUS MARQUEE
 
-  const clearAutoplay = useCallback(() => {
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current);
-      autoplayRef.current = null;
-    }
-  }, []);
+     The track contains two identical review sets.
 
-  /* =========================================================
-     RESPONSIVE CARD WIDTH
-     ========================================================= */
+     Once the first set has completely passed,
+     the position is reset by exactly one set width.
 
-  const getScrollAmount = useCallback(() => {
-    const container = carouselRef.current;
-
-    if (!container) {
-      return 0;
-    }
-
-    const firstCard = container.querySelector<HTMLElement>("[data-review-card]");
-
-    if (!firstCard) {
-      return container.clientWidth;
-    }
-
-    const cardWidth = firstCard.offsetWidth;
-
-    const styles = window.getComputedStyle(container);
-
-    const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
-
-    return cardWidth + gap;
-  }, []);
-
-  /* =========================================================
-     SCROLL TO INDEX
-     ========================================================= */
-
-  const scrollToIndex = useCallback(
-    (index: number) => {
-      const container = carouselRef.current;
-
-      if (!container) {
-        return;
-      }
-
-      const scrollAmount = getScrollAmount();
-
-      if (!scrollAmount) {
-        return;
-      }
-
-      const safeIndex = Math.max(0, Math.min(index, visibleReviews.length - 1));
-
-      container.scrollTo({
-        left: safeIndex * scrollAmount,
-        behavior: "smooth",
-      });
-
-      setActiveIndex(safeIndex);
-    },
-    [getScrollAmount, visibleReviews.length],
-  );
-
-  /* =========================================================
-     NEXT
-     ========================================================= */
-
-  const nextReview = useCallback(() => {
-    if (visibleReviews.length <= 1) {
-      return;
-    }
-
-    setActiveIndex((current) => {
-      const next = current >= visibleReviews.length - 1 ? 0 : current + 1;
-
-      requestAnimationFrame(() => {
-        scrollToIndex(next);
-      });
-
-      return next;
-    });
-  }, [scrollToIndex, visibleReviews.length]);
-
-  /* =========================================================
-     PREVIOUS
-     ========================================================= */
-
-  const previousReview = useCallback(() => {
-    if (visibleReviews.length <= 1) {
-      return;
-    }
-
-    setActiveIndex((current) => {
-      const previous = current <= 0 ? visibleReviews.length - 1 : current - 1;
-
-      requestAnimationFrame(() => {
-        scrollToIndex(previous);
-      });
-
-      return previous;
-    });
-  }, [scrollToIndex, visibleReviews.length]);
-
-  /* =========================================================
-     TRACK MANUAL SCROLL
-     ========================================================= */
-
-  const handleScroll = useCallback(() => {
-    const container = carouselRef.current;
-
-    if (!container) {
-      return;
-    }
-
-    const scrollAmount = getScrollAmount();
-
-    if (!scrollAmount) {
-      return;
-    }
-
-    const index = Math.round(container.scrollLeft / scrollAmount);
-
-    setActiveIndex(Math.max(0, Math.min(index, visibleReviews.length - 1)));
-  }, [getScrollAmount, visibleReviews.length]);
-
-  /* =========================================================
-     START AUTOPLAY
-     ========================================================= */
-
-  const startAutoplay = useCallback(() => {
-    clearAutoplay();
-
-    if (visibleReviews.length <= 1) {
-      return;
-    }
-
-    autoplayRef.current = setInterval(() => {
-      if (!document.hidden) {
-        nextReview();
-      }
-    }, 4500);
-  }, [clearAutoplay, nextReview, visibleReviews.length]);
-
-  /* =========================================================
-     AUTOPLAY
+     This creates a seamless infinite loop.
      ========================================================= */
 
   useEffect(() => {
-    if (isPaused) {
-      clearAutoplay();
+    const track = trackRef.current;
+
+    if (!track || visibleReviews.length === 0) {
       return;
     }
 
-    startAutoplay();
+    const SPEED = 32;
+
+    const animate = (time: number) => {
+      if (lastTimeRef.current === null) {
+        lastTimeRef.current = time;
+      }
+
+      const delta = Math.min(time - lastTimeRef.current, 40);
+
+      lastTimeRef.current = time;
+
+      if (!isPaused) {
+        positionRef.current += (SPEED * delta) / 1000;
+
+        const firstSetWidth = track.scrollWidth / 2;
+
+        if (positionRef.current >= firstSetWidth) {
+          positionRef.current -= firstSetWidth;
+        }
+
+        track.style.transform = `translate3d(${-positionRef.current}px, 0, 0)`;
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
 
     return () => {
-      clearAutoplay();
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+
+      animationRef.current = null;
+      lastTimeRef.current = null;
     };
-  }, [isPaused, startAutoplay, clearAutoplay]);
-
-  /* =========================================================
-     CLEANUP
-     ========================================================= */
-
-  useEffect(() => {
-    return () => {
-      clearAutoplay();
-    };
-  }, [clearAutoplay]);
-
-  /* =========================================================
-     KEYBOARD
-     ========================================================= */
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      previousReview();
-    }
-
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      nextReview();
-    }
-  };
+  }, [visibleReviews.length, isPaused]);
 
   /* =========================================================
      RENDER
      ========================================================= */
 
   return (
-    <section className="relative overflow-hidden bg-white">
-
+    <section
+      className="
+        relative
+        overflow-hidden
+        bg-white
+        pt-8
+        pb-8
+        sm:pt-10
+        sm:pb-10
+        lg:pt-12
+        lg:pb-12
+      "
+    >
       {/* =====================================================
           REVIEWS
-         ===================================================== */}
+      ===================================================== */}
 
       <div
         className="
           relative
           px-4
-          pb-12
-          pt-9
           sm:px-6
-          sm:pb-14
-          sm:pt-11
           lg:px-8
-          lg:pb-16
-          lg:pt-12
         "
       >
+        {/* Soft decorative background glow — left */}
         <div
           aria-hidden="true"
           className="
@@ -543,6 +421,7 @@ export default function ReviewsShowcase({ reviews }: ReviewsShowcaseProps) {
           "
         />
 
+        {/* Soft decorative background glow — right */}
         <div
           aria-hidden="true"
           className="
@@ -557,229 +436,124 @@ export default function ReviewsShowcase({ reviews }: ReviewsShowcaseProps) {
           "
         />
 
-        <div className="relative mx-auto w-full max-w-[1380px]">
+        <div
+          className="
+            relative
+            mx-auto
+            w-full
+            max-w-[1380px]
+          "
+        >
+          {/* =================================================
+              MARQUEE VIEWPORT
+
+              Slightly oversized so the tilted track never
+              exposes empty corners.
+          ================================================= */}
+
           <div
-            className="relative"
+            className="
+              relative
+              -mx-8
+              overflow-hidden
+              px-8
+              py-4
+              sm:-mx-10
+              sm:px-10
+              lg:-mx-14
+              lg:px-14
+            "
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onFocus={() => setIsPaused(true)}
             onBlur={() => setIsPaused(false)}
-            onKeyDown={handleKeyDown}
           >
             {/* =================================================
-                LEFT ARROW
-               ================================================= */}
-
-            <button
-              type="button"
-              aria-label="Previous review"
-              onClick={previousReview}
-              className="
-                absolute
-                left-[-22px]
-                top-1/2
-                z-20
-                hidden
-                size-11
-                -translate-y-1/2
-                items-center
-                justify-center
-                rounded-full
-                bg-white
-                text-[#E72D5A]
-                shadow-[0_10px_28px_rgba(23,19,31,0.12)]
-                ring-1
-                ring-black/[0.04]
-                transition-all
-                duration-300
-                hover:-translate-x-1
-                hover:shadow-[0_15px_35px_rgba(23,19,31,0.16)]
-                lg:flex
-              "
-            >
-              <ArrowLeft className="size-5" />
-            </button>
-
-            {/* =================================================
-                RIGHT ARROW
-               ================================================= */}
-
-            <button
-              type="button"
-              aria-label="Next review"
-              onClick={nextReview}
-              className="
-                absolute
-                right-[-22px]
-                top-1/2
-                z-20
-                hidden
-                size-11
-                -translate-y-1/2
-                items-center
-                justify-center
-                rounded-full
-                bg-[#E72D5A]
-                text-white
-                shadow-[0_10px_28px_rgba(231,45,90,0.2)]
-                transition-all
-                duration-300
-                hover:translate-x-1
-                hover:bg-[#D91F50]
-                lg:flex
-              "
-            >
-              <ArrowRight className="size-5" />
-            </button>
+                SLANTED CONTINUOUS TRACK
+            ================================================= */}
 
             <div
-              ref={carouselRef}
               className="
-              flex
-              w-full
-              snap-x
-              snap-mandatory
-              gap-5
-              overflow-x-hidden
-              overflow-y-hidden
-              scroll-smooth
-              [scrollbar-width:none]
-              [-ms-overflow-style:none]
-              [&::-webkit-scrollbar]:hidden
-
-              xl:mt-12
-            "
+                relative
+                -rotate-[1.15deg]
+                origin-center
+                will-change-transform
+              "
             >
-              {visibleReviews.map((review, index) => (
+              <div
+                ref={trackRef}
+                className="
+                  flex
+                  w-max
+                  gap-5
+                  will-change-transform
+                "
+              >
+                {/* =================================================
+                    FIRST SET
+                ================================================= */}
+
                 <div
-                  key={review._id}
-                  data-review-card
                   className="
-                    w-[calc(100%-4px)]
-                    min-w-[calc(100%-4px)]
+                    flex
                     shrink-0
-                    snap-start
-
-                    sm:w-[calc(50%-10px)]
-                    sm:min-w-[calc(50%-10px)]
-
-                    lg:w-[calc(25%-15px)]
-                    lg:min-w-[calc(25%-15px)]
+                    gap-5
                   "
                 >
-                  <ReviewCard review={review} index={index} />
+                  {visibleReviews.map((review, index) => (
+                    <div
+                      key={`first-${review._id}`}
+                      data-review-card
+                      className="
+                          w-[calc(100vw-48px)]
+                          max-w-[430px]
+                          shrink-0
+                          sm:w-[calc(50vw-34px)]
+                          lg:w-[320px]
+                          xl:w-[330px]
+                        "
+                    >
+                      <ReviewCard review={review} index={index} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            {/* =================================================
-                MOBILE / TABLET NAVIGATION
-               ================================================= */}
+                {/* =================================================
+                    SECOND SET
 
-            <div
-              className="
-                mt-6
-                flex
-                items-center
-                justify-between
-                lg:hidden
-              "
-            >
-              {/* Previous */}
-              <button
-                type="button"
-                aria-label="Previous review"
-                onClick={previousReview}
-                className="
-                  flex
-                  size-10
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-white
-                  text-[#E72D5A]
-                  shadow-[0_8px_25px_rgba(23,19,31,0.1)]
-                  ring-1
-                  ring-black/[0.05]
-                "
-              >
-                <ArrowLeft className="size-4" />
-              </button>
+                    Exact duplicate of the first set so the
+                    marquee can loop without a visible jump.
+                ================================================= */}
 
-              {/* Dots */}
-              <div className="flex items-center gap-2">
-                {visibleReviews.map((review, index) => (
-                  <button
-                    key={review._id}
-                    type="button"
-                    aria-label={`Show review ${index + 1}`}
-                    aria-current={index === activeIndex ? "true" : undefined}
-                    onClick={() => scrollToIndex(index)}
-                    className={[
-                      "h-2 rounded-full transition-all duration-300",
-                      index === activeIndex ? "w-7 bg-[#E72D5A]" : "w-2 bg-[#E7DDE1]",
-                    ].join(" ")}
-                  />
-                ))}
+                <div
+                  aria-hidden="true"
+                  className="
+                    flex
+                    shrink-0
+                    gap-5
+                  "
+                >
+                  {visibleReviews.map((review, index) => (
+                    <div
+                      key={`second-${review._id}`}
+                      className="
+                          w-[calc(100vw-48px)]
+                          max-w-[430px]
+                          shrink-0
+                          sm:w-[calc(50vw-34px)]
+                          lg:w-[320px]
+                          xl:w-[330px]
+                        "
+                    >
+                      <ReviewCard review={review} index={index + visibleReviews.length} />
+                    </div>
+                  ))}
+                </div>
               </div>
-
-              {/* Next */}
-              <button
-                type="button"
-                aria-label="Next review"
-                onClick={nextReview}
-                className="
-                  flex
-                  size-10
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-[#E72D5A]
-                  text-white
-                  shadow-[0_8px_25px_rgba(231,45,90,0.2)]
-                  transition-all
-                  hover:bg-[#D91F50]
-                "
-              >
-                <ArrowRight className="size-4" />
-              </button>
-            </div>
-
-            {/* =================================================
-                DESKTOP DOTS
-               ================================================= */}
-
-            <div
-              className="
-                mt-7
-                hidden
-                items-center
-                justify-center
-                gap-2
-                lg:flex
-              "
-            >
-              {visibleReviews.map((review, index) => (
-                <button
-                  key={review._id}
-                  type="button"
-                  aria-label={`Show review ${index + 1}`}
-                  aria-current={index === activeIndex ? "true" : undefined}
-                  onClick={() => scrollToIndex(index)}
-                  className={[
-                    "h-2 rounded-full transition-all duration-300",
-                    index === activeIndex
-                      ? "w-8 bg-[#E72D5A]"
-                      : "w-2 bg-[#E7DDE1] hover:bg-[#F3B5C4]",
-                  ].join(" ")}
-                />
-              ))}
             </div>
           </div>
         </div>
       </div>
-
-
     </section>
   );
 }

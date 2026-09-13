@@ -176,7 +176,7 @@ export default function BrandStory({ products }: BrandStoryProps) {
   const Icon = activeSlide.icon;
 
   return (
-    <section className="relative overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white">
+    <section className="relative overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white mt-2">
       {/* ================================================================
           SOFT BACKGROUND GRAPHICS
       ================================================================ */}
@@ -415,7 +415,7 @@ export default function BrandStory({ products }: BrandStoryProps) {
                 <span className="h-2 w-2 rounded-full bg-[#E83D59]" />
               </div>
 
-              <h2 className="mt-4 font-[var(--font-poppins-brand)] text-[clamp(2rem,8vw,3.2rem)] font-bold leading-[0.9] tracking-[-0.035em] text-white">
+              <h2 className="mt-4 font-[var(--font-league-gothic)] text-[clamp(2rem,8vw,3.2rem)] font-bold leading-[0.9] tracking-[-0.035em] text-white">
                 {activeSlide.question}
               </h2>
 

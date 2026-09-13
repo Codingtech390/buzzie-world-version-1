@@ -11,7 +11,7 @@ import type { StorefrontSelector } from "@/types/storefront";
 ============================================================================ */
 
 interface CollectionShowcaseProps {
-  /*
+  /**
    * Kept in the props so the existing parent component does not need to
    * change. The return-gift section is now a single static artwork.
    */
@@ -31,23 +31,24 @@ export default function CollectionShowcase({ collections: _collections }: Collec
         w-full
         overflow-hidden
         bg-[#FFFDF9]
-        py-10
-        sm:py-12
-        md:py-14
-        lg:py-16
-        xl:py-20
+        pt-8
+        pb-8
+        sm:pt-10
+        sm:pb-10
+        lg:pt-12
+        lg:pb-12
       "
     >
       {/* =========================================================================
           MAIN TWO-COLUMN LAYOUT
 
           Desktop:
-          - Left 75% = complete return-gift artwork
-          - Right 25% = text + CTA
+          - Left 25%  = text + CTA
+          - Right 75% = complete return-gift artwork
 
           Mobile:
-          - Artwork becomes the first full-width block
-          - CTA content moves underneath
+          - Text comes first
+          - Artwork becomes the second full-width block
       ========================================================================= */}
 
       <div
@@ -62,82 +63,28 @@ export default function CollectionShowcase({ collections: _collections }: Collec
         "
       >
         {/* =======================================================================
-            LEFT — RETURN GIFT ARTWORK
-            75% DESKTOP / 100% MOBILE
-        ======================================================================= */}
-        <div
-          className="
-    relative
-    w-full
-    overflow-hidden
-    lg:w-[75%]
-    lg:flex-[0_0_75%]
-  "
-        >
-          <Link
-            href="/return-gifts"
-            aria-label="Explore BuzzieWorld return gifts"
-            className="
-      group
-      block
-      w-full
-      cursor-pointer
-      focus-visible:outline-none
-      focus-visible:ring-2
-      focus-visible:ring-[#E83D59]
-      focus-visible:ring-offset-2
-    "
-          >
-            <img
-              src="/images/return-gifts/return-gift.png"
-              alt="BuzzieWorld return gifts for kids"
-              className="
-    block
-    h-auto
-    w-full
-    max-w-none
-    select-none
-    object-contain
-    transition-transform
-    duration-500
-    group-hover:scale-[1.01]
-  "
-              draggable={false}
-            />
-          </Link>
-        </div>
-        {/* =======================================================================
-            RIGHT — COPY + CTA
+            LEFT — COPY + CTA
             25% DESKTOP / 100% MOBILE
-
-            The content begins around the vertical center of the right column
-            and remains intentionally spacious.
         ======================================================================= */}
 
         <div
           className="
+            order-1
             flex
             w-full
             flex-col
             items-center
             justify-center
             px-6
-            py-8
             text-center
-
             sm:px-10
-            sm:py-10
-
             md:px-12
-            md:py-12
-
+            lg:order-1
             lg:w-[25%]
             lg:flex-[0_0_25%]
             lg:items-start
             lg:px-8
-            lg:py-10
             lg:text-left
-
             xl:px-10
             2xl:px-14
           "
@@ -152,13 +99,11 @@ export default function CollectionShowcase({ collections: _collections }: Collec
             <h2
               className="
                 m-0
-                mx-auto
                 w-full
                 max-w-[850px]
                 text-balance
                 font-[var(--font-poppins-brand)]
                 text-[clamp(3.4rem,8vw,4rem)]
-
                 font-bold
                 leading-[0.82]
                 tracking-[-0.025em]
@@ -206,15 +151,12 @@ export default function CollectionShowcase({ collections: _collections }: Collec
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
                   focus-visible:ring-offset-3
-
                   sm:min-h-[52px]
                   sm:px-7
                   sm:text-[14px]
-
                   lg:min-h-[50px]
                   lg:px-6
                   lg:text-[13px]
-
                   xl:min-h-[54px]
                   xl:px-7
                   xl:text-[14px]
@@ -235,7 +177,6 @@ export default function CollectionShowcase({ collections: _collections }: Collec
                     transition-transform
                     duration-300
                     group-hover:translate-x-0.5
-
                     sm:size-8
                   "
                 >
@@ -251,6 +192,55 @@ export default function CollectionShowcase({ collections: _collections }: Collec
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* =======================================================================
+            RIGHT — RETURN GIFT ARTWORK
+            75% DESKTOP / 100% MOBILE
+        ======================================================================= */}
+
+        <div
+          className="
+            order-2
+            relative
+            w-full
+            overflow-hidden
+            lg:order-2
+            lg:w-[75%]
+            lg:flex-[0_0_75%]
+          "
+        >
+          <Link
+            href="/return-gifts"
+            aria-label="Explore BuzzieWorld return gifts"
+            className="
+              group
+              block
+              w-full
+              cursor-pointer
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[#E83D59]
+              focus-visible:ring-offset-2
+            "
+          >
+            <img
+              src="/images/return-gifts/return-gift.png"
+              alt="BuzzieWorld return gifts for kids"
+              className="
+                block
+                h-auto
+                w-full
+                max-w-none
+                select-none
+                object-contain
+                transition-transform
+                duration-500
+                group-hover:scale-[1.01]
+              "
+              draggable={false}
+            />
+          </Link>
         </div>
       </div>
     </section>

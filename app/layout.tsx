@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, League_Gothic, Poppins } from "next/font/google";
+
+import { Bebas_Neue, League_Gothic, Playpen_Sans, Poppins } from "next/font/google";
 
 import "./globals.css";
 
@@ -23,17 +24,17 @@ const bebasNeue = Bebas_Neue({
   display: "swap",
 });
 
-/*
- * Real Poppins font.
- *
- * IMPORTANT:
- * Do not use --font-poppins here because that variable
- * already exists in globals.css as a compatibility alias.
- */
 const poppins = Poppins({
   variable: "--font-poppins-brand",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
+const playpenSans = Playpen_Sans({
+  variable: "--font-playpen-sans",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -80,6 +81,7 @@ export default function RootLayout({
         ${leagueGothic.variable}
         ${bebasNeue.variable}
         ${poppins.variable}
+        ${playpenSans.variable}
         antialiased
       `}
       suppressHydrationWarning

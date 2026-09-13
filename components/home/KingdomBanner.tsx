@@ -1,6 +1,6 @@
+import { Heart, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingBag } from "lucide-react";
 
 import Reveal from "./Reveal";
 
@@ -96,14 +96,6 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
       >
         {/* ================================================================
             REEL
-
-            Reference card:
-            - 227px-ish wide on desktop
-            - 423px total height
-            - approximately 378px video + 45px action bar
-
-            object-cover intentionally crops the source video slightly so
-            there are no black letterbox areas above/below the card.
         ================================================================ */}
         <div
           className="
@@ -138,8 +130,6 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
 
           {/* ==============================================================
               PRODUCT OVERLAY
-
-              Sits directly over the bottom of the video like the reference.
           ============================================================== */}
           <Link
             href={card.productHref}
@@ -220,9 +210,6 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
 
         {/* ================================================================
             ADD TO CART + WISHLIST
-
-            Kept in the established BuzzieWorld purple / crimson treatment.
-            Total card height remains exactly 423px.
         ================================================================ */}
         <div
           className="
@@ -311,7 +298,7 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
    BANNER
    ========================================================================== */
 
-const BARGAINS_IMAGE = "/images/banners/bargain-2.png";
+const BARGAINS_IMAGE = "/images/banners/bargain.png";
 
 export default function KingdomBanner() {
   return (
@@ -319,7 +306,17 @@ export default function KingdomBanner() {
       {/* ====================================================================
           BUZZIE BARGAINS
       ==================================================================== */}
-      <section className="bg-[#C391EE] py-12 sm:py-16 lg:py-20">
+      <section
+        className="
+          bg-[#C391EE]
+          pt-8
+          pb-8
+          sm:pt-10
+          sm:pb-10
+          lg:pt-12
+          lg:pb-12
+        "
+      >
         <div className="container">
           <Reveal>
             <div className="relative">
@@ -400,7 +397,19 @@ export default function KingdomBanner() {
       {/* ====================================================================
           WATCH & BUY
       ==================================================================== */}
-      <section className="relative overflow-hidden bg-[#5C4AA5] py-12 sm:py-16 lg:py-20">
+      <section
+        className="
+          relative
+          overflow-hidden
+          bg-[#FFFFFF]
+          pt-8
+          pb-8
+          sm:pt-10
+          sm:pb-10
+          lg:pt-12
+          lg:pb-12
+        "
+      >
         <div className="container relative">
           <Reveal>
             <header
@@ -432,7 +441,6 @@ export default function KingdomBanner() {
                     font-semibold
                     uppercase
                     tracking-[0.18em]
-                    text-white/90
                     sm:text-[11px]
                   "
                 >
@@ -450,7 +458,7 @@ export default function KingdomBanner() {
                 />
               </div>
 
-              {/* Main heading — Poppins Brand / BuzzieWorld typography */}
+              {/* Main heading */}
               <h2
                 className="
                   mx-auto
@@ -463,21 +471,18 @@ export default function KingdomBanner() {
                   uppercase
                   leading-[0.84]
                   tracking-[-0.035em]
-                  text-white
+                  text-black
                 "
               >
                 See it.
-                <span className="text-[#FF6079]"> Love it.</span>
-                <span className="text-[#E6D7FF]"> Take it home.</span>
+                <span className="text-[#E83D59]"> Love it.</span>
+                <span className="text-[#C391EE]"> Take it home.</span>
               </h2>
             </header>
           </Reveal>
 
           {/* ==================================================================
               FIVE-CARD ROW
-
-              Reference width is approximately 1,200px at desktop.
-              5 cards + 4 × 16px gaps = ~1,200px.
           ================================================================== */}
           <div
             className="
@@ -528,4 +533,3 @@ export default function KingdomBanner() {
     </>
   );
 }
-

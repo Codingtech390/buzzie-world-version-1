@@ -28,7 +28,7 @@ const THEMED_STAR = "/images/hero/themed-icons/themed-star-red.png";
 /* -------------------------------------------------------------------------- */
 
 const MARQUEE_TEXT =
-  "BuzzieWorld - Your Daily Dose of Vitamin L - Where Learning Meets Fun - BuzzieWorld - Your Daily Dose of Vitamin L - Where Learning Meets Fun - BuzzieWorld";
+  "BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun. BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun.";
 /* -------------------------------------------------------------------------- */
 /*                               SHOP BY AGE                                   */
 /* -------------------------------------------------------------------------- */
@@ -39,7 +39,7 @@ const ageGroups = [
     title: "Early Explorers",
     description: "Simple, safe play for little learners.",
     slug: "1-3-years",
-    image: "/images/shop-by-age/0-3-removebg-preview.png",
+    image: "/images/shop-by-age/age-0-3-new.png",
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
@@ -48,7 +48,7 @@ const ageGroups = [
     title: "Play & Discover",
     description: "Hands-on fun that sparks imagination.",
     slug: "3-6-years",
-    image: "/images/shop-by-age/3+-removebg-preview.png",
+    image: "/images/shop-by-age/age-3+.png",
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
@@ -57,7 +57,7 @@ const ageGroups = [
     title: "Learn & Grow",
     description: "Build skills through curiosity and play.",
     slug: "6-9-years",
-    image: "/images/shop-by-age/6+-removebg-preview.png",
+    image: "/images/shop-by-age/age-6+.png",
     tone: "#D9E9B8",
     accent: "#6CA83A",
   },
@@ -66,7 +66,7 @@ const ageGroups = [
     title: "Think & Master",
     description: "Challenges for curious, growing minds.",
     slug: "9-15-years",
-    image: "/images/shop-by-age/8+-removebg-preview.png",
+    image: "/images/shop-by-age/age-8+.png",
     tone: "#DCD2F3",
     accent: "#7550A5",
   },
@@ -1108,14 +1108,14 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         <Reveal>
           <div
             className="
-              relative
-              mt-14
-              px-0
-              py-7
-              sm:mt-18
-              sm:py-9
-              lg:mt-22
-              lg:py-11
+            relative
+            px-0
+            pt-8
+            pb-8
+            sm:pt-10
+            sm:pb-10
+            lg:pt-12
+            lg:pb-12
             "
           >
             {/* ------------------------------------------------------------ */}
@@ -1135,7 +1135,6 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               <div
                 className="
                   mx-auto
-                  mb-4
                   flex
                   items-center
                   justify-center
@@ -1160,7 +1159,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                     font-black
                     uppercase
                     tracking-[0.18em]
-                    text-[#E72D5A]
+                    text-[#E83D59]
                     sm:text-[10px]
                     xl:text-[12px]
                   "
@@ -1173,20 +1172,20 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
               <h2
                 className="
-    m-0
-    mx-auto
-    w-full
-    max-w-[700px]
-    font-[var(--font-poppins-brand)]
-    text-[clamp(3.4rem,11vw,5.8rem)]
-    font-bold
-    uppercase
-    leading-[0.82]
-    tracking-[-0.025em]
-    text-[#111111]
-  "
+              m-0
+              mx-auto
+              w-full
+              max-w-[700px]
+              font-[var(--font-poppins-brand)]
+              text-[clamp(3.4rem,11vw,5.8rem)]
+              font-bold
+              uppercase
+              leading-[0.82]
+              tracking-[-0.025em]
+              text-[#111111]
+              "
               >
-                Shop By <span className="text-[#FF5558]">Age</span>
+                Shop By <span className="text-[#E83D59]">Age</span>
               </h2>
 
               <div
@@ -1214,10 +1213,9 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               className="
                 relative
                 z-30
-                mt-7
-                sm:mt-8
-                lg:mt-9
-                xl:mt-10
+                mt-6
+                sm:mt-7
+                lg:mt-8
 
               "
             >

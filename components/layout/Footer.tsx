@@ -5,15 +5,10 @@ import Link from "next/link";
 
 import { siteConfig } from "@/config/site";
 
-const FOOTER_VIDEO =
-  "/images/hero/video/night-sky-rockets-stars-loop-v2.mp4";
-
 const FOOTER_LOGO = "/images/hero/buzzie-logo.png";
 
 /* ================================================================
    FOOTER NAVIGATION
-   Keep these routes explicit so the footer remains stable even if
-   the main navbar/navigation configuration changes.
    ================================================================ */
 
 const shopLinks = [
@@ -98,102 +93,279 @@ export default function Footer() {
         relative
         isolate
         overflow-hidden
-        border-t
-        border-white/10
+        bg-[#1D1B22]
         text-white
       "
     >
-      {/* ================================================================
-          VIDEO BACKGROUND
-      ================================================================= */}
+      {/* ============================================================
+          NATURAL WAVY BOUNDARY
+      ============================================================ */}
 
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          inset-0
-          -z-20
+          inset-x-0
+          top-0
+          z-20
+          h-[105px]
           overflow-hidden
+          sm:h-[125px]
+          lg:h-[150px]
+          xl:h-[165px]
         "
       >
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
+        {/* ==========================================================
+            MAIN CREAM WAVE
+        ========================================================== */}
+
+        <div
           className="
+            footer-wave
             absolute
-            inset-0
-            h-full
-            w-full
-            object-cover
-            object-center
+            inset-y-0
+            left-0
+            w-[200%]
+            min-w-[1800px]
           "
+          style={{
+            animationDuration: "32s",
+          }}
         >
-          <source src={FOOTER_VIDEO} type="video/mp4" />
-        </video>
+          <svg
+            viewBox="0 0 2880 170"
+            preserveAspectRatio="none"
+            className="h-full w-full"
+          >
+            <g>
+              <path
+                d="M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z"
+                fill="#FFF8E8"
+              >
+                <animate
+                  attributeName="d"
+                  dur="10s"
+                  repeatCount="indefinite"
+                  values="
+                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z;
+                    M0 0H1440V46C1265 25 1115 10 950 37C760 68 650 112 470 120C285 128 145 89 0 56Z;
+                    M0 0H1440V58C1255 12 1110 22 948 48C755 81 650 126 475 132C288 138 150 99 0 67Z;
+                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z
+                  "
+                  calcMode="spline"
+                  keyTimes="0;0.33;0.66;1"
+                  keySplines="
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1
+                  "
+                />
+              </path>
+            </g>
+
+            <g transform="translate(1440 0)">
+              <path
+                d="M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z"
+                fill="#FFF8E8"
+              >
+                <animate
+                  attributeName="d"
+                  dur="10s"
+                  repeatCount="indefinite"
+                  values="
+                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z;
+                    M0 0H1440V46C1265 25 1115 10 950 37C760 68 650 112 470 120C285 128 145 89 0 56Z;
+                    M0 0H1440V58C1255 12 1110 22 948 48C755 81 650 126 475 132C288 138 150 99 0 67Z;
+                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z
+                  "
+                  calcMode="spline"
+                  keyTimes="0;0.33;0.66;1"
+                  keySplines="
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1
+                  "
+                />
+              </path>
+            </g>
+          </svg>
+        </div>
+
+        {/* ==========================================================
+            LAVENDER WAVE
+        ========================================================== */}
+
+        <div
+          className="
+            footer-wave
+            absolute
+            inset-y-0
+            left-0
+            w-[200%]
+            min-w-[1800px]
+          "
+          style={{
+            animationDuration: "43s",
+            animationDelay: "-11s",
+          }}
+        >
+          <svg
+            viewBox="0 0 2880 170"
+            preserveAspectRatio="none"
+            className="h-full w-full"
+          >
+            <g>
+              <path
+                d="M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z"
+                fill="#C9B8EA"
+                fillOpacity="0.42"
+              >
+                <animate
+                  attributeName="d"
+                  dur="13s"
+                  repeatCount="indefinite"
+                  values="
+                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z;
+                    M0 0H1440V56C1240 40 1100 19 940 47C755 78 635 121 460 130C275 139 130 96 0 67Z;
+                    M0 0H1440V72C1260 20 1100 35 945 61C760 91 650 140 470 145C280 150 145 113 0 81Z;
+                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z
+                  "
+                  calcMode="spline"
+                  keyTimes="0;0.33;0.66;1"
+                  keySplines="
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1
+                  "
+                />
+              </path>
+            </g>
+
+            <g transform="translate(1440 0)">
+              <path
+                d="M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z"
+                fill="#C9B8EA"
+                fillOpacity="0.42"
+              >
+                <animate
+                  attributeName="d"
+                  dur="13s"
+                  repeatCount="indefinite"
+                  values="
+                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z;
+                    M0 0H1440V56C1240 40 1100 19 940 47C755 78 635 121 460 130C275 139 130 96 0 67Z;
+                    M0 0H1440V72C1260 20 1100 35 945 61C760 91 650 140 470 145C280 150 145 113 0 81Z;
+                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z
+                  "
+                  calcMode="spline"
+                  keyTimes="0;0.33;0.66;1"
+                  keySplines="
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1
+                  "
+                />
+              </path>
+            </g>
+          </svg>
+        </div>
+
+        {/* ==========================================================
+            FINE HIGHLIGHT WAVE
+        ========================================================== */}
+
+        <div
+          className="
+            footer-wave
+            absolute
+            inset-y-0
+            left-0
+            w-[200%]
+            min-w-[1800px]
+          "
+          style={{
+            animationDuration: "52s",
+            animationDelay: "-19s",
+          }}
+        >
+          <svg
+            viewBox="0 0 2880 170"
+            preserveAspectRatio="none"
+            className="h-full w-full"
+          >
+            <g>
+              <path
+                d="M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z"
+                fill="#FFF8E8"
+                fillOpacity="0.98"
+              >
+                <animate
+                  attributeName="d"
+                  dur="15s"
+                  repeatCount="indefinite"
+                  values="
+                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z;
+                    M0 0H1440V53C1270 20 1115 34 955 53C780 74 655 102 475 121C295 128 150 97 0 63Z;
+                    M0 0H1440V43C1280 30 1110 21 960 44C790 65 665 117 485 111C300 118 145 84 0 53Z;
+                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z
+                  "
+                  calcMode="spline"
+                  keyTimes="0;0.33;0.66;1"
+                  keySplines="
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1
+                  "
+                />
+              </path>
+            </g>
+
+            <g transform="translate(1440 0)">
+              <path
+                d="M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z"
+                fill="#FFF8E8"
+                fillOpacity="0.98"
+              >
+                <animate
+                  attributeName="d"
+                  dur="15s"
+                  repeatCount="indefinite"
+                  values="
+                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z;
+                    M0 0H1440V53C1270 20 1115 34 955 53C780 74 655 102 475 121C295 128 150 97 0 63Z;
+                    M0 0H1440V43C1280 30 1110 21 960 44C790 65 665 117 485 111C300 118 145 84 0 53Z;
+                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z
+                  "
+                  calcMode="spline"
+                  keyTimes="0;0.33;0.66;1"
+                  keySplines="
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1;
+                    0.42 0 0.58 1
+                  "
+                />
+              </path>
+            </g>
+          </svg>
+        </div>
       </div>
 
       {/* ================================================================
-          VIDEO OVERLAYS
-      ================================================================= */}
+          SOFT COLOUR ATMOSPHERE
+      ================================================================ */}
 
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          inset-0
+          -right-40
+          top-[100px]
           -z-10
-          bg-[#10182A]/55
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          -z-10
-          bg-gradient-to-b
-          from-[#10182A]/35
-          via-[#10182A]/55
-          to-[#10182A]/80
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          -z-10
-          bg-gradient-to-r
-          from-[#10182A]/55
-          via-transparent
-          to-[#10182A]/40
-        "
-      />
-
-      {/* ================================================================
-          ATMOSPHERIC DECORATION
-      ================================================================= */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -right-24
-          -top-24
-          -z-5
-          size-80
+          size-[32rem]
           rounded-full
-          bg-[#6F32F5]/15
+          bg-[#7B61C9]/10
           blur-3xl
         "
       />
@@ -203,50 +375,74 @@ export default function Footer() {
         className="
           pointer-events-none
           absolute
-          -bottom-32
-          -left-24
-          -z-5
-          size-96
+          -bottom-40
+          -left-32
+          -z-10
+          size-[30rem]
           rounded-full
-          bg-[#E72D5A]/10
+          bg-[#E83D59]/[0.07]
           blur-3xl
         "
       />
 
       {/* ================================================================
-          MAIN FOOTER
-      ================================================================= */}
+          FOOTER CONTENT
+      ================================================================ */}
 
-      <div className="container relative">
+      <div
+        className="
+          container
+          relative
+          z-10
+          mt-6
+          pt-[105px]
+          sm:mt-7
+          sm:pt-[120px]
+          lg:mt-8
+          lg:pt-[145px]
+          xl:pt-[155px]
+        "
+      >
         <div
           className="
             grid
-            gap-10
-            py-14
-            sm:py-16
-            lg:grid-cols-[1.35fr_repeat(5,minmax(0,1fr))]
-            lg:gap-8
-            lg:py-20
+            grid-cols-2
+            gap-x-6
+            gap-y-10
+            pb-10
+            sm:gap-x-8
+            sm:gap-y-12
+            sm:pb-12
+            lg:grid-cols-[1.45fr_repeat(5,minmax(0,1fr))]
+            lg:gap-x-8
+            lg:gap-y-0
+            lg:pb-16
+            xl:gap-x-10
           "
         >
-          {/* ============================================================
-              BRAND / CONTACT
-          ============================================================ */}
+          {/* ==============================================================
+              BRAND
+          ============================================================== */}
 
-          <div className="max-w-md">
+          <div
+            className="
+              col-span-2
+              max-w-md
+              lg:col-span-1
+              lg:pr-6
+            "
+          >
             <Link
               href="/"
+              aria-label="BuzzieWorld home"
               className="
                 inline-flex
                 items-center
                 rounded-2xl
                 focus-visible:outline-none
                 focus-visible:ring-2
-                focus-visible:ring-[#E72D5A]
-                focus-visible:ring-offset-2
-                focus-visible:ring-offset-[#10182A]
+                focus-visible:ring-[#E83D59]
               "
-              aria-label="BuzzieWorld home"
             >
               <Image
                 src={FOOTER_LOGO}
@@ -255,11 +451,11 @@ export default function Footer() {
                 height={60}
                 className="
                   h-auto
-                  w-[150px]
+                  w-[140px]
                   object-contain
-                  sm:w-[170px]
+                  sm:w-[160px]
+                  lg:w-[170px]
                 "
-                priority={false}
               />
             </Link>
 
@@ -267,42 +463,45 @@ export default function Footer() {
               className="
                 mt-5
                 max-w-sm
-                font-[var(--font-roboto)]
-                text-lg
+                font-[var(--font-poppins-brand)]
+                text-[20px]
                 font-bold
-                leading-7
-                tracking-[-0.02em]
+                leading-[1.05]
+                tracking-[-0.035em]
                 text-white
+                sm:mt-6
+                sm:text-[24px]
               "
             >
-              Your daily dose of vitamin L
+              Your Daily Dose of Vitamin L
             </p>
 
             <p
               className="
-                mt-2
+                mt-3
                 max-w-sm
-                font-[var(--font-poppins)]
-                text-sm
+                font-[var(--font-playpen)]
+                text-[13px]
+                font-medium
                 leading-6
-                text-white/65
+                text-white/60
+                sm:text-sm
               "
             >
               We curate playful products that help children explore, create
               and grow.
             </p>
 
-            {/* ==========================================================
-                CONTACT DETAILS
-            ========================================================== */}
-
             <div
               className="
                 mt-6
                 space-y-3
-                font-[var(--font-poppins)]
-                text-sm
-                text-white/70
+                font-[var(--font-playpen)]
+                text-[13px]
+                font-medium
+                text-white/65
+                sm:mt-7
+                sm:text-sm
               "
             >
               <a
@@ -313,17 +512,15 @@ export default function Footer() {
                   gap-3
                   transition-colors
                   hover:text-white
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E72D5A]
                 "
               >
                 <Mail
                   className="size-4 shrink-0"
                   strokeWidth={1.9}
                 />
-
-                <span>{siteConfig.email}</span>
+                <span className="break-all sm:break-normal">
+                  {siteConfig.email}
+                </span>
               </a>
 
               <div className="flex items-center gap-3">
@@ -331,7 +528,6 @@ export default function Footer() {
                   className="size-4 shrink-0"
                   strokeWidth={1.9}
                 />
-
                 <span>{siteConfig.country}</span>
               </div>
 
@@ -340,17 +536,12 @@ export default function Footer() {
                   className="size-4 shrink-0"
                   strokeWidth={1.9}
                 />
-
                 <span>Customer care coming soon</span>
               </div>
             </div>
 
-            {/* ==========================================================
-                SOCIAL LINKS
-            ========================================================== */}
-
             {socialLinks.length > 0 ? (
-              <div className="mt-7 flex items-center gap-2">
+              <div className="mt-6 flex items-center gap-2 sm:mt-7">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -360,24 +551,24 @@ export default function Footer() {
                     aria-label={`BuzzieWorld ${social.label}`}
                     className="
                       flex
-                      size-10
+                      size-9
                       items-center
                       justify-center
                       rounded-full
                       border
                       border-white/15
-                      bg-white/10
-                      text-white/80
-                      backdrop-blur-md
+                      bg-white/[0.06]
+                      text-white/75
                       transition-all
                       duration-200
                       hover:-translate-y-0.5
-                      hover:border-white/25
-                      hover:bg-white/20
+                      hover:border-[#C391EE]/60
+                      hover:bg-[#C391EE]/15
                       hover:text-white
                       focus-visible:outline-none
                       focus-visible:ring-2
-                      focus-visible:ring-[#E72D5A]
+                      focus-visible:ring-[#E83D59]
+                      sm:size-10
                     "
                   >
                     <SocialIcon type={social.type} />
@@ -387,9 +578,9 @@ export default function Footer() {
             ) : null}
           </div>
 
-          {/* ============================================================
-              SHOP
-          ============================================================ */}
+          {/* ==============================================================
+              NAVIGATION
+          ============================================================== */}
 
           <FooterColumn title="Shop">
             {shopLinks.map((item) => (
@@ -402,10 +593,6 @@ export default function Footer() {
             ))}
           </FooterColumn>
 
-          {/* ============================================================
-              COMPANY
-          ============================================================ */}
-
           <FooterColumn title="Company">
             {companyLinks.map((item) => (
               <FooterLink
@@ -416,10 +603,6 @@ export default function Footer() {
               </FooterLink>
             ))}
           </FooterColumn>
-
-          {/* ============================================================
-              CUSTOMER CARE
-          ============================================================ */}
 
           <FooterColumn title="Customer Care">
             {customerCareLinks.map((item) => (
@@ -432,10 +615,6 @@ export default function Footer() {
             ))}
           </FooterColumn>
 
-          {/* ============================================================
-              ACCOUNT
-          ============================================================ */}
-
           <FooterColumn title="Your Account">
             {accountLinks.map((item) => (
               <FooterLink
@@ -446,10 +625,6 @@ export default function Footer() {
               </FooterLink>
             ))}
           </FooterColumn>
-
-          {/* ============================================================
-              LEGAL
-          ============================================================ */}
 
           <FooterColumn title="Legal">
             {legalLinks.map((item) => (
@@ -464,21 +639,25 @@ export default function Footer() {
         </div>
 
         {/* ================================================================
-            COPYRIGHT / POLICIES
-        ================================================================= */}
+            COPYRIGHT / LEGAL
+        ================================================================ */}
 
         <div className="border-t border-white/10 py-5 sm:py-6">
           <div
             className="
               flex
               flex-col
-              gap-4
-              font-[var(--font-poppins)]
-              text-xs
-              text-white/50
+              gap-3
+              font-[var(--font-playpen)]
+              text-[11px]
+              font-medium
+              leading-5
+              text-white/45
               sm:flex-row
               sm:items-center
               sm:justify-between
+              sm:gap-4
+              sm:text-xs
             "
           >
             <p>
@@ -491,60 +670,37 @@ export default function Footer() {
                 flex
                 flex-wrap
                 items-center
-                gap-x-5
+                gap-x-4
                 gap-y-2
+                sm:gap-x-5
               "
             >
               <Link
                 href="/privacy-policy"
-                className="
-                  transition-colors
-                  hover:text-white
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E72D5A]
-                "
+                className="transition-colors hover:text-white"
               >
                 Privacy Policy
               </Link>
 
-              <span className="hidden text-white/20 sm:inline">
-                •
-              </span>
+              <span className="hidden text-white/20 sm:inline">•</span>
 
               <Link
                 href="/terms"
-                className="
-                  transition-colors
-                  hover:text-white
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E72D5A]
-                "
+                className="transition-colors hover:text-white"
               >
                 Terms of Service
               </Link>
 
-              <span className="hidden text-white/20 sm:inline">
-                •
-              </span>
+              <span className="hidden text-white/20 sm:inline">•</span>
 
               <Link
                 href="/disclaimer"
-                className="
-                  transition-colors
-                  hover:text-white
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E72D5A]
-                "
+                className="transition-colors hover:text-white"
               >
                 Disclaimer
               </Link>
 
-              <span className="hidden text-white/20 sm:inline">
-                •
-              </span>
+              <span className="hidden text-white/20 sm:inline">•</span>
 
               <span>
                 {siteConfig.currency} · {siteConfig.locale}
@@ -554,23 +710,26 @@ export default function Footer() {
         </div>
 
         {/* ================================================================
-            FOOTER TAGLINE / BACK TO TOP
-        ================================================================= */}
+            FOOTER SIGN-OFF
+        ================================================================ */}
 
         <div
           className="
             flex
             flex-col
             gap-3
-            pb-8
+            pb-7
             pt-2
-            font-[var(--font-poppins)]
-            text-xs
-            text-white/40
+            font-[var(--font-playpen)]
+            text-[11px]
+            font-medium
+            leading-5
+            text-white/35
             sm:flex-row
             sm:items-center
             sm:justify-between
-            sm:pb-10
+            sm:pb-9
+            sm:text-xs
           "
         >
           <p>
@@ -581,19 +740,20 @@ export default function Footer() {
             href="#main-content"
             className="
               inline-flex
+              w-fit
               items-center
               gap-1.5
+              font-[var(--font-playpen)]
               font-semibold
-              text-white/50
+              text-white/45
               transition-colors
               hover:text-white
               focus-visible:outline-none
               focus-visible:ring-2
-              focus-visible:ring-[#E72D5A]
+              focus-visible:ring-[#E83D59]
             "
           >
             Back to top
-
             <ArrowUpRight
               className="size-3.5"
               strokeWidth={2}
@@ -601,6 +761,11 @@ export default function Footer() {
           </Link>
         </div>
       </div>
+
+      {/* ================================================================
+          WAVE MOVEMENT
+      ================================================================ */}
+
     </footer>
   );
 }
@@ -617,20 +782,35 @@ function FooterColumn({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div
+      className="
+        min-w-0
+        mt-0
+      "
+    >
       <h2
         className="
-          font-[var(--font-roboto)]
-          text-sm
+          font-[var(--font-playpen)]
+          text-[15px]
           font-bold
-          tracking-[-0.01em]
+          leading-tight
+          tracking-[-0.015em]
           text-white
+          sm:text-[16px]
+          lg:text-[17px]
         "
       >
         {title}
       </h2>
 
-      <div className="mt-4 space-y-2.5">
+      <div
+        className="
+          mt-3
+          space-y-2
+          sm:mt-4
+          sm:space-y-2.5
+        "
+      >
         {children}
       </div>
     </div>
@@ -655,23 +835,28 @@ function FooterLink({
         group
         flex
         w-fit
+        max-w-full
         items-center
         gap-1
-        font-[var(--font-poppins)]
-        text-sm
+        font-[var(--font-playpen)]
+        text-[12px]
+        leading-5
         text-white/60
         transition-colors
         hover:text-white
         focus-visible:outline-none
         focus-visible:ring-2
         focus-visible:ring-[#E72D5A]
+        sm:text-[13px]
+        lg:text-[13.5px]
       "
     >
       <span>{children}</span>
 
       <ArrowUpRight
         className="
-          size-3.5
+          size-3
+          shrink-0
           -translate-y-0.5
           translate-x-[-2px]
           opacity-0
@@ -679,6 +864,7 @@ function FooterLink({
           duration-200
           group-hover:translate-x-0
           group-hover:opacity-70
+          sm:size-3.5
         "
         strokeWidth={1.8}
       />
