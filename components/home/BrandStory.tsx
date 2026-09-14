@@ -415,7 +415,7 @@ export default function BrandStory({ products }: BrandStoryProps) {
                 <span className="h-2 w-2 rounded-full bg-[#E83D59]" />
               </div>
 
-              <h2 className="mt-4 font-[var(--font-league-gothic)] text-[clamp(2rem,8vw,3.2rem)] font-bold leading-[0.9] tracking-[-0.035em] text-white">
+              <h2 className="mt-4 font-[var(--font-playpen)] text-[clamp(2rem,8vw,3.3rem)] leading-[0.9] tracking-[-0.035em] text-white">
                 {activeSlide.question}
               </h2>
 

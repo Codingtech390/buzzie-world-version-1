@@ -1,19 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CirclePlay,
-  Eye,
-  ExternalLink,
-  Heart,
-  Info,
-  Play,
-  ShoppingBag,
-  Star,
-} from "lucide-react";
+
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
 
@@ -29,6 +18,10 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const favorites = products.slice(0, 3);
+
+  /* ------------------------------------------------------------------------
+     AUTO ROTATE
+  ------------------------------------------------------------------------ */
 
   useEffect(() => {
     if (favorites.length <= 1) {
@@ -88,8 +81,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       className="
         relative
         isolate
+        w-full
         overflow-hidden
-        bg-[#F8F5F2]
+        bg-white
         pt-8
         pb-8
         sm:pt-10
@@ -98,78 +92,23 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
         lg:pb-12
       "
     >
-      {/* ================================================================
-          OVERALL SECTION BACKGROUND
-          ================================================================ */}
-
-      {/* ================================================================
-          SPLIT BACKGROUND LAYERS
-          The left half keeps the existing artwork.
-          The right half uses the new homepage background artwork.
-          ================================================================ */}
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-y-0
-          left-0
-          -z-10
-          w-full
-          bg-[url('/images/hero/hero-bg-1.png')]
-          bg-cover
-          bg-center
-          bg-no-repeat
-          md:w-1/2
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-y-0
-          right-0
-          -z-10
-          hidden
-          w-1/2
-          bg-[url('/images/hero/homepage-background-1.png')]
-          bg-cover
-          bg-center
-          bg-no-repeat
-          md:block
-        "
-      />
-
-      {/* Very light overlay */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          -z-[5]
-          bg-white/[0.035]
-        "
-      />
-
-      {/* ================================================================
+      {/* ====================================================================
           SECTION HEADING
-          ================================================================ */}
+      ==================================================================== */}
 
       <Reveal>
         <div
           className="
             relative
-            z-20
+            z-50
             flex
             flex-col
             items-center
             text-center
           "
         >
+          {/* EYEBROW */}
+
           <div
             className="
               mx-auto
@@ -182,6 +121,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
             "
           >
             <span
+              aria-hidden="true"
               className="
                 h-[2px]
                 w-7
@@ -193,7 +133,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
             <span
               className="
-                font-[var(--font-poppins)]
+                font-[var(--font-poppins-brand)]
                 text-[8px]
                 font-black
                 uppercase
@@ -206,26 +146,39 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               Latest &amp; Trending
             </span>
 
-            <span className="size-1.5 rounded-full bg-[#F59A23]" />
+            <span
+              aria-hidden="true"
+              className="
+                size-1.5
+                rounded-full
+                bg-[#F59A23]
+              "
+            />
           </div>
+
+          {/* MAIN HEADING */}
 
           <h2
             className="
-    m-0
-    mx-auto
-    w-full
-    max-w-[700px]
-    font-[var(--font-poppins-brand)]
-    text-[clamp(3.4rem,11vw,5.8rem)]
-    font-bold
-    uppercase
-    leading-[0.82]
-    tracking-[-0.025em]
-    text-[#111111]
-  "
+              m-0
+              mx-auto
+              w-full
+              max-w-[850px]
+              px-4
+              font-[var(--font-poppins-brand)]
+              text-[clamp(3.4rem,11vw,5.8rem)]
+              font-bold
+              uppercase
+              leading-[0.82]
+              tracking-[-0.025em]
+              text-[#111111]
+              sm:px-6
+            "
           >
             Buzzie <span className="text-[#E83D59]">Favorite</span>
           </h2>
+
+          {/* HEADING ACCENT */}
 
           <div
             className="
@@ -238,334 +191,325 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               sm:mt-6
             "
           >
-            <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
-            <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
-            <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#C391EE]
+              "
+            />
+
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-2.5
+                rounded-full
+                bg-[#E72D5A]
+              "
+            />
+
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-1.5
+                rounded-full
+                bg-[#F5B5C5]
+              "
+            />
           </div>
         </div>
       </Reveal>
-
-      {/* ================================================================
-          MAIN CONTENT
-          ================================================================ */}
 
       <div
         className="
           relative
           z-10
           mx-auto
+          mt-7
           w-full
-          max-w-[1440px]
-          px-4
-          pt-5
-          pb-2
-          sm:px-6
-          sm:pt-7
-          sm:pb-3
-          lg:px-10
-          lg:pt-8
-          lg:pb-4
-          xl:px-14
-          2xl:px-16
+          px-2
+
+          sm:mt-8
+          sm:px-3
+
+          lg:mt-9
+          lg:px-4
+
+          xl:px-5
         "
       >
         <div
           className="
             relative
-            min-h-0
-            lg:min-h-[560px]
-            xl:min-h-[620px]
-            2xl:min-h-[660px]
+            isolate
+            mx-auto
+            w-full
+            max-w-[1500px]
+            overflow-hidden
+            rounded-[14px]
+            bg-[#F8F5F2]
+            shadow-[0_10px_35px_rgba(30,25,45,0.07)]
+
+            /* ==============================================================
+               MOBILE / SMALL SCREENS
+
+               Two vertical sections.
+               ============================================================= */
+
+            h-[820px]
+
+            sm:h-[900px]
+
+            md:h-[980px]
+
+            /* ==============================================================
+               DESKTOP
+
+               Return to side-by-side composition.
+               ============================================================= */
+
+            lg:h-[78vh]
+            lg:min-h-[700px]
+            lg:max-h-[850px]
+
+            xl:h-[80vh]
+            xl:min-h-[720px]
+            xl:max-h-[900px]
+
+            2xl:h-[82vh]
+            2xl:min-h-[740px]
+            2xl:max-h-[920px]
           "
         >
-          {/* ============================================================
-              LEFT — COPY
-              ============================================================ */}
+          <div
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-0
+              z-0
+              h-[48%]
+              w-full
+              overflow-hidden
+              bg-[#10064F]
+              bg-[url('/images/backgrounds/left-background.png')]
+              bg-cover
+              bg-center
+              bg-no-repeat
+
+              lg:inset-y-0
+              lg:h-full
+              lg:w-1/2
+            "
+          />
+
+          <div
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              bottom-0
+              left-0
+              z-0
+              h-[52%]
+              w-full
+              overflow-hidden
+              bg-[#EFE0C1]
+              bg-[url('/images/hero/homepage-background-1.png')]
+              bg-cover
+              bg-center
+              bg-no-repeat
+
+              lg:inset-y-0
+              lg:left-auto
+              lg:right-0
+              lg:h-full
+              lg:w-1/2
+            "
+          />
+
+          {/* ==================================================================
+              CENTER SEAM
+
+              MOBILE:
+              Horizontal seam
+
+              DESKTOP:
+              Vertical seam
+          ================================================================== */}
+
+          <div
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-[48%]
+              z-[2]
+              h-px
+              w-full
+              bg-white/10
+
+              lg:left-1/2
+              lg:top-0
+              lg:h-full
+              lg:w-px
+              lg:-translate-x-1/2
+            "
+          />
+
+          {/* ==================================================================
+              LEFT / TOP HEADING
+
+              MOBILE:
+              Centered in blue section.
+
+              DESKTOP:
+              Positioned inside left section.
+          ================================================================== */}
 
           <div
             className="
-    relative
-    z-30
-    flex
-    flex-col
-    justify-center
-    px-5
-    py-8
-    text-center
-    sm:px-8
-    sm:py-10
-    lg:min-h-[560px]
-    lg:w-1/2
-    lg:px-8
-    lg:py-12
-    lg:pr-20
-    lg:text-left
-    xl:min-h-[620px]
-    xl:pl-12
-    xl:pr-24
-    2xl:min-h-[660px]
-  "
-          >
-            {/* Product Name */}
-            <h3
-              className="
-      m-0
-      max-w-[620px]
-      font-[var(--font-poppins-brand)]
-      text-[clamp(2.2rem,5vw,4.5rem)]
-      font-bold
-      leading-[0.94]
-      tracking-[-0.035em]
-      text-[#24385E]
-    "
-            >
-              {product.name}
-            </h3>
-
-            {/* Product Description */}
-            <p
-              className="
-      mx-auto
-      mt-8
-      max-w-[520px]
-      font-[var(--font-poppins-brand)]
-      text-[13px]
-      font-medium
-      leading-[1.65]
-      tracking-[-0.01em]
-      text-[#58647A]
-      sm:mt-6
-      sm:text-[14px]
-      lg:mx-0
-      lg:mt-6
-      lg:max-w-[500px]
-      lg:text-[15px]
-      lg:leading-[1.65]
-      lg:mt-5
-    "
-            >
-              {product.description}
-            </p>
-
-            {/* CTA + Price */}
-            <div
-              className="
-      mt-7
-      flex
-      flex-col
-      items-center
-      gap-4
-      sm:mt-8
-      sm:flex-row
-      sm:items-center
-      sm:justify-center
-      lg:justify-start
-    "
-            >
-              {/* Themed CTA */}
-              <Link
-                href={`/products/${product.slug}`}
-                className="
-        group
-        inline-flex
-        min-h-[50px]
-        items-center
-        justify-center
-        gap-2.5
-        rounded-full
-        bg-[#C391EE]
-        px-7
-        font-[var(--font-poppins-brand)]
-        text-[14px]
-        font-bold
-        leading-none
-        text-white
-        shadow-[0_12px_28px_rgba(195,145,238,0.28)]
-        transition-all
-        duration-300
-        hover:-translate-y-1
-        hover:bg-[#E83D59]
-        hover:text-white
-        hover:shadow-[0_14px_30px_rgba(232,61,89,0.22)]
-        focus-visible:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-[#E83D59]
-        focus-visible:ring-offset-2
-        sm:min-h-[54px]
-        sm:px-8
-        sm:text-[15px]
-      "
-              >
-                Discover Product
-                <ArrowRight
-                  className="
-          size-4
-          transition-transform
-          duration-300
-          group-hover:translate-x-1
-          sm:size-[18px]
-        "
-                />
-              </Link>
-
-              {/* Price */}
-              <div
-                className="
-        flex
-        items-baseline
-        gap-2
-        font-[var(--font-poppins-brand)]
-      "
-              >
-                <span
-                  className="
-          text-[20px]
-          font-bold
-          leading-none
-          tracking-[-0.025em]
-          text-[#24385E]
-          sm:text-[22px]
-        "
-                >
-                  ₹{product.price.toLocaleString("en-IN")}
-                </span>
-
-                {product.compareAtPrice && product.compareAtPrice > product.price ? (
-                  <span
-                    className="
-            font-[var(--font-poppins-brand)]
-            text-[12px]
-            font-medium
-            leading-none
-            text-[#8A91A0]
-            line-through
-            sm:text-[13px]
-          "
-                  >
-                    ₹{product.compareAtPrice.toLocaleString("en-IN")}
-                  </span>
-                ) : null}
-              </div>
-            </div>
-
-            {/* Carousel Indicators */}
-            {favorites.length > 1 ? (
-              <div
-                className="
-        mt-7
-        flex
-        items-center
-        justify-center
-        gap-1.5
-        lg:justify-start
-      "
-              >
-                {favorites.map((item, index) => (
-                  <button
-                    key={item._id}
-                    type="button"
-                    onClick={() => setActiveIndex(index)}
-                    aria-label={`Show ${item.name}`}
-                    aria-current={activeIndex === index}
-                    className={`
-            h-[4px]
-            rounded-full
-            transition-all
-            duration-300
-            ${
-              activeIndex === index
-                ? "w-9 bg-[#E83D59]"
-                : "w-4 bg-[#24385E]/20 hover:bg-[#24385E]/40"
-            }
-          `}
-                  />
-                ))}
-              </div>
-            ) : null}
-
-            {/* Supporting Line */}
-            <div
-              className="
-      mt-6
-      flex
-      items-center
-      justify-center
-      gap-2
-      font-[var(--font-poppins-brand)]
-      text-[10px]
-      font-medium
-      leading-none
-      text-[#687489]
-      lg:justify-start
-      lg:text-[11px]
-    "
-            >
-              <span className="size-1.5 rounded-full bg-[#65C9DC]" />
-              Made for little curious minds
-            </div>
-          </div>
-
-          {/* ============================================================
-              RIGHT — PRODUCT CARD + BUTTONS
-              ============================================================ */}
-
-          <div
-            className="
-              relative
-              z-40
-              mt-4
+              absolute
+              left-0
+              top-0
+              z-20
               flex
-              min-h-[360px]
+              h-[48%]
               w-full
               items-center
               justify-center
-              sm:min-h-[430px]
-              md:min-h-[500px]
-              lg:absolute
-              lg:left-1/2
-              lg:top-1/2
-              lg:mt-0
-              lg:h-[560px]
-              lg:min-h-0
-              lg:w-[560px]
-              lg:-translate-x-[25%]
-              lg:-translate-y-1/2
-              xl:h-[620px]
-              xl:w-[620px]
-              2xl:h-[660px]
-              2xl:w-[660px]
+              px-7
+              text-center
+
+              sm:px-10
+
+              md:px-14
+
+              lg:h-full
+              lg:w-1/2
+              lg:items-center
+              lg:justify-start
+              lg:px-10
+              lg:pr-14
+              lg:text-left
+
+              xl:px-12
+              xl:pr-16
             "
           >
-            {/* ==========================================================
-                3D PRODUCT CARD
-                ========================================================== */}
+            <h3
+              className="
+                m-0
+                w-full
+                max-w-[500px]
+                font-[var(--font-poppins-brand)]
+                text-[clamp(3rem,7vw,5.2rem)]
+                font-bold
+                leading-[0.86]
+                tracking-[-0.035em]
+                text-white
+
+                sm:max-w-[560px]
+
+                lg:text-[clamp(3rem,5vw,5.2rem)]
+              "
+            >
+              Your Daily dose of <span className="text-[#FFD54F]">Vitamin L</span>
+            </h3>
+          </div>
+
+          {/* ==================================================================
+              PRODUCT COMPOSITION
+
+              MOBILE:
+              The card is centered in the lower beige section.
+
+              DESKTOP:
+              The complete composition is moved slightly LEFT so the
+              card floats naturally across the two backgrounds.
+          ================================================================== */}
+
+          <div
+            className="
+              absolute
+              left-1/2
+              top-[69%]
+              z-40
+              flex
+              h-[50%]
+              w-full
+              -translate-x-1/2
+              -translate-y-1/2
+              items-center
+              justify-center
+
+              sm:top-[70%]
+              sm:h-[52%]
+
+              md:top-[71%]
+              md:h-[54%]
+
+              lg:left-1/2
+              lg:top-1/2
+              lg:h-full
+              lg:w-[62%]
+              lg:-translate-x-[15%]
+              lg:-translate-y-1/2
+
+              xl:w-[61%]
+              xl:-translate-x-[14%]
+
+              2xl:w-[60%]
+              2xl:-translate-x-[13%]
+            "
+          >
+            {/* ==================================================================
+                RAW 3D PRODUCT CARD
+            ================================================================== */}
 
             <div
               key={product._id}
               className="
                 relative
                 z-20
-                w-[68%]
+                w-[54%]
                 min-w-0
-                max-w-[430px]
-                -translate-x-[2%]
+                max-w-[390px]
+                -translate-x-[5%]
                 rotate-[-2deg]
                 transition-all
                 duration-500
-                sm:w-[66%]
-                sm:-translate-x-[2%]
-                md:w-[68%]
-                md:-translate-x-[1%]
-                lg:w-[72%]
-                lg:max-w-[500px]
-                lg:translate-x-0
-                xl:w-[74%]
+
+                max-sm:w-[75%]
+                max-sm:max-w-[430px]
+                max-sm:mr-[10%]
+
+
+                sm:w-[51%]
+                sm:max-w-[430px]
+                sm:-translate-x-[5%]
+
+                md:w-[47%]
+                md:max-w-[470px]
+
+                lg:w-[74%]
+                lg:max-w-[510px]
+                lg:-translate-x-[2%]
+
+                xl:w-[75%]
                 xl:max-w-[530px]
+                xl:ml-[-250px]
               "
             >
-              {/* ========================================================
-                  RAW 3D CARD
-                  ======================================================== */}
+              {/* ==============================================================
+                  RAW CARD ARTWORK
+              ============================================================== */}
 
               <img
                 src="/images/products/card-buzzie-fav-raw.png"
@@ -583,9 +527,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 draggable={false}
               />
 
-              {/* ========================================================
-                  PRODUCT IMAGE FROM BACKEND
-                  ======================================================== */}
+              {/* ==============================================================
+                  BACKEND PRODUCT IMAGE
+              ============================================================== */}
 
               <div
                 className="
@@ -626,7 +570,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                       bg-white/20
                       px-5
                       text-center
-                      font-[var(--font-poppins)]
+                      font-[var(--font-poppins-brand)]
                       text-sm
                       font-bold
                       text-[#24385E]
@@ -637,10 +581,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 )}
               </div>
 
-              {/* ========================================================
+              {/* ==============================================================
                   PRODUCT NAME
-                  SLIGHTLY TILTED
-                  ======================================================== */}
+              ============================================================== */}
 
               <div
                 className="
@@ -659,18 +602,20 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               >
                 <span
                   className="
-                  mt-5
+                    mt-5
                     line-clamp-2
                     max-w-full
                     rotate-[-3deg]
-                    font-[var(--font-poppins)]
-                    text-[clamp(0.78rem,2.5vw,2.04rem)]
+                    font-[var(--font-poppins-brand)]
+                    text-[clamp(0.72rem,2.5vw,2.04rem)]
                     font-extrabold
                     leading-[0.95]
                     tracking-[-0.035em]
                     text-white
                     drop-shadow-[0_3px_4px_rgba(90,20,35,0.28)]
-                    sm:text-[clamp(0.95rem,2.25vw,2.04rem)]
+
+                    sm:text-[clamp(0.85rem,2.1vw,2.04rem)]
+
                     xl:text-[clamp(1.05rem,2.25vw,1.50rem)]
                   "
                 >
@@ -679,46 +624,53 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               </div>
             </div>
 
-            {/* ==========================================================
+            {/* ==================================================================
                 RIGHT-SIDE BUTTONS
 
-                SAME VERTICAL STACK AT ALL BREAKPOINTS.
+                MOBILE:
+                Smaller and kept beside the card.
 
-                There is deliberately NO:
-                  hidden
-                  lg:flex
-
-                Therefore the buttons remain visible on mobile.
-                ========================================================== */}
+                DESKTOP:
+                Slightly moved LEFT with the product composition.
+            ================================================================== */}
 
             <div
               className="
-              gap-4
-              max-sm:gap-3
                 absolute
-                right-[-1%]
+                right-[5%]
                 top-1/2
-                z-40
+                z-50
                 flex
-                w-[25%]
-                max-w-[150px]
+                w-[20%]
+                max-w-[125px]
                 -translate-y-1/2
                 flex-col
                 items-center
                 gap-0
-                max-sm:right-[-2%]
-                sm:w-[24%]
-                md:right-[1%]
-                md:w-[23%]
-                lg:right-[-1%]
+
+                max-sm:gap-2
+                max-sm:right-2
+
+                sm:right-[7%]
+                sm:w-[19%]
+                sm:max-w-[135px]
+
+                md:right-[8%]
+                md:w-[18%]
+                md:max-w-[145px]
+
+                lg:right-[0%]
                 lg:w-[22%]
                 lg:max-w-[150px]
-                xl:right-[1%]
+
+                xl:right-[22%]
+                xl:gap-5
+                xl:max-w-[130px]
               "
             >
-              {/* ========================================================
-                  YELLOW — AGE
-                  ======================================================== */}
+              {/* ============================================================
+                  AGE
+              ============================================================ */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -765,24 +717,21 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     justify-center
                     px-[4%]
                     text-center
-                    font-[var(--font-poppins)]
-                    text-[clamp(0.42rem,1.9vw,0.82rem)]
+                    font-[var(--font-poppins-brand)]
+                    text-[clamp(0.38rem,1.7vw,0.82rem)]
                     font-extrabold
                     leading-[1]
                     tracking-[-0.025em]
                     text-[#17365F]
-                    transition-transform
-                    duration-300
-                    group-hover:scale-[1.03]
                   "
                 >
                   {ageLabel}
                 </span>
               </Link>
 
-              {/* ========================================================
-                  GREEN — STOCK
-                  ======================================================== */}
+              {/* ============================================================
+                  STOCK
+              ============================================================ */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -830,24 +779,21 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     justify-center
                     px-[4%]
                     text-center
-                    font-[var(--font-poppins)]
-                    text-[clamp(0.38rem,1.75vw,0.76rem)]
+                    font-[var(--font-poppins-brand)]
+                    text-[clamp(0.34rem,1.6vw,0.76rem)]
                     font-extrabold
                     leading-[0.95]
                     tracking-[-0.025em]
                     text-[#125C2A]
-                    transition-transform
-                    duration-300
-                    group-hover:scale-[1.03]
                   "
                 >
                   {stockLabel}
                 </span>
               </Link>
 
-              {/* ========================================================
-                  PINK — FEATURED
-                  ======================================================== */}
+              {/* ============================================================
+                  FEATURED
+              ============================================================ */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -895,24 +841,21 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     justify-center
                     px-[4%]
                     text-center
-                    font-[var(--font-poppins)]
-                    text-[clamp(0.42rem,1.9vw,0.82rem)]
+                    font-[var(--font-poppins-brand)]
+                    text-[clamp(0.38rem,1.7vw,0.82rem)]
                     font-extrabold
                     leading-[1]
                     tracking-[-0.025em]
                     text-[#B90D45]
-                    transition-transform
-                    duration-300
-                    group-hover:scale-[1.03]
                   "
                 >
                   {featuredLabel}
                 </span>
               </Link>
 
-              {/* ========================================================
-                  BLUE — WATCH DEMO
-                  ======================================================== */}
+              {/* ============================================================
+                  WATCH DEMO
+              ============================================================ */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -960,15 +903,12 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     justify-center
                     px-[4%]
                     text-center
-                    font-[var(--font-poppins)]
-                    text-[clamp(0.4rem,1.8vw,0.78rem)]
+                    font-[var(--font-poppins-brand)]
+                    text-[clamp(0.36rem,1.65vw,0.78rem)]
                     font-extrabold
                     leading-[0.9]
                     tracking-[-0.025em]
                     text-[#2E2188]
-                    transition-transform
-                    duration-300
-                    group-hover:scale-[1.03]
                   "
                 >
                   Watch Demo
@@ -978,42 +918,10 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           </div>
         </div>
       </div>
-
-      {/* ================================================================
-          BENEFITS ARTWORK
-          ================================================================ */}
-
-      <Reveal delay={0.12}>
-        <div
-          className="
-            relative
-            mx-auto
-            mt-0
-            w-full
-            max-w-[1150px]
-            overflow-hidden
-            sm:mt-1
-            lg:mt-2
-          "
-        >
-          <img
-            src="/images/benefits-vectors/squiggly-images-1.png"
-            alt=""
-            aria-hidden="true"
-            className="
-              mx-auto
-              block
-              h-auto
-              w-full
-              max-w-[1000px]
-              object-contain
-            "
-          />
-        </div>
-      </Reveal>
     </section>
   );
 }
+
 /* ==========================================================================
    MAIN COMPONENT
    ========================================================================== */
@@ -1024,6 +932,7 @@ export default function ShopByAge({ products }: ShopByAgeProps) {
       className="
         relative
         isolate
+        w-full
         overflow-hidden
         bg-white
         py-0

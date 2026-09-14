@@ -1,11 +1,11 @@
-import Image from "next/image";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
+import Image from "next/image";
 import Link from "next/link";
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
 
 import { siteConfig } from "@/config/site";
 
-const FOOTER_LOGO = "/images/hero/buzzie-logo.png";
+const FOOTER_LOGO = "/images/hero/buzzieLogo.png";
 
 /* ================================================================
    FOOTER NAVIGATION
@@ -47,11 +47,7 @@ const legalLinks = [
    SOCIAL ICON
    ================================================================ */
 
-function SocialIcon({
-  type,
-}: {
-  type: "instagram" | "facebook" | "youtube";
-}) {
+function SocialIcon({ type }: { type: "instagram" | "facebook" | "youtube" }) {
   if (type === "instagram") {
     return <FaInstagram className="size-4" />;
   }
@@ -133,11 +129,7 @@ export default function Footer() {
             animationDuration: "32s",
           }}
         >
-          <svg
-            viewBox="0 0 2880 170"
-            preserveAspectRatio="none"
-            className="h-full w-full"
-          >
+          <svg viewBox="0 0 2880 170" preserveAspectRatio="none" className="h-full w-full">
             <g>
               <path
                 d="M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z"
@@ -210,11 +202,7 @@ export default function Footer() {
             animationDelay: "-11s",
           }}
         >
-          <svg
-            viewBox="0 0 2880 170"
-            preserveAspectRatio="none"
-            className="h-full w-full"
-          >
+          <svg viewBox="0 0 2880 170" preserveAspectRatio="none" className="h-full w-full">
             <g>
               <path
                 d="M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z"
@@ -289,11 +277,7 @@ export default function Footer() {
             animationDelay: "-19s",
           }}
         >
-          <svg
-            viewBox="0 0 2880 170"
-            preserveAspectRatio="none"
-            className="h-full w-full"
-          >
+          <svg viewBox="0 0 2880 170" preserveAspectRatio="none" className="h-full w-full">
             <g>
               <path
                 d="M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z"
@@ -488,8 +472,7 @@ export default function Footer() {
                 sm:text-sm
               "
             >
-              We curate playful products that help children explore, create
-              and grow.
+              We curate playful products that help children explore, create and grow.
             </p>
 
             <div
@@ -514,28 +497,17 @@ export default function Footer() {
                   hover:text-white
                 "
               >
-                <Mail
-                  className="size-4 shrink-0"
-                  strokeWidth={1.9}
-                />
-                <span className="break-all sm:break-normal">
-                  {siteConfig.email}
-                </span>
+                <Mail className="size-4 shrink-0" strokeWidth={1.9} />
+                <span className="break-all sm:break-normal">{siteConfig.email}</span>
               </a>
 
               <div className="flex items-center gap-3">
-                <MapPin
-                  className="size-4 shrink-0"
-                  strokeWidth={1.9}
-                />
+                <MapPin className="size-4 shrink-0" strokeWidth={1.9} />
                 <span>{siteConfig.country}</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <Phone
-                  className="size-4 shrink-0"
-                  strokeWidth={1.9}
-                />
+                <Phone className="size-4 shrink-0" strokeWidth={1.9} />
                 <span>Customer care coming soon</span>
               </div>
             </div>
@@ -584,10 +556,7 @@ export default function Footer() {
 
           <FooterColumn title="Shop">
             {shopLinks.map((item) => (
-              <FooterLink
-                key={`${item.href}-${item.label}`}
-                href={item.href}
-              >
+              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
                 {item.label}
               </FooterLink>
             ))}
@@ -595,10 +564,7 @@ export default function Footer() {
 
           <FooterColumn title="Company">
             {companyLinks.map((item) => (
-              <FooterLink
-                key={`${item.href}-${item.label}`}
-                href={item.href}
-              >
+              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
                 {item.label}
               </FooterLink>
             ))}
@@ -606,10 +572,7 @@ export default function Footer() {
 
           <FooterColumn title="Customer Care">
             {customerCareLinks.map((item) => (
-              <FooterLink
-                key={`${item.href}-${item.label}`}
-                href={item.href}
-              >
+              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
                 {item.label}
               </FooterLink>
             ))}
@@ -617,10 +580,7 @@ export default function Footer() {
 
           <FooterColumn title="Your Account">
             {accountLinks.map((item) => (
-              <FooterLink
-                key={`${item.href}-${item.label}`}
-                href={item.href}
-              >
+              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
                 {item.label}
               </FooterLink>
             ))}
@@ -628,10 +588,7 @@ export default function Footer() {
 
           <FooterColumn title="Legal">
             {legalLinks.map((item) => (
-              <FooterLink
-                key={`${item.href}-${item.label}`}
-                href={item.href}
-              >
+              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
                 {item.label}
               </FooterLink>
             ))}
@@ -661,8 +618,7 @@ export default function Footer() {
             "
           >
             <p>
-              © {new Date().getFullYear()} {siteConfig.name}. All rights
-              reserved.
+              © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
             </p>
 
             <div
@@ -675,28 +631,19 @@ export default function Footer() {
                 sm:gap-x-5
               "
             >
-              <Link
-                href="/privacy-policy"
-                className="transition-colors hover:text-white"
-              >
+              <Link href="/privacy-policy" className="transition-colors hover:text-white">
                 Privacy Policy
               </Link>
 
               <span className="hidden text-white/20 sm:inline">•</span>
 
-              <Link
-                href="/terms"
-                className="transition-colors hover:text-white"
-              >
+              <Link href="/terms" className="transition-colors hover:text-white">
                 Terms of Service
               </Link>
 
               <span className="hidden text-white/20 sm:inline">•</span>
 
-              <Link
-                href="/disclaimer"
-                className="transition-colors hover:text-white"
-              >
+              <Link href="/disclaimer" className="transition-colors hover:text-white">
                 Disclaimer
               </Link>
 
@@ -732,9 +679,7 @@ export default function Footer() {
             sm:text-xs
           "
         >
-          <p>
-            Built for curious minds, creative hands and happy families.
-          </p>
+          <p>Built for curious minds, creative hands and happy families.</p>
 
           <Link
             href="#main-content"
@@ -754,10 +699,7 @@ export default function Footer() {
             "
           >
             Back to top
-            <ArrowUpRight
-              className="size-3.5"
-              strokeWidth={2}
-            />
+            <ArrowUpRight className="size-3.5" strokeWidth={2} />
           </Link>
         </div>
       </div>
@@ -765,7 +707,6 @@ export default function Footer() {
       {/* ================================================================
           WAVE MOVEMENT
       ================================================================ */}
-
     </footer>
   );
 }
@@ -774,31 +715,25 @@ export default function Footer() {
    FOOTER COLUMN
    ================================================================ */
 
-function FooterColumn({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
       className="
         min-w-0
-        mt-0
+        mt-28
       "
     >
       <h2
         className="
-          font-[var(--font-playpen)]
-          text-[15px]
-          font-bold
-          leading-tight
-          tracking-[-0.015em]
-          text-white
-          sm:text-[16px]
-          lg:text-[17px]
-        "
+    font-[var(--font-playpen-sans)]
+    text-[17px]
+    font-semibold
+    leading-[1.35]
+    tracking-[0.02em]
+    text-white
+    sm:text-[18px]
+    lg:text-[20px]
+  "
       >
         {title}
       </h2>
@@ -821,13 +756,7 @@ function FooterColumn({
    FOOTER LINK
    ================================================================ */
 
-function FooterLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -40,15 +39,17 @@ export default function CollectionShowcase({ collections: _collections }: Collec
       "
     >
       {/* =========================================================================
-          MAIN TWO-COLUMN LAYOUT
-
-          Desktop:
-          - Left 25%  = text + CTA
-          - Right 75% = complete return-gift artwork
+          MAIN RESPONSIVE LAYOUT
 
           Mobile:
-          - Text comes first
-          - Artwork becomes the second full-width block
+          - Copy first
+          - Artwork below
+          - Comfortable horizontal padding
+          - Artwork contained so it does not overflow
+
+          Desktop:
+          - 25% copy
+          - 75% artwork
       ========================================================================= */}
 
       <div
@@ -64,7 +65,6 @@ export default function CollectionShowcase({ collections: _collections }: Collec
       >
         {/* =======================================================================
             LEFT — COPY + CTA
-            25% DESKTOP / 100% MOBILE
         ======================================================================= */}
 
         <div
@@ -75,13 +75,10 @@ export default function CollectionShowcase({ collections: _collections }: Collec
             flex-col
             items-center
             justify-center
-            px-6
+            px-5
             text-center
-            sm:px-10
+            sm:px-8
             md:px-12
-            lg:order-1
-            lg:w-[25%]
-            lg:flex-[0_0_25%]
             lg:items-start
             lg:px-8
             lg:text-left
@@ -93,33 +90,40 @@ export default function CollectionShowcase({ collections: _collections }: Collec
             className="
               w-full
               max-w-[360px]
+              sm:max-w-[460px]
+              lg:max-w-[360px]
             "
           >
             {/* Main copy */}
+
             <h2
               className="
                 m-0
                 w-full
-                max-w-[850px]
                 text-balance
                 font-[var(--font-poppins-brand)]
-                text-[clamp(3.4rem,8vw,4rem)]
+                text-[clamp(2.45rem,11vw,4rem)]
                 font-bold
-                leading-[0.82]
-                tracking-[-0.025em]
+                leading-[0.88]
+                tracking-[-0.035em]
                 text-[#111111]
+                sm:text-[clamp(3rem,7vw,4rem)]
+                lg:text-[clamp(3.2rem,4vw,4rem)]
               "
             >
               Looking for <span className="text-[#E83D59]">return gifts?</span>
             </h2>
 
             {/* CTA */}
+
             <div
               className="
-                mt-6
-                sm:mt-7
+                mt-5
+                flex
+                justify-center
+                sm:mt-6
                 lg:mt-8
-                text-white
+                lg:justify-start
               "
             >
               <Link
@@ -127,16 +131,16 @@ export default function CollectionShowcase({ collections: _collections }: Collec
                 className="
                   group
                   inline-flex
-                  min-h-[48px]
-                  w-fit
+                  min-h-[46px]
+                  max-w-full
                   items-center
                   justify-center
-                  gap-2.5
+                  gap-2
                   rounded-full
                   bg-[#C391EE]
-                  px-6
+                  px-5
                   font-[var(--font-poppins-brand)]
-                  text-[13px]
+                  text-[12px]
                   font-bold
                   leading-none
                   text-white
@@ -151,9 +155,10 @@ export default function CollectionShowcase({ collections: _collections }: Collec
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
                   focus-visible:ring-offset-3
-                  sm:min-h-[52px]
-                  sm:px-7
-                  sm:text-[14px]
+                  sm:min-h-[50px]
+                  sm:gap-2.5
+                  sm:px-6
+                  sm:text-[13px]
                   lg:min-h-[50px]
                   lg:px-6
                   lg:text-[13px]
@@ -180,14 +185,7 @@ export default function CollectionShowcase({ collections: _collections }: Collec
                     sm:size-8
                   "
                 >
-                  <ArrowRight
-                    className="
-                      size-3.5
-                      text-white
-                      sm:size-4
-                    "
-                    strokeWidth={2.5}
-                  />
+                  <ArrowRight className="size-3.5 text-white sm:size-4" strokeWidth={2.5} />
                 </span>
               </Link>
             </div>
@@ -196,16 +194,17 @@ export default function CollectionShowcase({ collections: _collections }: Collec
 
         {/* =======================================================================
             RIGHT — RETURN GIFT ARTWORK
-            75% DESKTOP / 100% MOBILE
         ======================================================================= */}
 
         <div
           className="
             order-2
             relative
+            mt-7
             w-full
             overflow-hidden
-            lg:order-2
+            sm:mt-8
+            lg:mt-0
             lg:w-[75%]
             lg:flex-[0_0_75%]
           "
@@ -228,15 +227,23 @@ export default function CollectionShowcase({ collections: _collections }: Collec
               src="/images/return-gifts/return-gift.png"
               alt="BuzzieWorld return gifts for kids"
               className="
+                mx-auto
                 block
                 h-auto
                 w-full
-                max-w-none
+                max-w-[680px]
                 select-none
                 object-contain
                 transition-transform
                 duration-500
                 group-hover:scale-[1.01]
+
+                sm:max-w-[820px]
+
+                md:max-w-[980px]
+
+                lg:mx-0
+                lg:max-w-none
               "
               draggable={false}
             />

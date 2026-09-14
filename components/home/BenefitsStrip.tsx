@@ -629,7 +629,12 @@ function AgeImage({ age }: { age: (typeof ageGroups)[number] }) {
         duration: 0.25,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="min-w-0"
+      className="
+        flex
+        min-w-0
+        items-center
+        justify-center
+      "
     >
       <Link
         href={`/shop/age/${age.slug}`}
@@ -640,6 +645,7 @@ function AgeImage({ age }: { age: (typeof ageGroups)[number] }) {
           block
           w-full
           overflow-visible
+          text-center
           focus-visible:outline-none
           focus-visible:ring-2
           focus-visible:ring-[#E72D5A]
@@ -652,20 +658,28 @@ function AgeImage({ age }: { age: (typeof ageGroups)[number] }) {
           width={800}
           height={800}
           sizes="
-            (max-width: 639px) 44vw,
-            (max-width: 1023px) 30vw,
+            (max-width: 639px) 34vw,
+            (max-width: 1023px) 25vw,
             23vw
           "
           className="
+            mx-auto
             block
             h-auto
-            w-full
+            w-[72%]
+            max-w-[210px]
             object-contain
             mix-blend-darken
             transition-transform
             duration-500
             ease-[cubic-bezier(0.22,1,0.36,1)]
             group-hover:scale-[1.045]
+
+            sm:w-[78%]
+            sm:max-w-[220px]
+
+            lg:w-full
+            lg:max-w-none
           "
         />
       </Link>
@@ -1019,19 +1033,23 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         text-[#111111]
       "
                 >
-                  Buzzie <span className="text-[#FF5558]">Products</span>
+                  Buzzie <span className="text-[#E72D5A]">Products</span>
                 </h2>
 
+                {/* Arrow */}
                 {/* Arrow */}
                 <div
                   aria-hidden="true"
                   className="
-        ml-3
-        mb-[-2px]
-        shrink-0
-        sm:ml-3.5
-        sm:mb-[-1px]
-      "
+    ml-4
+    shrink-0
+    translate-y-[14px]
+
+    sm:ml-3.5
+    sm:translate-y-[16px]
+
+    lg:translate-y-[18px]
+  "
                 >
                   <svg
                     width="76"
@@ -1039,15 +1057,22 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                     viewBox="0 0 92 76"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-auto w-[54px] sm:w-[66px] lg:w-[76px]"
+                    className="
+      h-auto
+      w-[54px]
+
+      sm:w-[66px]
+
+      lg:w-[76px]
+    "
                   >
                     <path
                       d="
-            M7 10
-            C17 5 28 5 38 8
-            C51 11 62 19 68 30
-            C74 41 75 53 72 64
-          "
+        M7 10
+        C17 5 28 5 38 8
+        C51 11 62 19 68 30
+        C74 41 75 53 72 64
+      "
                       stroke="#FF5558"
                       strokeWidth="3.2"
                       strokeLinecap="round"
@@ -1056,10 +1081,10 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
                     <path
                       d="
-            M61 55
-            C65 59 68 62 72 66
-            C75 62 78 58 81 54
-          "
+        M61 55
+        C65 59 68 62 72 66
+        C75 62 78 58 81 54
+      "
                       stroke="#FF5558"
                       strokeWidth="3.2"
                       strokeLinecap="round"
@@ -1172,18 +1197,23 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
               <h2
                 className="
-              m-0
-              mx-auto
-              w-full
-              max-w-[700px]
-              font-[var(--font-poppins-brand)]
-              text-[clamp(3.4rem,11vw,5.8rem)]
-              font-bold
-              uppercase
-              leading-[0.82]
-              tracking-[-0.025em]
-              text-[#111111]
-              "
+                  m-0
+                  mx-auto
+                  w-full
+                  max-w-[850px]
+                  font-[var(--font-poppins-brand)]
+                  text-[4.4rem]
+                  font-bold
+                  uppercase
+                  leading-[0.82]
+                  tracking-[-0.025em]
+                  text-[#111111]
+
+                  sm:text-[5.2rem]
+                  md:text-[5.8rem]
+                  lg:text-[6.2rem]
+                  xl:text-[6.6rem]
+                "
               >
                 Shop By <span className="text-[#E83D59]">Age</span>
               </h2>

@@ -10,10 +10,7 @@ import Reveal from "./Reveal";
 /* CONFIG                                                                     */
 /* -------------------------------------------------------------------------- */
 
-/*
- * Replace this with your actual Spotify playlist URL.
- */
-const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/playlist/YOUR_PLAYLIST_ID";
+const YOUTUBE_URL = "https://www.youtube.com/";
 
 /* -------------------------------------------------------------------------- */
 /* COMPONENT                                                                  */
@@ -305,171 +302,220 @@ export default function Newsletter() {
           <div aria-hidden="true" className="h-10 sm:h-12 lg:h-16" />
 
           {/* ================================================================ */}
-          {/* SPOTIFY                                                         */}
+          {/* YOUTUBE                                                         */}
           {/* ================================================================ */}
 
           <Link
-            href={SPOTIFY_PLAYLIST_URL}
+            href={YOUTUBE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Listen to the BuzzieWorld playdate playlist on Spotify"
+            aria-label="Watch BuzzieWorld on YouTube"
             className="
-              group
-              relative
-              block
-              overflow-hidden
-              rounded-[24px]
-              bg-[#20B95A]
-              shadow-[0_18px_45px_rgba(32,185,90,0.12)]
-              outline-none
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:shadow-[0_22px_52px_rgba(32,185,90,0.16)]
-              focus-visible:ring-2
-              focus-visible:ring-[#20B95A]
-              focus-visible:ring-offset-4
-              focus-visible:ring-offset-[#FFF8E8]
-              sm:rounded-[28px]
-            "
+    group
+    relative
+    block
+    overflow-hidden
+    rounded-[24px]
+    bg-[#E83D59]
+    shadow-[0_18px_45px_rgba(255,0,0,0.12)]
+    outline-none
+    transition-all
+    duration-300
+    hover:-translate-y-0.5
+    hover:shadow-[0_22px_52px_rgba(255,0,0,0.17)]
+    focus-visible:ring-2
+    focus-visible:ring-[#FF0000]
+    focus-visible:ring-offset-4
+    focus-visible:ring-offset-[#FFF8E8]
+    sm:rounded-[28px]
+  "
           >
+            {/* Subtle background accent */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-white/4"
+              className="
+      pointer-events-none
+      absolute
+      inset-y-0
+      left-0
+      w-1/3
+      bg-white/[0.05]
+    "
             />
 
-            {/* Decorative music notes */}
+            {/* Decorative play circles */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute left-5 top-2 rotate-[-12deg] font-[var(--font-poppins)] text-3xl font-black text-[#07391D]/70 sm:left-8"
-            >
-              ♪
-            </span>
+              className="
+      pointer-events-none
+      absolute
+      -left-3
+      top-[-18px]
+      size-20
+      rounded-full
+      border-[10px]
+      border-white/[0.08]
+      sm:size-24
+    "
+            />
 
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-1 left-[28%] rotate-12 font-[var(--font-poppins)] text-2xl font-black text-[#07391D]/55"
-            >
-              ♫
-            </span>
-
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute right-[30%] top-2 rotate-[-8deg] font-[var(--font-poppins)] text-3xl font-black text-[#07391D]/55"
-            >
-              ♪
-            </span>
+              className="
+      pointer-events-none
+      absolute
+      bottom-[-28px]
+      right-[20%]
+      size-24
+      rounded-full
+      border-[12px]
+      border-black/[0.06]
+      sm:size-28
+    "
+            />
 
             <div
               className="
-                relative
-                flex
-                min-h-[116px]
-                flex-col
-                items-start
-                justify-center
-                gap-6
-                px-7
-                py-7
-                sm:min-h-[126px]
-                sm:flex-row
-                sm:items-center
-                sm:justify-between
-                sm:px-10
-                lg:px-14
-              "
+      relative
+      flex
+      min-h-[108px]
+      flex-col
+      items-start
+      justify-center
+      gap-5
+      px-6
+      py-6
+      sm:min-h-[116px]
+      sm:flex-row
+      sm:items-center
+      sm:justify-between
+      sm:gap-6
+      sm:px-9
+      sm:py-6
+      lg:px-12
+    "
             >
-              {/* Playlist copy */}
-
-              <div className="relative z-10 flex items-center gap-4 sm:gap-5">
+              {/* YouTube copy */}
+              <div className="relative z-10 flex min-w-0 items-center gap-4 sm:gap-5">
                 <span
                   className="
-                    flex
-                    size-12
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    border-2
-                    border-[#07391D]
-                    text-[#07391D]
-                    sm:size-14
-                  "
+          flex
+          size-12
+          shrink-0
+          items-center
+          justify-center
+          rounded-full
+          bg-white
+          text-[#FF0000]
+          shadow-[0_8px_22px_rgba(0,0,0,0.12)]
+          sm:size-14
+        "
                 >
-                  <Music2 className="size-5 sm:size-6" strokeWidth={2.3} />
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="ml-[1px] size-[22px] fill-current sm:size-[25px]"
+                  >
+                    <path d="M23.5 6.2a3 3 0 0 0-2.12-2.12C19.51 3.5 12 3.5 12 3.5s-7.51 0-9.38.58A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.12c1.87.58 9.38.58 9.38.58s7.51 0 9.38-.58a3 3 0 0 0 2.12-2.12A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8ZM9.6 15.5v-7l6.2 3.5-6.2 3.5Z" />
+                  </svg>
                 </span>
 
-                <div>
+                <div className="min-w-0">
                   <p
                     className="
-                      font-[var(--font-poppins)]
-                      text-[clamp(1.35rem,3vw,2.25rem)]
-                      font-black
-                      uppercase
-                      leading-[0.9]
-                      tracking-[-0.055em]
-                      text-[#FFF8E8]
-                    "
+            font-[var(--font-poppins)]
+            text-[clamp(1.3rem,3vw,2.2rem)]
+            font-black
+            uppercase
+            leading-[0.9]
+            tracking-[-0.055em]
+            text-white
+          "
                   >
-                    Here&apos;s a playlist
+                    Watch &amp; Play
                   </p>
 
                   <p
                     className="
-                      mt-1.5
-                      font-[var(--font-poppins)]
-                      text-[clamp(0.76rem,1.5vw,1rem)]
-                      font-black
-                      uppercase
-                      leading-none
-                      tracking-[-0.015em]
-                      text-[#07391D]
-                    "
+            mt-1.5
+            font-[var(--font-poppins)]
+            text-[clamp(0.72rem,1.5vw,0.95rem)]
+            font-black
+            uppercase
+            leading-none
+            tracking-[-0.015em]
+            text-white/85
+          "
                   >
-                    To turn up your playdate!
+                    Fun videos for little explorers!
                   </p>
                 </div>
               </div>
 
-              {/* Spotify CTA */}
-
+              {/* YouTube CTA */}
               <div
                 className="
-                  relative
-                  z-10
-                  flex
-                  min-h-12
-                  shrink-0
-                  items-center
-                  gap-3
-                  rounded-full
-                  border-2
-                  border-[#07391D]
-                  px-5
-                  py-2.5
-                  font-[var(--font-poppins)]
-                  text-[0.68rem]
-                  font-black
-                  uppercase
-                  text-[#07391D]
-                  transition-all
-                  duration-300
-                  group-hover:bg-[#FFF8E8]
-                  sm:min-h-14
-                  sm:px-6
-                  sm:text-xs
-                "
+        relative
+        z-10
+        flex
+        min-h-11
+        shrink-0
+        items-center
+        gap-3
+        rounded-full
+        border-2
+        border-white
+        px-5
+        py-2
+        font-[var(--font-poppins)]
+        text-[0.68rem]
+        font-black
+        uppercase
+        text-white
+        transition-all
+        duration-300
+        group-hover:bg-white
+        group-hover:text-[#FF0000]
+        sm:min-h-12
+        sm:px-6
+        sm:text-xs
+      "
               >
-                <span className="flex size-8 items-center justify-center rounded-full bg-[#07391D] text-[#20B95A] sm:size-9">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="size-[18px] fill-current">
-                    <path d="M12 1.8A10.2 10.2 0 1 0 22.2 12 10.2 10.2 0 0 0 12 1.8Zm4.68 14.7a.62.62 0 0 1-.85.2c-2.34-1.43-5.28-1.75-8.75-.96a.62.62 0 1 1-.27-1.21c3.79-.87 7.04-.51 9.67 1.1a.62.62 0 0 1 .2.87Zm1.13-2.5a.78.78 0 0 1-1.07.25c-2.68-1.65-6.76-2.13-9.93-1.16a.78.78 0 1 1-.46-1.5c3.62-1.1 8.12-.56 11.2 1.33a.78.78 0 0 1 .26 1.08Zm.1-2.62c-3.22-1.91-8.54-2.09-11.62-1.16a.94.94 0 1 1-.54-1.8c3.54-1.07 9.43-.86 13.12 1.33a.94.94 0 0 1-.96 1.63Z" />
+                <span
+                  className="
+          flex
+          size-7
+          items-center
+          justify-center
+          rounded-full
+          bg-white
+          text-[#FF0000]
+          transition-colors
+          duration-300
+          group-hover:bg-[#FF0000]
+          group-hover:text-white
+          sm:size-8
+        "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="ml-[1px] size-[15px] fill-current sm:size-[17px]"
+                  >
+                    <path d="M23.5 6.2a3 3 0 0 0-2.12-2.12C19.51 3.5 12 3.5 12 3.5s-7.51 0-9.38.58A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.12c1.87.58 9.38.58 9.38.58s7.51 0 9.38-.58a3 3 0 0 0 2.12-2.12A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8ZM9.6 15.5v-7l6.2 3.5-6.2 3.5Z" />
                   </svg>
                 </span>
 
-                <span>Listen on Spotify</span>
+                <span>Watch on YouTube</span>
 
                 <ArrowUpRight
-                  className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  className="
+          size-4
+          transition-transform
+          duration-300
+          group-hover:-translate-y-0.5
+          group-hover:translate-x-0.5
+        "
                   strokeWidth={2.2}
                 />
               </div>

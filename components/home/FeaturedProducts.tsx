@@ -41,10 +41,7 @@ const featuredSlides = [
     image: "/images/products/featured-top/day-feel-7.png",
     alt: "BuzzieWorld day feel — featured customer experience",
   },
-  {
-    image: "/images/products/featured-top/day-feel-8.png",
-    alt: "BuzzieWorld day feel — featured customer experience",
-  },
+
 ];
 
 interface FeaturedProductsCarouselProps {
@@ -55,7 +52,12 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const slideCount = featuredSlides.length;
+
   const activeProduct = products.length > 0 ? products[activeSlide % products.length] : null;
+
+  /* ========================================================================
+     AUTO PLAY
+  ======================================================================== */
 
   useEffect(() => {
     if (slideCount <= 1) return;
@@ -66,6 +68,10 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
     return () => window.clearInterval(timer);
   }, [slideCount]);
+
+  /* ========================================================================
+     SAFETY
+  ======================================================================== */
 
   useEffect(() => {
     if (activeSlide >= slideCount) {
@@ -84,25 +90,43 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
           -translate-x-1/2
           overflow-hidden
           bg-transparent
+
           sm:mt-10
+
           lg:mt-12
         "
       >
+        {/* ==================================================================
+            RESPONSIVE ARTWORK STAGE
+
+            Mobile:
+            slightly taller composition
+
+            Tablet:
+            balanced landscape
+
+            Desktop:
+            wide 16:9 artwork
+        ================================================================== */}
+
         <div
           className="
             relative
             w-full
             overflow-hidden
-            aspect-[16/9]
+
+            aspect-[4/3]
+
+            sm:aspect-[16/10]
+
+            md:aspect-[16/9]
+
+            lg:aspect-[16/9]
           "
         >
-          {/* ============================================================
+          {/* ==================================================================
               FULL-WIDTH ARTWORK
-
-              The supplied day-feel artwork already contains the photo,
-              testimonial copy, decorative artwork and product artwork.
-              Nothing is recreated in HTML.
-              ============================================================ */}
+          ================================================================== */}
 
           {featuredSlides.map((item, index) => (
             <div
@@ -125,29 +149,34 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                 quality={90}
                 sizes="100vw"
                 className="
+                  select-none
                   object-cover
                   object-center
-                  select-none
                 "
               />
             </div>
           ))}
 
-          {/* ============================================================
+          {/* ==================================================================
               BUY NOW CTA
 
-              Positioned over the decorative arrow area on the left side
-              of the supplied artwork. The image remains untouched.
-              ============================================================ */}
+              IMPORTANT:
+              The button is now anchored to the bottom-right.
+
+              No mt-60.
+              No mt-90.
+              No percentage-based vertical guessing.
+
+              It stays in the same visual position regardless of viewport.
+          ================================================================== */}
 
           {activeProduct ? (
             <div
               className="
                 absolute
-                left-[4.5%]
-                top-[28%]
+                bottom-[7%]
+                right-[5%]
                 z-30
-                -translate-y-1/2
               "
             >
               <Link
@@ -156,46 +185,48 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                 className="
                   group/button
                   inline-flex
-                  min-h-[38px]
+                  min-h-[30px]
                   items-center
                   justify-center
-                  gap-1.5
+                  gap-1
                   rounded-full
                   bg-[#C391EE]
-                  px-4
+                  px-3
                   font-[var(--font-poppins-brand)]
-                  text-[10px]
+                  text-[8px]
                   font-bold
                   leading-none
                   text-white
-                  shadow-[0_8px_20px_rgba(40,25,65,0.24)]
+                  shadow-[0_6px_16px_rgba(40,25,65,0.22)]
                   transition-all
                   duration-300
                   hover:-translate-y-0.5
                   hover:bg-[#E72D5A]
-                  hover:shadow-[0_10px_24px_rgba(40,25,65,0.30)]
+                  hover:shadow-[0_9px_20px_rgba(40,25,65,0.28)]
                   active:translate-y-0
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-white
                   focus-visible:ring-offset-2
                   focus-visible:ring-offset-transparent
-                  max-sm:mt-60
-                  max-sm:min-h-[28px]
-                  sm:min-h-[44px]
-                  sm:gap-2
-                  sm:px-5
-                  sm:text-[12px]
-                  md:min-h-[48px]
-                  md:px-6
-                  md:text-[13px]
-                  lg:min-h-[52px]
-                  lg:px-7
-                  lg:text-[14px]
+
+                  sm:min-h-[36px]
+                  sm:gap-1.5
+                  sm:px-3.5
+                  sm:text-[9px]
+
+                  md:min-h-[40px]
+                  md:px-4
+                  md:text-[10px]
+
+                  lg:min-h-[44px]
+                  lg:gap-2
+                  lg:px-5
+                  lg:text-[11px]
+
                   xl:min-h-[46px]
-                  xl:px-8
-                  xl:text-[15px]
-                  xl:mt-90
+                  xl:px-5.5
+                  xl:text-[12px]
                 "
               >
                 <span className="text-white">Buy now</span>
@@ -204,24 +235,32 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                   aria-hidden="true"
                   className="
                     flex
-                    size-5
+                    size-4
                     shrink-0
                     items-center
                     justify-center
                     rounded-full
                     bg-white/20
-                    sm:size-6
-                    lg:size-7
+
+                    sm:size-[18px]
+
+                    md:size-5
+
+                    lg:size-[22px]
                   "
                 >
                   <ArrowRight
                     className="
-                      size-3
+                      size-2.5
                       text-white
                       transition-transform
                       duration-300
                       group-hover/button:translate-x-0.5
-                      sm:size-3.5
+
+                      sm:size-3
+
+                      md:size-3.5
+
                       lg:size-4
                     "
                     strokeWidth={2.5}
@@ -231,12 +270,11 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
             </div>
           ) : null}
 
-          {/* ============================================================
+          {/* ==================================================================
               CAROUSEL INDICATORS
 
-              Kept deliberately minimal because the artwork contains all
-              visual storytelling and text.
-              ============================================================ */}
+              Kept at the bottom center and separated from the CTA.
+          ================================================================== */}
 
           {slideCount > 1 ? (
             <div
@@ -251,12 +289,16 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                 gap-1.5
                 rounded-full
                 bg-black/10
-                px-2.5
-                py-1.5
+                px-2
+                py-1
                 backdrop-blur-[2px]
+
                 sm:gap-2
-                sm:px-3
-                sm:py-2
+                sm:px-2.5
+                sm:py-1.5
+
+                md:px-3
+                md:py-2
               "
             >
               {featuredSlides.map((item, index) => (
@@ -271,9 +313,10 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                     rounded-full
                     transition-all
                     duration-300
+
                     ${
                       activeSlide === index
-                        ? "w-6 bg-white sm:w-8"
+                        ? "w-5 bg-white sm:w-7 md:w-8"
                         : "w-2 bg-white/50 hover:bg-white/80 sm:w-2.5"
                     }
                   `}
@@ -906,40 +949,56 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
         <Reveal>
           <div
             className="
-              mx-auto
-              flex
-              w-full
-              p-6
-              flex-col
-              items-center
-              text-center
-              bg-[#C391EE]
-            "
+    mx-auto
+    flex
+    w-full
+    max-w-[1230px]
+    flex-col
+    items-center
+    justify-center
+    bg-[#C391EE]
+    px-5
+    py-9
+    text-center
+
+    sm:px-8
+    sm:py-11
+
+    md:px-10
+    md:py-12
+
+    lg:px-12
+    lg:py-14
+
+    xl:py-16
+  "
           >
-
-
-            {/* Main Heading */}
             <h2
               className="
-    mx-auto
-    mt-5
-    w-full
-    max-w-[800px]
-    text-center
-    font-[var(--font-poppins-brand)]
-    text-[clamp(3.4rem,11vw,5.8rem)]
-    font-bold
-    uppercase
-    leading-[0.82]
-    tracking-[-0.025em]
-    text-[#111111]
+      m-0
+      w-full
+      max-w-[1100px]
+      font-[var(--font-poppins-brand)]
+      text-[3.7rem]
+      font-bold
+      uppercase
+      leading-[0.80]
+      tracking-[-0.035em]
+      text-[#111111]
 
-    sm:mt-6
+      sm:text-[4.5rem]
+      sm:leading-[0.82]
 
-    lg:mt-6
-  "
+      md:text-[5rem]
+
+      lg:text-[5.5rem]
+      lg:leading-[0.84]
+
+      xl:text-[5.8rem]
+    "
             >
-              What Buzzie Day <span className="text-[#FFFFFF]">Feels like</span>
+              What Buzzie Day
+              <br className="sm:hidden" /> <span className="text-white">Feels like</span>
             </h2>
           </div>
         </Reveal>

@@ -77,14 +77,23 @@ const videoCards: VideoCardData[] = [
    VIDEO CARD
    ========================================================================== */
 
-function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
+function VideoCard({
+  card,
+  index,
+}: {
+  card: VideoCardData;
+  index: number;
+}) {
   return (
     <Reveal delay={index * 0.05}>
       <article
         className="
           group
           relative
-          w-full
+          w-[82vw]
+          min-w-[82vw]
+          max-w-[350px]
+          shrink-0
           overflow-hidden
           rounded-[10px]
           bg-[#17152A]
@@ -92,17 +101,40 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
           transition-transform
           duration-300
           hover:-translate-y-1
+
+          sm:w-[350px]
+          sm:min-w-[350px]
+          sm:max-w-[350px]
+
+          md:w-[280px]
+          md:min-w-[280px]
+          md:max-w-[280px]
+
+          lg:w-[245px]
+          lg:min-w-[245px]
+          lg:max-w-[245px]
+
+          xl:w-[255px]
+          xl:min-w-[255px]
+          xl:max-w-[255px]
+
+          2xl:w-[265px]
+          2xl:min-w-[265px]
+          2xl:max-w-[265px]
         "
       >
         {/* ================================================================
             REEL
         ================================================================ */}
+
         <div
           className="
             relative
             h-[378px]
             w-full
             overflow-hidden
+            border
+            border-white/10
             bg-black
           "
         >
@@ -131,6 +163,7 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
           {/* ==============================================================
               PRODUCT OVERLAY
           ============================================================== */}
+
           <Link
             href={card.productHref}
             aria-label={`View ${card.productName}`}
@@ -211,6 +244,7 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
         {/* ================================================================
             ADD TO CART + WISHLIST
         ================================================================ */}
+
         <div
           className="
             flex
@@ -227,36 +261,47 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
             title="Add to Cart"
             className="
               flex
-              h-[34px]
+              h-[32px]
               min-w-0
               flex-1
               items-center
               justify-center
               gap-1.5
               rounded-full
-              bg-[#E83D59]
-              px-2
-              text-[9px]
-              font-extrabold
-              uppercase
-              tracking-[-0.01em]
-              text-white
-              shadow-[0_3px_9px_rgba(20,15,30,0.15)]
+              bg-[#FFFFFF]
+              px-2.5
+              font-[var(--font-playpen-sans)]
+              text-[8.5px]
+              font-semibold
+              leading-none
+              tracking-[-0.005em]
+              text-black
+              shadow-[0_3px_10px_rgba(195,145,238,0.24)]
               transition-all
               duration-200
               hover:-translate-y-0.5
-              hover:bg-[#D92F4D]
+              hover:bg-[#E83D59]
+              hover:shadow-[0_5px_14px_rgba(232,61,89,0.22)]
+              hover:text-white
               active:translate-y-0
               focus-visible:outline-none
               focus-visible:ring-2
               focus-visible:ring-white
               focus-visible:ring-offset-1
               focus-visible:ring-offset-[#C391EE]
-              sm:text-[10px]
+              sm:h-[34px]
+              sm:px-3
+              sm:text-[9px]
             "
           >
-            <ShoppingBag className="size-3 shrink-0" strokeWidth={2} />
-            <span className="truncate">Add to Cart</span>
+            <ShoppingBag
+              className="size-3 shrink-0"
+              strokeWidth={2}
+            />
+
+            <span className="truncate">
+              Add to Cart
+            </span>
           </button>
 
           <button
@@ -286,7 +331,10 @@ function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
               focus-visible:ring-offset-[#C391EE]
             "
           >
-            <Heart className="size-[16px]" strokeWidth={2} />
+            <Heart
+              className="size-[16px]"
+              strokeWidth={2}
+            />
           </button>
         </div>
       </article>
@@ -306,9 +354,10 @@ export default function KingdomBanner() {
       {/* ====================================================================
           BUZZIE BARGAINS
       ==================================================================== */}
+
       <section
         className="
-          bg-[#C391EE]
+          bg-[#F89B51]
           pt-8
           pb-8
           sm:pt-10
@@ -337,7 +386,7 @@ export default function KingdomBanner() {
                   focus-visible:ring-2
                   focus-visible:ring-[#C391EE]
                   focus-visible:ring-offset-4
-                  sm:rounded-[30px]
+                  sm:rounded-[8px]
                   lg:rounded-[8px]
                 "
               >
@@ -397,6 +446,7 @@ export default function KingdomBanner() {
       {/* ====================================================================
           WATCH & BUY
       ==================================================================== */}
+
       <section
         className="
           relative
@@ -422,6 +472,7 @@ export default function KingdomBanner() {
               "
             >
               {/* Small themed eyebrow */}
+
               <div className="flex items-center justify-center gap-3">
                 <span
                   aria-hidden="true"
@@ -436,6 +487,7 @@ export default function KingdomBanner() {
 
                 <p
                   className="
+
                     font-[var(--font-poppins-brand)]
                     text-[10px]
                     font-semibold
@@ -444,7 +496,7 @@ export default function KingdomBanner() {
                     sm:text-[11px]
                   "
                 >
-                  Watch & Buy
+                  Watch &amp; Buy
                 </p>
 
                 <span
@@ -459,6 +511,7 @@ export default function KingdomBanner() {
               </div>
 
               {/* Main heading */}
+
               <h2
                 className="
                   mx-auto
@@ -481,49 +534,51 @@ export default function KingdomBanner() {
             </header>
           </Reveal>
 
-          {/* ==================================================================
-              FIVE-CARD ROW
-          ================================================================== */}
           <div
             className="
               relative
               mx-auto
               mt-8
               w-full
-              max-w-[1200px]
+              max-w-[1400px]
               sm:mt-10
               lg:mt-12
             "
           >
             <div
               className="
-                -mx-4
+                w-full
                 overflow-x-auto
-                px-4
-                pb-1
+                overflow-y-hidden
                 touch-pan-x
                 overscroll-x-contain
+                scroll-smooth
+                snap-x
+                snap-mandatory
                 [scrollbar-width:none]
+                [-ms-overflow-style:none]
                 [&::-webkit-scrollbar]:hidden
-                sm:mx-0
-                sm:overflow-visible
-                sm:px-0
-                sm:pb-0
               "
             >
               <div
                 className="
-                  grid
-                  w-full
-                  grid-cols-1
+                  flex
+                  w-max
+                  shrink-0
                   gap-4
-                  sm:grid-cols-2
-                  md:grid-cols-3
-                  lg:grid-cols-5
+                  px-1
                 "
               >
                 {videoCards.map((card, index) => (
-                  <VideoCard key={card.id} card={card} index={index} />
+                  <div
+                    key={card.id}
+                    className="
+                      shrink-0
+                      snap-start
+                    "
+                  >
+                    <VideoCard card={card} index={index} />
+                  </div>
                 ))}
               </div>
             </div>
