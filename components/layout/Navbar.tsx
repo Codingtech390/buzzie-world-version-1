@@ -1203,7 +1203,7 @@ export default function Navbar() {
                 "
               >
                 <Image
-                  src="/images/hero/buzzieLogo.png"
+                  src="/images/hero/buzzie-logo-1.png"
                   alt="BuzzieWorld"
                   width={190}
                   height={58}
@@ -1658,7 +1658,7 @@ export default function Navbar() {
                   "
                 >
                   <Image
-                    src="/images/hero/buzzieLogo.png"
+                    src="/images/hero/buzzie-logo-1.png"
                     alt="BuzzieWorld"
                     width={180}
                     height={55}
