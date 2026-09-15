@@ -1,9 +1,12 @@
 import { connectToDatabase } from "@/lib/mongoose";
+
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
 import { Brand } from "@/models/Brand";
 import { Collection } from "@/models/Collection";
+
 import { createSlug } from "@/lib/slug";
+
 import type { SortOrder } from "mongoose";
 
 export type ProductSort = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
@@ -76,17 +79,28 @@ export interface ProductInput {
   slug?: string;
   description: string;
   shortDescription?: string;
-  price: number;
+
+  // Optional because draft products may not have these yet.
+  price?: number;
   compareAtPrice?: number;
+
   sku?: string;
+
   images?: ProductImageInput[];
+
   category?: string;
   brand?: string;
   collection?: string;
+
   variants?: ProductVariantInput[];
-  stock: number;
+
+  // Optional because draft products may not have these yet.
+  stock?: number;
+
   status?: "draft" | "active" | "archived";
+
   featured?: boolean;
+
   ageRange?: {
     min?: number;
     max?: number;
@@ -134,11 +148,28 @@ function cleanVariants(value: unknown): ProductVariantInput[] {
       name: String(variant.name ?? "").trim(),
       value: String(variant.value ?? "").trim(),
       sku: cleanOptionalString(variant.sku),
+
       price:
-        variant.price === undefined || variant.price === "" ? undefined : Number(variant.price),
-      stock: variant.stock === undefined || variant.stock === "" ? 0 : Number(variant.stock),
+        variant.price === undefined || variant.price === null || variant.price === ""
+          ? undefined
+          : Number(variant.price),
+
+      stock:
+        variant.stock === undefined || variant.stock === null || variant.stock === ""
+          ? undefined
+          : Number(variant.stock),
     }))
     .filter((variant) => variant.name && variant.value);
+}
+
+function normalizeOptionalNumber(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+
+  const number = Number(value);
+
+  return Number.isFinite(number) ? number : undefined;
 }
 
 function normalizeProductInput(data: ProductInput) {
@@ -146,40 +177,49 @@ function normalizeProductInput(data: ProductInput) {
 
   const providedSlug = typeof data.slug === "string" ? data.slug.trim() : "";
 
-  const price = Number(data.price);
-  const stock = Number(data.stock);
+  const price = normalizeOptionalNumber(data.price);
 
-  const compareAtPrice =
-    data.compareAtPrice === undefined || data.compareAtPrice === null || data.compareAtPrice === null
-      ? undefined
-      : Number(data.compareAtPrice);
+  const stock = normalizeOptionalNumber(data.stock);
 
-  const ageMin =
-    data.ageRange?.min === undefined || data.ageRange?.min === null || data.ageRange?.min === null
-      ? undefined
-      : Number(data.ageRange.min);
+  const compareAtPrice = normalizeOptionalNumber(data.compareAtPrice);
 
-  const ageMax =
-    data.ageRange?.max === undefined || data.ageRange?.max === null || data.ageRange?.max === null
-      ? undefined
-      : Number(data.ageRange.max);
+  const ageMin = normalizeOptionalNumber(data.ageRange?.min);
+
+  const ageMax = normalizeOptionalNumber(data.ageRange?.max);
 
   return {
     name,
+
     slug: providedSlug || createSlug(name),
+
     description: String(data.description ?? "").trim(),
+
     shortDescription: cleanOptionalString(data.shortDescription),
+
+    // These remain undefined when not supplied.
     price,
+
     compareAtPrice,
+
     sku: cleanOptionalString(data.sku),
+
     images: cleanImages(data.images),
+
     category: cleanOptionalString(data.category),
+
     brand: cleanOptionalString(data.brand),
+
     collection: cleanOptionalString(data.collection),
+
     variants: cleanVariants(data.variants),
+
+    // These remain undefined when not supplied.
     stock,
+
     status: data.status ?? "draft",
+
     featured: Boolean(data.featured),
+
     ageRange:
       ageMin !== undefined || ageMax !== undefined
         ? {
@@ -250,6 +290,7 @@ export async function getProducts(filters: ProductFilters = {}) {
 
   return {
     products,
+
     pagination: {
       page,
       limit,
@@ -300,21 +341,37 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
 
   const normalized = normalizeProductInput({
     name: data.name ?? existing.name,
+
     slug: data.slug ?? existing.slug,
+
     description: data.description ?? existing.description,
+
     shortDescription: data.shortDescription ?? existing.shortDescription,
-    price: data.price ?? existing.price,
-    compareAtPrice: data.compareAtPrice ?? existing.compareAtPrice,
-    sku: data.sku ?? existing.sku,
-    images: data.images ?? existing.images,
-    category: data.category ?? existing.category?.toString(),
-    brand: data.brand ?? existing.brand?.toString(),
-    collection: data.collection ?? existing.collection?.toString(),
-    variants: data.variants ?? existing.variants,
-    stock: data.stock ?? existing.stock,
-    status: data.status ?? existing.status,
-    featured: data.featured ?? existing.featured,
-    ageRange: data.ageRange ?? existing.ageRange,
+
+    price: data.price !== undefined ? data.price : existing.price,
+
+    compareAtPrice:
+      data.compareAtPrice !== undefined ? data.compareAtPrice : existing.compareAtPrice,
+
+    sku: data.sku !== undefined ? data.sku : existing.sku,
+
+    images: data.images !== undefined ? data.images : existing.images,
+
+    category: data.category !== undefined ? data.category : existing.category?.toString(),
+
+    brand: data.brand !== undefined ? data.brand : existing.brand?.toString(),
+
+    collection: data.collection !== undefined ? data.collection : existing.collection?.toString(),
+
+    variants: data.variants !== undefined ? data.variants : existing.variants,
+
+    stock: data.stock !== undefined ? data.stock : existing.stock,
+
+    status: data.status !== undefined ? data.status : existing.status,
+
+    featured: data.featured !== undefined ? data.featured : existing.featured,
+
+    ageRange: data.ageRange !== undefined ? data.ageRange : existing.ageRange,
   });
 
   return Product.findByIdAndUpdate(
@@ -348,3 +405,4 @@ export async function deleteProduct(id: string) {
 void Category;
 void Brand;
 void Collection;
+

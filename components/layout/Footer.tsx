@@ -94,6 +94,57 @@ export default function Footer() {
       "
     >
       {/* ============================================================
+    FOOTER BACKGROUND VIDEO
+============================================================ */}
+
+      <div
+        aria-hidden="true"
+        className="
+    pointer-events-none
+    absolute
+    inset-0
+    z-0
+    overflow-hidden
+  "
+      >
+        <video
+          className="
+    absolute
+    inset-0
+    h-full
+    w-full
+    object-cover
+    object-[center_28%]
+    opacity-[0.58]
+    translate-y-[5%]
+    scale-[1.15]
+    sm:translate-y-[5%]
+    sm:scale-[1.16]
+    lg:translate-y-[4%]
+    lg:scale-[1.18]
+    xl:translate-y-[4%]
+    xl:scale-[1.2]
+  "
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src="/images/hero/video/footer-video.mp4" type="video/mp4" />
+        </video>
+
+        {/* Soft readability overlay */}
+        <div
+          className="
+      absolute
+      inset-0
+      bg-[#1D1B22]/20
+    "
+        />
+      </div>
+
+      {/* ============================================================
           NATURAL WAVY BOUNDARY
       ============================================================ */}
 

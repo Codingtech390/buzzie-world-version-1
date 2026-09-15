@@ -105,7 +105,80 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const product = await createProduct(body);
+    /*
+     * Price and stock are optional for draft products.
+     * However, an active product must have both.
+     */
+    const status = body.status === undefined ? "draft" : body.status;
+
+    if (!["draft", "active", "archived"].includes(status)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid product status",
+        },
+        { status: 400 },
+      );
+    }
+
+    const price =
+      body.price === undefined || body.price === null || body.price === ""
+        ? undefined
+        : Number(body.price);
+
+    const stock =
+      body.stock === undefined || body.stock === null || body.stock === ""
+        ? undefined
+        : Number(body.stock);
+
+    if (price !== undefined && (!Number.isFinite(price) || price < 0)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Price must be a valid non-negative number",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (stock !== undefined && (!Number.isInteger(stock) || stock < 0)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Stock must be a valid non-negative integer",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (status === "active") {
+      if (price === undefined) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Active products require a price",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (stock === undefined) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Active products require stock",
+          },
+          { status: 400 },
+        );
+      }
+    }
+
+    const product = await createProduct({
+      ...body,
+      status,
+      price,
+      stock,
+    });
 
     return NextResponse.json(
       {

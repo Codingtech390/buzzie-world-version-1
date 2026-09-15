@@ -59,7 +59,11 @@ interface SelectorResponse {
 type FilterStatus = "" | Product["status"];
 type FeaturedFilter = "" | "true" | "false";
 
-function formatPrice(price: number): string {
+function formatPrice(price?: number): string {
+  if (price === undefined || price === null || !Number.isFinite(price)) {
+    return "₹ —";
+  }
+
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -83,14 +87,24 @@ function getStatusClasses(status: Product["status"]): string {
   }
 }
 
-function getStockLabel(stock: number): {
+function getStockLabel(stock?: number): {
   label: string;
   className: string;
+  isPending: boolean;
 } {
+  if (stock === undefined || stock === null || !Number.isFinite(stock)) {
+    return {
+      label: "Stock pending",
+      className: "text-[#8B62B4]",
+      isPending: true,
+    };
+  }
+
   if (stock === 0) {
     return {
       label: "Out of stock",
       className: "text-[#C44770]",
+      isPending: false,
     };
   }
 
@@ -98,13 +112,25 @@ function getStockLabel(stock: number): {
     return {
       label: `${stock} left`,
       className: "text-[#A67A00]",
+      isPending: false,
     };
   }
 
   return {
     label: `${stock} in stock`,
     className: "text-[#4D9A38]",
+    isPending: false,
   };
+}
+
+function isIncompleteDraft(product: ProductListItem): boolean {
+  return (
+    product.status === "draft" &&
+    (product.price === undefined ||
+      product.price === null ||
+      product.stock === undefined ||
+      product.stock === null)
+  );
 }
 
 export default function ProductList() {
@@ -783,8 +809,15 @@ export default function ProductList() {
                 <tbody className="divide-y divide-[#F0EBF3]">
                   {products.map((product) => {
                     const stock = getStockLabel(product.stock);
+                    const incompleteDraft = isIncompleteDraft(product);
+
                     return (
-                      <tr key={product._id} className="group transition-colors hover:bg-[#FCFAFE]">
+                      <tr
+                        key={product._id}
+                        className={`group transition-colors hover:bg-[#FCFAFE] ${
+                          incompleteDraft ? "bg-[#FFFDF8]/70" : ""
+                        }`}
+                      >
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3.5">
                             <div className="h-12 w-12 shrink-0 overflow-hidden rounded-[13px] border border-[#EDE5F2] bg-[#FFF8EC] shadow-sm">
@@ -821,11 +854,14 @@ export default function ProductList() {
                           <div className="text-sm font-black text-[#27344A]">
                             {formatPrice(product.price)}
                           </div>
-                          {product.compareAtPrice && product.compareAtPrice > product.price && (
-                            <div className="mt-0.5 text-[10px] text-[#9AA2AE] line-through">
-                              {formatPrice(product.compareAtPrice)}
-                            </div>
-                          )}
+                          {product.compareAtPrice !== undefined &&
+                            product.compareAtPrice !== null &&
+                            product.price !== undefined &&
+                            product.compareAtPrice > product.price && (
+                              <div className="mt-0.5 text-[10px] text-[#9AA2AE] line-through">
+                                {formatPrice(product.compareAtPrice)}
+                              </div>
+                            )}
                         </td>
                         <td className="px-5 py-4">
                           <span className={`text-xs font-bold ${stock.className}`}>
@@ -833,11 +869,20 @@ export default function ProductList() {
                           </span>
                         </td>
                         <td className="px-5 py-4">
-                          <span
-                            className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-black capitalize ${getStatusClasses(product.status)}`}
-                          >
-                            {product.status}
-                          </span>
+                          <div className="flex flex-col items-start gap-1.5">
+                            <span
+                              className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-black capitalize ${getStatusClasses(product.status)}`}
+                            >
+                              {product.status}
+                            </span>
+
+                            {incompleteDraft && (
+                              <span className="inline-flex items-center gap-1 text-[9px] font-bold text-[#A67A00]">
+                                <span className="size-1.5 rounded-full bg-[#F8C83B]" />
+                                Setup incomplete
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="px-5 py-4">
                           {product.featured ? (
@@ -885,10 +930,14 @@ export default function ProductList() {
             <div className="divide-y divide-[#F0EBF3] md:hidden">
               {products.map((product) => {
                 const stock = getStockLabel(product.stock);
+                const incompleteDraft = isIncompleteDraft(product);
+
                 return (
                   <div
                     key={product._id}
-                    className="space-y-4 p-4 transition-colors hover:bg-[#FCFAFE]"
+                    className={`space-y-4 p-4 transition-colors hover:bg-[#FCFAFE] ${
+                      incompleteDraft ? "bg-[#FFFDF8]/70" : ""
+                    }`}
                   >
                     <div className="flex gap-3.5">
                       <div className="h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[15px] border border-[#EDE5F2] bg-[#FFF8EC] shadow-sm">
@@ -912,7 +961,7 @@ export default function ProductList() {
                               {product.name}
                             </h2>
                             <p className="mt-1 truncate text-[10px] text-[#9199A7]">
-                              {product.sku || "No SKU"}
+                              {product.sku || "SKU pending"}
                             </p>
                           </div>
                           {product.featured && (
@@ -927,9 +976,20 @@ export default function ProductList() {
                           >
                             {product.status}
                           </span>
+                          {incompleteDraft && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF7DF] px-2.5 py-1 text-[9px] font-black text-[#A67A00]">
+                              <span className="size-1.5 rounded-full bg-[#F8C83B]" />
+                              Setup incomplete
+                            </span>
+                          )}
                           <span
-                            className={`inline-flex rounded-full bg-[#F5F3F7] px-2.5 py-1 text-[9px] font-bold ${stock.className}`}
+                            className={`inline-flex items-center gap-1.5 rounded-full ${
+                              stock.isPending ? "bg-[#F4E9FF]" : "bg-[#F5F3F7]"
+                            } px-2.5 py-1 text-[9px] font-bold ${stock.className}`}
                           >
+                            {stock.isPending && (
+                              <span className="size-1.5 rounded-full bg-[#C391EE]" />
+                            )}
                             {stock.label}
                           </span>
                         </div>

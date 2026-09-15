@@ -39,7 +39,7 @@ const ageGroups = [
     title: "Early Explorers",
     description: "Simple, safe play for little learners.",
     slug: "1-3-years",
-    image: "/images/shop-by-age/age-0-3-new.png",
+    image: "/images/shop-by-age/age-0-3-new-2.png",
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
@@ -48,7 +48,7 @@ const ageGroups = [
     title: "Play & Discover",
     description: "Hands-on fun that sparks imagination.",
     slug: "3-6-years",
-    image: "/images/shop-by-age/age-3+.png",
+    image: "/images/shop-by-age/age-3+new.png",
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
@@ -57,7 +57,7 @@ const ageGroups = [
     title: "Learn & Grow",
     description: "Build skills through curiosity and play.",
     slug: "6-9-years",
-    image: "/images/shop-by-age/age-6+.png",
+    image: "/images/shop-by-age/age-6+new.png",
     tone: "#D9E9B8",
     accent: "#6CA83A",
   },
@@ -66,7 +66,7 @@ const ageGroups = [
     title: "Think & Master",
     description: "Challenges for curious, growing minds.",
     slug: "9-15-years",
-    image: "/images/shop-by-age/age-8+.png",
+    image: "/images/shop-by-age/age-8+new-1.png",
     tone: "#DCD2F3",
     accent: "#7550A5",
   },
@@ -970,21 +970,26 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
   "
             >
               {/* Eyebrow */}
+
               <div
                 className="
       mx-auto
       mb-4
       flex
+      w-full
       items-center
       justify-center
       gap-2
+      text-center
       sm:mb-5
     "
               >
                 <span
+                  aria-hidden="true"
                   className="
         h-[2px]
         w-7
+        shrink-0
         rounded-full
         bg-[#E72D5A]
         sm:w-8
@@ -993,6 +998,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
                 <span
                   className="
+        whitespace-nowrap
         font-[var(--font-poppins-brand)]
         text-[8px]
         font-black
@@ -1003,53 +1009,66 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         xl:text-[12px]
       "
                 >
-                  Latest & Trending
+                  Latest &amp; Trending
                 </span>
 
-                <span className="size-1.5 rounded-full bg-[#F59A23]" />
+                <span
+                  aria-hidden="true"
+                  className="
+        size-1.5
+        shrink-0
+        rounded-full
+        bg-[#F59A23]
+      "
+                />
               </div>
 
-              {/* ---------------------------------------------------------- */}
-              {/* MAIN HEADING + ARROW                                       */}
-              {/* ---------------------------------------------------------- */}
+              {/* ================================================================
+      MAIN HEADING + ARROW
+  ================================================================= */}
 
               <div
                 className="
       flex
-      w-full
-      items-end
+      w-auto
+      max-w-full
+      items-center
       justify-center
+      text-center
     "
               >
                 <h2
                   className="
         m-0
+        text-center
         font-[var(--font-poppins-brand)]
-        text-[clamp(3.4rem,11vw,5.8rem)]
+        text-[clamp(3.5rem,12vw,5.8rem)]
         font-bold
         uppercase
         leading-[0.82]
         tracking-[-0.025em]
         text-[#111111]
+
+
       "
                 >
                   Buzzie <span className="text-[#E72D5A]">Products</span>
                 </h2>
 
                 {/* Arrow */}
-                {/* Arrow */}
+
                 <div
                   aria-hidden="true"
                   className="
-    ml-4
-    shrink-0
-    translate-y-[14px]
+        ml-2
+        shrink-0
+        translate-y-[14px]
 
-    sm:ml-3.5
-    sm:translate-y-[16px]
+        sm:ml-3.5
+        sm:translate-y-[16px]
 
-    lg:translate-y-[18px]
-  "
+        lg:translate-y-[18px]
+      "
                 >
                   <svg
                     width="76"
@@ -1058,21 +1077,21 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     className="
-      h-auto
-      w-[54px]
+          h-auto
+          w-[46px]
 
-      sm:w-[66px]
+          sm:w-[60px]
 
-      lg:w-[76px]
-    "
+          lg:w-[76px]
+        "
                   >
                     <path
                       d="
-        M7 10
-        C17 5 28 5 38 8
-        C51 11 62 19 68 30
-        C74 41 75 53 72 64
-      "
+            M7 10
+            C17 5 28 5 38 8
+            C51 11 62 19 68 30
+            C74 41 75 53 72 64
+          "
                       stroke="#FF5558"
                       strokeWidth="3.2"
                       strokeLinecap="round"
@@ -1081,10 +1100,10 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
                     <path
                       d="
-        M61 55
-        C65 59 68 62 72 66
-        C75 62 78 58 81 54
-      "
+            M61 55
+            C65 59 68 62 72 66
+            C75 62 78 58 81 54
+          "
                       stroke="#FF5558"
                       strokeWidth="3.2"
                       strokeLinecap="round"

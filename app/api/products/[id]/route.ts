@@ -56,6 +56,24 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       );
     }
 
+    /*
+     * Load the existing product first.
+     *
+     * We need the existing values because PATCH requests may only
+     * contain the fields that are changing.
+     */
+    const existingProduct = await getProductById(id);
+
+    if (!existingProduct) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Product not found",
+        },
+        { status: 404 },
+      );
+    }
+
     if (body.name !== undefined && (typeof body.name !== "string" || !body.name.trim())) {
       return NextResponse.json(
         {
@@ -79,10 +97,17 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       );
     }
 
-    if (
-      body.price !== undefined &&
-      (!Number.isFinite(Number(body.price)) || Number(body.price) < 0)
-    ) {
+    /*
+     * Price validation
+     *
+     * Empty/null price is allowed for drafts.
+     */
+    const price =
+      body.price === undefined || body.price === null || body.price === ""
+        ? undefined
+        : Number(body.price);
+
+    if (price !== undefined && (!Number.isFinite(price) || price < 0)) {
       return NextResponse.json(
         {
           success: false,
@@ -92,10 +117,17 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       );
     }
 
-    if (
-      body.stock !== undefined &&
-      (!Number.isInteger(Number(body.stock)) || Number(body.stock) < 0)
-    ) {
+    /*
+     * Stock validation
+     *
+     * Empty/null stock is allowed for drafts.
+     */
+    const stock =
+      body.stock === undefined || body.stock === null || body.stock === ""
+        ? undefined
+        : Number(body.stock);
+
+    if (stock !== undefined && (!Number.isInteger(stock) || stock < 0)) {
       return NextResponse.json(
         {
           success: false,
@@ -105,6 +137,9 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       );
     }
 
+    /*
+     * Status validation
+     */
     if (body.status !== undefined && !["draft", "active", "archived"].includes(body.status)) {
       return NextResponse.json(
         {
@@ -115,6 +150,48 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       );
     }
 
+    /*
+     * Determine the FINAL values after this PATCH.
+     *
+     * This is important because PATCH requests are partial.
+     */
+    const finalStatus = body.status !== undefined ? body.status : existingProduct.status;
+
+    const finalPrice = body.price !== undefined ? price : existingProduct.price;
+
+    const finalStock = body.stock !== undefined ? stock : existingProduct.stock;
+
+    /*
+     * Active products must have both price and stock.
+     */
+    if (finalStatus === "active") {
+      if (finalPrice === undefined || finalPrice === null) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Active products require a price",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (finalStock === undefined || finalStock === null) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Active products require stock",
+          },
+          { status: 400 },
+        );
+      }
+    }
+
+    /*
+     * Pass the original body to the service.
+     *
+     * The service handles normalization and preservation
+     * of existing fields.
+     */
     const product = await updateProduct(id, body);
 
     if (!product) {
@@ -139,12 +216,14 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         ? "A product with this slug or SKU already exists"
         : "Failed to update product";
 
+    const status = message.startsWith("A product") ? 409 : 500;
+
     return NextResponse.json(
       {
         success: false,
         message,
       },
-      { status: 500 },
+      { status },
     );
   }
 }

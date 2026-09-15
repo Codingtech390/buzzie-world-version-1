@@ -12,7 +12,9 @@ export async function GET(_request: NextRequest, context: ProductSlugRouteContex
   try {
     const { slug } = await context.params;
 
-    if (!slug) {
+    const normalizedSlug = slug.trim().toLowerCase();
+
+    if (!normalizedSlug) {
       return NextResponse.json(
         {
           success: false,
@@ -22,7 +24,7 @@ export async function GET(_request: NextRequest, context: ProductSlugRouteContex
       );
     }
 
-    const product = await getProductBySlug(slug);
+    const product = await getProductBySlug(normalizedSlug);
 
     if (!product) {
       return NextResponse.json(

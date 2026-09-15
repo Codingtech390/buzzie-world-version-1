@@ -1,8 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,9 +10,10 @@ import {
   Layers3,
   Sparkles,
   Users,
-  WandSparkles,
 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -239,80 +238,317 @@ export default function BrandStory({ products }: BrandStoryProps) {
             />
 
             {/* ============================================================
-                CENTER CONTENT
-            ============================================================ */}
+    CENTER CONTENT
+============================================================ */}
 
             <div
               className="
-                flex
-                h-[516px]
-                w-[505px]
-                shrink-0
-                items-center
-                justify-center
-                px-11
-              "
-            >
-              <div className="w-full max-w-[405px]">
-                <Reveal key={activeSlide.question}>
-                  <div className="text-left">
-                    <div className="flex items-center gap-3">
-                      <span className="h-4 w-9 rounded-full bg-white" />
+    flex
+    min-h-[420px]
+    w-full
+    shrink-0
+    items-center
+    justify-center
+    px-5
+    py-8
 
-                      <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.17em] text-[white/90] sm:text-[11px]">
-                        <Icon className="size-3.5" />
-                        {activeSlide.eyebrow}
+    sm:min-h-[460px]
+    sm:px-8
+    sm:py-10
+
+    md:min-h-[500px]
+    md:px-10
+
+    lg:h-[516px]
+    lg:min-h-0
+    lg:w-[505px]
+    lg:px-11
+    lg:py-0
+  "
+            >
+              <div
+                className="
+      w-full
+      max-w-[330px]
+
+      sm:max-w-[380px]
+
+      md:max-w-[420px]
+
+      lg:max-w-[405px]
+    "
+              >
+                <Reveal key={activeSlide.question}>
+                  <div
+                    className="
+          flex
+          flex-col
+          items-center
+          text-center
+
+          lg:items-start
+          lg:text-left
+        "
+                  >
+                    {/* ==========================================================
+            EYEBROW
+        ========================================================== */}
+
+                    <div
+                      className="
+            flex
+            items-center
+            justify-center
+            gap-2.5
+
+            lg:justify-start
+          "
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="
+              h-[2px]
+              w-7
+              shrink-0
+              rounded-full
+              bg-white
+
+              sm:w-8
+
+              lg:w-9
+            "
+                      />
+
+                      <span
+                        className="
+              inline-flex
+              items-center
+              gap-1.5
+              font-[var(--font-playpen-sans)]
+              text-[8px]
+              font-bold
+              uppercase
+              leading-none
+              tracking-[0.12em]
+              text-white/90
+
+              sm:text-[9px]
+              sm:tracking-[0.14em]
+
+              md:text-[10px]
+
+              lg:text-[10px]
+            "
+                      >
+                        <Icon
+                          className="
+                size-3
+
+                sm:size-3.5
+              "
+                          strokeWidth={2.5}
+                        />
+
+                        <span>{activeSlide.eyebrow}</span>
                       </span>
                     </div>
 
-                    <div className="mt-5 flex items-start gap-3 mb-5">
-                      <div className="min-w-0 flex-1">
-                        <h2 className="font-[var(--font-poppins-brand)] text-[clamp(2rem,2.8vw,1rem)] font-bold leading-[0.9] tracking-[-0.035em] text-[#FFD54F]">
-                          {activeSlide.question}
-                        </h2>
-                      </div>
+                    {/* ============================================================
+    QUESTION / MAIN HEADING
+============================================================ */}
+
+                    <div
+                      className="
+    mt-5
+    w-full
+
+    sm:mt-5
+
+    md:mt-6
+
+    lg:mt-5
+  "
+                    >
+                      <h2
+                        className="
+      m-0
+      w-full
+      font-[var(--font-poppins-brand)]
+      text-[clamp(2.25rem,9vw,3.4rem)]
+      font-bold
+      leading-[0.88]
+      tracking-[-0.035em]
+      text-[#FFD54F]
+
+      sm:text-[clamp(2.6rem,6vw,3.6rem)]
+
+      md:text-[clamp(2.8rem,4.5vw,3.8rem)]
+
+      lg:text-[clamp(2.5rem,3.2vw,3.35rem)]
+    "
+                      >
+                        {activeSlide.question}
+                      </h2>
                     </div>
 
-                    <p className="mt-9 max-w-[520px] font-[var(--font-poppins-brand)] text-[15px] font-medium leading-[1.45] normal-case text-white sm:text-[16px] sm:leading-[1.45]">
+                    {/* ============================================================
+    DESCRIPTION
+============================================================ */}
+
+                    <p
+                      className="
+    m-0
+    mt-7
+    w-full
+    max-w-[320px]
+    font-[var(--font-playpen-sans)]
+    text-[11px]
+    font-medium
+    leading-[1.55]
+    tracking-[0.005em]
+    text-white
+
+    max-sm:mt-6
+    sm:mt-6
+    sm:max-w-[370px]
+    sm:text-[12px]
+    sm:leading-[1.6]
+
+    md:max-w-[400px]
+    md:text-[13px]
+
+    lg:mt-6
+    lg:max-w-[405px]
+    lg:text-[14px]
+    lg:leading-[1.55]
+  "
+                    >
                       {activeSlide.description}
                     </p>
+
+                    {/* ==========================================================
+            DESCRIPTION
+        ========================================================== */}
+
+                    <p
+                      className="
+            m-0
+            mt-5
+            w-full
+            max-w-[320px]
+            font-[var(--font-playpen-sans)]
+            text-[11px]
+            font-medium
+            leading-[1.55]
+            tracking-[0.005em]
+            text-white
+
+            sm:mt-6
+            sm:max-w-[370px]
+            sm:text-[12px]
+            sm:leading-[1.6]
+
+            md:max-w-[400px]
+            md:text-[13px]
+
+            lg:mt-6
+            lg:max-w-[405px]
+            lg:text-[14px]
+            lg:leading-[1.55]
+          "
+                    >
+                      {activeSlide.description}
+                    </p>
+
+                    {/* ==========================================================
+            CTA
+        ========================================================== */}
 
                     <Link
                       href={activeSlide.href}
                       className="
-                        group
-                        mt-8
-                        inline-flex
-                        min-h-16
-                        w-[320px]
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-full
-                        bg-[#C391EE]
-                        px-6
-                        text-[12px]
-                        font-black
-                        uppercase
-                        tracking-[0.02em]
-                        text-[#17142A]
-                        shadow-[0_12px_28px_rgba(0,0,0,0.13)]
-                        transition-all
-                        duration-300
-                        hover:-translate-y-0.5
-                        hover:bg-[#E83D59]
-                        focus-visible:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-white
-                        focus-visible:ring-offset-2
-                        focus-visible:ring-offset-[#5D50A8]
+            group
+            mt-6
+            inline-flex
+            min-h-[42px]
+            w-auto
+            max-w-full
+            items-center
+            justify-center
+            gap-1.5
+            rounded-full
+            bg-[#C391EE]
+            px-4
+            font-[var(--font-playpen-sans)]
+            text-[8px]
+            font-bold
+            leading-none
+            tracking-[0.015em]
+            text-white
+            shadow-[0_8px_20px_rgba(0,0,0,0.13)]
+            transition-all
+            duration-300
+            hover:-translate-y-0.5
+            hover:bg-[#E83D59]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-white
+            focus-visible:ring-offset-2
+            focus-visible:ring-offset-[#5D50A8]
 
-                        xl:text-[14px]
-                      "
+            sm:mt-7
+            sm:min-h-[44px]
+            sm:px-5
+            sm:text-[9px]
+
+            md:min-h-[46px]
+            md:px-6
+            md:text-[10px]
+
+            lg:mt-7
+            lg:min-h-[48px]
+            lg:px-6
+            lg:text-[11px]
+
+            xl:text-[12px]
+          "
                     >
-                      {activeSlide.buttonLabel}
-                      <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <span className="whitespace-nowrap">{activeSlide.buttonLabel}</span>
+
+                      <ArrowRight
+                        className="
+              size-3
+              shrink-0
+              transition-transform
+              duration-300
+              group-hover:translate-x-1
+
+              sm:size-3.5
+
+              md:size-4
+            "
+                        strokeWidth={2.5}
+                      />
                     </Link>
+
+                    {/* ==========================================================
+            MOBILE / TABLET VISUAL BREATHING SPACE
+        ========================================================== */}
+
+                    <div
+                      aria-hidden="true"
+                      className="
+            mt-5
+            h-px
+            w-12
+            rounded-full
+            bg-white/25
+
+            sm:mt-6
+
+            lg:hidden
+          "
+                    />
                   </div>
                 </Reveal>
               </div>

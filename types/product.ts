@@ -29,7 +29,7 @@ export interface Product {
   description: string;
   shortDescription?: string;
 
-  price: number;
+  price?: number;
   compareAtPrice?: number;
 
   sku?: string;
@@ -42,7 +42,7 @@ export interface Product {
 
   variants: ProductVariant[];
 
-  stock: number;
+  stock?: number;
 
   status: ProductStatus;
 
