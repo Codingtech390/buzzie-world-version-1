@@ -5,7 +5,7 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
 
 import { siteConfig } from "@/config/site";
 
-const FOOTER_LOGO = "/images/hero/buzzieLogo.png";
+const FOOTER_LOGO = "/images/hero/buzzie-logo-1.png";
 
 /* ================================================================
    FOOTER NAVIGATION
