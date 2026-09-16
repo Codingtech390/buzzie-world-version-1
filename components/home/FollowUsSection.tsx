@@ -271,127 +271,145 @@ function InstagramCardGroup({ groupId }: { groupId: string }) {
 export default function FollowUsSection() {
   if (INSTAGRAM_POSTS.length === 0) return null;
 
-  return (
-    <section
-      aria-label="Follow BuzzieWorld on Instagram"
+return (
+  <section
+    aria-label="Follow BuzzieWorld on Instagram"
+    className="
+      relative
+      isolate
+      w-full
+      overflow-hidden
+      bg-[#F8F1DE]
+    "
+  >
+    {/* ================================================================
+        INSTAGRAM CARDS
+        ================================================================ */}
+
+    <div
       className="
         relative
-        isolate
         w-full
         overflow-hidden
         bg-[#F8F1DE]
+        py-5
+        sm:py-6
+        md:py-7
+        lg:py-8
       "
     >
-      {/* ================================================================
-          FULL BANNER IMAGE
+      {/* Left fade */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-y-0
+          left-0
+          z-20
+          w-8
+          bg-gradient-to-r
+          from-[#F8F1DE]
+          to-transparent
+          sm:w-12
+          md:w-16
+          lg:w-20
+        "
+      />
 
-          The artwork is displayed FIRST and completely.
-          No background-cover cropping.
-          ================================================================ */}
+      {/* Right fade */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-y-0
+          right-0
+          z-20
+          w-8
+          bg-gradient-to-l
+          from-[#F8F1DE]
+          to-transparent
+          sm:w-12
+          md:w-16
+          lg:w-20
+        "
+      />
 
-      <div className="relative w-full overflow-hidden">
-        <Image
-          src="/images/backgrounds/insta-video-banner.png"
-          alt="BuzzieWorld"
-          width={1920}
-          height={700}
-          priority
-          quality={90}
-          sizes="100vw"
-          className="
-            block
-            h-auto
-            w-full
-            max-w-none
-            object-contain
-          "
-        />
-      </div>
-
-      {/* ================================================================
-          INSTAGRAM CARDS
-
-          Cards now sit BELOW the artwork instead of covering it.
-          ================================================================ */}
+      {/* ==============================================================
+          HORIZONTAL MARQUEE
+          ============================================================== */}
 
       <div
         className="
           relative
           w-full
           overflow-hidden
-          bg-[#F8F1DE]
-          py-5
-          sm:py-6
-          md:py-7
-          lg:py-8
         "
       >
-        {/* Left fade */}
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-y-0
-            left-0
-            z-20
-            w-8
-            bg-gradient-to-r
-            from-[#F8F1DE]
-            to-transparent
-            sm:w-12
-            md:w-16
-            lg:w-20
-          "
-        />
-
-        {/* Right fade */}
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-y-0
-            right-0
-            z-20
-            w-8
-            bg-gradient-to-l
-            from-[#F8F1DE]
-            to-transparent
-            sm:w-12
-            md:w-16
-            lg:w-20
-          "
-        />
-
-        {/* ==============================================================
-            HORIZONTAL MARQUEE
-            ============================================================== */}
-
         <div
           className="
-            relative
-            w-full
-            overflow-hidden
+            buzzie-instagram-marquee
+            flex
+            w-max
+            items-stretch
           "
+          style={{
+            animation: "buzzie-instagram-marquee-animation 30s linear infinite",
+          }}
         >
-          <div
-            className="
-              buzzie-instagram-marquee
-              flex
-              w-max
-              items-stretch
-            "
-            style={{
-              animation: "buzzie-instagram-marquee-animation 30s linear infinite",
-            }}
-          >
-            <InstagramCardGroup groupId="group-one" />
-            <InstagramCardGroup groupId="group-two" />
-            <InstagramCardGroup groupId="group-three" />
-          </div>
+          <InstagramCardGroup groupId="group-one" />
+          <InstagramCardGroup groupId="group-two" />
+          <InstagramCardGroup groupId="group-three" />
         </div>
       </div>
-    </section>
-  );
+    </div>
+
+    {/* ================================================================
+        SPACE BETWEEN INSTAGRAM CARDS AND IMAGE
+        ================================================================ */}
+
+    <div
+      aria-hidden="true"
+      className="
+        h-6
+        w-full
+        bg-[#F8F1DE]
+
+        sm:h-8
+        md:h-10
+        lg:h-12
+      "
+    />
+
+    {/* ================================================================
+        BANNER IMAGE
+        ================================================================ */}
+
+    <div
+      className="
+        relative
+        w-full
+        overflow-hidden
+      "
+    >
+      <Image
+        src="/images/backgrounds/insta-video-banner.png"
+        alt="BuzzieWorld"
+        width={1920}
+        height={700}
+        priority
+        quality={90}
+        sizes="100vw"
+        className="
+          block
+          h-auto
+          w-full
+          max-w-none
+          object-contain
+        "
+      />
+    </div>
+  </section>
+);
 }

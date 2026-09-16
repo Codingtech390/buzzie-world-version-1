@@ -118,72 +118,72 @@ export default function CollectionShowcase({ collections: _collections }: Collec
 
             <div
               className="
-                mt-5
-                flex
-                justify-center
-                sm:mt-6
-                lg:mt-8
-                lg:justify-start
-              "
+    mt-5
+    flex
+    justify-center
+    sm:mt-6
+    lg:mt-8
+    lg:justify-start
+  "
             >
               <Link
                 href="/return-gifts"
                 className="
-                  group
-                  inline-flex
-                  min-h-[46px]
-                  max-w-full
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-full
-                  bg-[#C391EE]
-                  px-5
-                  font-[var(--font-poppins-brand)]
-                  text-[12px]
-                  font-bold
-                  leading-none
-                  text-white
-                  no-underline
-                  shadow-[0_10px_24px_rgba(195,145,238,0.24)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-0.5
-                  hover:bg-[#E83D59]
-                  hover:shadow-[0_14px_30px_rgba(232,61,89,0.20)]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-3
-                  sm:min-h-[50px]
-                  sm:gap-2.5
-                  sm:px-6
-                  sm:text-[13px]
-                  lg:min-h-[50px]
-                  lg:px-6
-                  lg:text-[13px]
-                  xl:min-h-[54px]
-                  xl:px-7
-                  xl:text-[14px]
-                "
+      group
+      inline-flex
+      min-h-[46px]
+      max-w-full
+      items-center
+      justify-center
+      gap-2
+      rounded-full
+      bg-[#C391EE]
+      px-5
+      font-[var(--font-poppins-brand)]
+      text-[12px]
+      font-bold
+      leading-none
+      text-white
+      no-underline
+      shadow-[0_10px_24px_rgba(195,145,238,0.24)]
+      transition-all
+      duration-300
+      hover:-translate-y-0.5
+      hover:bg-[#E83D59]
+      hover:shadow-[0_14px_30px_rgba(232,61,89,0.20)]
+      focus-visible:outline-none
+      focus-visible:ring-2
+      focus-visible:ring-[#E83D59]
+      focus-visible:ring-offset-3
+      sm:min-h-[50px]
+      sm:gap-2.5
+      sm:px-6
+      sm:text-[13px]
+      lg:min-h-[50px]
+      lg:px-6
+      lg:text-[13px]
+      xl:min-h-[54px]
+      xl:px-7
+      xl:text-[14px]
+    "
               >
-                <span>Explore return gifts</span>
+                <span className="text-white">Explore return gifts</span>
 
                 <span
                   aria-hidden="true"
                   className="
-                    flex
-                    size-7
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-white/20
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-0.5
-                    sm:size-8
-                  "
+        flex
+        size-7
+        shrink-0
+        items-center
+        justify-center
+        rounded-full
+        bg-white/20
+        transition-transform
+        duration-300
+        group-hover:translate-x-0.5
+        sm:size-8
+      "
                 >
                   <ArrowRight className="size-3.5 text-white sm:size-4" strokeWidth={2.5} />
                 </span>

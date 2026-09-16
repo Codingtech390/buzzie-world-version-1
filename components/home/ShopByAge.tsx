@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -10,51 +10,42 @@ interface ShopByAgeProps {
   products: StorefrontProduct[];
 }
 
-/* ==========================================================================
+/* ============================================================================
    BUZZIE FAVORITES
-   ========================================================================== */
+   ============================================================================ */
 
 function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const favorites = products.slice(0, 3);
 
-  /* ------------------------------------------------------------------------
+  /* --------------------------------------------------------------------------
      AUTO ROTATE
-  ------------------------------------------------------------------------ */
+     -------------------------------------------------------------------------- */
 
   useEffect(() => {
-    if (favorites.length <= 1) {
-      return;
-    }
+    if (favorites.length <= 1) return;
 
     const interval = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % favorites.length);
     }, 5000);
 
-    return () => {
-      window.clearInterval(interval);
-    };
+    return () => window.clearInterval(interval);
   }, [favorites.length]);
 
-  if (!favorites.length) {
-    return null;
-  }
+  if (!favorites.length) return null;
 
   const product = favorites[activeIndex % favorites.length];
-
   const productImage = product.images?.[0]?.url;
 
-  /* ==========================================================================
+  /* ============================================================================
      PRODUCT DATA
-     ========================================================================== */
+     ============================================================================ */
 
   const ageLabel = (() => {
     const ageRange = product.ageRange;
 
-    if (!ageRange) {
-      return "All Ages";
-    }
+    if (!ageRange) return "All Ages";
 
     if (ageRange.min !== undefined && ageRange.max !== undefined) {
       return `Ages ${ageRange.min}–${ageRange.max}`;
@@ -92,9 +83,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
         lg:pb-12
       "
     >
-      {/* ====================================================================
+      {/* ======================================================================
           SECTION HEADING
-      ==================================================================== */}
+      ======================================================================= */}
 
       <Reveal>
         <div
@@ -224,6 +215,22 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
         </div>
       </Reveal>
 
+      {/* ======================================================================
+          COMPLETE BUZZIE FAVORITE VISUAL
+
+          MOBILE:
+            TOP 48%    = CASTLE
+            BOTTOM 52% = BEIGE BACKGROUND
+
+          DESKTOP:
+            LEFT 50%   = CASTLE
+            RIGHT 50%  = BEIGE BACKGROUND
+
+          IMPORTANT:
+          The castle is the actual background layer.
+          It is NOT inside the heading container.
+      ======================================================================= */}
+
       <div
         className="
           relative
@@ -254,23 +261,11 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
             bg-[#F8F5F2]
             shadow-[0_10px_35px_rgba(30,25,45,0.07)]
 
-            /* ==============================================================
-               MOBILE / SMALL SCREENS
-
-               Two vertical sections.
-               ============================================================= */
-
             h-[820px]
 
             sm:h-[900px]
 
             md:h-[980px]
-
-            /* ==============================================================
-               DESKTOP
-
-               Return to side-by-side composition.
-               ============================================================= */
 
             lg:h-[78vh]
             lg:min-h-[700px]
@@ -285,28 +280,71 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
             2xl:max-h-[920px]
           "
         >
+          {/* ==================================================================
+              LEFT / TOP CASTLE BACKGROUND
+
+              MOBILE:
+                complete top section
+
+              DESKTOP:
+                complete left half
+          =================================================================== */}
+
           <div
             aria-hidden="true"
             className="
-              pointer-events-none
-              absolute
-              left-0
-              top-0
-              z-0
-              h-[48%]
-              w-full
-              overflow-hidden
-              bg-[#10064F]
-              bg-[url('/images/backgrounds/left-background.png')]
-              bg-cover
-              bg-center
-              bg-no-repeat
+    pointer-events-none
+    absolute
+    left-0
+    top-0
+    z-0
+    h-[48%]
+    w-full
+    overflow-hidden
+    bg-[#F6E9E6]
 
-              lg:inset-y-0
-              lg:h-full
-              lg:w-1/2
-            "
-          />
+    lg:inset-y-0
+    lg:h-full
+    lg:w-1/2
+  "
+          >
+            {/* Castle image */}
+            <img
+              src="/images/backgrounds/castle-new.png"
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="
+      absolute
+      inset-0
+      block
+      h-full
+      w-full
+      select-none
+      object-cover
+      object-center
+    "
+            />
+
+            {/* Dark overlay */}
+            <div
+              className="
+      absolute
+      inset-0
+      bg-[#111111]/55
+    "
+            />
+          </div>
+
+          {/* ==================================================================
+              RIGHT / BOTTOM BEIGE BACKGROUND
+
+              MOBILE:
+                complete bottom section
+
+              DESKTOP:
+                complete right half
+          =================================================================== */}
 
           <div
             aria-hidden="true"
@@ -337,11 +375,11 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               CENTER SEAM
 
               MOBILE:
-              Horizontal seam
+                horizontal
 
               DESKTOP:
-              Vertical seam
-          ================================================================== */}
+                vertical
+          =================================================================== */}
 
           <div
             aria-hidden="true"
@@ -353,7 +391,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               z-[2]
               h-px
               w-full
-              bg-white/10
+              bg-white/15
 
               lg:left-1/2
               lg:top-0
@@ -366,12 +404,14 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           {/* ==================================================================
               LEFT / TOP HEADING
 
+              The castle is underneath this layer.
+
               MOBILE:
-              Centered in blue section.
+                centered at bottom of castle area
 
               DESKTOP:
-              Positioned inside left section.
-          ================================================================== */}
+                vertically centered inside left half
+          =================================================================== */}
 
           <div
             className="
@@ -382,14 +422,17 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               flex
               h-[48%]
               w-full
-              items-center
+              items-end
               justify-center
               px-7
+              pb-7
               text-center
 
               sm:px-10
+              sm:pb-9
 
               md:px-14
+              md:pb-10
 
               lg:h-full
               lg:w-1/2
@@ -397,6 +440,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               lg:justify-start
               lg:px-10
               lg:pr-14
+              lg:pb-0
               lg:text-left
 
               xl:px-12
@@ -408,8 +452,8 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 m-0
                 w-full
                 max-w-[500px]
-                font-[var(--font-poppins-brand)]
-                text-[clamp(3rem,7vw,5.2rem)]
+                font-[var(--font-playpen-sans)]
+                text-[clamp(2.7rem,7vw,5.2rem)]
                 font-bold
                 leading-[0.86]
                 tracking-[-0.035em]
@@ -420,7 +464,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 lg:text-[clamp(3rem,5vw,5.2rem)]
               "
             >
-              Your Daily dose of <span className="text-[#FFD54F]">Vitamin L</span>
+              Your Daily Dose of <span className="text-[#FFD54F]">Vitamin L</span>
             </h3>
           </div>
 
@@ -428,12 +472,11 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               PRODUCT COMPOSITION
 
               MOBILE:
-              The card is centered in the lower beige section.
+                centered in lower beige section
 
               DESKTOP:
-              The complete composition is moved slightly LEFT so the
-              card floats naturally across the two backgrounds.
-          ================================================================== */}
+                crosses the center seam
+          =================================================================== */}
 
           <div
             className="
@@ -471,7 +514,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           >
             {/* ==================================================================
                 RAW 3D PRODUCT CARD
-            ================================================================== */}
+            =================================================================== */}
 
             <div
               key={product._id}
@@ -489,7 +532,6 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 max-sm:w-[75%]
                 max-sm:max-w-[430px]
                 max-sm:mr-[10%]
-
 
                 sm:w-[51%]
                 sm:max-w-[430px]
@@ -627,12 +669,14 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
             {/* ==================================================================
                 RIGHT-SIDE BUTTONS
 
-                MOBILE:
-                Smaller and kept beside the card.
+                WIDTH IS PRESERVED.
 
-                DESKTOP:
-                Slightly moved LEFT with the product composition.
-            ================================================================== */}
+                The visual height is increased using scale-y only, so the
+                buttons become taller without making the right column wider.
+
+                Longer text gets a narrower inner content area so it can
+                naturally wrap into two lines.
+            =================================================================== */}
 
             <div
               className="
@@ -648,8 +692,8 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 items-center
                 gap-0
 
-                max-sm:gap-2
                 max-sm:right-2
+                max-sm:gap-2
 
                 sm:right-[7%]
                 sm:w-[19%]
@@ -659,7 +703,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 md:w-[18%]
                 md:max-w-[145px]
 
-                lg:right-[0%]
+                lg:right-0
                 lg:w-[22%]
                 lg:max-w-[150px]
 
@@ -668,9 +712,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 xl:max-w-[130px]
               "
             >
-              {/* ============================================================
+              {/* ==============================================================
                   AGE
-              ============================================================ */}
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -681,10 +725,13 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                   z-40
                   block
                   w-full
+                  origin-center
+                  scale-y-[1.22]
                   transition-all
                   duration-300
                   hover:-translate-y-1
                   hover:scale-[1.03]
+                  hover:scale-y-[1.26]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -715,23 +762,31 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     flex
                     items-center
                     justify-center
-                    px-[4%]
+                    px-[3%]
                     text-center
-                    font-[var(--font-poppins-brand)]
+                    font-[var(--font-playpen-sans)]
                     text-[clamp(0.38rem,1.7vw,0.82rem)]
-                    font-extrabold
-                    leading-[1]
-                    tracking-[-0.025em]
+                    font-bold
+                    leading-[0.9]
+                    tracking-[-0.02em]
                     text-[#17365F]
                   "
                 >
-                  {ageLabel}
+                  <span
+                    className="
+                      block
+                      max-w-[62%]
+                      text-balance
+                    "
+                  >
+                    {ageLabel}
+                  </span>
                 </span>
               </Link>
 
-              {/* ============================================================
+              {/* ==============================================================
                   STOCK
-              ============================================================ */}
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -743,10 +798,13 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                   -mt-[3%]
                   block
                   w-full
+                  origin-center
+                  scale-y-[1.22]
                   transition-all
                   duration-300
                   hover:-translate-y-1
                   hover:scale-[1.03]
+                  hover:scale-y-[1.26]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -777,23 +835,31 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     flex
                     items-center
                     justify-center
-                    px-[4%]
+                    px-[3%]
                     text-center
-                    font-[var(--font-poppins-brand)]
+                    font-[var(--font-playpen-sans)]
                     text-[clamp(0.34rem,1.6vw,0.76rem)]
-                    font-extrabold
-                    leading-[0.95]
-                    tracking-[-0.025em]
+                    font-bold
+                    leading-[0.9]
+                    tracking-[-0.02em]
                     text-[#125C2A]
                   "
                 >
-                  {stockLabel}
+                  <span
+                    className="
+                      block
+                      max-w-[58%]
+                      text-balance
+                    "
+                  >
+                    {stockLabel}
+                  </span>
                 </span>
               </Link>
 
-              {/* ============================================================
+              {/* ==============================================================
                   FEATURED
-              ============================================================ */}
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -805,10 +871,13 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                   -mt-[3%]
                   block
                   w-full
+                  origin-center
+                  scale-y-[1.22]
                   transition-all
                   duration-300
                   hover:-translate-y-1
                   hover:scale-[1.03]
+                  hover:scale-y-[1.26]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -839,23 +908,31 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     flex
                     items-center
                     justify-center
-                    px-[4%]
+                    px-[3%]
                     text-center
-                    font-[var(--font-poppins-brand)]
+                    font-[var(--font-playpen-sans)]
                     text-[clamp(0.38rem,1.7vw,0.82rem)]
-                    font-extrabold
-                    leading-[1]
-                    tracking-[-0.025em]
+                    font-bold
+                    leading-[0.9]
+                    tracking-[-0.02em]
                     text-[#B90D45]
                   "
                 >
-                  {featuredLabel}
+                  <span
+                    className="
+                      block
+                      max-w-[62%]
+                      text-balance
+                    "
+                  >
+                    {featuredLabel}
+                  </span>
                 </span>
               </Link>
 
-              {/* ============================================================
+              {/* ==============================================================
                   WATCH DEMO
-              ============================================================ */}
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
@@ -867,10 +944,13 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                   -mt-[3%]
                   block
                   w-full
+                  origin-center
+                  scale-y-[1.22]
                   transition-all
                   duration-300
                   hover:-translate-y-1
                   hover:scale-[1.03]
+                  hover:scale-y-[1.26]
                   focus-visible:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#E83D59]
@@ -901,17 +981,25 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     flex
                     items-center
                     justify-center
-                    px-[4%]
+                    px-[3%]
                     text-center
-                    font-[var(--font-poppins-brand)]
+                    font-[var(--font-playpen-sans)]
                     text-[clamp(0.36rem,1.65vw,0.78rem)]
-                    font-extrabold
+                    font-bold
                     leading-[0.9]
-                    tracking-[-0.025em]
+                    tracking-[-0.02em]
                     text-[#2E2188]
                   "
                 >
-                  Watch Demo
+                  <span
+                    className="
+                      block
+                      max-w-[58%]
+                      text-balance
+                    "
+                  >
+                    Watch Demo
+                  </span>
                 </span>
               </Link>
             </div>
@@ -922,9 +1010,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
   );
 }
 
-/* ==========================================================================
+/* ============================================================================
    MAIN COMPONENT
-   ========================================================================== */
+   ============================================================================ */
 
 export default function ShopByAge({ products }: ShopByAgeProps) {
   return (

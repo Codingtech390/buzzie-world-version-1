@@ -1147,7 +1147,7 @@ export default function Navbar() {
             relative
             border-b
             border-[#EDE2D6]/90
-            bg-[#a092cd]
+            bg-[#C391EE]
             shadow-[0_8px_30px_rgba(42,35,28,0.055)]
             backdrop-blur-xl
           "
@@ -1203,7 +1203,7 @@ export default function Navbar() {
                 "
               >
                 <Image
-                  src="/images/hero/buzzie-logo-1.png"
+                  src="/images/hero/buzzieLogo.png"
                   alt="BuzzieWorld"
                   width={190}
                   height={58}
@@ -1219,7 +1219,7 @@ export default function Navbar() {
                     sm:w-[104px]
                     md:w-[116px]
                     lg:w-[124px]
-                    xl:w-[132px]
+                    xl:w-[212px]
                   "
                 />
               </Link>

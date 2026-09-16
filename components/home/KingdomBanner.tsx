@@ -271,7 +271,7 @@ function VideoCard({
               bg-[#FFFFFF]
               px-2.5
               font-[var(--font-playpen-sans)]
-              text-[8.5px]
+              text-[7.5px]
               font-semibold
               leading-none
               tracking-[-0.005em]

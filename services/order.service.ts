@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 
 import { connectToDatabase } from "@/lib/mongoose";
+import { createRazorpayOrder, verifyRazorpaySignature } from "@/lib/razorpay";
 import { Cart } from "@/models/Cart";
 import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
 import type { ShippingAddress } from "@/types/order";
-import { createRazorpayOrder, verifyRazorpaySignature } from "@/lib/razorpay";
 
 function generateOrderNumber() {
   const timestamp = Date.now().toString(36).toUpperCase();
@@ -65,11 +65,21 @@ export async function createOrderFromCart(sessionId: string, shippingAddress: Sh
       throw new Error("One or more products are no longer available");
     }
 
-    if (product.stock < cartItem.quantity) {
+    const stock =
+      typeof product.stock === "number" && Number.isFinite(product.stock)
+        ? Math.max(product.stock, 0)
+        : 0;
+
+    if (stock < cartItem.quantity) {
       throw new Error(`${product.name} does not have enough stock`);
     }
 
-    const price = product.price;
+    const price =
+      typeof product.price === "number" && Number.isFinite(product.price) ? product.price : 0;
+
+    if (price <= 0) {
+      throw new Error(`${product.name} has an invalid price`);
+    }
 
     orderItems.push({
       product: product._id,
@@ -199,16 +209,11 @@ export interface AdminOrderListOptions {
   sort?: "newest" | "oldest";
 }
 
-export async function getAdminOrders(
-  options: AdminOrderListOptions = {},
-) {
+export async function getAdminOrders(options: AdminOrderListOptions = {}) {
   await connectToDatabase();
 
   const page = Math.max(1, Number(options.page) || 1);
-  const limit = Math.min(
-    100,
-    Math.max(1, Number(options.limit) || 20),
-  );
+  const limit = Math.min(100, Math.max(1, Number(options.limit) || 20));
 
   const search = options.search?.trim() || "";
   const status = options.status?.trim() || "";
@@ -226,15 +231,9 @@ export async function getAdminOrders(
   }
 
   if (search) {
-    const escapedSearch = search.replace(
-      /[.*+?^${}()|[\]\\]/g,
-      "\\$&",
-    );
+    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-    const searchRegex = new RegExp(
-      escapedSearch,
-      "i",
-    );
+    const searchRegex = new RegExp(escapedSearch, "i");
 
     filter.$or = [
       {
@@ -256,11 +255,7 @@ export async function getAdminOrders(
   } as const;
 
   const [orders, total] = await Promise.all([
-    Order.find(filter)
-      .sort(sortQuery)
-      .skip(skip)
-      .limit(limit)
-      .lean(),
+    Order.find(filter).sort(sortQuery).skip(skip).limit(limit).lean(),
 
     Order.countDocuments(filter),
   ]);

@@ -41,7 +41,6 @@ const featuredSlides = [
     image: "/images/products/featured-top/day-feel-7.png",
     alt: "BuzzieWorld day feel — featured customer experience",
   },
-
 ];
 
 interface FeaturedProductsCarouselProps {
@@ -84,10 +83,10 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
       <section
         className="
           relative
-          left-1/2
+          mx-auto
           mt-8
-          w-screen
-          -translate-x-1/2
+          w-full
+          max-w-[1230px]
           overflow-hidden
           bg-transparent
 
@@ -174,8 +173,9 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
             <div
               className="
                 absolute
-                bottom-[7%]
-                right-[5%]
+                bottom-[3.5%]
+                left-1/2
+                -translate-x-1/2
                 z-30
               "
             >
@@ -273,74 +273,20 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
           {/* ==================================================================
               CAROUSEL INDICATORS
 
-              Kept at the bottom center and separated from the CTA.
+              Replaced by the Buy Now CTA above. The CTA now occupies the
+              bottom-center position of the artwork on every breakpoint.
           ================================================================== */}
-
-          {slideCount > 1 ? (
-            <div
-              className="
-                absolute
-                bottom-[3.5%]
-                left-1/2
-                z-30
-                flex
-                -translate-x-1/2
-                items-center
-                gap-1.5
-                rounded-full
-                bg-black/10
-                px-2
-                py-1
-                backdrop-blur-[2px]
-
-                sm:gap-2
-                sm:px-2.5
-                sm:py-1.5
-
-                md:px-3
-                md:py-2
-              "
-            >
-              {featuredSlides.map((item, index) => (
-                <button
-                  key={item.image}
-                  type="button"
-                  aria-label={`Show day feel ${index + 1}`}
-                  aria-current={activeSlide === index}
-                  onClick={() => setActiveSlide(index)}
-                  className={`
-                    h-[3px]
-                    rounded-full
-                    transition-all
-                    duration-300
-
-                    ${
-                      activeSlide === index
-                        ? "w-5 bg-white sm:w-7 md:w-8"
-                        : "w-2 bg-white/50 hover:bg-white/80 sm:w-2.5"
-                    }
-                  `}
-                />
-              ))}
-            </div>
-          ) : null}
         </div>
       </section>
     </Reveal>
   );
 }
 
-
-
 /* ============================================================================
    MYTHOLOGY SERIES
    ============================================================================ */
 
-export function MythologySeriesSection({
-  products: _products,
-}: {
-  products: StorefrontProduct[];
-}) {
+export function MythologySeriesSection({ products: _products }: { products: StorefrontProduct[] }) {
   return (
     <section
       aria-label="BuzzieWorld Mythology Series"
@@ -447,10 +393,7 @@ export function MythologySeriesSection({
             text-[#111111]
           "
         >
-          Buzzie Special{" "}
-          <span className="text-[#E83D59]">
-            Mythology Series
-          </span>
+          Buzzie Special <span className="text-[#E83D59]">Mythology Series</span>
         </h2>
 
         {/* =========================================================================
@@ -478,8 +421,8 @@ export function MythologySeriesSection({
               xl:text-[16px]
             "
           >
-            Games and kits designed for kids to walk them through tales of
-            Krishna, Ram, Mahabharata and Indian mythology in a fun way.
+            Games and kits designed for kids to walk them through tales of Krishna, Ram, Mahabharata
+            and Indian mythology in a fun way.
           </p>
         </div>
       </div>
@@ -614,9 +557,7 @@ export function MythologySeriesSection({
             lg:text-[14px]
           "
         >
-          <span className="text-white">
-            Explore More Mythology Products
-          </span>
+          <span className="text-white">Explore More Mythology Products</span>
 
           <span
             aria-hidden="true"
@@ -800,7 +741,7 @@ function GeographySection() {
           "
         >
           <img
-            src="/images/hero/buzzie-geo-background.png"
+            src="/images/hero/buzzie-geo-new.png"
             alt="Buzzie Geography Edition"
             className="
               mx-auto
@@ -889,9 +830,7 @@ function GeographySection() {
             lg:px-7
           "
         >
-          <span className="!text-white">
-            Explore more Geography Products
-          </span>
+          <span className="!text-white">Explore more Geography Products</span>
 
           <span
             className="

@@ -37,191 +37,221 @@ export default function Newsletter() {
 
           <div
             className="
-              relative
-              overflow-hidden
-              rounded-[30px]
-              bg-[#E83D59]
-              shadow-[0_24px_65px_rgba(232,61,89,0.14)]
-              sm:rounded-[38px]
-            "
+    relative
+    overflow-hidden
+    rounded-[30px]
+    bg-[#E83D59]
+    shadow-[0_24px_65px_rgba(232,61,89,0.14)]
+    sm:rounded-[38px]
+  "
           >
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-white/7 blur-3xl"
+              className="
+      pointer-events-none
+      absolute
+      -right-24
+      -top-28
+      size-72
+      rounded-full
+      bg-white/7
+      blur-3xl
+    "
             />
 
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -bottom-32 -left-24 size-80 rounded-full bg-[#F8C83B]/8 blur-3xl"
+              className="
+      pointer-events-none
+      absolute
+      -bottom-32
+      -left-24
+      size-80
+      rounded-full
+      bg-[#F8C83B]/8
+      blur-3xl
+    "
             />
 
             <div
               className="
-                relative
-                grid
-                lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]
-              "
+      relative
+      grid
+      lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]
+    "
             >
-              {/* ============================================================ */}
-              {/* LEFT — IMAGE / EDITORIAL                                    */}
-              {/* ============================================================ */}
+              {/* ============================================================
+        LEFT — IMAGE
+    ============================================================ */}
 
               <div
                 className="
-                  relative
-                  flex
-                  min-h-[430px]
-                  flex-col
-                  overflow-hidden
-                  px-6
-                  pb-0
-                  pt-8
-                  sm:min-h-[520px]
-                  sm:px-9
-                  sm:pt-10
-                  lg:min-h-[540px]
-                  lg:px-10
-                  lg:pt-10
-                "
+        relative
+        flex
+        min-h-[430px]
+        items-center
+        justify-center
+        overflow-hidden
+        px-5
+        py-8
+        sm:min-h-[520px]
+        sm:px-8
+        sm:py-10
+        lg:min-h-[560px]
+        lg:px-10
+        lg:py-12
+      "
               >
-                <div className="relative z-20">
-                  <p
-                    className="
-                      font-[var(--font-roboto)]
-                      text-[clamp(1.5rem,3vw,2.35rem)]
-                      font-light
-                      uppercase
-                      leading-[0.9]
-                      tracking-[-0.045em]
-                      text-white
-                    "
-                  >
-                    This week&apos;s
-                  </p>
-
-                  <h2
-                    className="
-                      mt-1
-                      max-w-[460px]
-                      font-[var(--font-poppins)]
-                      text-[clamp(2.4rem,5vw,4.25rem)]
-                      font-black
-                      uppercase
-                      leading-[0.86]
-                      tracking-[-0.065em]
-                      text-[#FFF200]
-                    "
-                  >
-                    Playdate
-                    <br />
-                    Idea
-                  </h2>
-                </div>
-
-                {/* The artwork intentionally owns the entire lower-left area. */}
-                <div
-                  className="
-                    relative
-                    z-10
-                    mt-auto
-                    flex
-                    min-h-0
-                    flex-1
-                    items-end
-                    justify-center
-
-                    pt-5
-                    sm:pt-7
-                    lg:-mx-4
-                    lg:pt-3
-                  "
-                >
-                  <Image
-                    src="/images/categories/more-playdates.png"
-                    alt="Playdate ideas for kids"
-                    width={1000}
-                    height={700}
-                    priority={false}
-                    className="
-                      block
-                      h-auto
-                      w-[120%]
-                      max-w-none
-                      translate-y-2
-                      object-contain
-                      object-bottom
-                      sm:w-[120%]
-                      sm:translate-y-3
-                      lg:w-[120%]
-                      lg:translate-y-4
-                    "
-                  />
-                </div>
-              </div>
-
-              {/* ============================================================ */}
-              {/* RIGHT — COPY                                                 */}
-              {/* ============================================================ */}
-
-              <div
-                className="
-                  relative
-                  flex
-                  items-center
-                  px-7
-                  py-10
-                  sm:px-10
-                  sm:py-12
-                  lg:px-14
-                  lg:py-14
-                  xl:px-16
-                "
-              >
+                {/* Subtle glow behind artwork */}
                 <div
                   aria-hidden="true"
                   className="
-                    pointer-events-none
-                    absolute
-                    left-0
-                    top-1/2
-                    hidden
-                    h-[72%]
-                    w-px
-                    -translate-y-1/2
-                    bg-white/20
-                    lg:block
-                  "
+          pointer-events-none
+          absolute
+          left-1/2
+          top-1/2
+          size-[70%]
+          -translate-x-1/2
+          -translate-y-1/2
+          rounded-full
+          bg-white/5
+          blur-3xl
+        "
                 />
 
-                <div className="max-w-[580px] lg:pl-2 xl:pl-4">
-                  <div className="flex items-center gap-2">
+                <Image
+                  src="/images/categories/more-playdates.png"
+                  alt="Playdate ideas for kids"
+                  width={1000}
+                  height={700}
+                  priority={false}
+                  className="
+                  rounded-md
+          relative
+          z-10
+          block
+          h-auto
+          w-full
+          max-w-[620px]
+          object-contain
+          object-center
+          lg:max-w-[600px]
+          xl:max-w-[650px]
+        "
+                />
+              </div>
+
+              {/* ============================================================
+        RIGHT — HEADING + COPY
+    ============================================================ */}
+
+              <div
+                className="
+        relative
+        flex
+        items-center
+        px-7
+        py-10
+        sm:px-10
+        sm:py-12
+        lg:px-12
+        lg:py-12
+        xl:px-16
+        xl:py-14
+      "
+              >
+                {/* Vertical divider */}
+                <div
+                  aria-hidden="true"
+                  className="
+          pointer-events-none
+          absolute
+          left-0
+          top-1/2
+          hidden
+          h-[76%]
+          w-px
+          -translate-y-1/2
+          bg-white/20
+          lg:block
+        "
+                />
+
+                <div className="w-full max-w-[580px] lg:pl-2 xl:pl-4">
+                  {/* ========================================================
+            RIGHT SIDE HEADING
+        ======================================================== */}
+
+                  <div>
+                    <p
+                      className="
+
+              font-[var(--font-roboto)]
+              text-[clamp(1.5rem,3vw,2.35rem)]
+              font-light
+              uppercase
+              leading-[0.9]
+              tracking-[-0.045em]
+              text-white
+            "
+                    >
+                      This week&apos;s
+                    </p>
+
+                    <h2
+                      className="
+              mt-1
+
+              max-w-[460px]
+              font-[var(--font-poppins)]
+              text-[clamp(2.4rem,5vw,4.25rem)]
+              font-black
+              uppercase
+              leading-[0.86]
+              tracking-[-0.065em]
+              text-[#FFF200]
+            "
+                    >
+                      Playdate Idea
+                    </h2>
+                  </div>
+
+                  {/* ========================================================
+            SMALL EYEBROW
+        ======================================================== */}
+
+                  <div className="mt-8 flex items-center gap-2 sm:mt-9 lg:mt-10">
                     <span aria-hidden="true" className="size-2 rounded-full bg-[#FFF200]" />
 
                     <span
                       className="
-                        font-[var(--font-poppins)]
-                        text-[0.68rem]
-                        font-black
-                        uppercase
-                        tracking-[0.2em]
-                        text-white/75
-                      "
+              font-[var(--font-poppins)]
+              text-[0.68rem]
+              font-black
+              uppercase
+              tracking-[0.2em]
+              text-white/75
+            "
                     >
                       Play together
                     </span>
                   </div>
 
+                  {/* ========================================================
+            MAIN COPY
+        ======================================================== */}
+
                   <h3
                     className="
-                      mt-4
-                      max-w-[540px]
-                      font-[var(--font-poppins)]
-                      text-[clamp(2rem,4vw,3.35rem)]
-                      font-black
-                      leading-[0.96]
-                      tracking-[-0.06em]
-                      text-white
-                    "
+            mt-4
+            max-w-[540px]
+            font-[var(--font-poppins)]
+            text-[clamp(2rem,4vw,3.35rem)]
+            font-black
+            leading-[0.96]
+            tracking-[-0.06em]
+            text-white
+          "
                   >
                     Make room for a little <span className="text-[#FFF200]">imagination.</span>
                   </h3>
@@ -229,13 +259,13 @@ export default function Newsletter() {
                   <div className="mt-6 max-w-[545px] space-y-5">
                     <p
                       className="
-                        font-[var(--font-roboto)]
-                        text-[0.92rem]
-                        font-medium
-                        leading-[1.7]
-                        text-white/82
-                        sm:text-base
-                      "
+              font-[var(--font-roboto)]
+              text-[0.92rem]
+              font-medium
+              leading-[1.7]
+              text-white/82
+              sm:text-base
+            "
                     >
                       Turn an ordinary afternoon into a memorable playdate. Pick a game, invite a
                       few little friends and let the kids take the lead.
@@ -243,50 +273,60 @@ export default function Newsletter() {
 
                     <p
                       className="
-                        font-[var(--font-roboto)]
-                        text-[0.92rem]
-                        font-medium
-                        leading-[1.7]
-                        text-white/82
-                        sm:text-base
-                      "
+              font-[var(--font-roboto)]
+              text-[0.92rem]
+              font-medium
+              leading-[1.7]
+              text-white/82
+              sm:text-base
+            "
                     >
                       A little less screen time, a little more laughter, imagination and play —
                       that&apos;s the kind of magic we love at BuzzieWorld.
                     </p>
                   </div>
 
+                  {/* ========================================================
+            CTA
+        ======================================================== */}
+
                   <Link
                     href="/categories"
                     className="
-                      group
-                      mt-8
-                      inline-flex
-                      min-h-12
-                      items-center
-                      gap-2.5
-                      rounded-full
-                      bg-[#FFF8E8]
-                      px-6
-                      font-[var(--font-poppins)]
-                      text-xs
-                      font-bold
-                      text-[#E83D59]
-                      shadow-[0_12px_26px_rgba(89,20,36,0.13)]
-                      outline-none
-                      transition-all
-                      duration-300
-                      hover:-translate-y-0.5
-                      hover:bg-white
-                      focus-visible:ring-2
-                      focus-visible:ring-white
-                      focus-visible:ring-offset-2
-                      focus-visible:ring-offset-[#E83D59]
-                    "
+            group
+            mt-8
+            inline-flex
+            min-h-12
+            items-center
+            gap-2.5
+            rounded-full
+            bg-[#FFF8E8]
+            px-6
+            font-[var(--font-poppins)]
+            text-xs
+            font-bold
+            text-[#E83D59]
+            shadow-[0_12px_26px_rgba(89,20,36,0.13)]
+            outline-none
+            transition-all
+            duration-300
+            hover:-translate-y-0.5
+            hover:bg-white
+            focus-visible:ring-2
+            focus-visible:ring-white
+            focus-visible:ring-offset-2
+            focus-visible:ring-offset-[#E83D59]
+          "
                   >
                     Explore play ideas
                     <ArrowUpRight
-                      className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      className="
+              size-4
+              transition-transform
+              duration-300
+              group-hover:-translate-y-0.5
+              group-hover:translate-x-0.5
+            "
                       strokeWidth={2.2}
                     />
                   </Link>
@@ -342,6 +382,77 @@ export default function Newsletter() {
       bg-white/[0.05]
     "
             />
+
+            {/* ============================================================
+    SUBTLE BACKGROUND ICONS
+============================================================ */}
+
+            {/* YouTube background icon */}
+            <div
+              aria-hidden="true"
+              className="
+    pointer-events-none
+    absolute
+    left-[48%]
+    top-1/2
+    z-0
+    -translate-x-1/2
+    -translate-y-1/2
+    opacity-[0.07]
+    transition-opacity
+    duration-300
+    group-hover:opacity-[0.10]
+  "
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="
+      size-16
+      fill-white
+      sm:size-20
+      lg:size-24
+    "
+              >
+                <path d="M23.5 6.2a3 3 0 0 0-2.12-2.12C19.51 3.5 12 3.5 12 3.5s-7.51 0-9.38.58A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.12c1.87.58 9.38.58 9.38.58s7.51 0 9.38-.58a3 3 0 0 0 2.12-2.12A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8ZM9.6 15.5v-7l6.2 3.5-6.2 3.5Z" />
+              </svg>
+            </div>
+
+            {/* Melody / music background icon */}
+            <div
+              aria-hidden="true"
+              className="
+    pointer-events-none
+    absolute
+    left-[60%]
+    top-1/2
+    z-0
+    -translate-x-1/2
+    -translate-y-1/2
+    opacity-[0.055]
+    transition-opacity
+    duration-300
+    group-hover:opacity-[0.08]
+  "
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="
+      size-16
+      text-white
+      sm:size-20
+      lg:size-24
+    "
+              >
+                <path d="M9 18V5l11-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="17" cy="16" r="3" />
+              </svg>
+            </div>
 
             {/* Decorative play circles */}
             <span

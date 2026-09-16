@@ -25,7 +25,9 @@ export async function getCart(sessionId: string): Promise<CartResponse> {
 
   const cart = await getOrCreateCart(sessionId);
 
-  const validItems = cart.items.filter((item) => Types.ObjectId.isValid(item.product));
+  const validItems = cart.items.filter((item) =>
+    Types.ObjectId.isValid(item.product),
+  );
 
   const productIds = validItems.map((item) => item.product);
 
@@ -36,7 +38,9 @@ export async function getCart(sessionId: string): Promise<CartResponse> {
     .select("_id name slug price compareAtPrice images stock sku")
     .lean();
 
-  const productMap = new Map(products.map((product) => [product._id.toString(), product]));
+  const productMap = new Map(
+    products.map((product) => [product._id.toString(), product]),
+  );
 
   const items: CartItemWithProduct[] = [];
 
@@ -47,7 +51,21 @@ export async function getCart(sessionId: string): Promise<CartResponse> {
       continue;
     }
 
-    const quantity = Math.min(item.quantity, Math.max(product.stock, 0));
+    /*
+     * Product price and stock are optional in the TypeScript model.
+     * Normalize them before using them in cart calculations.
+     */
+    const price =
+      typeof product.price === "number" && Number.isFinite(product.price)
+        ? product.price
+        : 0;
+
+    const stock =
+      typeof product.stock === "number" && Number.isFinite(product.stock)
+        ? Math.max(product.stock, 0)
+        : 0;
+
+    const quantity = Math.min(item.quantity, stock);
 
     if (quantity < 1) {
       continue;
@@ -60,19 +78,25 @@ export async function getCart(sessionId: string): Promise<CartResponse> {
         _id: product._id.toString(),
         name: product.name,
         slug: product.slug,
-        price: product.price,
+        price,
         compareAtPrice: product.compareAtPrice,
         images: product.images ?? [],
-        stock: product.stock,
+        stock,
         sku: product.sku,
       },
-      lineTotal: product.price * quantity,
+      lineTotal: price * quantity,
     });
   }
 
-  const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.lineTotal,
+    0,
+  );
 
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const itemCount = items.reduce(
+    (sum, item) => sum + item.quantity,
+    0,
+  );
 
   return {
     success: true,
@@ -82,7 +106,11 @@ export async function getCart(sessionId: string): Promise<CartResponse> {
   };
 }
 
-export async function addToCart(sessionId: string, productId: string, quantity: number) {
+export async function addToCart(
+  sessionId: string,
+  productId: string,
+  quantity: number,
+) {
   await connectToDatabase();
 
   if (!Types.ObjectId.isValid(productId)) {
@@ -102,20 +130,30 @@ export async function addToCart(sessionId: string, productId: string, quantity: 
     throw new Error("Product not found");
   }
 
-  if (product.stock < 1) {
+  const stock =
+    typeof product.stock === "number" && Number.isFinite(product.stock)
+      ? Math.max(product.stock, 0)
+      : 0;
+
+  if (stock < 1) {
     throw new Error("Product is out of stock");
   }
 
   const cart = await getOrCreateCart(sessionId);
 
-  const existingItem = cart.items.find((item) => item.product.toString() === productId);
+  const existingItem = cart.items.find(
+    (item) => item.product.toString() === productId,
+  );
 
   if (existingItem) {
-    existingItem.quantity = Math.min(existingItem.quantity + quantity, product.stock);
+    existingItem.quantity = Math.min(
+      existingItem.quantity + quantity,
+      stock,
+    );
   } else {
     cart.items.push({
       product: new Types.ObjectId(productId),
-      quantity: Math.min(quantity, product.stock),
+      quantity: Math.min(quantity, stock),
     });
   }
 
@@ -124,7 +162,11 @@ export async function addToCart(sessionId: string, productId: string, quantity: 
   return getCart(sessionId);
 }
 
-export async function updateCartItem(sessionId: string, productId: string, quantity: number) {
+export async function updateCartItem(
+  sessionId: string,
+  productId: string,
+  quantity: number,
+) {
   await connectToDatabase();
 
   if (!Types.ObjectId.isValid(productId)) {
@@ -133,14 +175,18 @@ export async function updateCartItem(sessionId: string, productId: string, quant
 
   const cart = await getOrCreateCart(sessionId);
 
-  const item = cart.items.find((cartItem) => cartItem.product.toString() === productId);
+  const item = cart.items.find(
+    (cartItem) => cartItem.product.toString() === productId,
+  );
 
   if (!item) {
     throw new Error("Cart item not found");
   }
 
   if (quantity <= 0) {
-    cart.items = cart.items.filter((cartItem) => cartItem.product.toString() !== productId);
+    cart.items = cart.items.filter(
+      (cartItem) => cartItem.product.toString() !== productId,
+    );
   } else {
     const product = await Product.findOne({
       _id: productId,
@@ -151,7 +197,16 @@ export async function updateCartItem(sessionId: string, productId: string, quant
       throw new Error("Product not found");
     }
 
-    item.quantity = Math.min(quantity, product.stock);
+    const stock =
+      typeof product.stock === "number" && Number.isFinite(product.stock)
+        ? Math.max(product.stock, 0)
+        : 0;
+
+    if (stock < 1) {
+      throw new Error("Product is out of stock");
+    }
+
+    item.quantity = Math.min(quantity, stock);
   }
 
   await cart.save();
@@ -159,12 +214,17 @@ export async function updateCartItem(sessionId: string, productId: string, quant
   return getCart(sessionId);
 }
 
-export async function removeFromCart(sessionId: string, productId: string) {
+export async function removeFromCart(
+  sessionId: string,
+  productId: string,
+) {
   await connectToDatabase();
 
   const cart = await getOrCreateCart(sessionId);
 
-  cart.items = cart.items.filter((item) => item.product.toString() !== productId);
+  cart.items = cart.items.filter(
+    (item) => item.product.toString() !== productId,
+  );
 
   await cart.save();
 

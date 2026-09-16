@@ -39,7 +39,7 @@ const ageGroups = [
     title: "Early Explorers",
     description: "Simple, safe play for little learners.",
     slug: "1-3-years",
-    image: "/images/shop-by-age/age-0-3-new-2.png",
+    image: "/images/shop-by-age/0-3-age-final.png",
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
@@ -48,7 +48,7 @@ const ageGroups = [
     title: "Play & Discover",
     description: "Hands-on fun that sparks imagination.",
     slug: "3-6-years",
-    image: "/images/shop-by-age/age-3+new.png",
+    image: "/images/shop-by-age/3+age-final.png",
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
@@ -57,7 +57,7 @@ const ageGroups = [
     title: "Learn & Grow",
     description: "Build skills through curiosity and play.",
     slug: "6-9-years",
-    image: "/images/shop-by-age/age-6+new.png",
+    image: "/images/shop-by-age/6+age-final.png",
     tone: "#D9E9B8",
     accent: "#6CA83A",
   },
@@ -66,7 +66,7 @@ const ageGroups = [
     title: "Think & Master",
     description: "Challenges for curious, growing minds.",
     slug: "9-15-years",
-    image: "/images/shop-by-age/age-8+new-1.png",
+    image: "/images/shop-by-age/8+age-final.png",
     tone: "#DCD2F3",
     accent: "#7550A5",
   },
@@ -203,13 +203,6 @@ function BrandMarquee() {
     </div>
   );
 }
-/* -------------------------------------------------------------------------- */
-/*                            PRODUCT IMAGE                                    */
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
-/*                            PRODUCT ARC CARD                                */
-/* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
 /*                            PRODUCT CAROUSEL CARD                            */
@@ -245,16 +238,16 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
         href={`/products/${product.slug}`}
         aria-label={`View ${product.name}`}
         className="
-          block
+
+        block
           w-full
           overflow-hidden
           rounded-[28px]
-          bg-white
-          shadow-[0_8px_28px_rgba(38,52,81,0.06)]
+
           transition-all
           duration-300
           hover:-translate-y-1
-          hover:shadow-[0_14px_38px_rgba(38,52,81,0.11)]
+
           focus-visible:outline-none
           focus-visible:ring-2
           focus-visible:ring-[#A99AD2]
@@ -283,7 +276,6 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
             className="
               absolute
               inset-0
-              bg-[#A99AD2]
             "
           />
 
@@ -297,7 +289,7 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
               bottom-0
               top-[8%]
               rounded-[50%_50%_0_0]
-              bg-[#F8F6FB]
+
             "
           />
 
@@ -420,50 +412,46 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
           </div>
 
           {/* Product name */}
-
           <h3
             className="
-            text-center
-              line-clamp-1
-              min-h-[18px]
-              font-[var(--font-poppins-brand)]
-              text-[22px]
-              font-bold
-              leading-none
-              tracking-[0.01em]
-              text-[#263451]
-              sm:text-[20px]
-              lg:text-[22px]
-
-            "
+    text-center
+    line-clamp-1
+    min-h-[18px]
+    font-[var(--font-playpen-sans)]
+    text-[22px]
+    font-normal
+    leading-none
+    tracking-[0.01em]
+    text-[#263451]
+    sm:text-[20px]
+    lg:text-[22px]
+  "
           >
             {product.name}
           </h3>
 
           {/* Description */}
-
           <p
             className="
-            text-center
-              mt-4
-              line-clamp-2
-              min-h-[34px]
-              font-[var(--font-poppins-brand)]
-              text-[12px]
-              font-semibold
-              capitalize
-              leading-[1.45]
-              tracking-[0.01em]
-              text-[#8991A2]
-              sm:min-h-[38px]
-              sm:text-[10px]
-              lg:text-[12px]
-              lg:mt-4
-            "
+    mt-4
+    text-center
+    line-clamp-2
+    min-h-[34px]
+    font-[var(--font-playpen-sans)]
+    text-[12px]
+    font-normal
+    capitalize
+    leading-[1.45]
+    tracking-[0.01em]
+    text-[#8991A2]
+    sm:min-h-[38px]
+    sm:text-[10px]
+    lg:mt-4
+    lg:text-[12px]
+  "
           >
             {description}
           </p>
-
           {/* Price */}
 
           <div
@@ -548,7 +536,7 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
                 justify-center
                 gap-2
                 rounded-full
-                bg-[#A99AD2]
+                bg-[#C391EE]
                 px-3
                 py-2.5
                 font-[var(--font-poppins-brand)]
@@ -840,6 +828,7 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
         }}
         aria-label="Featured BuzzieWorld products"
         className="
+
           flex
           snap-x
           snap-mandatory
@@ -1057,59 +1046,33 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
 
                 {/* Arrow */}
 
+                {/* Arrow */}
                 <div
                   aria-hidden="true"
                   className="
-        ml-2
-        shrink-0
-        translate-y-[14px]
-
-        sm:ml-3.5
-        sm:translate-y-[16px]
-
-        lg:translate-y-[18px]
-      "
+                    ml-2
+                    flex
+                    shrink-0
+                    items-center
+                    justify-center
+                    translate-y-[14px]
+                    sm:ml-3.5
+                    sm:translate-y-[16px]
+                    lg:translate-y-[25px]
+                  "
                 >
-                  <svg
-                    width="76"
-                    height="64"
-                    viewBox="0 0 92 76"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <img
+                    src="/images/buttons/buzzie-arrow.png"
+                    alt=""
                     className="
-          h-auto
-          w-[46px]
-
-          sm:w-[60px]
-
-          lg:w-[76px]
-        "
-                  >
-                    <path
-                      d="
-            M7 10
-            C17 5 28 5 38 8
-            C51 11 62 19 68 30
-            C74 41 75 53 72 64
-          "
-                      stroke="#FF5558"
-                      strokeWidth="3.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-
-                    <path
-                      d="
-            M61 55
-            C65 59 68 62 72 66
-            C75 62 78 58 81 54
-          "
-                      stroke="#FF5558"
-                      strokeWidth="3.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+      block
+      h-auto
+      w-[46px]
+      object-contain
+      sm:w-[60px]
+      lg:w-[76px]
+    "
+                  />
                 </div>
               </div>
             </div>
@@ -1155,11 +1118,8 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
             relative
             px-0
             pt-8
-            pb-8
-            sm:pt-10
-            sm:pb-10
-            lg:pt-12
-            lg:pb-12
+
+      pb-0
             "
           >
             {/* ------------------------------------------------------------ */}

@@ -505,12 +505,12 @@ export default function ReviewsShowcase({ reviews }: ReviewsShowcaseProps) {
                       key={`first-${review._id}`}
                       data-review-card
                       className="
-                          w-[calc(100vw-48px)]
-                          max-w-[430px]
-                          shrink-0
-                          sm:w-[calc(50vw-34px)]
-                          lg:w-[320px]
-                          xl:w-[330px]
+                            w-[calc(100vw-48px)]
+  max-w-[430px]
+  shrink-0
+  sm:w-[calc(50vw-34px)]
+  lg:w-[calc(33.333vw-30px)]
+  xl:w-[calc(25vw-28px)]
                         "
                     >
                       <ReviewCard review={review} index={index} />

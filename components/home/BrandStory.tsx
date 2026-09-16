@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -23,6 +23,7 @@ interface BrandStoryProps {
 }
 
 interface StorySlide {
+  image: string;
   question: string;
   eyebrow: string;
   title: string;
@@ -34,6 +35,7 @@ interface StorySlide {
 
 const STORY_SLIDES: StorySlide[] = [
   {
+    image: "/images/why-section/Why_Geography.png",
     question: "Why geography games?",
     eyebrow: "DISCOVER THE WORLD",
     title: "Big worlds. Little explorers.",
@@ -44,6 +46,7 @@ const STORY_SLIDES: StorySlide[] = [
     href: "/shop",
   },
   {
+    image: "/images/why-section/Why_Binders.png",
     question: "Why you choose binders?",
     eyebrow: "COLLECT • ORGANISE • DISCOVER",
     title: "Keep their little world together.",
@@ -54,6 +57,7 @@ const STORY_SLIDES: StorySlide[] = [
     href: "/shop",
   },
   {
+    image: "/images/why-section/Why_Card_Games.png",
     question: "Why family card games?",
     eyebrow: "PLAY TOGETHER",
     title: "The best games bring everyone in.",
@@ -64,6 +68,7 @@ const STORY_SLIDES: StorySlide[] = [
     href: "/shop",
   },
   {
+    image: "/images/why-section/Why_Mythology.png",
     question: "What are BuzzieWorld special edition games?",
     eyebrow: "LIMITED • SPECIAL • MEMORABLE",
     title: "A little more special.",
@@ -71,16 +76,6 @@ const STORY_SLIDES: StorySlide[] = [
       "Our special edition games are made to feel different from the everyday favourites — distinctive themes, memorable play and extra little details that make them worth discovering.",
     icon: Crown,
     buttonLabel: "Discover Special Editions",
-    href: "/shop",
-  },
-  {
-    question: "Bestsellers / Featured Games",
-    eyebrow: "FAVOURITES RIGHT NOW",
-    title: "The games families are loving.",
-    description:
-      "Start with the games families are loving most. These featured picks bring together playful ideas, thoughtful design and plenty of reasons to come back for another round.",
-    icon: Heart,
-    buttonLabel: "Shop Featured Games",
     href: "/shop",
   },
 ];
@@ -146,26 +141,11 @@ function MobileStoryImage({ url, alt }: { url?: string; alt: string }) {
   );
 }
 
-export default function BrandStory({ products }: BrandStoryProps) {
+export default function BrandStory({ products: _products }: BrandStoryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const storyProducts = useMemo(
-    () => products.filter((product) => product.images?.some((image) => image.url)),
-    [products],
-  );
-
   const activeSlide = STORY_SLIDES[activeIndex];
-
-  const leftProduct =
-    storyProducts.length > 0 ? storyProducts[activeIndex % storyProducts.length] : undefined;
-
-  const rightProduct =
-    storyProducts.length > 1
-      ? storyProducts[(activeIndex + 1) % storyProducts.length]
-      : storyProducts[0];
-
-  const leftImage = leftProduct?.images?.find((image) => image.url)?.url;
-  const rightImage = rightProduct?.images?.find((image) => image.url)?.url;
+  const activeImage = activeSlide.image;
 
   const goTo = (index: number) => {
     const next = (index + STORY_SLIDES.length) % STORY_SLIDES.length;
@@ -231,11 +211,7 @@ export default function BrandStory({ products }: BrandStoryProps) {
             transition={{ duration: 0.25 }}
             className="absolute left-0 right-0 top-[32px] flex h-[516px] items-start pl-[72px]"
           >
-            <StoryProductImage
-              url={leftImage}
-              alt={leftProduct?.name || "BuzzieWorld game"}
-              position="left"
-            />
+            <StoryProductImage url={activeImage} alt={activeSlide.question} position="left" />
 
             {/* ============================================================
     CENTER CONTENT
@@ -554,11 +530,7 @@ export default function BrandStory({ products }: BrandStoryProps) {
               </div>
             </div>
 
-            <StoryProductImage
-              url={rightImage}
-              alt={rightProduct?.name || "BuzzieWorld game"}
-              position="right"
-            />
+            <StoryProductImage url={activeImage} alt={activeSlide.question} position="right" />
 
             {/* Previous */}
 
@@ -637,7 +609,7 @@ export default function BrandStory({ products }: BrandStoryProps) {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="mx-auto max-w-[680px]"
           >
-            <MobileStoryImage url={leftImage} alt={leftProduct?.name || "BuzzieWorld game"} />
+            <MobileStoryImage url={activeImage} alt={activeSlide.question} />
 
             <div className="pt-6 text-center">
               <div className="flex items-center justify-center gap-3">
