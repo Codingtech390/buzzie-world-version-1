@@ -137,7 +137,7 @@ function BrandMarquee() {
         overflow-hidden
         border-y
         border-[#9E8BCB]/30
-        bg-[#A99AD2]
+        bg-[#C391EE]
         py-[9px]
         sm:py-[10px]
         xl:py-[18px]
@@ -1007,7 +1007,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         size-1.5
         shrink-0
         rounded-full
-        bg-[#F59A23]
+        bg-[#E83D59]
       "
                 />
               </div>
@@ -1171,7 +1171,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                   Find their next
                 </span>
 
-                <span className="size-1.5 rounded-full bg-[#F59A23]" />
+                <span className="size-1.5 rounded-full bg-[#E83D59]" />
               </div>
 
               <h2

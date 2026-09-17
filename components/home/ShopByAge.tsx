@@ -142,7 +142,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               className="
                 size-1.5
                 rounded-full
-                bg-[#F59A23]
+                bg-[#E83D59]
               "
             />
           </div>
@@ -415,37 +415,41 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
           <div
             className="
-              absolute
-              left-0
-              top-0
-              z-20
-              flex
-              h-[48%]
-              w-full
-              items-end
-              justify-center
-              px-7
-              pb-7
-              text-center
+    absolute
+    left-0
+    top-0
+    z-20
+    flex
+    h-[48%]
+    w-full
+    items-end
+    justify-center
+    px-7
+    pb-7
+    text-center
 
-              sm:px-10
-              sm:pb-9
+    max-sm:items-center
+    max-sm:justify-center
+    max-sm:pb-0
 
-              md:px-14
-              md:pb-10
+    sm:px-10
+    sm:pb-9
 
-              lg:h-full
-              lg:w-1/2
-              lg:items-center
-              lg:justify-start
-              lg:px-10
-              lg:pr-14
-              lg:pb-0
-              lg:text-left
+    md:px-14
+    md:pb-10
 
-              xl:px-12
-              xl:pr-16
-            "
+    lg:h-full
+    lg:w-1/2
+    lg:items-center
+    lg:justify-start
+    lg:px-10
+    lg:pr-14
+    lg:pb-0
+    lg:text-left
+
+    xl:px-12
+    xl:pr-16
+  "
           >
             <h3
               className="
@@ -532,6 +536,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 max-sm:w-[75%]
                 max-sm:max-w-[430px]
                 max-sm:mr-[10%]
+                max-sm:mt-
 
                 sm:w-[51%]
                 sm:max-w-[430px]
@@ -554,7 +559,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               ============================================================== */}
 
               <img
-                src="/images/products/card-buzzie-fav-raw.png"
+                src="/images/products/card-buzzie-fav-raw-2.png"
                 alt=""
                 aria-hidden="true"
                 className="
@@ -575,6 +580,8 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
               <div
                 className="
+                p-5
+                mr-5
                   absolute
                   inset-x-[9%]
                   top-[10%]
@@ -644,7 +651,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               >
                 <span
                   className="
-                    mt-5
+                  p-3
+                  max-sm:-mt-7
+                  -mt-14
                     line-clamp-2
                     max-w-full
                     rotate-[-3deg]
@@ -655,6 +664,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     tracking-[-0.035em]
                     text-white
                     drop-shadow-[0_3px_4px_rgba(90,20,35,0.28)]
+
 
                     sm:text-[clamp(0.85rem,2.1vw,2.04rem)]
 
@@ -707,9 +717,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 lg:w-[22%]
                 lg:max-w-[150px]
 
-                xl:right-[22%]
+                xl:right-[24%]
                 xl:gap-5
-                xl:max-w-[130px]
+                xl:max-w-[125px]
               "
             >
               {/* ==============================================================

@@ -88,6 +88,7 @@ function VideoCard({
     <Reveal delay={index * 0.05}>
       <article
         className="
+        mb-5
           group
           relative
           w-[82vw]
@@ -96,8 +97,8 @@ function VideoCard({
           shrink-0
           overflow-hidden
           rounded-[10px]
-          bg-[#17152A]
-          shadow-[0_14px_32px_rgba(31,24,55,0.18)]
+
+
           transition-transform
           duration-300
           hover:-translate-y-1
@@ -251,7 +252,7 @@ function VideoCard({
             h-[45px]
             items-center
             gap-2
-            bg-[#C391EE]
+            bg-[#FFFFFF]
             px-2.5
           "
         >
@@ -268,14 +269,14 @@ function VideoCard({
               justify-center
               gap-1.5
               rounded-full
-              bg-[#FFFFFF]
+              bg-[#C391EE]
               px-2.5
               font-[var(--font-playpen-sans)]
               text-[7.5px]
               font-semibold
               leading-none
               tracking-[-0.005em]
-              text-black
+              text-white
               shadow-[0_3px_10px_rgba(195,145,238,0.24)]
               transition-all
               duration-200
@@ -294,14 +295,9 @@ function VideoCard({
               sm:text-[9px]
             "
           >
-            <ShoppingBag
-              className="size-3 shrink-0"
-              strokeWidth={2}
-            />
+            <ShoppingBag className="size-3 shrink-0" strokeWidth={2} />
 
-            <span className="truncate">
-              Add to Cart
-            </span>
+            <span className="truncate">Add to Cart</span>
           </button>
 
           <button
@@ -316,8 +312,8 @@ function VideoCard({
               items-center
               justify-center
               rounded-full
-              bg-white
-              text-[#7353A7]
+              bg-[#C391EE]
+              text-[#FFFFFF]
               shadow-[0_3px_9px_rgba(20,15,30,0.12)]
               transition-all
               duration-200
@@ -331,10 +327,7 @@ function VideoCard({
               focus-visible:ring-offset-[#C391EE]
             "
           >
-            <Heart
-              className="size-[16px]"
-              strokeWidth={2}
-            />
+            <Heart className="size-[16px]" strokeWidth={2} />
           </button>
         </div>
       </article>
@@ -346,7 +339,7 @@ function VideoCard({
    BANNER
    ========================================================================== */
 
-const BARGAINS_IMAGE = "/images/banners/bargain.png";
+const BARGAINS_IMAGE = "/images/banners/bargain-new.png";
 
 export default function KingdomBanner() {
   return (
@@ -357,90 +350,97 @@ export default function KingdomBanner() {
 
       <section
         className="
-          bg-[#F89B51]
-          pt-8
-          pb-8
-          sm:pt-10
-          sm:pb-10
-          lg:pt-12
-          lg:pb-12
-        "
+    relative
+    w-full
+    overflow-visible
+    bg-transparent
+    pt-8
+    pb-8
+    sm:pt-10
+    sm:pb-10
+    lg:pt-12
+    lg:pb-12
+  "
       >
-        <div className="container">
-          <Reveal>
-            <div className="relative">
-              <Link
-                href="/crazy-deals"
-                aria-label="Explore BuzzieWorld deals"
+        <Reveal>
+          <div
+            className="
+        relative
+        ml-[calc(50%-50vw)]
+        w-screen
+        max-w-none
+      "
+          >
+            <Link
+              href="/crazy-deals"
+              aria-label="Explore BuzzieWorld deals"
+              className="
+          group
+          relative
+          block
+          w-full
+          overflow-hidden
+          rounded-none
+          transition-all
+          duration-500
+          hover:-translate-y-0.5
+          hover:shadow-[0_18px_50px_rgba(23,33,61,0.08)]
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-[#C391EE]
+          focus-visible:ring-offset-4
+        "
+            >
+              <span
+                aria-hidden="true"
                 className="
-                  group
-                  relative
-                  block
-                  overflow-hidden
-                  rounded-[8px]
-                  transition-all
-                  duration-500
-                  hover:-translate-y-0.5
-                  hover:shadow-[0_18px_50px_rgba(23,33,61,0.08)]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#C391EE]
-                  focus-visible:ring-offset-4
-                  sm:rounded-[8px]
-                  lg:rounded-[8px]
-                "
-              >
+            absolute
+            left-0
+            right-0
+            top-0
+            z-20
+            h-[3px]
+            bg-[#C391EE]
+          "
+              />
+
+              <div className="relative w-full">
+                <Image
+                  src={BARGAINS_IMAGE}
+                  alt="Buzzie Bargains — up to 50% off"
+                  width={1920}
+                  height={1080}
+                  priority={false}
+                  sizes="100vw"
+                  className="
+              block
+              h-auto
+              w-full
+              object-cover
+              transition-transform
+              duration-700
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+              group-hover:scale-[1.008]
+            "
+                />
+
                 <span
                   aria-hidden="true"
                   className="
-                    absolute
-                    left-0
-                    right-0
-                    top-0
-                    z-20
-                    h-[3px]
-                    bg-[#C391EE]
-                  "
+              pointer-events-none
+              absolute
+              inset-0
+              bg-white
+              opacity-0
+              transition-opacity
+              duration-500
+              group-hover:opacity-[0.025]
+            "
                 />
-
-                <div className="relative w-full">
-                  <Image
-                    src={BARGAINS_IMAGE}
-                    alt="Buzzie Bargains — up to 50% off"
-                    width={1920}
-                    height={1080}
-                    priority={false}
-                    sizes="100vw"
-                    className="
-                      block
-                      h-auto
-                      w-full
-                      object-contain
-                      transition-transform
-                      duration-700
-                      ease-[cubic-bezier(0.22,1,0.36,1)]
-                      group-hover:scale-[1.008]
-                    "
-                  />
-
-                  <span
-                    aria-hidden="true"
-                    className="
-                      pointer-events-none
-                      absolute
-                      inset-0
-                      bg-white
-                      opacity-0
-                      transition-opacity
-                      duration-500
-                      group-hover:opacity-[0.025]
-                    "
-                  />
-                </div>
-              </Link>
-            </div>
-          </Reveal>
-        </div>
+              </div>
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
       {/* ====================================================================
@@ -505,7 +505,7 @@ export default function KingdomBanner() {
                     h-2
                     w-2
                     rounded-full
-                    bg-[#E83D59]
+                    bg-[#C391EE]
                   "
                 />
               </div>

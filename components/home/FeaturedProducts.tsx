@@ -82,17 +82,15 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
     <Reveal>
       <section
         className="
-          relative
-          mx-auto
-          mt-8
-          w-full
-          max-w-[1230px]
-          overflow-hidden
-          bg-transparent
-
-          sm:mt-10
-
-          lg:mt-12
+    relative
+    left-[calc(50%-50vw)]
+    mt-6
+    w-screen
+    max-w-none
+    overflow-hidden
+    bg-transparent
+    sm:mt-8
+    lg:mt-10
         "
       >
         {/* ==================================================================
@@ -741,7 +739,7 @@ function GeographySection() {
           "
         >
           <img
-            src="/images/hero/buzzie-geo-new.png"
+            src="/images/hero/buzzie-geo-3.png"
             alt="Buzzie Geography Edition"
             className="
               mx-auto
@@ -872,15 +870,19 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
       className="
         relative
         w-full
-        overflow-hidden
         bg-[#FFFDFC]
-        py-12
-        sm:py-14
-        lg:py-18
-        xl:py-20
+        py-8
+        sm:py-10
+        lg:py-12
+        xl:py-14
       "
     >
-      <div className="container relative w-full">
+      {/* =========================================================
+          FULL-SCREEN FEATURED AREA
+          Heading + Carousel only
+         ========================================================= */}
+
+      <div className="w-full">
         {/* =========================================================
             TOP TEASING HEADING
            ========================================================= */}
@@ -888,53 +890,36 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
         <Reveal>
           <div
             className="
-    mx-auto
-    flex
-    w-full
-    max-w-[1230px]
-    flex-col
-    items-center
-    justify-center
-    bg-[#C391EE]
-    px-5
-    py-9
-    text-center
-
-    sm:px-8
-    sm:py-11
-
-    md:px-10
-    md:py-12
-
-    lg:px-12
-    lg:py-14
-
-    xl:py-16
-  "
+              flex
+              w-full
+              items-center
+              justify-center
+              bg-[#C391EE]
+              px-4
+              py-8
+              text-center
+              sm:px-8
+              sm:py-10
+              md:px-10
+              md:py-12
+              lg:px-12
+              lg:py-14
+              xl:py-16
+            "
           >
             <h2
               className="
-      m-0
-      w-full
-      max-w-[1100px]
-      font-[var(--font-poppins-brand)]
-      text-[3.7rem]
-      font-bold
-      uppercase
-      leading-[0.80]
-      tracking-[-0.035em]
-      text-[#111111]
-
-      sm:text-[4.5rem]
-      sm:leading-[0.82]
-
-      md:text-[5rem]
-
-      lg:text-[5.5rem]
-      lg:leading-[0.84]
-
-      xl:text-[5.8rem]
-    "
+                m-0
+                w-full
+                max-w-[1100px]
+                font-[var(--font-poppins-brand)]
+                text-[clamp(2.4rem,7vw,5.8rem)]
+                font-bold
+                uppercase
+                leading-[0.84]
+                tracking-[-0.035em]
+                text-[#111111]
+              "
             >
               What Buzzie Day
               <br className="sm:hidden" /> <span className="text-white">Feels like</span>
@@ -943,16 +928,27 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
         </Reveal>
 
         {/* =========================================================
-            FEATURED PRODUCTS CAROUSEL
+            FULL-SCREEN FEATURED PRODUCTS CAROUSEL
            ========================================================= */}
 
         <FeaturedProductsCarousel products={products} />
+      </div>
 
-        {/* =========================================================
-          MYTHOLOGY SERIES
+      {/* =========================================================
+          EVERYTHING BELOW RETURNS TO NORMAL CONTAINER WIDTH
          ========================================================= */}
 
+      <div className="container relative w-full">
+        {/* =========================================================
+            MYTHOLOGY SERIES
+           ========================================================= */}
+
         <MythologySeriesSection products={products} />
+
+        {/* =========================================================
+            GEOGRAPHY
+           ========================================================= */}
+
         <GeographySection />
       </div>
     </section>
