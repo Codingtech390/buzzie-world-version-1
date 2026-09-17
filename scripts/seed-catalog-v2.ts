@@ -45,8 +45,8 @@
  * ----------------------------------------------------------------------------
  *
  *   Users
- *   Orders
- *   Cart documents
+ *   Orders (unless --clear-demo-data --apply is explicitly used)
+ *   Cart documents (unless --clear-demo-data --apply is explicitly used)
  *   Payments
  *   Newsletter subscribers
  *   Site settings
@@ -64,9 +64,9 @@
  * 2. Validate local image assets.
  * 3. Connect to MongoDB.
  * 4. Inspect current database.
- * 5. Refuse to apply if orders exist.
- * 6. Refuse to apply if active carts contain products.
- * 7. Create a local catalog backup.
+ * 5. Optionally preview/clear demo orders and carts when explicitly requested.
+ * 6. Refuse catalog replacement if protected references still exist.
+ * 7. Create local backups before destructive catalog replacement.
  * 8. Start MongoDB transaction.
  * 9. Remove ONLY old catalog records.
  * 10. Insert new categories.
@@ -76,6 +76,16 @@
  * 14. Verify everything inside transaction.
  * 15. Commit.
  * 16. Verify everything again after commit.
+ *
+ * DEMO CLEANUP:
+ *   --clear-demo-data alone:
+ *     Preview only. Nothing is deleted.
+ *
+ *   --clear-demo-data --apply:
+ *     Deletes ONLY all documents in the Order and Cart collections after
+ *     creating a local JSON backup. No users, products, categories, brands,
+ *     collections, payments, wishlists, reviews or authentication data are
+ *     deleted by the cleanup step.
  *
  * ============================================================================
  */
@@ -91,6 +101,7 @@ import path from "node:path";
 
 const APPLY_MODE = process.argv.includes("--apply");
 const DRY_RUN_MODE = !APPLY_MODE;
+const DEMO_CLEANUP_MODE = process.argv.includes("--clear-demo-data");
 
 /* ============================================================================
    2. CONSTANTS
@@ -115,9 +126,9 @@ const REQUIRED_IMAGE_PATHS = [
   "/images/products/logo-lblitz-1.png",
   "/images/products/treasure-product-1.png",
   "/images/products/treasure-product-2.png",
-  "/images/products/treasure-product-3.png",
-  "/images/products/treasure-product-4.png",
-  "/images/products/treasure-product-5.png",
+  "/images/products/guess-city.png",
+  "/images/products/indialogy-1.png",
+  "/images/products/worldlogy-1.png",
 ] as const;
 
 /* ============================================================================
@@ -325,19 +336,19 @@ const IMAGE = {
     alt: "BuzzieWorld Animal Homes Pocket Binder",
   },
 
-  ANIMAL_LINK: {
-    url: "/images/products/treasure-product-3.png",
-    alt: "BuzzieWorld Animal Link matching game",
+  GUESS_CITY: {
+    url: "/images/products/guess-city.png",
+    alt: "BuzzieWorld Guess City game",
   },
 
-  ANIMAL_TRAIL: {
-    url: "/images/products/treasure-product-4.png",
-    alt: "BuzzieWorld Animal Trail matching game",
+  INDIALOGY: {
+    url: "/images/products/indialogy-1.png",
+    alt: "BuzzieWorld Indialogy educational game",
   },
 
-  BUZZIE_BRAINS: {
-    url: "/images/products/treasure-product-5.png",
-    alt: "BuzzieWorld Brains wipe and clean activity mats",
+  WORLDLOGY: {
+    url: "/images/products/worldlogy-1.png",
+    alt: "BuzzieWorld Worldlogy educational game",
   },
 } as const;
 
@@ -466,7 +477,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   ------------------------------------------------------------------------ */
 
   {
-    name: "Animal Link",
+    name: "Guess City",
     slug: "animal-link",
     description:
       "A self-correcting animal matching game where children connect related animal pictures while exploring farm, sea and jungle themes.",
@@ -474,7 +485,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 399,
     compareAtPrice: 499,
     sku: "BZ-MIND-ANIMAL-LINK-001",
-    images: [IMAGE.ANIMAL_LINK],
+    images: [IMAGE.GUESS_CITY],
     categorySlug: "mind-games",
     collectionSlug: "learning-adventures",
     stock: 40,
@@ -491,23 +502,23 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   ------------------------------------------------------------------------ */
 
   {
-    name: "Animal Trail",
-    slug: "animal-trail",
+    name: "Indialogy",
+    slug: "indialogy",
     description:
-      "A simple identify-and-match animal trail game that encourages visual recognition, matching and early reasoning through playful animal challenges.",
-    shortDescription: "Identify, match and explore with a playful animal trail game.",
+      "A playful India-themed educational game that helps children discover Indian states, landmarks, culture and fascinating facts through engaging visual challenges.",
+    shortDescription: "Discover India through playful challenges, facts, places and culture.",
     price: 349,
     compareAtPrice: 449,
-    sku: "BZ-MIND-ANIMAL-TRAIL-001",
-    images: [IMAGE.ANIMAL_TRAIL],
-    categorySlug: "mind-games",
+    sku: "BZ-GEO-INDIALOGY-001",
+    images: [IMAGE.INDIALOGY],
+    categorySlug: "geography",
     collectionSlug: "play-anywhere",
     stock: 42,
     status: "active",
     featured: false,
     ageRange: {
-      min: 2,
-      max: 6,
+      min: 5,
+      max: 12,
     },
   },
 
@@ -516,23 +527,24 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   ------------------------------------------------------------------------ */
 
   {
-    name: "Buzzie Brains Activity Mats",
-    slug: "buzzie-brains-activity-mats",
+    name: "Worldlogy",
+    slug: "worldlogy",
     description:
-      "Reusable wipe-and-clean activity mats filled with playful exercises that encourage matching, patterns, visual thinking and problem-solving.",
-    shortDescription: "Reusable wipe-and-clean brain activities for growing minds.",
+      "An engaging world discovery game that helps children explore countries, landmarks, cultures, animals and fascinating facts from around the globe.",
+    shortDescription:
+      "Explore countries, cultures, landmarks and fascinating facts from around the world.",
     price: 699,
     compareAtPrice: 849,
-    sku: "BZ-MIND-BRAINS-001",
-    images: [IMAGE.BUZZIE_BRAINS],
-    categorySlug: "mind-games",
+    sku: "BZ-GEO-WORLDLOGY-001",
+    images: [IMAGE.WORLDLOGY],
+    categorySlug: "geography",
     collectionSlug: "learning-adventures",
     stock: 32,
     status: "active",
     featured: true,
     ageRange: {
-      min: 3,
-      max: 6,
+      min: 6,
+      max: 12,
     },
   },
 
@@ -599,7 +611,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 449,
     compareAtPrice: 549,
     sku: "BZ-MYTH-002",
-    images: [IMAGE.ANIMAL_LINK],
+    images: [IMAGE.GUESS_CITY],
     categorySlug: "mythology",
     collectionSlug: "play-anywhere",
     stock: 38,
@@ -612,8 +624,8 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   },
 
   /* ------------------------------------------------------------------------
-     11. DEMO — ON THE GO
-  ------------------------------------------------------------------------ */
+   11. DEMO — ON THE GO
+------------------------------------------------------------------------ */
 
   {
     name: "Travel Quest Mini Game",
@@ -624,7 +636,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 399,
     compareAtPrice: 499,
     sku: "BZ-TRAVEL-001",
-    images: [IMAGE.ANIMAL_TRAIL],
+    images: [IMAGE.CAR_LOGO],
     categorySlug: "on-the-go-games",
     collectionSlug: "play-anywhere",
     stock: 50,
@@ -662,8 +674,8 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   },
 
   /* ------------------------------------------------------------------------
-     13. DEMO — PHONICS / CARD GAMES
-  ------------------------------------------------------------------------ */
+   13. DEMO — PHONICS / CARD GAMES
+------------------------------------------------------------------------ */
 
   {
     name: "Word Builder Phonics Cards",
@@ -674,7 +686,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 499,
     compareAtPrice: 599,
     sku: "BZ-PHONICS-002",
-    images: [IMAGE.BUZZIE_BRAINS],
+    images: [IMAGE.LOGO_BLITZ],
     categorySlug: "phonics",
     collectionSlug: "learning-adventures",
     stock: 40,
@@ -712,8 +724,8 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   },
 
   /* ------------------------------------------------------------------------
-     15. DEMO — GEOGRAPHY / MIND GAME
-  ------------------------------------------------------------------------ */
+   15. DEMO — GEOGRAPHY / MIND GAME
+------------------------------------------------------------------------ */
 
   {
     name: "Map Match Challenge",
@@ -749,7 +761,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 299,
     compareAtPrice: 399,
     sku: "BZ-RETURN-001",
-    images: [IMAGE.ANIMAL_LINK],
+    images: [IMAGE.GUESS_CITY],
     categorySlug: "return-gifts",
     collectionSlug: "gifts-and-favourites",
     stock: 75,
@@ -787,11 +799,11 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
   },
 
   /* ------------------------------------------------------------------------
-     18. DEMO — RETURN GIFTS / ON THE GO
-  ------------------------------------------------------------------------ */
+   18. DEMO — RETURN GIFTS / ON THE GO
+------------------------------------------------------------------------ */
 
   {
-    name: "Creative Sticker Story Kit",
+    name: "Guess The Cities",
     slug: "creative-sticker-story-kit",
     description:
       "A compact creative activity that lets children build little stories with colourful stickers, characters and simple scene-based prompts.",
@@ -799,7 +811,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 349,
     compareAtPrice: 449,
     sku: "BZ-RETURN-002",
-    images: [IMAGE.BUZZIE_BRAINS],
+    images: [IMAGE.GUESS_CITY],
     categorySlug: "return-gifts",
     collectionSlug: "gifts-and-favourites",
     stock: 60,
@@ -1089,6 +1101,24 @@ function validateCatalogDefinitions(): void {
   success("Product SKUs are unique.");
 
   /* --------------------------------------------------------------------------
+   Product name uniqueness
+-------------------------------------------------------------------------- */
+
+  const productNames = PRODUCT_DEFINITIONS.map((product) => product.name.trim().toLowerCase());
+
+  const duplicateProductNames = productNames.filter(
+    (name, index) => productNames.indexOf(name) !== index,
+  );
+
+  if (duplicateProductNames.length > 0) {
+    throw new Error(
+      `Duplicate product names detected: ${[...new Set(duplicateProductNames)].join(", ")}`,
+    );
+  }
+
+  success("Product names are unique.");
+
+  /* --------------------------------------------------------------------------
      Category references
   -------------------------------------------------------------------------- */
 
@@ -1319,13 +1349,146 @@ async function createCatalogBackup(
 }
 
 /* ============================================================================
-   11. DATABASE SAFETY CHECK
+   11. DEMO ORDER / CART CLEANUP
+============================================================================ */
+
+/**
+ * Explicitly clears demo orders and carts.
+ *
+ * IMPORTANT:
+ * - This function NEVER touches Product, Category, Brand or Collection.
+ * - It only performs deletion when BOTH flags are present:
+ *     --clear-demo-data --apply
+ * - Before deletion, the existing Order and Cart documents are backed up
+ *   to scripts/backups/.
+ * - Without --apply, this function only previews what would be deleted.
+ */
+async function clearDemoData(
+  Order: typeof import("@/models/Order").Order,
+  Cart: typeof import("@/models/Cart").Cart,
+): Promise<string | null> {
+  printSection("STEP 5A — DEMO DATA CLEANUP");
+
+  const [orders, carts] = await Promise.all([Order.find({}).lean(), Cart.find({}).lean()]);
+
+  info(`Demo orders found: ${orders.length}`);
+  info(`Demo carts found: ${carts.length}`);
+
+  if (!DEMO_CLEANUP_MODE) {
+    return null;
+  }
+
+  if (DRY_RUN_MODE) {
+    warning("--clear-demo-data was requested, but --apply was not provided.");
+    warning("DRY RUN ONLY: no orders or carts will be deleted.");
+    info(`Would delete orders: ${orders.length}`);
+    info(`Would delete carts: ${carts.length}`);
+    return null;
+  }
+
+  if (orders.length === 0 && carts.length === 0) {
+    success("No demo orders or carts need to be deleted.");
+    return null;
+  }
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const backupDirectory = path.resolve(process.cwd(), "scripts", "backups");
+
+  fs.mkdirSync(backupDirectory, {
+    recursive: true,
+  });
+
+  const backupFile = path.join(backupDirectory, `demo-data-backup-${timestamp}.json`);
+
+  const backup = {
+    metadata: {
+      script: SCRIPT_NAME,
+      createdAt: new Date().toISOString(),
+      purpose: "Backup of demo orders and carts immediately before explicit demo cleanup.",
+      warning: "This backup contains ONLY orders and carts. It is not a catalog backup.",
+      counts: {
+        orders: orders.length,
+        carts: carts.length,
+      },
+    },
+    orders,
+    carts,
+  };
+
+  try {
+    fs.writeFileSync(backupFile, JSON.stringify(backup, null, 2), "utf8");
+  } catch (error) {
+    throw new Error(
+      [
+        "DEMO DATA CLEANUP ABORTED.",
+        "",
+        "The order/cart backup could not be written.",
+        "No orders or carts were deleted.",
+        "",
+        describeError(error),
+      ].join("\n"),
+    );
+  }
+
+  success(`Demo data backup created: ${backupFile}`);
+  info(`Backup contains ${orders.length} order(s) and ${carts.length} cart(s).`);
+
+  /**
+   * This is intentionally limited to these two model collections.
+   *
+   * DO NOT add Product, Category, Brand, Collection, User, Payment,
+   * Wishlist or Review deletion here.
+   */
+  const [orderDeleteResult, cartDeleteResult] = await Promise.all([
+    Order.deleteMany({}),
+    Cart.deleteMany({}),
+  ]);
+
+  const deletedOrders = orderDeleteResult.deletedCount ?? 0;
+  const deletedCarts = cartDeleteResult.deletedCount ?? 0;
+
+  info(`Deleted demo orders: ${deletedOrders}`);
+  info(`Deleted demo carts: ${deletedCarts}`);
+
+  const [remainingOrders, remainingCarts] = await Promise.all([
+    Order.countDocuments({}),
+    Cart.countDocuments({}),
+  ]);
+
+  if (remainingOrders !== 0 || remainingCarts !== 0) {
+    throw new Error(
+      [
+        "DEMO DATA CLEANUP VERIFICATION FAILED.",
+        "",
+        `Remaining orders: ${remainingOrders}`,
+        `Remaining carts: ${remainingCarts}`,
+        "",
+        "The script will NOT continue with catalog replacement.",
+        `Backup file: ${backupFile}`,
+      ].join("\n"),
+    );
+  }
+
+  success("All demo orders deleted.");
+  success("All demo carts deleted.");
+  success("Demo order/cart cleanup verified.");
+  success("Products and categories were NOT touched by demo cleanup.");
+
+  return backupFile;
+}
+
+/* ============================================================================
+   12. DATABASE SAFETY CHECK
 ============================================================================ */
 
 async function runDatabaseSafetyChecks(
   Product: typeof import("@/models/Product").Product,
   Order: typeof import("@/models/Order").Order,
   Cart: typeof import("@/models/Cart").Cart,
+  options: {
+    allowDemoCleanup?: boolean;
+    allowDemoCleanupPreview?: boolean;
+  } = {},
 ): Promise<void> {
   printSection("STEP 4 — DATABASE SAFETY CHECK");
 
@@ -1394,24 +1557,31 @@ async function runDatabaseSafetyChecks(
    * We do not want to delete products that historical orders may depend on.
    */
   if (orderCount > 0) {
-    throw new Error(
-      [
-        "CATALOG MIGRATION STOPPED.",
-        "",
-        `The database currently contains ${orderCount} order(s).`,
-        "",
-        "This migration replaces the Product collection.",
-        "Deleting existing products could break historical order references.",
-        "",
-        "NO DATABASE MUTATION HAS BEEN PERFORMED.",
-        "",
-        "If this database contains only temporary demo orders, remove those",
-        "demo orders deliberately and rerun the migration.",
-        "",
-        "If these are real orders, do NOT delete them.",
-        "We should instead perform a reference-preserving migration.",
-      ].join("\n"),
-    );
+    if (
+      options.allowDemoCleanup ||
+      (options.allowDemoCleanupPreview && DRY_RUN_MODE && DEMO_CLEANUP_MODE)
+    ) {
+      warning(`Demo cleanup preview: ${orderCount} order(s) would be deleted only with --apply.`);
+    } else {
+      throw new Error(
+        [
+          "CATALOG MIGRATION STOPPED.",
+          "",
+          `The database currently contains ${orderCount} order(s).`,
+          "",
+          "This migration replaces the Product collection.",
+          "Deleting existing products could break historical order references.",
+          "",
+          "NO DATABASE MUTATION HAS BEEN PERFORMED.",
+          "",
+          "If this database contains only temporary demo orders, use:",
+          "npx tsx scripts/seed-catalog-v2.ts --clear-demo-data --apply",
+          "",
+          "If these are real orders, do NOT delete them.",
+          "We should instead perform a reference-preserving migration.",
+        ].join("\n"),
+      );
+    }
   }
 
   /**
@@ -1420,21 +1590,32 @@ async function runDatabaseSafetyChecks(
    * We do not silently destroy someone's cart.
    */
   if (activeCartCount > 0) {
-    throw new Error(
-      [
-        "CATALOG MIGRATION STOPPED.",
-        "",
-        `There are ${activeCartCount} cart(s) containing product items.`,
-        "",
-        "Replacing the product collection would leave those cart items",
-        "pointing at deleted products.",
-        "",
-        "NO DATABASE MUTATION HAS BEEN PERFORMED.",
-        "",
-        "Clear the temporary demo carts first, or tell me that we should",
-        "build a cart-preserving migration.",
-      ].join("\n"),
-    );
+    if (
+      options.allowDemoCleanup ||
+      (options.allowDemoCleanupPreview && DRY_RUN_MODE && DEMO_CLEANUP_MODE)
+    ) {
+      warning(
+        `Demo cleanup preview: ${activeCartCount} non-empty cart(s) would be deleted only with --apply.`,
+      );
+    } else {
+      throw new Error(
+        [
+          "CATALOG MIGRATION STOPPED.",
+          "",
+          `There are ${activeCartCount} cart(s) containing product items.`,
+          "",
+          "Replacing the product collection would leave those cart items",
+          "pointing at deleted products.",
+          "",
+          "NO DATABASE MUTATION HAS BEEN PERFORMED.",
+          "",
+          "If these are temporary demo carts, use:",
+          "npx tsx scripts/seed-catalog-v2.ts --clear-demo-data --apply",
+          "",
+          "Otherwise, a cart-preserving migration is required.",
+        ].join("\n"),
+      );
+    }
   }
 
   /**
@@ -1473,8 +1654,18 @@ async function runDatabaseSafetyChecks(
     );
   }
 
-  success("No orders found.");
-  success("No non-empty carts found.");
+  if (orderCount === 0) {
+    success("No orders found.");
+  } else if (options.allowDemoCleanupPreview && DRY_RUN_MODE && DEMO_CLEANUP_MODE) {
+    warning("Orders remain because this is a read-only cleanup preview.");
+  }
+
+  if (activeCartCount === 0) {
+    success("No non-empty carts found.");
+  } else if (options.allowDemoCleanupPreview && DRY_RUN_MODE && DEMO_CLEANUP_MODE) {
+    warning("Non-empty carts remain because this is a read-only cleanup preview.");
+  }
+
   success("No wishlist documents found.");
   success("No review documents found.");
 
@@ -2162,11 +2353,32 @@ async function runMigration(): Promise<void> {
     throw new Error(["MongoDB connection failed.", "", describeError(error)].join("\n"));
   }
 
+  let demoBackupFile: string | null = null;
+
+  /*
+   * When destructive demo cleanup was explicitly requested, run the protected
+   * catalog-reference checks BEFORE deleting anything. This prevents us from
+   * clearing demo orders/carts if wishlist/review data would still block the
+   * catalog replacement.
+   */
+  if (DEMO_CLEANUP_MODE && APPLY_MODE) {
+    await runDatabaseSafetyChecks(Product, Order, Cart, {
+      allowDemoCleanup: true,
+    });
+  }
+
+  if (DEMO_CLEANUP_MODE) {
+    demoBackupFile = await clearDemoData(Order, Cart);
+  }
+
   /* --------------------------------------------------------------------------
      Database safety
-  -------------------------------------------------------------------------- */
+     -------------------------------------------------------------------------- */
 
-  await runDatabaseSafetyChecks(Product, Order, Cart);
+  await runDatabaseSafetyChecks(Product, Order, Cart, {
+    allowDemoCleanup: DEMO_CLEANUP_MODE,
+    allowDemoCleanupPreview: DEMO_CLEANUP_MODE && DRY_RUN_MODE,
+  });
 
   /* --------------------------------------------------------------------------
      DRY RUN STOP
@@ -2189,10 +2401,16 @@ async function runMigration(): Promise<void> {
     warning("Nothing was inserted, updated or deleted.");
 
     console.log("");
-    console.log("If the output above looks correct, run:");
 
-    console.log("");
-    console.log("  npx tsx scripts/seed-catalog-v2.ts --apply");
+    if (DEMO_CLEANUP_MODE) {
+      console.log("To actually clear demo orders/carts AND apply the catalog:");
+      console.log("");
+      console.log("  npx tsx scripts/seed-catalog-v2.ts --clear-demo-data --apply");
+    } else {
+      console.log("If the output above looks correct, run:");
+      console.log("");
+      console.log("  npx tsx scripts/seed-catalog-v2.ts --apply");
+    }
 
     console.log("");
 
@@ -2377,10 +2595,18 @@ async function runMigration(): Promise<void> {
   console.log("----------------------------------------");
 
   console.log("");
-  console.log("BACKUP FILE");
+  console.log("CATALOG BACKUP FILE");
   console.log("----------------------------------------");
   console.log(backupFile);
   console.log("----------------------------------------");
+
+  if (demoBackupFile) {
+    console.log("");
+    console.log("DEMO ORDER/CART BACKUP FILE");
+    console.log("----------------------------------------");
+    console.log(demoBackupFile);
+    console.log("----------------------------------------");
+  }
 
   console.log("");
   console.log("Next step: start the application and verify the storefront.");
@@ -2416,7 +2642,9 @@ async function main(): Promise<void> {
       "- If the transaction committed but post-commit verification failed, DO NOT rerun the migration blindly.",
     );
 
-    console.error("- Send me the complete terminal output before doing anything else.");
+    console.error(
+      "- If this fails, stop and review the complete terminal output before rerunning.",
+    );
 
     console.error("");
 

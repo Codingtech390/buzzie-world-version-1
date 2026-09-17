@@ -1,0 +1,272 @@
+{
+  "metadata": {
+    "script": "seed-catalog-v2",
+    "createdAt": "2026-09-17T07:28:11.663Z",
+    "purpose": "Backup of demo orders and carts immediately before explicit demo cleanup.",
+    "warning": "This backup contains ONLY orders and carts. It is not a catalog backup.",
+    "counts": {
+      "orders": 1,
+      "carts": 26
+    }
+  },
+  "orders": [
+    {
+      "_id": "6a9734fe98e7175c594551f4",
+      "orderNumber": "BW-MTJ4B8EO-VGFUVL",
+      "items": [
+        {
+          "product": "6a90ff18a1df562908b6b1e9",
+          "name": "Little Legends Mythology Cards",
+          "slug": "little-legends-mythology-cards",
+          "sku": "BZ-MYTH-001",
+          "image": "/images/products/logo-lblitz-1.png",
+          "price": 549,
+          "quantity": 1,
+          "lineTotal": 549
+        }
+      ],
+      "shippingAddress": {
+        "fullName": "Testing fullname",
+        "email": "testing@email.com",
+        "phone": "+91 1234567890",
+        "addressLine1": "Delhi",
+        "addressLine2": "",
+        "city": "Delhi",
+        "state": "Delhi",
+        "postalCode": "110041",
+        "country": "India"
+      },
+      "subtotal": 549,
+      "shipping": 0,
+      "discount": 0,
+      "total": 549,
+      "currency": "INR",
+      "status": "pending",
+      "paymentStatus": "pending",
+      "razorpayOrderId": "order_TWu6xl2qVFENml",
+      "createdAt": "2026-09-01T20:26:38.150Z",
+      "updatedAt": "2026-09-01T20:26:38.150Z",
+      "__v": 0
+    }
+  ],
+  "carts": [
+    {
+      "_id": "6a90ffb8fc6861d595829545",
+      "sessionId": "a6efbe4e-060d-45d4-9734-7d4a3368fc2d",
+      "items": [
+        {
+          "product": "6a90ff18a1df562908b6b1e9",
+          "quantity": 1
+        }
+      ],
+      "createdAt": "2026-08-28T03:25:44.041Z",
+      "updatedAt": "2026-09-02T05:23:39.433Z",
+      "__v": 1
+    },
+    {
+      "_id": "6a9100ae85f6ad6a9893afa5",
+      "sessionId": "a386ca99-3e50-4c98-ae90-21e5275f9adf",
+      "items": [],
+      "createdAt": "2026-08-28T03:29:50.314Z",
+      "updatedAt": "2026-08-28T03:29:50.314Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a910353e043ff15bed41a92",
+      "sessionId": "7af4bdfd-5a5d-4765-911f-9a675960aef5",
+      "items": [],
+      "createdAt": "2026-08-28T03:41:07.602Z",
+      "updatedAt": "2026-08-28T03:41:07.602Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a9104756619c68590dd3674",
+      "sessionId": "5be06407-cf41-4f4f-9473-6777b0bf95b0",
+      "items": [
+        {
+          "product": "6a90ff18a1df562908b6b1e7",
+          "quantity": 1
+        }
+      ],
+      "createdAt": "2026-08-28T03:45:57.498Z",
+      "updatedAt": "2026-08-28T04:13:19.583Z",
+      "__v": 1
+    },
+    {
+      "_id": "6a930cfe7991eafdf6b41cc8",
+      "sessionId": "f86c41ac-fa17-4ebf-9610-df0d0e719930",
+      "items": [],
+      "createdAt": "2026-08-29T16:46:54.912Z",
+      "updatedAt": "2026-08-29T16:46:54.912Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a951648d0fb8732b9efe764",
+      "sessionId": "caa8e7fe-df60-463d-9f7c-7dcdd0e38202",
+      "items": [],
+      "createdAt": "2026-08-31T05:51:04.801Z",
+      "updatedAt": "2026-08-31T05:51:04.801Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a99f30cae5b7eb30e141290",
+      "sessionId": "39cf0fca-ca3a-4f63-b2e9-e7cc932fd0cc",
+      "items": [],
+      "createdAt": "2026-09-03T22:22:04.640Z",
+      "updatedAt": "2026-09-03T22:22:04.640Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa41721ed3d50144a9cd39a",
+      "sessionId": "1c0e5fb5-7bef-4829-89b3-99691fa2596a",
+      "items": [],
+      "createdAt": "2026-09-11T14:58:41.933Z",
+      "updatedAt": "2026-09-11T14:58:41.933Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa417237ca6df86476e6cc9",
+      "sessionId": "3385c660-bd0d-4a65-93f2-6cd84476c628",
+      "items": [],
+      "createdAt": "2026-09-11T14:58:43.130Z",
+      "updatedAt": "2026-09-11T14:58:43.130Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa41cbd0e60ae2af475a776",
+      "sessionId": "2e54b48d-99e0-49f0-884c-2c1bf40ef7bd",
+      "items": [],
+      "createdAt": "2026-09-11T15:22:37.813Z",
+      "updatedAt": "2026-09-11T15:22:37.813Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa41dccce98368a7c8e9631",
+      "sessionId": "13678cc9-3c32-495d-8bea-b953bf415e70",
+      "items": [],
+      "createdAt": "2026-09-11T15:27:08.656Z",
+      "updatedAt": "2026-09-11T15:27:08.656Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa41ef3f43a1a3a53477b66",
+      "sessionId": "84186c79-67d0-48dc-ba31-7fbd546bdfb7",
+      "items": [],
+      "createdAt": "2026-09-11T15:32:03.920Z",
+      "updatedAt": "2026-09-11T15:32:03.920Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa429da632e8b56b56f0fe0",
+      "sessionId": "85dfea40-f3f7-4585-8dfe-5611adb815ca",
+      "items": [],
+      "createdAt": "2026-09-11T16:18:34.229Z",
+      "updatedAt": "2026-09-11T16:18:34.229Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa5101d00fa21ee4d8100f6",
+      "sessionId": "196d5f8f-a661-4f14-8082-f5b858698203",
+      "items": [],
+      "createdAt": "2026-09-12T08:41:01.274Z",
+      "updatedAt": "2026-09-12T08:41:01.274Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa5102000fa21ee4d8100f7",
+      "sessionId": "df027cb2-6f30-4c40-b46f-4e7fe2362016",
+      "items": [],
+      "createdAt": "2026-09-12T08:41:04.575Z",
+      "updatedAt": "2026-09-12T08:41:04.575Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa656f2da723f6c7a15b73b",
+      "sessionId": "4631f2c9-de17-4d68-9b6d-3b3999f1cbc0",
+      "items": [],
+      "createdAt": "2026-09-13T07:55:30.241Z",
+      "updatedAt": "2026-09-13T07:55:30.241Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa656f2da723f6c7a15b73c",
+      "sessionId": "b58b1d3b-cba4-4ad5-8d70-074c9ba6538a",
+      "items": [],
+      "createdAt": "2026-09-13T07:55:30.563Z",
+      "updatedAt": "2026-09-13T07:55:30.563Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa65807da723f6c7a15b73d",
+      "sessionId": "77693fca-c661-4dd4-a2dd-2c9318f1a3e8",
+      "items": [],
+      "createdAt": "2026-09-13T08:00:07.434Z",
+      "updatedAt": "2026-09-13T08:00:07.434Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa65807da723f6c7a15b73e",
+      "sessionId": "e5aa9b02-a1c4-4633-b90b-a700b5475826",
+      "items": [],
+      "createdAt": "2026-09-13T08:00:07.457Z",
+      "updatedAt": "2026-09-13T08:00:07.457Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa68bcfed81b332adcb7537",
+      "sessionId": "64a89f52-991b-422a-ad83-060ccca4860c",
+      "items": [],
+      "createdAt": "2026-09-13T11:41:03.727Z",
+      "updatedAt": "2026-09-13T11:41:03.727Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa68bcfd8b9a5e921f7f343",
+      "sessionId": "d5c8b7f4-5e20-404c-b5d6-a3387d9b31f3",
+      "items": [],
+      "createdAt": "2026-09-13T11:41:03.786Z",
+      "updatedAt": "2026-09-13T11:41:03.786Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa796149326758231dac172",
+      "sessionId": "431d3250-8d06-4fbe-8b22-f50bd4c2ed52",
+      "items": [],
+      "createdAt": "2026-09-14T06:37:08.829Z",
+      "updatedAt": "2026-09-14T06:37:08.829Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa796155c9a686a40b837e1",
+      "sessionId": "dfa5db2b-126a-41ea-ab2f-da398c917dcf",
+      "items": [],
+      "createdAt": "2026-09-14T06:37:09.473Z",
+      "updatedAt": "2026-09-14T06:37:09.473Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aa9fbdcf152d16430e7f051",
+      "sessionId": "761ed867-e01c-45aa-988e-7fa0db5e6493",
+      "items": [],
+      "createdAt": "2026-09-16T02:15:56.086Z",
+      "updatedAt": "2026-09-16T02:15:56.086Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aab693b813f8a8f4abeb960",
+      "sessionId": "60bffa7a-31ad-4d52-8027-99bb059bef88",
+      "items": [],
+      "createdAt": "2026-09-17T04:14:51.609Z",
+      "updatedAt": "2026-09-17T04:14:51.609Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aab693b8a5be41023b71572",
+      "sessionId": "345bf4e3-8c93-4141-b466-e858dfabc3a3",
+      "items": [],
+      "createdAt": "2026-09-17T04:14:51.805Z",
+      "updatedAt": "2026-09-17T04:14:51.805Z",
+      "__v": 0
+    }
+  ]
+}

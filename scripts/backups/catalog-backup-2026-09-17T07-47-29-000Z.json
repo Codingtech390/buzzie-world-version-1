@@ -1,0 +1,719 @@
+{
+  "metadata": {
+    "script": "seed-catalog-v2",
+    "createdAt": "2026-09-17T07:47:29.130Z",
+    "purpose": "Pre-migration backup of BuzzieWorld catalog collections.",
+    "counts": {
+      "products": 18,
+      "categories": 9,
+      "brands": 1,
+      "collections": 3
+    }
+  },
+  "products": [
+    {
+      "_id": "6aab9a70b7d58336cc23718f",
+      "name": "Brain Binder Activity Book",
+      "slug": "brain-binder-activity-book",
+      "description": "A reusable wipe-and-clean activity binder designed for children to practise thinking, matching, patterns, directions and early problem-solving through hands-on activities.",
+      "shortDescription": "A reusable activity binder packed with playful brain-building challenges.",
+      "price": 899,
+      "compareAtPrice": 1099,
+      "sku": "BZ-BINDER-001",
+      "images": [
+        {
+          "url": "/images/products/brain-binder-1.png",
+          "alt": "BuzzieWorld Brain Binder activity book"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237182",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 30,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 7
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.031Z",
+      "updatedAt": "2026-09-17T07:44:48.031Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237190",
+      "name": "Car Logo Blitz",
+      "slug": "car-logo-blitz",
+      "description": "A family-friendly card game built around recognising popular car logos, encouraging observation, memory, quick thinking and friendly competition.",
+      "shortDescription": "A fast-paced car logo guessing game for curious kids and families.",
+      "price": 499,
+      "compareAtPrice": 599,
+      "sku": "BZ-CARD-CAR-001",
+      "images": [
+        {
+          "url": "/images/products/car-logo-1.png",
+          "alt": "BuzzieWorld Car Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237187",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718d",
+      "variants": [],
+      "stock": 45,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 8
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.032Z",
+      "updatedAt": "2026-09-17T07:44:48.032Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237191",
+      "name": "Logo Blitz",
+      "slug": "logo-blitz",
+      "description": "A colourful logo guessing card game that encourages children and families to recognise familiar brands while developing memory, observation and recall.",
+      "shortDescription": "A colourful logo guessing game for family fun and quick thinking.",
+      "price": 499,
+      "compareAtPrice": 599,
+      "sku": "BZ-CARD-LOGO-001",
+      "images": [
+        {
+          "url": "/images/products/logo-lblitz-1.png",
+          "alt": "BuzzieWorld Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237187",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718d",
+      "variants": [],
+      "stock": 45,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 10
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.032Z",
+      "updatedAt": "2026-09-17T07:44:48.032Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237192",
+      "name": "Animal Homes Activity Kit",
+      "slug": "animal-homes-activity-kit",
+      "description": "An animal-themed learning activity kit introducing children to animal homes, babies, sounds and food through colourful hands-on activities.",
+      "shortDescription": "Explore animal homes, babies, sounds and food through playful activities.",
+      "price": 799,
+      "compareAtPrice": 999,
+      "sku": "BZ-BINDER-ANIMAL-001",
+      "images": [
+        {
+          "url": "/images/products/treasure-product-1.png",
+          "alt": "BuzzieWorld Animal Homes activity product"
+        },
+        {
+          "url": "/images/products/treasure-product-2.png",
+          "alt": "BuzzieWorld Animal Homes Pocket Binder"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237182",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 28,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 3,
+        "max": 7
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.032Z",
+      "updatedAt": "2026-09-17T07:44:48.032Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237193",
+      "name": "Guess City",
+      "slug": "animal-link",
+      "description": "A self-correcting animal matching game where children connect related animal pictures while exploring farm, sea and jungle themes.",
+      "shortDescription": "A self-correcting animal matching game for little explorers.",
+      "price": 399,
+      "compareAtPrice": 499,
+      "sku": "BZ-MIND-ANIMAL-LINK-001",
+      "images": [
+        {
+          "url": "/images/products/guess-city.png",
+          "alt": "BuzzieWorld Guess City game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237184",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 40,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 7
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.032Z",
+      "updatedAt": "2026-09-17T07:44:48.032Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237194",
+      "name": "Indialogy",
+      "slug": "indialogy",
+      "description": "A playful India-themed educational game that helps children discover Indian states, landmarks, culture and fascinating facts through engaging visual challenges.",
+      "shortDescription": "Discover India through playful challenges, facts, places and culture.",
+      "price": 349,
+      "compareAtPrice": 449,
+      "sku": "BZ-GEO-INDIALOGY-001",
+      "images": [
+        {
+          "url": "/images/products/indialogy-1.png",
+          "alt": "BuzzieWorld Indialogy educational game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237188",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718d",
+      "variants": [],
+      "stock": 42,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 5,
+        "max": 12
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.033Z",
+      "updatedAt": "2026-09-17T07:44:48.033Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237195",
+      "name": "Worldlogy",
+      "slug": "worldlogy",
+      "description": "An engaging world discovery game that helps children explore countries, landmarks, cultures, animals and fascinating facts from around the globe.",
+      "shortDescription": "Explore countries, cultures, landmarks and fascinating facts from around the world.",
+      "price": 699,
+      "compareAtPrice": 849,
+      "sku": "BZ-GEO-WORLDLOGY-001",
+      "images": [
+        {
+          "url": "/images/products/worldlogy-1.png",
+          "alt": "BuzzieWorld Worldlogy educational game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237188",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 32,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 6,
+        "max": 12
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.033Z",
+      "updatedAt": "2026-09-17T07:44:48.033Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237196",
+      "name": "Animal Homes Pocket Binder",
+      "slug": "animal-homes-pocket-binder",
+      "description": "A compact animal-themed pocket binder designed for children to explore habitats, animal babies, food and sounds through reusable learning activities.",
+      "shortDescription": "A pocket-sized animal learning binder for curious little explorers.",
+      "price": 749,
+      "compareAtPrice": 899,
+      "sku": "BZ-BINDER-ANIMAL-002",
+      "images": [
+        {
+          "url": "/images/products/treasure-product-2.png",
+          "alt": "BuzzieWorld Animal Homes Pocket Binder"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237182",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718e",
+      "variants": [],
+      "stock": 25,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 3,
+        "max": 7
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.033Z",
+      "updatedAt": "2026-09-17T07:44:48.033Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237197",
+      "name": "Little Legends Mythology Cards",
+      "slug": "little-legends-mythology-cards",
+      "description": "A story-led card set introducing children to memorable characters, creatures and stories from Indian mythology through simple facts and playful matching challenges.",
+      "shortDescription": "Discover fascinating legends and characters through colourful cards.",
+      "price": 549,
+      "compareAtPrice": 699,
+      "sku": "BZ-MYTH-001",
+      "images": [
+        {
+          "url": "/images/products/logo-lblitz-1.png",
+          "alt": "BuzzieWorld Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237183",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 35,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 6,
+        "max": 12
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.039Z",
+      "updatedAt": "2026-09-17T07:44:48.039Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237198",
+      "name": "Mythology Match Quest",
+      "slug": "mythology-match-quest",
+      "description": "A memory and matching game inspired by mythology themes, where children pair characters, symbols and story elements while strengthening recall and observation.",
+      "shortDescription": "Match characters and symbols while discovering legendary stories.",
+      "price": 449,
+      "compareAtPrice": 549,
+      "sku": "BZ-MYTH-002",
+      "images": [
+        {
+          "url": "/images/products/guess-city.png",
+          "alt": "BuzzieWorld Guess City game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237183",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718d",
+      "variants": [],
+      "stock": 38,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 6,
+        "max": 10
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.039Z",
+      "updatedAt": "2026-09-17T07:44:48.039Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc237199",
+      "name": "Travel Quest Mini Game",
+      "slug": "travel-quest-mini-game",
+      "description": "A compact screen-free travel game designed for car rides, family outings and waiting time, combining quick challenges, observation and memory.",
+      "shortDescription": "A compact screen-free game made for travel and family outings.",
+      "price": 399,
+      "compareAtPrice": 499,
+      "sku": "BZ-TRAVEL-001",
+      "images": [
+        {
+          "url": "/images/products/car-logo-1.png",
+          "alt": "BuzzieWorld Car Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237185",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718d",
+      "variants": [],
+      "stock": 50,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 5,
+        "max": 10
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.039Z",
+      "updatedAt": "2026-09-17T07:44:48.039Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc23719a",
+      "name": "Phonics Sound Safari",
+      "slug": "phonics-sound-safari",
+      "description": "A playful early-reading activity that helps children connect letters with their sounds through animals, objects and simple visual challenges.",
+      "shortDescription": "A playful first step into letters, sounds and early reading.",
+      "price": 449,
+      "compareAtPrice": 549,
+      "sku": "BZ-PHONICS-001",
+      "images": [
+        {
+          "url": "/images/products/treasure-product-1.png",
+          "alt": "BuzzieWorld Animal Homes activity product"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237186",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 36,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 7
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.040Z",
+      "updatedAt": "2026-09-17T07:44:48.040Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc23719b",
+      "name": "Word Builder Phonics Cards",
+      "slug": "word-builder-phonics-cards",
+      "description": "A colourful card-based learning game that helps children recognise letter sounds, build simple words and practise early spelling through play.",
+      "shortDescription": "Build simple words while practising letter sounds and spelling.",
+      "price": 499,
+      "compareAtPrice": 599,
+      "sku": "BZ-PHONICS-002",
+      "images": [
+        {
+          "url": "/images/products/logo-lblitz-1.png",
+          "alt": "BuzzieWorld Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237186",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 40,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 5,
+        "max": 8
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.040Z",
+      "updatedAt": "2026-09-17T07:44:48.040Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc23719c",
+      "name": "World Explorer Geography Cards",
+      "slug": "world-explorer-geography-cards",
+      "description": "A visual geography card game introducing children to countries, landmarks, animals, foods and interesting places around the world.",
+      "shortDescription": "Travel the world through colourful geography cards.",
+      "price": 599,
+      "compareAtPrice": 749,
+      "sku": "BZ-GEO-001",
+      "images": [
+        {
+          "url": "/images/products/car-logo-1.png",
+          "alt": "BuzzieWorld Car Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237188",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718c",
+      "variants": [],
+      "stock": 34,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 6,
+        "max": 12
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.040Z",
+      "updatedAt": "2026-09-17T07:44:48.040Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc23719d",
+      "name": "Map Match Challenge",
+      "slug": "map-match-challenge",
+      "description": "A matching challenge that helps children connect places with simple map clues, landmarks and visual cues while building memory and spatial awareness.",
+      "shortDescription": "Match places, maps and landmarks in a playful geography challenge.",
+      "price": 549,
+      "compareAtPrice": 649,
+      "sku": "BZ-GEO-002",
+      "images": [
+        {
+          "url": "/images/products/logo-lblitz-1.png",
+          "alt": "BuzzieWorld Logo Blitz card game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237188",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718d",
+      "variants": [],
+      "stock": 30,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 7,
+        "max": 12
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.040Z",
+      "updatedAt": "2026-09-17T07:44:48.040Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc23719e",
+      "name": "Party Play Return Gift Pack",
+      "slug": "party-play-return-gift-pack",
+      "description": "A cheerful compact activity pack designed for birthdays and celebrations, giving children a screen-free activity they can enjoy after the party.",
+      "shortDescription": "A fun activity gift pack made for birthdays and celebrations.",
+      "price": 299,
+      "compareAtPrice": 399,
+      "sku": "BZ-RETURN-001",
+      "images": [
+        {
+          "url": "/images/products/guess-city.png",
+          "alt": "BuzzieWorld Guess City game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237189",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718e",
+      "variants": [],
+      "stock": 75,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 9
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.040Z",
+      "updatedAt": "2026-09-17T07:44:48.040Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc23719f",
+      "name": "Create Your Own Buzzie Binder",
+      "slug": "create-your-own-buzzie-binder",
+      "description": "A customizable activity binder concept that can be personalised for a child's name, theme or special occasion.",
+      "shortDescription": "A personalised activity binder made especially for your little explorer.",
+      "price": 999,
+      "compareAtPrice": 1199,
+      "sku": "BZ-CUSTOM-001",
+      "images": [
+        {
+          "url": "/images/products/brain-binder-1.png",
+          "alt": "BuzzieWorld Brain Binder activity book"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc23718a",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718e",
+      "variants": [],
+      "stock": 20,
+      "status": "active",
+      "featured": true,
+      "ageRange": {
+        "min": 4,
+        "max": 10
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.040Z",
+      "updatedAt": "2026-09-17T07:44:48.040Z"
+    },
+    {
+      "_id": "6aab9a70b7d58336cc2371a0",
+      "name": "Creative Sticker Story Kit",
+      "slug": "creative-sticker-story-kit",
+      "description": "A compact creative activity that lets children build little stories with colourful stickers, characters and simple scene-based prompts.",
+      "shortDescription": "Create colourful stories with stickers, characters and imagination.",
+      "price": 349,
+      "compareAtPrice": 449,
+      "sku": "BZ-RETURN-002",
+      "images": [
+        {
+          "url": "/images/products/guess-city.png",
+          "alt": "BuzzieWorld Guess City game"
+        }
+      ],
+      "category": "6aab9a6fb7d58336cc237189",
+      "brand": "6aab9a6fb7d58336cc23718b",
+      "collection": "6aab9a6fb7d58336cc23718e",
+      "variants": [],
+      "stock": 60,
+      "status": "active",
+      "featured": false,
+      "ageRange": {
+        "min": 4,
+        "max": 8
+      },
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:48.041Z",
+      "updatedAt": "2026-09-17T07:44:48.041Z"
+    }
+  ],
+  "categories": [
+    {
+      "_id": "6aab9a6fb7d58336cc237182",
+      "name": "Binder",
+      "slug": "binder",
+      "description": "Reusable binders and activity books designed to keep children learning, creating and exploring.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 1,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.740Z",
+      "updatedAt": "2026-09-17T07:44:47.740Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237183",
+      "name": "Mythology",
+      "slug": "mythology",
+      "description": "Story-led products that introduce children to fascinating myths, legends and cultural characters.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 2,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237184",
+      "name": "Mind Games",
+      "slug": "mind-games",
+      "description": "Puzzles, matching activities and brain-building games that make thinking fun.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 3,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237185",
+      "name": "On-the-Go Games",
+      "slug": "on-the-go-games",
+      "description": "Compact screen-free games and activities made for travel, outings and family time.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 4,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237186",
+      "name": "Phonics",
+      "slug": "phonics",
+      "description": "Playful early-language activities that help children explore letters, sounds and words.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 5,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237187",
+      "name": "Card Games",
+      "slug": "card-games",
+      "description": "Fast, fun card-based games designed for memory, observation, conversation and family play.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 6,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237188",
+      "name": "Geography",
+      "slug": "geography",
+      "description": "World discovery activities that introduce children to maps, places, landmarks and cultures.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 7,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc237189",
+      "name": "Return Gifts",
+      "slug": "return-gifts",
+      "description": "Fun and useful activity products made for birthdays, celebrations and party gifting.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 8,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc23718a",
+      "name": "Customized Products",
+      "slug": "customized-products",
+      "description": "Personalizable BuzzieWorld products created for special occasions, names and unique gifting needs.",
+      "parent": null,
+      "isActive": true,
+      "sortOrder": 9,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.741Z",
+      "updatedAt": "2026-09-17T07:44:47.741Z"
+    }
+  ],
+  "brands": [
+    {
+      "_id": "6aab9a6fb7d58336cc23718b",
+      "name": "BuzzieWorld",
+      "slug": "buzzie-world",
+      "description": "BuzzieWorld creates playful, screen-free learning products that help children explore, think, create and have fun.",
+      "isActive": true,
+      "createdAt": "2026-09-17T07:44:47.825Z",
+      "updatedAt": "2026-09-17T07:44:47.825Z",
+      "__v": 0
+    }
+  ],
+  "collections": [
+    {
+      "_id": "6aab9a6fb7d58336cc23718c",
+      "name": "Learning Adventures",
+      "slug": "learning-adventures",
+      "description": "Activity products designed to turn learning into playful discovery.",
+      "isActive": true,
+      "featured": true,
+      "sortOrder": 1,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.900Z",
+      "updatedAt": "2026-09-17T07:44:47.900Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc23718d",
+      "name": "Play Anywhere",
+      "slug": "play-anywhere",
+      "description": "Compact games and activities that children can enjoy at home, on trips or anywhere in between.",
+      "isActive": true,
+      "featured": true,
+      "sortOrder": 2,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.900Z",
+      "updatedAt": "2026-09-17T07:44:47.900Z"
+    },
+    {
+      "_id": "6aab9a6fb7d58336cc23718e",
+      "name": "Gifts & Favourites",
+      "slug": "gifts-and-favourites",
+      "description": "Popular BuzzieWorld picks for birthdays, celebrations and thoughtful gifting.",
+      "isActive": true,
+      "featured": true,
+      "sortOrder": 3,
+      "__v": 0,
+      "createdAt": "2026-09-17T07:44:47.900Z",
+      "updatedAt": "2026-09-17T07:44:47.900Z"
+    }
+  ]
+}

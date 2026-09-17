@@ -325,15 +325,6 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       object-center
     "
             />
-
-            {/* Dark overlay */}
-            <div
-              className="
-      absolute
-      inset-0
-      bg-[#111111]/55
-    "
-            />
           </div>
 
           {/* ==================================================================
@@ -415,7 +406,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
           <div
             className="
-    absolute
+      absolute
     left-0
     top-0
     z-20
@@ -431,6 +422,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     max-sm:items-center
     max-sm:justify-center
     max-sm:pb-0
+    max-sm:-translate-y-28
 
     sm:px-10
     sm:pb-9
@@ -447,8 +439,10 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     lg:pb-0
     lg:text-left
 
-    xl:px-12
+    xl:px-28
     xl:pr-16
+    xl:-translate-y-44
+
   "
           >
             <h3
@@ -461,14 +455,14 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 font-bold
                 leading-[0.86]
                 tracking-[-0.035em]
-                text-white
+                text-[#E83D59]
 
                 sm:max-w-[560px]
 
                 lg:text-[clamp(3rem,5vw,5.2rem)]
               "
             >
-              Your Daily Dose of <span className="text-[#FFD54F]">Vitamin L</span>
+              Your Daily Dose of <span className="text-[#C391EE]">Vitamin L</span>
             </h3>
           </div>
 
@@ -690,104 +684,106 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
             <div
               className="
-                absolute
-                right-[5%]
-                top-1/2
-                z-50
-                flex
-                w-[20%]
-                max-w-[125px]
-                -translate-y-1/2
-                flex-col
-                items-center
-                gap-0
+    absolute
+    right-[5%]
+    top-1/2
+    z-50
+    flex
+    w-[22%]
+    max-w-[140px]
+    -translate-y-1/2
+    flex-col
+    items-center
+    gap-0
 
-                max-sm:right-2
-                max-sm:gap-2
+    max-sm:right-2
+    max-sm:w-[24%]
+    max-sm:max-w-[115px]
+    max-sm:gap-7
 
-                sm:right-[7%]
-                sm:w-[19%]
-                sm:max-w-[135px]
+    sm:right-[7%]
+    sm:w-[21%]
+    sm:max-w-[145px]
 
-                md:right-[8%]
-                md:w-[18%]
-                md:max-w-[145px]
+    md:right-[8%]
+    md:w-[20%]
+    md:max-w-[155px]
 
-                lg:right-0
-                lg:w-[22%]
-                lg:max-w-[150px]
+    lg:right-0
+    lg:w-[23%]
+    lg:max-w-[160px]
 
-                xl:right-[24%]
-                xl:gap-5
-                xl:max-w-[125px]
-              "
+    xl:right-[22%]
+    xl:gap-10
+    xl:max-w-[140px]
+  "
             >
               {/* ==============================================================
-                  AGE
-              ============================================================== */}
+      AGE
+      ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${ageLabel}`}
                 className="
-                  group
-                  relative
-                  z-40
-                  block
-                  w-full
-                  origin-center
-                  scale-y-[1.22]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.03]
-                  hover:scale-y-[1.26]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group
+      relative
+      z-40
+      block
+      w-full
+      origin-center
+      scale-y-[1.45]
+      transition-all
+      duration-300
+      hover:-translate-y-1
+      hover:scale-[1.03]
+      hover:scale-y-[1.39]
+      focus-visible:outline-none
+      focus-visible:ring-2
+      focus-visible:ring-[#E83D59]
+      focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/right-yellow.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    block
-                    h-auto
-                    w-full
-                    select-none
-                    object-contain
-                  "
+        block
+        h-auto
+        w-full
+        select-none
+        object-contain
+      "
                   draggable={false}
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-0
-                    left-[31%]
-                    right-[7%]
-                    flex
-                    items-center
-                    justify-center
-                    px-[3%]
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.38rem,1.7vw,0.82rem)]
-                    font-bold
-                    leading-[0.9]
-                    tracking-[-0.02em]
-                    text-[#17365F]
-                  "
+        pointer-events-none
+        absolute
+        inset-y-0
+        left-[31%]
+        right-[7%]
+        flex
+        items-center
+        justify-center
+        px-[3%]
+        text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.38rem,1.7vw,0.82rem)]
+        font-bold
+        leading-[0.9]
+        tracking-[-0.02em]
+        text-[#17365F]
+      "
                 >
                   <span
                     className="
-                      block
-                      max-w-[62%]
-                      text-balance
-                    "
+          block
+          max-w-[62%]
+          text-balance
+        "
                   >
                     {ageLabel}
                   </span>
@@ -795,72 +791,72 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               </Link>
 
               {/* ==============================================================
-                  STOCK
-              ============================================================== */}
+      STOCK
+      ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${stockLabel}`}
                 className="
-                  group
-                  relative
-                  z-30
-                  -mt-[3%]
-                  block
-                  w-full
-                  origin-center
-                  scale-y-[1.22]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.03]
-                  hover:scale-y-[1.26]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group
+      relative
+      z-30
+      -mt-[3%]
+      block
+      w-full
+      origin-center
+      scale-y-[1.45]
+      transition-all
+      duration-300
+      hover:-translate-y-1
+      hover:scale-[1.03]
+      hover:scale-y-[1.39]
+      focus-visible:outline-none
+      focus-visible:ring-2
+      focus-visible:ring-[#E83D59]
+      focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/right-green.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    block
-                    h-auto
-                    w-full
-                    select-none
-                    object-contain
-                  "
+        block
+        h-auto
+        w-full
+        select-none
+        object-contain
+      "
                   draggable={false}
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-0
-                    left-[31%]
-                    right-[7%]
-                    flex
-                    items-center
-                    justify-center
-                    px-[3%]
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.34rem,1.6vw,0.76rem)]
-                    font-bold
-                    leading-[0.9]
-                    tracking-[-0.02em]
-                    text-[#125C2A]
-                  "
+        pointer-events-none
+        absolute
+        inset-y-0
+        left-[31%]
+        right-[7%]
+        flex
+        items-center
+        justify-center
+        px-[3%]
+        text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.34rem,1.6vw,0.76rem)]
+        font-bold
+        leading-[0.9]
+        tracking-[-0.02em]
+        text-[#125C2A]
+      "
                 >
                   <span
                     className="
-                      block
-                      max-w-[58%]
-                      text-balance
-                    "
+          block
+          max-w-[58%]
+          text-balance
+        "
                   >
                     {stockLabel}
                   </span>
@@ -868,72 +864,72 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               </Link>
 
               {/* ==============================================================
-                  FEATURED
-              ============================================================== */}
+      FEATURED
+      ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${featuredLabel}`}
                 className="
-                  group
-                  relative
-                  z-20
-                  -mt-[3%]
-                  block
-                  w-full
-                  origin-center
-                  scale-y-[1.22]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.03]
-                  hover:scale-y-[1.26]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group
+      relative
+      z-20
+      -mt-[3%]
+      block
+      w-full
+      origin-center
+      scale-y-[1.45]
+      transition-all
+      duration-300
+      hover:-translate-y-1
+      hover:scale-[1.03]
+      hover:scale-y-[1.39]
+      focus-visible:outline-none
+      focus-visible:ring-2
+      focus-visible:ring-[#E83D59]
+      focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/right-pink.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    block
-                    h-auto
-                    w-full
-                    select-none
-                    object-contain
-                  "
+        block
+        h-auto
+        w-full
+        select-none
+        object-contain
+      "
                   draggable={false}
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-0
-                    left-[31%]
-                    right-[7%]
-                    flex
-                    items-center
-                    justify-center
-                    px-[3%]
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.38rem,1.7vw,0.82rem)]
-                    font-bold
-                    leading-[0.9]
-                    tracking-[-0.02em]
-                    text-[#B90D45]
-                  "
+        pointer-events-none
+        absolute
+        inset-y-0
+        left-[31%]
+        right-[7%]
+        flex
+        items-center
+        justify-center
+        px-[3%]
+        text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.38rem,1.7vw,0.82rem)]
+        font-bold
+        leading-[0.9]
+        tracking-[-0.02em]
+        text-[#B90D45]
+      "
                 >
                   <span
                     className="
-                      block
-                      max-w-[62%]
-                      text-balance
-                    "
+          block
+          max-w-[62%]
+          text-balance
+        "
                   >
                     {featuredLabel}
                   </span>
@@ -941,72 +937,72 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
               </Link>
 
               {/* ==============================================================
-                  WATCH DEMO
-              ============================================================== */}
+      WATCH DEMO
+      ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`Watch demo for ${product.name}`}
                 className="
-                  group
-                  relative
-                  z-10
-                  -mt-[3%]
-                  block
-                  w-full
-                  origin-center
-                  scale-y-[1.22]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.03]
-                  hover:scale-y-[1.26]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group
+      relative
+      z-10
+      -mt-[3%]
+      block
+      w-full
+      origin-center
+      scale-y-[1.45]
+      transition-all
+      duration-300
+      hover:-translate-y-1
+      hover:scale-[1.03]
+      hover:scale-y-[1.39]
+      focus-visible:outline-none
+      focus-visible:ring-2
+      focus-visible:ring-[#E83D59]
+      focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/right-blue.png"
                   alt=""
                   aria-hidden="true"
                   className="
-                    block
-                    h-auto
-                    w-full
-                    select-none
-                    object-contain
-                  "
+        block
+        h-auto
+        w-full
+        select-none
+        object-contain
+      "
                   draggable={false}
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-0
-                    left-[31%]
-                    right-[7%]
-                    flex
-                    items-center
-                    justify-center
-                    px-[3%]
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.36rem,1.65vw,0.78rem)]
-                    font-bold
-                    leading-[0.9]
-                    tracking-[-0.02em]
-                    text-[#2E2188]
-                  "
+        pointer-events-none
+        absolute
+        inset-y-0
+        left-[31%]
+        right-[7%]
+        flex
+        items-center
+        justify-center
+        px-[3%]
+        text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.36rem,1.65vw,0.78rem)]
+        font-bold
+        leading-[0.9]
+        tracking-[-0.02em]
+        text-[#2E2188]
+      "
                 >
                   <span
                     className="
-                      block
-                      max-w-[58%]
-                      text-balance
-                    "
+          block
+          max-w-[58%]
+          text-balance
+        "
                   >
                     Watch Demo
                   </span>

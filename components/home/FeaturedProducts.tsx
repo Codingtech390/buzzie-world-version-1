@@ -154,19 +154,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
             </div>
           ))}
 
-          {/* ==================================================================
-              BUY NOW CTA
-
-              IMPORTANT:
-              The button is now anchored to the bottom-right.
-
-              No mt-60.
-              No mt-90.
-              No percentage-based vertical guessing.
-
-              It stays in the same visual position regardless of viewport.
-          ================================================================== */}
-
+          {/* Buy now */}
           {activeProduct ? (
             <div
               className="
@@ -181,51 +169,51 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                 href={`/products/${activeProduct.slug}`}
                 aria-label={`Buy ${activeProduct.name} now`}
                 className="
-                  group/button
-                  inline-flex
-                  min-h-[30px]
-                  items-center
-                  justify-center
-                  gap-1
-                  rounded-full
-                  bg-[#C391EE]
-                  px-3
-                  font-[var(--font-poppins-brand)]
-                  text-[8px]
-                  font-bold
-                  leading-none
-                  text-white
-                  shadow-[0_6px_16px_rgba(40,25,65,0.22)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-0.5
-                  hover:bg-[#E72D5A]
-                  hover:shadow-[0_9px_20px_rgba(40,25,65,0.28)]
-                  active:translate-y-0
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-white
-                  focus-visible:ring-offset-2
-                  focus-visible:ring-offset-transparent
+  group/button
+  inline-flex
+  min-h-[30px]
+  items-center
+  justify-center
+  gap-1
+  rounded-full
+  bg-[#C391EE]
+  px-4
+  font-[var(--font-poppins-brand)]
+  text-[8px]
+  font-bold
+  leading-none
+  text-white
+  shadow-[0_6px_16px_rgba(40,25,65,0.22)]
+  transition-all
+  duration-300
+  hover:-translate-y-0.5
+  hover:bg-[#E72D5A]
+  hover:shadow-[0_9px_20px_rgba(40,25,65,0.28)]
+  active:translate-y-0
+  focus-visible:outline-none
+  focus-visible:ring-2
+  focus-visible:ring-white
+  focus-visible:ring-offset-2
+  focus-visible:ring-offset-transparent
 
-                  sm:min-h-[36px]
-                  sm:gap-1.5
-                  sm:px-3.5
-                  sm:text-[9px]
+  sm:min-h-[36px]
+  sm:gap-1.5
+  sm:px-5
+  sm:text-[9px]
 
-                  md:min-h-[40px]
-                  md:px-4
-                  md:text-[10px]
+  md:min-h-[40px]
+  md:px-6
+  md:text-[10px]
 
-                  lg:min-h-[44px]
-                  lg:gap-2
-                  lg:px-5
-                  lg:text-[11px]
+  lg:min-h-[44px]
+  lg:gap-2
+  lg:px-7
+  lg:text-[11px]
 
-                  xl:min-h-[46px]
-                  xl:px-5.5
-                  xl:text-[12px]
-                "
+  xl:min-h-[66px]
+  xl:px-16
+  xl:text-[14px]
+"
               >
                 <span className="text-white">Buy now</span>
 

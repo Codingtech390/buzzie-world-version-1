@@ -144,8 +144,37 @@ function MobileStoryImage({ url, alt }: { url?: string; alt: string }) {
 export default function BrandStory({ products: _products }: BrandStoryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  /*
+   * ---------------------------------------------------------------
+   * CURRENT SLIDE
+   * ---------------------------------------------------------------
+   *
+   * The left side always shows the currently active slide.
+   */
   const activeSlide = STORY_SLIDES[activeIndex];
   const activeImage = activeSlide.image;
+
+  /*
+   * ---------------------------------------------------------------
+   * NEXT SLIDE
+   * ---------------------------------------------------------------
+   *
+   * The right side is intentionally NOT a second image for the
+   * current slide.
+   *
+   * It previews the next product/story in the carousel:
+   *
+   * Geography  -> Binders
+   * Binders    -> Card Games
+   * Card Games -> Mythology
+   * Mythology  -> Geography
+   *
+   * The modulo operation makes the carousel loop back to the first
+   * slide after the last slide.
+   */
+  const nextIndex = (activeIndex + 1) % STORY_SLIDES.length;
+  const nextSlide = STORY_SLIDES[nextIndex];
+  const nextImage = nextSlide.image;
 
   const goTo = (index: number) => {
     const next = (index + STORY_SLIDES.length) % STORY_SLIDES.length;
@@ -155,7 +184,7 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
   const Icon = activeSlide.icon;
 
   return (
-    <section className="relative overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white mt-2">
+    <section className="relative mt-2 overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white">
       {/* ================================================================
           SOFT BACKGROUND GRAPHICS
       ================================================================ */}
@@ -211,117 +240,121 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
             transition={{ duration: 0.25 }}
             className="absolute left-0 right-0 top-[32px] flex h-[516px] items-start pl-[72px]"
           >
+            {/* ============================================================
+                LEFT IMAGE — CURRENT SLIDE
+            ============================================================ */}
+
             <StoryProductImage url={activeImage} alt={activeSlide.question} position="left" />
 
             {/* ============================================================
-    CENTER CONTENT
-============================================================ */}
+                CENTER CONTENT
+            ============================================================ */}
 
             <div
               className="
-    flex
-    min-h-[420px]
-    w-full
-    shrink-0
-    items-center
-    justify-center
-    px-5
-    py-8
+                flex
+                min-h-[420px]
+                w-full
+                shrink-0
+                items-center
+                justify-center
+                px-5
+                py-8
 
-    sm:min-h-[460px]
-    sm:px-8
-    sm:py-10
+                sm:min-h-[460px]
+                sm:px-8
+                sm:py-10
 
-    md:min-h-[500px]
-    md:px-10
+                md:min-h-[500px]
+                md:px-10
 
-    lg:h-[516px]
-    lg:min-h-0
-    lg:w-[505px]
-    lg:px-11
-    lg:py-0
-  "
+                lg:h-[516px]
+                lg:min-h-0
+                lg:w-[505px]
+                lg:px-11
+                lg:py-0
+              "
             >
               <div
                 className="
-      w-full
-      max-w-[330px]
+                  w-full
+                  max-w-[330px]
 
-      sm:max-w-[380px]
+                  sm:max-w-[380px]
 
-      md:max-w-[420px]
+                  md:max-w-[420px]
 
-      lg:max-w-[405px]
-    "
+                  lg:max-w-[405px]
+                "
               >
                 <Reveal key={activeSlide.question}>
                   <div
                     className="
-          flex
-          flex-col
-          items-center
-          text-center
+                      flex
+                      flex-col
+                      items-center
+                      text-center
 
-          lg:items-start
-          lg:text-left
-        "
+                      lg:items-start
+                      lg:text-left
+                    "
                   >
                     {/* ==========================================================
-            EYEBROW
-        ========================================================== */}
+                        EYEBROW
+                    ========================================================== */}
 
                     <div
                       className="
-            flex
-            items-center
-            justify-center
-            gap-2.5
+                        flex
+                        items-center
+                        justify-center
+                        gap-2.5
 
-            lg:justify-start
-          "
+                        lg:justify-start
+                      "
                     >
                       <span
                         aria-hidden="true"
                         className="
-              h-[2px]
-              w-7
-              shrink-0
-              rounded-full
-              bg-white
+                          h-[2px]
+                          w-7
+                          shrink-0
+                          rounded-full
+                          bg-white
 
-              sm:w-8
+                          sm:w-8
 
-              lg:w-9
-            "
+                          lg:w-9
+                        "
                       />
 
                       <span
                         className="
-              inline-flex
-              items-center
-              gap-1.5
-              font-[var(--font-playpen-sans)]
-              text-[8px]
-              font-bold
-              uppercase
-              leading-none
-              tracking-[0.12em]
-              text-white/90
+                          inline-flex
+                          items-center
+                          gap-1.5
+                          font-[var(--font-playpen-sans)]
+                          text-[8px]
+                          font-bold
+                          uppercase
+                          leading-none
+                          tracking-[0.12em]
+                          text-white/90
 
-              sm:text-[9px]
-              sm:tracking-[0.14em]
+                          sm:text-[9px]
+                          sm:tracking-[0.14em]
 
-              md:text-[10px]
+                          md:text-[10px]
 
-              lg:text-[10px]
-            "
+                          lg:text-[10px]
+                        "
                       >
                         <Icon
                           className="
-                size-3
+                            size-3
 
-                sm:size-3.5
-              "
+                            sm:size-3.5
+                          "
                           strokeWidth={2.5}
                         />
 
@@ -330,209 +363,238 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                     </div>
 
                     {/* ============================================================
-    QUESTION / MAIN HEADING
-============================================================ */}
+                        QUESTION / MAIN HEADING
+                    ============================================================ */}
 
                     <div
                       className="
-    mt-5
-    w-full
+                        mt-5
+                        w-full
 
-    sm:mt-5
+                        sm:mt-5
 
-    md:mt-6
+                        md:mt-6
 
-    lg:mt-5
-  "
+                        lg:mt-5
+                      "
                     >
                       <h2
                         className="
-      m-0
-      w-full
-      font-[var(--font-poppins-brand)]
-      text-[clamp(2.25rem,9vw,3.4rem)]
-      font-bold
-      leading-[0.88]
-      tracking-[-0.035em]
-      text-[#FFD54F]
+                          m-0
+                          w-full
+                          font-[var(--font-poppins-brand)]
+                          text-[clamp(2.25rem,9vw,3.4rem)]
+                          font-bold
+                          leading-[0.88]
+                          tracking-[-0.035em]
+                          text-[#FFD54F]
 
-      sm:text-[clamp(2.6rem,6vw,3.6rem)]
+                          sm:text-[clamp(2.6rem,6vw,3.6rem)]
 
-      md:text-[clamp(2.8rem,4.5vw,3.8rem)]
+                          md:text-[clamp(2.8rem,4.5vw,3.8rem)]
 
-      lg:text-[clamp(2.5rem,3.2vw,3.35rem)]
-    "
+                          lg:text-[clamp(2.5rem,3.2vw,3.35rem)]
+                        "
                       >
                         {activeSlide.question}
                       </h2>
                     </div>
 
                     {/* ============================================================
-    DESCRIPTION
-============================================================ */}
+                        DESCRIPTION
+                    ============================================================ */}
 
                     <p
                       className="
-    m-0
-    mt-7
-    w-full
-    max-w-[320px]
-    font-[var(--font-playpen-sans)]
-    text-[11px]
-    font-medium
-    leading-[1.55]
-    tracking-[0.005em]
-    text-white
+                        m-0
+                        mt-7
+                        w-full
+                        max-w-[320px]
+                        font-[var(--font-playpen-sans)]
+                        text-[11px]
+                        font-medium
+                        leading-[1.55]
+                        tracking-[0.005em]
+                        text-white
 
-    max-sm:mt-6
-    sm:mt-6
-    sm:max-w-[370px]
-    sm:text-[12px]
-    sm:leading-[1.6]
+                        max-sm:mt-6
+                        sm:mt-6
+                        sm:max-w-[370px]
+                        sm:text-[12px]
+                        sm:leading-[1.6]
 
-    md:max-w-[400px]
-    md:text-[13px]
+                        md:max-w-[400px]
+                        md:text-[13px]
 
-    lg:mt-6
-    lg:max-w-[405px]
-    lg:text-[14px]
-    lg:leading-[1.55]
-  "
+                        lg:mt-6
+                        lg:max-w-[405px]
+                        lg:text-[14px]
+                        lg:leading-[1.55]
+                      "
                     >
                       {activeSlide.description}
                     </p>
 
                     {/* ==========================================================
-            DESCRIPTION
-        ========================================================== */}
+                        DESCRIPTION
+                    ========================================================== */}
 
                     <p
                       className="
-            m-0
-            mt-5
-            w-full
-            max-w-[320px]
-            font-[var(--font-playpen-sans)]
-            text-[11px]
-            font-medium
-            leading-[1.55]
-            tracking-[0.005em]
-            text-white
+                        m-0
+                        mt-5
+                        w-full
+                        max-w-[320px]
+                        font-[var(--font-playpen-sans)]
+                        text-[11px]
+                        font-medium
+                        leading-[1.55]
+                        tracking-[0.005em]
+                        text-white
 
-            sm:mt-6
-            sm:max-w-[370px]
-            sm:text-[12px]
-            sm:leading-[1.6]
+                        sm:mt-6
+                        sm:max-w-[370px]
+                        sm:text-[12px]
+                        sm:leading-[1.6]
 
-            md:max-w-[400px]
-            md:text-[13px]
+                        md:max-w-[400px]
+                        md:text-[13px]
 
-            lg:mt-6
-            lg:max-w-[405px]
-            lg:text-[14px]
-            lg:leading-[1.55]
-          "
+                        lg:mt-6
+                        lg:max-w-[405px]
+                        lg:text-[14px]
+                        lg:leading-[1.55]
+                      "
                     >
                       {activeSlide.description}
                     </p>
 
                     {/* ==========================================================
-            CTA
-        ========================================================== */}
+                        CTA
+                    ========================================================== */}
 
                     <Link
                       href={activeSlide.href}
                       className="
-            group
-            mt-6
-            inline-flex
-            min-h-[42px]
-            w-auto
-            max-w-full
-            items-center
-            justify-center
-            gap-1.5
-            rounded-full
-            bg-[#C391EE]
-            px-4
-            font-[var(--font-playpen-sans)]
-            text-[8px]
-            font-bold
-            leading-none
-            tracking-[0.015em]
-            text-white
-            shadow-[0_8px_20px_rgba(0,0,0,0.13)]
-            transition-all
-            duration-300
-            hover:-translate-y-0.5
-            hover:bg-[#E83D59]
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-white
-            focus-visible:ring-offset-2
-            focus-visible:ring-offset-[#5D50A8]
+                        group
+                        mt-6
+                        inline-flex
+                        min-h-[42px]
+                        w-auto
+                        max-w-full
+                        items-center
+                        justify-center
+                        gap-1.5
+                        rounded-full
+                        bg-[#C391EE]
+                        px-4
+                        font-[var(--font-playpen-sans)]
+                        text-[8px]
+                        font-bold
+                        leading-none
+                        tracking-[0.015em]
+                        text-white
+                        shadow-[0_8px_20px_rgba(0,0,0,0.13)]
+                        transition-all
+                        duration-300
+                        hover:-translate-y-0.5
+                        hover:bg-[#E83D59]
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-white
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-[#5D50A8]
 
-            sm:mt-7
-            sm:min-h-[44px]
-            sm:px-5
-            sm:text-[9px]
+                        sm:mt-7
+                        sm:min-h-[44px]
+                        sm:px-5
+                        sm:text-[9px]
 
-            md:min-h-[46px]
-            md:px-6
-            md:text-[10px]
+                        md:min-h-[46px]
+                        md:px-6
+                        md:text-[10px]
 
-            lg:mt-7
-            lg:min-h-[48px]
-            lg:px-6
-            lg:text-[11px]
+                        lg:mt-7
+                        lg:min-h-[48px]
+                        lg:px-6
+                        lg:text-[11px]
 
-            xl:text-[12px]
-          "
+                        xl:text-[12px]
+                      "
                     >
                       <span className="whitespace-nowrap">{activeSlide.buttonLabel}</span>
 
                       <ArrowRight
                         className="
-              size-3
-              shrink-0
-              transition-transform
-              duration-300
-              group-hover:translate-x-1
+                          size-3
+                          shrink-0
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-1
 
-              sm:size-3.5
+                          sm:size-3.5
 
-              md:size-4
-            "
+                          md:size-4
+                        "
                         strokeWidth={2.5}
                       />
                     </Link>
 
                     {/* ==========================================================
-            MOBILE / TABLET VISUAL BREATHING SPACE
-        ========================================================== */}
+                        MOBILE / TABLET VISUAL BREATHING SPACE
+                    ========================================================== */}
 
                     <div
                       aria-hidden="true"
                       className="
-            mt-5
-            h-px
-            w-12
-            rounded-full
-            bg-white/25
+                        mt-5
+                        h-px
+                        w-12
+                        rounded-full
+                        bg-white/25
 
-            sm:mt-6
+                        sm:mt-6
 
-            lg:hidden
-          "
+                        lg:hidden
+                      "
                     />
                   </div>
                 </Reveal>
               </div>
             </div>
 
-            <StoryProductImage url={activeImage} alt={activeSlide.question} position="right" />
+            {/* ============================================================
+                RIGHT IMAGE — NEXT SLIDE
+            ============================================================
 
-            {/* Previous */}
+                IMPORTANT:
+                This is NOT another image belonging to the active slide.
+
+                It is the image belonging to the NEXT slide.
+
+                Example:
+                activeIndex = 0
+                LEFT  = Geography
+                RIGHT = Binders
+
+                activeIndex = 1
+                LEFT  = Binders
+                RIGHT = Card Games
+
+                activeIndex = 2
+                LEFT  = Card Games
+                RIGHT = Mythology
+
+                activeIndex = 3
+                LEFT  = Mythology
+                RIGHT = Geography
+            ============================================================ */}
+
+            <StoryProductImage url={nextImage} alt={nextSlide.question} position="right" />
+
+            {/* ============================================================
+                PREVIOUS
+            ============================================================ */}
 
             <button
               type="button"
@@ -544,7 +606,8 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                 top-[292px]
                 z-30
                 flex
-                h-11 w-11
+                h-11
+                w-11
                 -translate-y-0
                 items-center
                 justify-center
@@ -562,7 +625,9 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
               <ArrowLeft className="size-5" />
             </button>
 
-            {/* Next */}
+            {/* ============================================================
+                NEXT
+            ============================================================ */}
 
             <button
               type="button"
@@ -574,7 +639,8 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                 top-[292px]
                 z-30
                 flex
-                h-11 w-11
+                h-11
+                w-11
                 -translate-y-0
                 items-center
                 justify-center
@@ -609,6 +675,7 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="mx-auto max-w-[680px]"
           >
+            {/* Mobile continues to use the CURRENT slide image */}
             <MobileStoryImage url={activeImage} alt={activeSlide.question} />
 
             <div className="pt-6 text-center">
@@ -642,7 +709,9 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Mobile navigation */}
+        {/* ================================================================
+            MOBILE NAVIGATION
+        ================================================================ */}
 
         <div className="mt-7 flex items-center justify-center gap-3">
           <button
@@ -662,7 +731,10 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                 onClick={() => goTo(index)}
                 aria-label={`Go to story ${index + 1}`}
                 className={`
-                  h-1.5 rounded-full transition-all duration-300
+                  h-1.5
+                  rounded-full
+                  transition-all
+                  duration-300
                   ${index === activeIndex ? "w-7 bg-[#E83D59]" : "w-1.5 bg-white/45"}
                 `}
               />

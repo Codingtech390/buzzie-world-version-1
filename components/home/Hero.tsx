@@ -104,7 +104,7 @@ export default function Hero() {
     >
       {/* ================================================================
           FULLSCREEN LANDING CAROUSEL
-      ================================================================ */}
+          ================================================================ */}
 
       <div className="relative w-full overflow-hidden">
         <AnimatePresence initial={false} custom={direction} mode="wait">
@@ -129,7 +129,17 @@ export default function Hero() {
             <Link
               href={activeSlideData.href}
               aria-label={`Explore ${activeSlideData.alt}`}
-              className="group relative block w-full overflow-hidden focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#C391EE]/50"
+              className="
+                group
+                relative
+                block
+                w-full
+                overflow-hidden
+                focus-visible:outline-none
+                focus-visible:ring-4
+                focus-visible:ring-inset
+                focus-visible:ring-[#C391EE]/50
+              "
             >
               <img
                 src={activeSlideData.image}
@@ -145,7 +155,7 @@ export default function Hero() {
                 "
               />
 
-              {/* Very subtle hover overlay */}
+              {/* Subtle hover overlay */}
               <span
                 aria-hidden="true"
                 className="
@@ -165,20 +175,21 @@ export default function Hero() {
 
         {/* ================================================================
             SLIDE INDICATORS
-        ================================================================ */}
+            MOVED SIGNIFICANTLY UPWARD
+            ================================================================ */}
 
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute
-            bottom-3
+            bottom-[30%]
             left-3
             z-20
             flex
             items-center
             gap-1.5
-            sm:bottom-5
+            sm:bottom-[32%]
             sm:left-5
           "
         >
@@ -207,13 +218,14 @@ export default function Hero() {
         </div>
 
         {/* ================================================================
-            BOTTOM-RIGHT CONTROLS
-        ================================================================ */}
+            PREVIOUS / PLAY / NEXT CONTROLS
+            MOVED SIGNIFICANTLY UPWARD
+            ================================================================ */}
 
         <div
           className="
             absolute
-            bottom-3
+            bottom-[30%]
             right-3
             z-30
             flex
@@ -226,14 +238,13 @@ export default function Hero() {
             p-1
             shadow-[0_10px_30px_rgba(38,52,92,0.18)]
             backdrop-blur-xl
-            sm:bottom-5
+            sm:bottom-[32%]
             sm:right-5
             sm:gap-1.5
             sm:p-1.5
           "
         >
           {/* Previous */}
-
           <button
             type="button"
             onClick={previousSlide}
@@ -261,7 +272,6 @@ export default function Hero() {
           </button>
 
           {/* Play / Pause */}
-
           <button
             type="button"
             onClick={() => setIsPaused((current) => !current)}
@@ -294,7 +304,6 @@ export default function Hero() {
           </button>
 
           {/* Next */}
-
           <button
             type="button"
             onClick={nextSlide}
@@ -325,7 +334,7 @@ export default function Hero() {
 
       {/* ================================================================
           ACCESSIBLE SLIDE NAVIGATION
-      ================================================================ */}
+          ================================================================ */}
 
       <div className="sr-only">
         {LANDING_SLIDES.map((slide, index) => (

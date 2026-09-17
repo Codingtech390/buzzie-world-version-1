@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "script": "seed-catalog-v2",
+    "createdAt": "2026-09-17T07:44:46.145Z",
+    "purpose": "Backup of demo orders and carts immediately before explicit demo cleanup.",
+    "warning": "This backup contains ONLY orders and carts. It is not a catalog backup.",
+    "counts": {
+      "orders": 0,
+      "carts": 2
+    }
+  },
+  "orders": [],
+  "carts": [
+    {
+      "_id": "6aab97661777355a7d8636a9",
+      "sessionId": "b58b1d3b-cba4-4ad5-8d70-074c9ba6538a",
+      "items": [],
+      "createdAt": "2026-09-17T07:31:50.324Z",
+      "updatedAt": "2026-09-17T07:31:50.324Z",
+      "__v": 0
+    },
+    {
+      "_id": "6aab9a3ecb6d9b7c0f48331e",
+      "sessionId": "f86c41ac-fa17-4ebf-9610-df0d0e719930",
+      "items": [],
+      "createdAt": "2026-09-17T07:43:58.732Z",
+      "updatedAt": "2026-09-17T07:43:58.732Z",
+      "__v": 0
+    }
+  ]
+}

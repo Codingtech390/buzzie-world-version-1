@@ -202,7 +202,7 @@ function InstagramCard({ post }: { post: InstagramPost }) {
       <div
         className="
           flex min-h-[40px] w-full items-center justify-between gap-1.5
-          bg-[#a092cd] px-2.5 py-2
+          bg-[#C391EE] px-2.5 py-2
 
           sm:min-h-[42px] sm:px-3
           md:min-h-[44px] md:px-3.5
