@@ -414,18 +414,20 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
           {/* Product name */}
           <h3
             className="
-    text-center
-    line-clamp-1
-    min-h-[18px]
-    font-[var(--font-playpen-sans)]
-    text-[22px]
-    font-normal
-    leading-none
-    tracking-[0.01em]
-    text-[#263451]
-    sm:text-[20px]
-    lg:text-[22px]
-  "
+
+              font-playpen
+              text-center
+              line-clamp-1
+              min-h-[36px]
+              text-[18px]
+              font-normal
+              leading-[1.2]
+              tracking-[0.01em]
+              text-[#263451]
+              max-sm:text-[12px]
+              sm:text-[16px]
+              lg:text-[16px]
+            "
           >
             {product.name}
           </h3>
