@@ -382,34 +382,7 @@ return (
       "
     />
 
-    {/* ================================================================
-        BANNER IMAGE
-        ================================================================ */}
 
-    <div
-      className="
-        relative
-        w-full
-        overflow-hidden
-      "
-    >
-      <Image
-        src="/images/backgrounds/insta-video-banner.png"
-        alt="BuzzieWorld"
-        width={1920}
-        height={700}
-        priority
-        quality={90}
-        sizes="100vw"
-        className="
-          block
-          h-auto
-          w-full
-          max-w-none
-          object-contain
-        "
-      />
-    </div>
   </section>
 );
 }

@@ -15,19 +15,19 @@ interface LandingSlide {
 const LANDING_SLIDES: LandingSlide[] = [
   {
     id: "slide-1",
-    image: "/images/home/landing/hero-1.png",
+    image: "/images/home/landing/hero-image-1.png",
     alt: "BuzzieWorld special offer",
     href: "/crazy-deals",
   },
   {
     id: "slide-2",
-    image: "/images/home/landing/hero-2.png",
+    image: "/images/home/landing/hero-image-2.png",
     alt: "BuzzieWorld celebration and gifting",
     href: "/crazy-deals",
   },
   {
     id: "slide-3",
-    image: "/images/home/landing/hero-3.png",
+    image: "/images/home/landing/hero-image-3.png",
     alt: "BuzzieWorld learning through play",
     href: "/crazy-deals",
   },
@@ -96,7 +96,16 @@ export default function Hero() {
   return (
     <section
       aria-label="BuzzieWorld promotional highlights"
-      className="relative w-full overflow-hidden bg-white"
+      className="
+        relative
+        w-full
+        overflow-hidden
+        bg-white
+
+        lg:h-[calc(100svh-94px)]
+        xl:h-[calc(100svh-94px)]
+        2xl:h-[calc(100svh-94px)]
+      "
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
@@ -106,7 +115,16 @@ export default function Hero() {
           FULLSCREEN LANDING CAROUSEL
           ================================================================ */}
 
-      <div className="relative w-full overflow-hidden">
+      <div
+        className="
+          relative
+          w-full
+          overflow-hidden
+          lg:h-full
+          xl:h-full
+          2xl:h-full
+        "
+      >
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={activeSlideData.id}
@@ -124,7 +142,7 @@ export default function Hero() {
               x: direction > 0 ? "-2%" : "2%",
             }}
             transition={slideTransition}
-            className="relative w-full"
+            className="relative w-full lg:h-full xl:h-full 2xl:h-full"
           >
             <Link
               href={activeSlideData.href}
@@ -135,6 +153,9 @@ export default function Hero() {
                 block
                 w-full
                 overflow-hidden
+                lg:h-full
+                xl:h-full
+                2xl:h-full
                 focus-visible:outline-none
                 focus-visible:ring-4
                 focus-visible:ring-inset
@@ -152,6 +173,18 @@ export default function Hero() {
                   max-w-none
                   select-none
                   object-contain
+
+                  lg:h-full
+                  lg:w-full
+                  lg:object-fill
+
+                  xl:h-full
+                  xl:w-full
+                  xl:object-fill
+
+                  2xl:h-full
+                  2xl:w-full
+                  2xl:object-fill
                 "
               />
 
@@ -183,13 +216,13 @@ export default function Hero() {
           className="
             pointer-events-none
             absolute
-            bottom-[30%]
+            bottom-5
             left-3
             z-20
             flex
             items-center
             gap-1.5
-            sm:bottom-[32%]
+            sm:bottom-6
             sm:left-5
           "
         >
@@ -225,7 +258,7 @@ export default function Hero() {
         <div
           className="
             absolute
-            bottom-[30%]
+            bottom-5
             right-3
             z-30
             flex
@@ -238,7 +271,7 @@ export default function Hero() {
             p-1
             shadow-[0_10px_30px_rgba(38,52,92,0.18)]
             backdrop-blur-xl
-            sm:bottom-[32%]
+            sm:bottom-6
             sm:right-5
             sm:gap-1.5
             sm:p-1.5

@@ -125,7 +125,7 @@ const REQUIRED_IMAGE_PATHS = [
   "/images/products/car-logo-1.png",
   "/images/products/logo-lblitz-1.png",
   "/images/products/treasure-product-1.png",
-  "/images/products/treasure-product-2.png",
+  "/images/products/guess-who-i-am.png",
   "/images/products/guess-city.png",
   "/images/products/indialogy-1.png",
   "/images/products/worldlogy-1.png",
@@ -331,10 +331,10 @@ const IMAGE = {
     alt: "BuzzieWorld Animal Homes activity product",
   },
 
-  ANIMAL_HOMES_BINDER: {
-    url: "/images/products/treasure-product-2.png",
-    alt: "BuzzieWorld Animal Homes Pocket Binder",
-  },
+GUESS_WHO_I_AM: {
+  url: "/images/products/guess-who-i-am.png",
+  alt: "BuzzieWorld Guess Who I Am",
+},
 
   GUESS_CITY: {
     url: "/images/products/guess-city.png",
@@ -460,7 +460,7 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
     price: 799,
     compareAtPrice: 999,
     sku: "BZ-BINDER-ANIMAL-001",
-    images: [IMAGE.ANIMAL_HOMES_HERO, IMAGE.ANIMAL_HOMES_BINDER],
+    images: [IMAGE.ANIMAL_HOMES_HERO],
     categorySlug: "binder",
     collectionSlug: "learning-adventures",
     stock: 28,
@@ -552,26 +552,26 @@ const PRODUCT_DEFINITIONS: ProductDefinition[] = [
      8. REAL PRODUCT FAMILY / ADDITIONAL DEMO ENTRY
   ------------------------------------------------------------------------ */
 
-  {
-    name: "Animal Homes Pocket Binder",
-    slug: "animal-homes-pocket-binder",
-    description:
-      "A compact animal-themed pocket binder designed for children to explore habitats, animal babies, food and sounds through reusable learning activities.",
-    shortDescription: "A pocket-sized animal learning binder for curious little explorers.",
-    price: 749,
-    compareAtPrice: 899,
-    sku: "BZ-BINDER-ANIMAL-002",
-    images: [IMAGE.ANIMAL_HOMES_BINDER],
-    categorySlug: "binder",
-    collectionSlug: "gifts-and-favourites",
-    stock: 25,
-    status: "active",
-    featured: false,
-    ageRange: {
-      min: 3,
-      max: 7,
-    },
+{
+  name: "Guess Who I Am",
+  slug: "guess-who-i-am",
+  description:
+    "A fun guessing game that encourages children to observe, think, identify clues and discover fascinating characters through playful challenges.",
+  shortDescription: "A fun guessing game that turns clues, thinking and discovery into play.",
+  price: 749,
+  compareAtPrice: 899,
+  sku: "BZ-GUESS-WHO-001",
+  images: [IMAGE.GUESS_WHO_I_AM],
+  categorySlug: "mind-games",
+  collectionSlug: "play-anywhere",
+  stock: 25,
+  status: "active",
+  featured: false,
+  ageRange: {
+    min: 4,
+    max: 10,
   },
+},
 
   /* ------------------------------------------------------------------------
      9. DEMO — MYTHOLOGY

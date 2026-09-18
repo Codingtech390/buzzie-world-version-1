@@ -185,6 +185,38 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
 
   return (
     <section className="relative mt-2 overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white">
+
+          {/* ================================================================
+        BANNER IMAGE
+        ================================================================ */}
+
+    <div
+      className="
+        relative
+        w-full
+        overflow-hidden
+      "
+    >
+      <Image
+        src="/images/backgrounds/insta-video-banner.png"
+        alt="BuzzieWorld"
+        width={1920}
+        height={700}
+        priority
+        quality={90}
+        sizes="100vw"
+        className="
+          block
+          h-auto
+          w-full
+          max-w-none
+          object-contain
+        "
+      />
+    </div>
+
+
+
       {/* ================================================================
           SOFT BACKGROUND GRAPHICS
       ================================================================ */}

@@ -176,7 +176,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
   justify-center
   gap-1
   rounded-full
-  bg-[#C391EE]
+  bg-[#FFD54F]
   px-4
   font-[var(--font-poppins-brand)]
   text-[8px]
@@ -215,7 +215,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
   xl:text-[14px]
 "
               >
-                <span className="text-white">Buy now</span>
+                <span className="text-black">Buy now</span>
 
                 <span
                   aria-hidden="true"
@@ -238,7 +238,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
                   <ArrowRight
                     className="
                       size-2.5
-                      text-white
+                      text-black
                       transition-transform
                       duration-300
                       group-hover/button:translate-x-0.5

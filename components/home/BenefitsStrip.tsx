@@ -39,7 +39,7 @@ const ageGroups = [
     title: "Early Explorers",
     description: "Simple, safe play for little learners.",
     slug: "1-3-years",
-    image: "/images/shop-by-age/0-3-age-final.png",
+    image: "/images/shop-by-age/age-1-final.png",
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
@@ -48,7 +48,7 @@ const ageGroups = [
     title: "Play & Discover",
     description: "Hands-on fun that sparks imagination.",
     slug: "3-6-years",
-    image: "/images/shop-by-age/3+age-final.png",
+    image: "/images/shop-by-age/age-2-final.png",
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
@@ -57,7 +57,7 @@ const ageGroups = [
     title: "Learn & Grow",
     description: "Build skills through curiosity and play.",
     slug: "6-9-years",
-    image: "/images/shop-by-age/6+age-final.png",
+    image: "/images/shop-by-age/age-3-final.png",
     tone: "#D9E9B8",
     accent: "#6CA83A",
   },
@@ -66,7 +66,7 @@ const ageGroups = [
     title: "Think & Master",
     description: "Challenges for curious, growing minds.",
     slug: "9-15-years",
-    image: "/images/shop-by-age/8+age-final.png",
+    image: "/images/shop-by-age/age-4-final.png",
     tone: "#DCD2F3",
     accent: "#7550A5",
   },
@@ -1197,21 +1197,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                 Shop By <span className="text-[#E83D59]">Age</span>
               </h2>
 
-              <div
-                className="
-                  mx-auto
-                  mt-5
-                  flex
-                  items-center
-                  justify-center
-                  gap-1.5
-                  sm:mt-6
-                "
-              >
-                <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
-                <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
-                <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
-              </div>
+
             </div>
 
             {/* ------------------------------------------------------------ */}

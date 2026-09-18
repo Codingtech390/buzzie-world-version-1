@@ -422,7 +422,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     max-sm:items-center
     max-sm:justify-center
     max-sm:pb-0
-    max-sm:-translate-y-28
+    max-sm:-translate-y-34
 
     sm:px-10
     sm:pb-9
@@ -530,7 +530,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 max-sm:w-[75%]
                 max-sm:max-w-[430px]
                 max-sm:mr-[10%]
-                max-sm:mt-
+                max-sm:mt-12
 
                 sm:w-[51%]
                 sm:max-w-[430px]
@@ -673,342 +673,389 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
             {/* ==================================================================
                 RIGHT-SIDE BUTTONS
 
-                WIDTH IS PRESERVED.
+                Each button uses the exact same responsive square box.
+                The PNG is contained inside that box so all four controls
+                remain identical in width and height.
 
-                The visual height is increased using scale-y only, so the
-                buttons become taller without making the right column wider.
-
-                Longer text gets a narrower inner content area so it can
-                naturally wrap into two lines.
-            =================================================================== */}
+                Text is positioned inside the white label area of the
+                artwork. Multi-word labels are allowed to wrap naturally
+                into two lines without changing the button dimensions.
+           =================================================================== */}
 
             <div
               className="
-    absolute
-    right-[5%]
-    top-1/2
-    z-50
-    flex
-    w-[22%]
-    max-w-[140px]
-    -translate-y-1/2
-    flex-col
-    items-center
-    gap-0
+                absolute
+                right-[3%]
+                top-1/2
+                z-50
+                flex
+                -translate-y-1/2
+                flex-col
+                items-center
+                -space-y-[76px]
+                gap-8
+                max-sm:right-2
+                max-sm:w-[clamp(120px,30vw,150px)]
+                max-sm:-space-y-[70px]
+                max-sm:mt-10
+                max-sm:p-1
+                max-sm:-mr-4
 
-    max-sm:right-2
-    max-sm:w-[24%]
-    max-sm:max-w-[115px]
-    max-sm:gap-7
+                sm:right-[3%]
+                sm:w-[clamp(130px,22vw,155px)]
+                sm:-space-y-[72px]
 
-    sm:right-[7%]
-    sm:w-[21%]
-    sm:max-w-[145px]
+                md:right-[4%]
+                md:w-[clamp(140px,20vw,165px)]
+                md:-space-y-[74px]
 
-    md:right-[8%]
-    md:w-[20%]
-    md:max-w-[155px]
+                lg:right-[3%]
+                lg:w-[clamp(145px,12vw,170px)]
+                lg:-space-y-[76px]
 
-    lg:right-0
-    lg:w-[23%]
-    lg:max-w-[160px]
+                xl:right-[20%]
+                xl:w-[clamp(150px,10vw,175px)]
+                xl:-space-y-[78px]
 
-    xl:right-[22%]
-    xl:gap-10
-    xl:max-w-[140px]
-  "
+
+                2xl:right-[20.5%]
+                2xl:w-[clamp(155px,9vw,180px)]
+                2xl:-space-y-[80px]
+              "
             >
               {/* ==============================================================
-      AGE
-      ============================================================== */}
+                  AGE
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${ageLabel}`}
                 className="
-      group
-      relative
-      z-40
-      block
-      w-full
-      origin-center
-      scale-y-[1.45]
-      transition-all
-      duration-300
-      hover:-translate-y-1
-      hover:scale-[1.03]
-      hover:scale-y-[1.39]
-      focus-visible:outline-none
-      focus-visible:ring-2
-      focus-visible:ring-[#E83D59]
-      focus-visible:ring-offset-2
-    "
+                  group
+                  relative
+                  z-40
+                  block
+                  aspect-square
+                  w-full
+                  shrink-0
+                  origin-center
+                  transition-transform
+                  duration-300
+                  hover:-translate-y-1
+                  hover:scale-[1.04]
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E83D59]
+                  focus-visible:ring-offset-2
+                "
               >
                 <img
-                  src="/images/buttons/right-yellow.png"
+                  src="/images/buttons/side-pastel-yellow.png"
                   alt=""
                   aria-hidden="true"
                   className="
-        block
-        h-auto
-        w-full
-        select-none
-        object-contain
-      "
+                    absolute
+                    inset-0
+                    block
+                    h-full
+                    w-full
+                    select-none
+                    object-contain
+                  "
                   draggable={false}
                 />
 
                 <span
                   className="
-        pointer-events-none
-        absolute
-        inset-y-0
-        left-[31%]
-        right-[7%]
-        flex
-        items-center
-        justify-center
-        px-[3%]
-        text-center
-        font-[var(--font-playpen-sans)]
-        text-[clamp(0.38rem,1.7vw,0.82rem)]
-        font-bold
-        leading-[0.9]
-        tracking-[-0.02em]
-        text-[#17365F]
-      "
+                    pointer-events-none
+                    absolute
+                    inset-y-[12%]
+                    left-[21%]
+                    right-[7%]
+                    flex
+                    items-center
+                    justify-center
+                    text-center
+                    font-[var(--font-playpen-sans)]
+                    text-[clamp(0.68rem,0.95vw,0.9rem)]
+                    font-black
+                    leading-[0.9]
+                    tracking-[-0.025em]
+                    text-[#17365F]
+                    max-sm:mb-10
+                    xl:mb-12
+                  "
                 >
                   <span
                     className="
-          block
-          max-w-[62%]
-          text-balance
-        "
+                      flex
+                      w-[78%]
+                      max-w-[78%]
+                      flex-col
+                      items-center
+                      justify-center
+                      text-center
+                    "
                   >
-                    {ageLabel}
+                    <span>Ages</span>
+                    <span>{ageLabel.replace(/^Ages\s*/i, "")}</span>
                   </span>
                 </span>
               </Link>
 
               {/* ==============================================================
-      STOCK
-      ============================================================== */}
+                  STOCK
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${stockLabel}`}
                 className="
-      group
-      relative
-      z-30
-      -mt-[3%]
-      block
-      w-full
-      origin-center
-      scale-y-[1.45]
-      transition-all
-      duration-300
-      hover:-translate-y-1
-      hover:scale-[1.03]
-      hover:scale-y-[1.39]
-      focus-visible:outline-none
-      focus-visible:ring-2
-      focus-visible:ring-[#E83D59]
-      focus-visible:ring-offset-2
-    "
+                  group
+                  relative
+                  z-30
+                  block
+                  aspect-square
+                  w-full
+                  shrink-0
+                  origin-center
+                  transition-transform
+                  duration-300
+                  hover:-translate-y-1
+                  hover:scale-[1.04]
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E83D59]
+                  focus-visible:ring-offset-2
+                "
               >
                 <img
-                  src="/images/buttons/right-green.png"
+                  src="/images/buttons/side-pastel-green.png"
                   alt=""
                   aria-hidden="true"
                   className="
-        block
-        h-auto
-        w-full
-        select-none
-        object-contain
-      "
+                    absolute
+                    inset-0
+                    block
+                    h-full
+                    w-full
+                    select-none
+                    object-contain
+                  "
                   draggable={false}
                 />
 
                 <span
                   className="
-        pointer-events-none
-        absolute
-        inset-y-0
-        left-[31%]
-        right-[7%]
-        flex
-        items-center
-        justify-center
-        px-[3%]
-        text-center
-        font-[var(--font-playpen-sans)]
-        text-[clamp(0.34rem,1.6vw,0.76rem)]
-        font-bold
-        leading-[0.9]
-        tracking-[-0.02em]
-        text-[#125C2A]
-      "
+                    pointer-events-none
+                    absolute
+                    inset-y-[12%]
+                    left-[21%]
+                    right-[7%]
+                    flex
+                    items-center
+                    justify-center
+                    text-center
+                    font-[var(--font-playpen-sans)]
+                    text-[clamp(0.68rem,0.95vw,0.9rem)]
+                    font-black
+                    leading-[0.9]
+                    tracking-[-0.025em]
+                    text-[#125C2A]
+                    max-sm:mb-10
+                    xl:mb-12
+                  "
                 >
                   <span
                     className="
-          block
-          max-w-[58%]
-          text-balance
-        "
+                      flex
+                      w-[78%]
+                      max-w-[78%]
+                      flex-col
+                      items-center
+                      justify-center
+                      text-center
+                    "
                   >
-                    {stockLabel}
+                    <span>
+                      {stockLabel.replace(/\s*Pieces$/i, "")}
+                    </span>
+                    <span>Pieces</span>
                   </span>
                 </span>
               </Link>
 
               {/* ==============================================================
-      FEATURED
-      ============================================================== */}
+                  FEATURED
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${featuredLabel}`}
                 className="
-      group
-      relative
-      z-20
-      -mt-[3%]
-      block
-      w-full
-      origin-center
-      scale-y-[1.45]
-      transition-all
-      duration-300
-      hover:-translate-y-1
-      hover:scale-[1.03]
-      hover:scale-y-[1.39]
-      focus-visible:outline-none
-      focus-visible:ring-2
-      focus-visible:ring-[#E83D59]
-      focus-visible:ring-offset-2
-    "
+                  group
+                  relative
+                  z-20
+                  block
+                  aspect-square
+                  w-full
+                  shrink-0
+                  origin-center
+                  transition-transform
+                  duration-300
+                  hover:-translate-y-1
+                  hover:scale-[1.04]
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E83D59]
+                  focus-visible:ring-offset-2
+                "
               >
                 <img
-                  src="/images/buttons/right-pink.png"
+                  src="/images/buttons/side-pastel-pink.png"
                   alt=""
                   aria-hidden="true"
                   className="
-        block
-        h-auto
-        w-full
-        select-none
-        object-contain
-      "
+                    absolute
+                    inset-0
+                    block
+                    h-full
+                    w-full
+                    select-none
+                    object-contain
+                  "
                   draggable={false}
                 />
 
                 <span
                   className="
-        pointer-events-none
-        absolute
-        inset-y-0
-        left-[31%]
-        right-[7%]
-        flex
-        items-center
-        justify-center
-        px-[3%]
-        text-center
-        font-[var(--font-playpen-sans)]
-        text-[clamp(0.38rem,1.7vw,0.82rem)]
-        font-bold
-        leading-[0.9]
-        tracking-[-0.02em]
-        text-[#B90D45]
-      "
+                    pointer-events-none
+                    absolute
+                    inset-y-[12%]
+                    left-[21%]
+                    right-[7%]
+                    flex
+                    items-center
+                    justify-center
+                    text-center
+                    font-[var(--font-playpen-sans)]
+                    text-[clamp(0.68rem,0.95vw,0.9rem)]
+                    font-black
+                    leading-[0.9]
+                    tracking-[-0.025em]
+                    text-[#B90D45]
+                    max-sm:mb-10
+                    xl:mb-12
+                  "
                 >
                   <span
                     className="
-          block
-          max-w-[62%]
-          text-balance
-        "
+                      flex
+                      w-[78%]
+                      max-w-[78%]
+                      flex-col
+                      items-center
+                      justify-center
+                      text-center
+                    "
                   >
-                    {featuredLabel}
+                    {featuredLabel === "Our Pick" ? (
+                      <>
+                        <span>Our</span>
+                        <span>Pick</span>
+                      </>
+                    ) : (
+                      <span>{featuredLabel}</span>
+                    )}
                   </span>
                 </span>
               </Link>
 
               {/* ==============================================================
-      WATCH DEMO
-      ============================================================== */}
+                  WATCH DEMO
+              ============================================================== */}
 
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`Watch demo for ${product.name}`}
                 className="
-      group
-      relative
-      z-10
-      -mt-[3%]
-      block
-      w-full
-      origin-center
-      scale-y-[1.45]
-      transition-all
-      duration-300
-      hover:-translate-y-1
-      hover:scale-[1.03]
-      hover:scale-y-[1.39]
-      focus-visible:outline-none
-      focus-visible:ring-2
-      focus-visible:ring-[#E83D59]
-      focus-visible:ring-offset-2
-    "
+                  group
+                  relative
+                  z-10
+                  block
+                  aspect-square
+                  w-full
+                  shrink-0
+                  origin-center
+                  transition-transform
+                  duration-300
+                  hover:-translate-y-1
+                  hover:scale-[1.04]
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E83D59]
+                  focus-visible:ring-offset-2
+                "
               >
                 <img
-                  src="/images/buttons/right-blue.png"
+                  src="/images/buttons/side-pastel-purple.png"
                   alt=""
                   aria-hidden="true"
                   className="
-        block
-        h-auto
-        w-full
-        select-none
-        object-contain
-      "
+                    absolute
+                    inset-0
+                    block
+                    h-full
+                    w-full
+                    select-none
+                    object-contain
+                  "
                   draggable={false}
                 />
 
-                <span
-                  className="
-        pointer-events-none
-        absolute
-        inset-y-0
-        left-[31%]
-        right-[7%]
-        flex
-        items-center
-        justify-center
-        px-[3%]
-        text-center
-        font-[var(--font-playpen-sans)]
-        text-[clamp(0.36rem,1.65vw,0.78rem)]
-        font-bold
-        leading-[0.9]
-        tracking-[-0.02em]
-        text-[#2E2188]
-      "
-                >
-                  <span
-                    className="
-          block
-          max-w-[58%]
-          text-balance
-        "
-                  >
-                    Watch Demo
-                  </span>
-                </span>
+<span
+  className="
+    pointer-events-none
+    absolute
+    inset-y-[12%]
+    left-[21%]
+    right-[7%]
+    flex
+    items-center
+    justify-center
+    text-center
+    font-[var(--font-playpen-sans)]
+    text-[clamp(0.68rem,0.95vw,0.9rem)]
+    font-black
+    leading-[0.9]
+    tracking-[-0.025em]
+    text-[#2E2188]
+    max-sm:mb-10
+                    xl:mb-12
+  "
+>
+  <span
+    className="
+      flex
+      w-[78%]
+      max-w-[78%]
+      flex-col
+      items-center
+      justify-center
+      text-center
+    "
+  >
+    <span>Watch</span>
+    <span>Demo</span>
+  </span>
+</span>
               </Link>
             </div>
+
+
+
+
+
           </div>
         </div>
       </div>
