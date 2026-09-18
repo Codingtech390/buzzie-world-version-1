@@ -67,7 +67,12 @@
 
   --orange: #f29a4a;
   --pink: #f56b9a;
-  --purple: #b99af6;
+
+  /* BuzzieWorld brand purple */
+  --buzzie-purple: #b29ed2;
+
+  /* Legacy purple alias */
+  --purple: var(--buzzie-purple);
 
   --success: #64c76a;
   --warning: #ffbe4d;
@@ -706,4 +711,52 @@ body[data-scroll-locked] {
   .footer-wave {
     animation: none;
   }
+}
+
+
+/* ==========================================================================
+   BUZZIEWORLD LEGACY PURPLE COMPATIBILITY
+   ==========================================================================
+   Existing components use the literal Tailwind color #C391EE.
+
+   We intentionally keep those existing classes unchanged and remap their
+   rendered color to the new client-approved brand purple.
+
+   OLD: #C391EE
+   NEW: #b29ed2
+========================================================================== */
+
+/* Background */
+.bg-\[\#C391EE\] {
+  background-color: var(--buzzie-purple) !important;
+}
+
+/* Text */
+.text-\[\#C391EE\] {
+  color: var(--buzzie-purple) !important;
+}
+
+/* Border */
+.border-\[\#C391EE\] {
+  border-color: var(--buzzie-purple) !important;
+}
+
+/* Ring */
+.ring-\[\#C391EE\] {
+  --tw-ring-color: var(--buzzie-purple) !important;
+}
+
+/* Outline */
+.outline-\[\#C391EE\] {
+  outline-color: var(--buzzie-purple) !important;
+}
+
+/* SVG fill */
+.fill-\[\#C391EE\] {
+  fill: var(--buzzie-purple) !important;
+}
+
+/* SVG stroke */
+.stroke-\[\#C391EE\] {
+  stroke: var(--buzzie-purple) !important;
 }

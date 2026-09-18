@@ -727,7 +727,7 @@ function GeographySection() {
           "
         >
           <img
-            src="/images/hero/buzzie-geo-3.png"
+            src="/images/hero/buzzie-geo-4.png"
             alt="Buzzie Geography Edition"
             className="
               mx-auto

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 import type { StorefrontSelector } from "@/types/storefront";
@@ -38,6 +39,45 @@ export default function CollectionShowcase({ collections: _collections }: Collec
         lg:pb-12
       "
     >
+
+        {/* ================================================================
+        BANNER IMAGE
+        ================================================================ */}
+
+    <div
+      className="
+        relative
+        w-full
+        overflow-hidden
+      "
+    >
+      <Image
+        src="/images/backgrounds/insta-video-banner.png"
+        alt="BuzzieWorld"
+        width={1920}
+        height={700}
+        priority
+        quality={90}
+        sizes="100vw"
+        className="
+          block
+          h-auto
+          w-full
+          max-w-none
+          object-contain
+        "
+      />
+    </div>
+
+
+
+
+
+
+
+
+
+
       {/* =========================================================================
           MAIN RESPONSIVE LAYOUT
 
