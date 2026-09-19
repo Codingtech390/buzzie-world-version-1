@@ -4,7 +4,12 @@ import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Heart, ShoppingCart } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  ShoppingCart,
+} from "lucide-react";
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -39,7 +44,7 @@ const ageGroups = [
     title: "Early Explorers",
     description: "Simple, safe play for little learners.",
     slug: "1-3-years",
-    image: "/images/shop-by-age/age-1-final.png",
+    image: "/images/shop-by-age/0-to-3.png",
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
@@ -48,7 +53,7 @@ const ageGroups = [
     title: "Play & Discover",
     description: "Hands-on fun that sparks imagination.",
     slug: "3-6-years",
-    image: "/images/shop-by-age/age-2-final.png",
+    image: "/images/shop-by-age/3-plus.png",
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
@@ -729,6 +734,103 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
     return classes.join(" ");
   };
 
+  /* ------------------------------------------------------------------------ */
+  /*                            GET SCROLL STEP                               */
+  /* ------------------------------------------------------------------------ */
+
+  const getScrollStep = () => {
+    const container = carouselRef.current;
+
+    if (!container) {
+      return 0;
+    }
+
+    const firstCard = container.querySelector<HTMLElement>(
+      "[data-product-card]",
+    );
+
+    if (!firstCard) {
+      return 0;
+    }
+
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    const styles = window.getComputedStyle(container);
+    const gap = parseFloat(styles.columnGap || styles.gap || "0");
+
+    return cardWidth + gap;
+  };
+
+  /* ------------------------------------------------------------------------ */
+  /*                              PREVIOUS                                    */
+  /* ------------------------------------------------------------------------ */
+
+  const handlePrevious = () => {
+    const container = carouselRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const step = getScrollStep();
+
+    if (!step) {
+      return;
+    }
+
+    const current = container.scrollLeft;
+
+    if (current <= 4) {
+      container.scrollTo({
+        left: container.scrollWidth - container.clientWidth,
+        behavior: "smooth",
+      });
+      return;
+    }
+
+    container.scrollTo({
+      left: Math.max(0, current - step),
+      behavior: "smooth",
+    });
+  };
+
+  /* ------------------------------------------------------------------------ */
+  /*                                NEXT                                      */
+  /* ------------------------------------------------------------------------ */
+
+  const handleNext = () => {
+    const container = carouselRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const step = getScrollStep();
+
+    if (!step) {
+      return;
+    }
+
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const current = container.scrollLeft;
+
+    if (current >= maxScroll - 4) {
+      container.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+
+    container.scrollTo({
+      left: Math.min(current + step, maxScroll),
+      behavior: "smooth",
+    });
+  };
+
+  /* ------------------------------------------------------------------------ */
+  /*                            AUTO PLAY                                     */
+  /* ------------------------------------------------------------------------ */
+
   useEffect(() => {
     const container = carouselRef.current;
 
@@ -747,11 +849,17 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
     };
 
     const advance = () => {
-      if (!container) return;
+      if (!container) {
+        return;
+      }
 
-      const firstCard = container.querySelector<HTMLElement>("[data-product-card]");
+      const firstCard = container.querySelector<HTMLElement>(
+        "[data-product-card]",
+      );
 
-      if (!firstCard) return;
+      if (!firstCard) {
+        return;
+      }
 
       const cardWidth = firstCard.getBoundingClientRect().width;
       const styles = window.getComputedStyle(container);
@@ -796,10 +904,15 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
       }, 5000);
     };
 
+    /* Start immediately and keep running on desktop. */
     startAutoPlay();
 
-    container.addEventListener("mouseenter", stopAutoPlay);
-    container.addEventListener("mouseleave", startAutoPlay);
+    /*
+     * IMPORTANT:
+     * Do not stop autoplay on mouseenter/mouseleave.
+     * The products should continue moving automatically even while
+     * the user is hovering over the carousel.
+     */
     container.addEventListener("touchstart", handleTouchStart, {
       passive: true,
     });
@@ -811,14 +924,59 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
         clearTimeout(restartTimeoutId);
       }
 
-      container.removeEventListener("mouseenter", stopAutoPlay);
-      container.removeEventListener("mouseleave", startAutoPlay);
       container.removeEventListener("touchstart", handleTouchStart);
     };
   }, [products.length]);
 
   return (
     <div className="relative mt-12">
+      {/* ================================================================== */}
+      {/* LEFT ARROW — DESKTOP / LAPTOP ONLY                                */}
+      {/* ================================================================== */}
+
+      {products.length > desktopVisibleCount && (
+        <button
+          type="button"
+          aria-label="Previous BuzzieWorld products"
+          onClick={handlePrevious}
+          className="
+            absolute
+            left-[-58px]
+            top-1/2
+            z-40
+            hidden
+            size-11
+            -translate-y-1/2
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#E4DDEF]
+            bg-white
+            text-[#263451]
+            shadow-[0_8px_24px_rgba(38,52,81,0.12)]
+            transition-all
+            duration-200
+            hover:-translate-x-0.5
+            hover:border-[#C391EE]
+            hover:bg-[#F8F5FC]
+            hover:text-[#927FC5]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#A99AD2]
+            focus-visible:ring-offset-2
+            lg:flex
+            xl:left-[-64px]
+          "
+        >
+          <ChevronLeft className="size-5" strokeWidth={2.2} />
+        </button>
+      )}
+
+      {/* ================================================================== */}
+      {/* PRODUCT CARDS                                                      */}
+      {/* ================================================================== */}
+
       <motion.div
         ref={carouselRef}
         variants={containerVariants}
@@ -830,7 +988,6 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
         }}
         aria-label="Featured BuzzieWorld products"
         className="
-
           flex
           snap-x
           snap-mandatory
@@ -849,11 +1006,62 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
         }}
       >
         {products.map((product) => (
-          <div key={product._id} data-product-card className={getCarouselCardClass()}>
+          <div
+            key={product._id}
+            data-product-card
+            className={getCarouselCardClass()}
+          >
             <ProductArcCard product={product} />
           </div>
         ))}
       </motion.div>
+
+      {/* ================================================================== */}
+      {/* RIGHT ARROW — DESKTOP / LAPTOP ONLY                               */}
+      {/* ================================================================== */}
+
+      {products.length > desktopVisibleCount && (
+        <button
+          type="button"
+          aria-label="Next BuzzieWorld products"
+          onClick={handleNext}
+          className="
+            absolute
+            right-[-58px]
+            top-1/2
+            z-40
+            hidden
+            size-11
+            -translate-y-1/2
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#E4DDEF]
+            bg-white
+            text-[#263451]
+            shadow-[0_8px_24px_rgba(38,52,81,0.12)]
+            transition-all
+            duration-200
+            hover:translate-x-0.5
+            hover:border-[#C391EE]
+            hover:bg-[#F8F5FC]
+            hover:text-[#927FC5]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#A99AD2]
+            focus-visible:ring-offset-2
+            lg:flex
+            xl:right-[-64px]
+          "
+        >
+          <ChevronRight className="size-5" strokeWidth={2.2} />
+        </button>
+      )}
+
+      {/* ================================================================== */}
+      {/* MOBILE / TABLET INDICATORS                                        */}
+      {/* ================================================================== */}
 
       {products.length > mobileVisibleCount && (
         <div

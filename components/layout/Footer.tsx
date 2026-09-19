@@ -1,7 +1,17 @@
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import {
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
+import type { ReactNode } from "react";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa6";
 
 import { siteConfig } from "@/config/site";
 
@@ -47,7 +57,11 @@ const legalLinks = [
    SOCIAL ICON
    ================================================================ */
 
-function SocialIcon({ type }: { type: "instagram" | "facebook" | "youtube" }) {
+function SocialIcon({
+  type,
+}: {
+  type: "instagram" | "facebook" | "youtube";
+}) {
   if (type === "instagram") {
     return <FaInstagram className="size-4" />;
   }
@@ -94,53 +108,59 @@ export default function Footer() {
       "
     >
       {/* ============================================================
-    FOOTER BACKGROUND VIDEO
-============================================================ */}
+          FOOTER BACKGROUND VIDEO
+
+          IMPORTANT:
+          This positioning is intentionally unchanged.
+      ============================================================ */}
 
       <div
         aria-hidden="true"
         className="
-    pointer-events-none
-    absolute
-    inset-0
-    z-0
-    overflow-hidden
-  "
+          pointer-events-none
+          absolute
+          inset-0
+          z-0
+          overflow-hidden
+        "
       >
         <video
           className="
-    absolute
-    inset-0
-    h-full
-    w-full
-    object-cover
-    object-[center_28%]
-    opacity-[0.58]
-    translate-y-[5%]
-    scale-[1.15]
-    sm:translate-y-[5%]
-    sm:scale-[1.16]
-    lg:translate-y-[4%]
-    lg:scale-[1.18]
-    xl:translate-y-[4%]
-    xl:scale-[1.2]
-  "
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+            object-[center_28%]
+            opacity-[0.58]
+            translate-y-[5%]
+            scale-[1.15]
+            sm:translate-y-[5%]
+            sm:scale-[1.16]
+            lg:translate-y-[4%]
+            lg:scale-[1.18]
+            xl:translate-y-[4%]
+            xl:scale-[1.2]
+          "
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
         >
-          <source src="/images/hero/video/footer-video.mp4" type="video/mp4" />
+          <source
+            src="/images/hero/video/footer-video.mp4"
+            type="video/mp4"
+          />
         </video>
 
         {/* Soft readability overlay */}
         <div
           className="
-      absolute
-      inset-0
-      bg-[#1D1B22]/20
-    "
+            absolute
+            inset-0
+            bg-[#1D1B22]/20
+          "
         />
       </div>
 
@@ -180,7 +200,11 @@ export default function Footer() {
             animationDuration: "32s",
           }}
         >
-          <svg viewBox="0 0 2880 170" preserveAspectRatio="none" className="h-full w-full">
+          <svg
+            viewBox="0 0 2880 170"
+            preserveAspectRatio="none"
+            className="h-full w-full"
+          >
             <g>
               <path
                 d="M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z"
@@ -253,7 +277,11 @@ export default function Footer() {
             animationDelay: "-11s",
           }}
         >
-          <svg viewBox="0 0 2880 170" preserveAspectRatio="none" className="h-full w-full">
+          <svg
+            viewBox="0 0 2880 170"
+            preserveAspectRatio="none"
+            className="h-full w-full"
+          >
             <g>
               <path
                 d="M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z"
@@ -328,7 +356,11 @@ export default function Footer() {
             animationDelay: "-19s",
           }}
         >
-          <svg viewBox="0 0 2880 170" preserveAspectRatio="none" className="h-full w-full">
+          <svg
+            viewBox="0 0 2880 170"
+            preserveAspectRatio="none"
+            className="h-full w-full"
+          >
             <g>
               <path
                 d="M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z"
@@ -438,33 +470,45 @@ export default function Footer() {
           xl:pt-[155px]
         "
       >
+        {/* ==============================================================
+            MAIN FOOTER LAYOUT
+
+            Desktop:
+            - Left = brand/contact
+            - Right = ONE centered five-column navigation group
+
+            This is the important structural fix.
+        ============================================================== */}
+
         <div
           className="
             grid
-            grid-cols-2
-            gap-x-6
-            gap-y-10
+            grid-cols-1
+            gap-10
             pb-10
-            sm:gap-x-8
-            sm:gap-y-12
+
+            sm:gap-12
             sm:pb-12
-            lg:grid-cols-[1.45fr_repeat(5,minmax(0,1fr))]
-            lg:gap-x-8
+
+            lg:grid-cols-[1.2fr_3.8fr]
+            lg:items-start
+            lg:gap-x-10
             lg:gap-y-0
             lg:pb-16
-            xl:gap-x-10
+
+            xl:grid-cols-[1.15fr_3.85fr]
+            xl:gap-x-12
           "
         >
           {/* ==============================================================
-              BRAND
+              BRAND / CONTACT
           ============================================================== */}
 
           <div
             className="
-              col-span-2
+              w-full
               max-w-md
-              lg:col-span-1
-              lg:pr-6
+              lg:pr-4
             "
           >
             <Link
@@ -523,8 +567,13 @@ export default function Footer() {
                 sm:text-sm
               "
             >
-              We curate playful products that help children explore, create and grow.
+              We curate playful products that help children explore, create
+              and grow.
             </p>
+
+            {/* ==========================================================
+                CONTACT DETAILS
+            ========================================================== */}
 
             <div
               className="
@@ -548,20 +597,38 @@ export default function Footer() {
                   hover:text-white
                 "
               >
-                <Mail className="size-4 shrink-0" strokeWidth={1.9} />
-                <span className="break-all sm:break-normal">{siteConfig.email}</span>
+                <Mail
+                  className="size-4 shrink-0"
+                  strokeWidth={1.9}
+                />
+
+                <span className="break-all sm:break-normal">
+                  {siteConfig.email}
+                </span>
               </a>
 
               <div className="flex items-center gap-3">
-                <MapPin className="size-4 shrink-0" strokeWidth={1.9} />
+                <MapPin
+                  className="size-4 shrink-0"
+                  strokeWidth={1.9}
+                />
+
                 <span>{siteConfig.country}</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <Phone className="size-4 shrink-0" strokeWidth={1.9} />
+                <Phone
+                  className="size-4 shrink-0"
+                  strokeWidth={1.9}
+                />
+
                 <span>Customer care coming soon</span>
               </div>
             </div>
+
+            {/* ==========================================================
+                SOCIAL LINKS
+            ========================================================== */}
 
             {socialLinks.length > 0 ? (
               <div className="mt-6 flex items-center gap-2 sm:mt-7">
@@ -602,48 +669,111 @@ export default function Footer() {
           </div>
 
           {/* ==============================================================
-              NAVIGATION
+              CENTERED NAVIGATION GROUP
+
+              IMPORTANT:
+              This is now a separate five-column grid.
+
+              The whole group occupies the right side and each individual
+              column is centered inside its own equal-width column.
           ============================================================== */}
 
-          <FooterColumn title="Shop">
-            {shopLinks.map((item) => (
-              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
-                {item.label}
-              </FooterLink>
-            ))}
-          </FooterColumn>
+          <div
+            className="
+              grid
+              w-full
+              grid-cols-2
+              gap-x-5
+              gap-y-10
 
-          <FooterColumn title="Company">
-            {companyLinks.map((item) => (
-              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
-                {item.label}
-              </FooterLink>
-            ))}
-          </FooterColumn>
+              sm:grid-cols-3
+              sm:gap-x-8
+              sm:gap-y-12
 
-          <FooterColumn title="Customer Care">
-            {customerCareLinks.map((item) => (
-              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
-                {item.label}
-              </FooterLink>
-            ))}
-          </FooterColumn>
+              lg:grid-cols-5
+              lg:items-start
+              lg:justify-items-center
+              lg:gap-x-3
+              lg:gap-y-0
 
-          <FooterColumn title="Your Account">
-            {accountLinks.map((item) => (
-              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
-                {item.label}
-              </FooterLink>
-            ))}
-          </FooterColumn>
+              xl:gap-x-7
+            "
+          >
+            {/* ==========================================================
+                SHOP
+            ========================================================== */}
 
-          <FooterColumn title="Legal">
-            {legalLinks.map((item) => (
-              <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
-                {item.label}
-              </FooterLink>
-            ))}
-          </FooterColumn>
+            <FooterColumn title="Shop">
+              {shopLinks.map((item) => (
+                <FooterLink
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                >
+                  {item.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+
+            {/* ==========================================================
+                COMPANY
+            ========================================================== */}
+
+            <FooterColumn title="Company">
+              {companyLinks.map((item) => (
+                <FooterLink
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                >
+                  {item.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+
+            {/* ==========================================================
+                CUSTOMER CARE
+            ========================================================== */}
+
+            <FooterColumn title="Customer Care">
+              {customerCareLinks.map((item) => (
+                <FooterLink
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                >
+                  {item.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+
+            {/* ==========================================================
+                ACCOUNT
+            ========================================================== */}
+
+            <FooterColumn title="Your Account">
+              {accountLinks.map((item) => (
+                <FooterLink
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                >
+                  {item.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+
+            {/* ==========================================================
+                LEGAL
+            ========================================================== */}
+
+            <FooterColumn title="Legal">
+              {legalLinks.map((item) => (
+                <FooterLink
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                >
+                  {item.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+          </div>
         </div>
 
         {/* ================================================================
@@ -669,7 +799,8 @@ export default function Footer() {
             "
           >
             <p>
-              © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+              © {new Date().getFullYear()} {siteConfig.name}. All rights
+              reserved.
             </p>
 
             <div
@@ -682,23 +813,38 @@ export default function Footer() {
                 sm:gap-x-5
               "
             >
-              <Link href="/privacy-policy" className="transition-colors hover:text-white">
+              <Link
+                href="/privacy-policy"
+                className="transition-colors hover:text-white"
+              >
                 Privacy Policy
               </Link>
 
-              <span className="hidden text-white/20 sm:inline">•</span>
+              <span className="hidden text-white/20 sm:inline">
+                •
+              </span>
 
-              <Link href="/terms" className="transition-colors hover:text-white">
+              <Link
+                href="/terms"
+                className="transition-colors hover:text-white"
+              >
                 Terms of Service
               </Link>
 
-              <span className="hidden text-white/20 sm:inline">•</span>
+              <span className="hidden text-white/20 sm:inline">
+                •
+              </span>
 
-              <Link href="/disclaimer" className="transition-colors hover:text-white">
+              <Link
+                href="/disclaimer"
+                className="transition-colors hover:text-white"
+              >
                 Disclaimer
               </Link>
 
-              <span className="hidden text-white/20 sm:inline">•</span>
+              <span className="hidden text-white/20 sm:inline">
+                •
+              </span>
 
               <span>
                 {siteConfig.currency} · {siteConfig.locale}
@@ -730,7 +876,9 @@ export default function Footer() {
             sm:text-xs
           "
         >
-          <p>Built for curious minds, creative hands and happy families.</p>
+          <p>
+            Built for curious minds, creative hands and happy families.
+          </p>
 
           <Link
             href="#main-content"
@@ -750,14 +898,14 @@ export default function Footer() {
             "
           >
             Back to top
-            <ArrowUpRight className="size-3.5" strokeWidth={2} />
+
+            <ArrowUpRight
+              className="size-3.5"
+              strokeWidth={2}
+            />
           </Link>
         </div>
       </div>
-
-      {/* ================================================================
-          WAVE MOVEMENT
-      ================================================================ */}
     </footer>
   );
 }
@@ -766,39 +914,64 @@ export default function Footer() {
    FOOTER COLUMN
    ================================================================ */
 
-function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
+function FooterColumn({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <div
       className="
+        flex
+        w-full
         min-w-0
-        mt-28
+        flex-col
+        items-center
+        justify-start
+        text-center
       "
     >
       <h2
         className="
-    font-[var(--font-playpen-sans)]
-    text-[17px]
-    font-semibold
-    leading-[1.35]
-    tracking-[0.02em]
-    text-white
-    sm:text-[18px]
-    lg:text-[20px]
-  "
+          m-0
+          w-full
+          text-center
+          font-playpen
+          text-[17px]
+          font-semibold
+          leading-[1.35]
+          tracking-[0.01em]
+          text-white
+
+          sm:text-[18px]
+
+          lg:text-[19px]
+          xl:text-[20px]
+        "
       >
         {title}
       </h2>
 
-      <div
+      <nav
+        aria-label={`${title} navigation`}
         className="
           mt-3
-          space-y-2
+          flex
+          w-full
+          flex-col
+          items-center
+          justify-start
+          gap-2
+          text-center
+
           sm:mt-4
-          sm:space-y-2.5
+          sm:gap-2.5
         "
       >
         {children}
-      </div>
+      </nav>
     </div>
   );
 }
@@ -807,44 +980,75 @@ function FooterColumn({ title, children }: { title: string; children: React.Reac
    FOOTER LINK
    ================================================================ */
 
-function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+function FooterLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
   return (
     <Link
       href={href}
       className="
         group
-        flex
-        w-fit
+        relative
+        block
+        w-full
         max-w-full
-        items-center
-        gap-1
-        font-[var(--font-playpen)]
+        px-1
+        text-center
+        font-[var(--font-playpen-sans)]
         text-[12px]
+        font-medium
         leading-5
-        text-white/60
+        text-white/65
         transition-colors
+        duration-200
         hover:text-white
+
         focus-visible:outline-none
         focus-visible:ring-2
         focus-visible:ring-[#E72D5A]
+
         sm:text-[13px]
-        lg:text-[13.5px]
+
+        lg:text-[13px]
+        xl:text-[13.5px]
       "
     >
-      <span>{children}</span>
-
-      <ArrowUpRight
+      {/* The text is independently centered */}
+      <span
         className="
+          block
+          w-full
+          text-center
+          transition-transform
+          duration-200
+        "
+      >
+        {children}
+      </span>
+
+      {/* Arrow is removed from the centering calculation */}
+      <ArrowUpRight
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          left-[calc(50%+4.5rem)]
+          top-1/2
           size-3
-          shrink-0
-          -translate-y-0.5
-          translate-x-[-2px]
+          -translate-y-1/2
+          translate-x-[-4px]
           opacity-0
           transition-all
           duration-200
           group-hover:translate-x-0
           group-hover:opacity-70
+
           sm:size-3.5
+          sm:left-[calc(50%+5rem)]
         "
         strokeWidth={1.8}
       />

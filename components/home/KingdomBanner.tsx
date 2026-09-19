@@ -6,19 +6,23 @@ import Reveal from "./Reveal";
 
 /* ==========================================================================
    LOCAL VIDEO LINKS
-   Replace these five paths independently whenever you want.
    ========================================================================== */
 
-const VIDEO_1 = "/images/instagram/video/Video-2.mp4";
-const VIDEO_2 = "/images/instagram/video/Video-1.mp4";
-const VIDEO_3 = "/images/instagram/video/Video-1.mp4";
-const VIDEO_4 = "/images/instagram/video/Video-2.mp4";
-const VIDEO_5 = "/images/instagram/video/Video-1.mp4";
+const VIDEO_1 = "/images/instagram/video/Brain-Binder.mp4";
+const VIDEO_2 = "/images/instagram/video/Logo-Blitz.mp4";
+const VIDEO_3 = "/images/instagram/video/Same-Pinch-Festive-Edition.mp4";
+const VIDEO_4 = "/images/instagram/video/Spell-Master.mp4";
+const VIDEO_5 = "/images/instagram/video/Why-Zone-of-Giggles.mp4";
 
 /* ==========================================================================
    PRODUCT DATA
-   Keep product data separate so each card can be connected to its own
-   catalogue product later.
+
+   These are intentionally frontend/static for now.
+
+   Later, when Brain Binder, Logo Blitz, Same Pinch - Festival Edition,
+   Spell Master and Why Zone of Giggles are connected to the backend,
+   replace the productImage / productHref / price values with the
+   corresponding catalogue data.
    ========================================================================== */
 
 interface VideoCardData {
@@ -34,41 +38,45 @@ const videoCards: VideoCardData[] = [
   {
     id: 1,
     video: VIDEO_1,
-    productImage: "/images/instagram/instagram-product-thumb.png",
-    productName: "The Ultimate Indian Drinking Game",
+    productImage: "/images/instagram/thumbnails/thumbnail-brain-binder.png",
+    productName: "Brain Binder",
     price: 699,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
+
   {
     id: 2,
     video: VIDEO_2,
-    productImage: "/images/instagram/instagram-product-thumb.png",
-    productName: "The Ultimate Indian Drinking Game",
-    price: 699,
+    productImage: "/images/instagram/thumbnails/thumbnail-logo-blitz.png",
+    productName: "Logo Blitz",
+    price: 499,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
+
   {
     id: 3,
     video: VIDEO_3,
-    productImage: "/images/instagram/instagram-product-thumb.png",
-    productName: "The Ultimate Indian Drinking Game",
-    price: 699,
+    productImage: "/images/instagram/thumbnails/thumbnail-same-pinch.png",
+    productName: "Same Pinch - Festival Edition",
+    price: 499,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
+
   {
     id: 4,
     video: VIDEO_4,
-    productImage: "/images/instagram/instagram-product-thumb.png",
-    productName: "The Ultimate Indian Drinking Game",
-    price: 699,
+    productImage: "/images/instagram/thumbnails/thumbnail-spell-master.png",
+    productName: "Spell Master",
+    price: 799,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
+
   {
     id: 5,
     video: VIDEO_5,
-    productImage: "/images/instagram/instagram-product-thumb.png",
-    productName: "The Ultimate Indian Drinking Game",
-    price: 699,
+    productImage: "/images/instagram/thumbnails/thumbnail-why.png",
+    productName: "Why Zone of Giggles",
+    price: 999,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
 ];
@@ -88,7 +96,7 @@ function VideoCard({
     <Reveal delay={index * 0.05}>
       <article
         className="
-        mb-5
+          mb-5
           group
           relative
           w-[82vw]
@@ -97,7 +105,6 @@ function VideoCard({
           shrink-0
           overflow-hidden
           rounded-[10px]
-
 
           transition-transform
           duration-300
@@ -350,58 +357,58 @@ export default function KingdomBanner() {
 
       <section
         className="
-    relative
-    w-full
-    overflow-visible
-    bg-transparent
-    pt-8
-    pb-8
-    sm:pt-10
-    sm:pb-10
-    lg:pt-12
-    lg:pb-12
-  "
+          relative
+          w-full
+          overflow-visible
+          bg-transparent
+          pt-8
+          pb-8
+          sm:pt-10
+          sm:pb-10
+          lg:pt-12
+          lg:pb-12
+        "
       >
         <Reveal>
           <div
             className="
-        relative
-        ml-[calc(50%-50vw)]
-        w-screen
-        max-w-none
-      "
+              relative
+              ml-[calc(50%-50vw)]
+              w-screen
+              max-w-none
+            "
           >
             <Link
               href="/crazy-deals"
               aria-label="Explore BuzzieWorld deals"
               className="
-          group
-          relative
-          block
-          w-full
-          overflow-hidden
-          rounded-none
-          transition-all
-          duration-500
-          hover:-translate-y-0.5
-          hover:shadow-[0_18px_50px_rgba(23,33,61,0.08)]
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-[#C391EE]
-          focus-visible:ring-offset-4
-        "
+                group
+                relative
+                block
+                w-full
+                overflow-hidden
+                rounded-none
+                transition-all
+                duration-500
+                hover:-translate-y-0.5
+                hover:shadow-[0_18px_50px_rgba(23,33,61,0.08)]
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#C391EE]
+                focus-visible:ring-offset-4
+              "
             >
               <span
                 aria-hidden="true"
                 className="
-            absolute
-            left-0
-            right-0
-            top-0
-            z-20
-            h-[3px]
-            bg-[#C391EE]
-          "
+                  absolute
+                  left-0
+                  right-0
+                  top-0
+                  z-20
+                  h-[3px]
+                  bg-[#C391EE]
+                "
               />
 
               <div className="relative w-full">
@@ -413,29 +420,29 @@ export default function KingdomBanner() {
                   priority={false}
                   sizes="100vw"
                   className="
-              block
-              h-auto
-              w-full
-              object-cover
-              transition-transform
-              duration-700
-              ease-[cubic-bezier(0.22,1,0.36,1)]
-              group-hover:scale-[1.008]
-            "
+                    block
+                    h-auto
+                    w-full
+                    object-cover
+                    transition-transform
+                    duration-700
+                    ease-[cubic-bezier(0.22,1,0.36,1)]
+                    group-hover:scale-[1.008]
+                  "
                 />
 
                 <span
                   aria-hidden="true"
                   className="
-              pointer-events-none
-              absolute
-              inset-0
-              bg-white
-              opacity-0
-              transition-opacity
-              duration-500
-              group-hover:opacity-[0.025]
-            "
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    bg-white
+                    opacity-0
+                    transition-opacity
+                    duration-500
+                    group-hover:opacity-[0.025]
+                  "
                 />
               </div>
             </Link>
@@ -487,7 +494,6 @@ export default function KingdomBanner() {
 
                 <p
                   className="
-
                     font-[var(--font-poppins-brand)]
                     text-[10px]
                     font-semibold
@@ -577,7 +583,10 @@ export default function KingdomBanner() {
                       snap-start
                     "
                   >
-                    <VideoCard card={card} index={index} />
+                    <VideoCard
+                      card={card}
+                      index={index}
+                    />
                   </div>
                 ))}
               </div>

@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Compass,
   Crown,
-  Heart,
   Layers3,
   Sparkles,
   Users,
@@ -121,7 +120,13 @@ function StoryProductImage({
   );
 }
 
-function MobileStoryImage({ url, alt }: { url?: string; alt: string }) {
+function MobileStoryImage({
+  url,
+  alt,
+}: {
+  url?: string;
+  alt: string;
+}) {
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-[#D9D1F0]">
       {url ? (
@@ -141,7 +146,9 @@ function MobileStoryImage({ url, alt }: { url?: string; alt: string }) {
   );
 }
 
-export default function BrandStory({ products: _products }: BrandStoryProps) {
+export default function BrandStory({
+  products: _products,
+}: BrandStoryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   /*
@@ -185,11 +192,6 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
 
   return (
     <section className="relative mt-2 overflow-hidden bg-[#5D50A8] font-[var(--font-poppins-brand)] text-white">
-
-
-
-
-
       {/* ================================================================
           SOFT BACKGROUND GRAPHICS
       ================================================================ */}
@@ -249,7 +251,11 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                 LEFT IMAGE — CURRENT SLIDE
             ============================================================ */}
 
-            <StoryProductImage url={activeImage} alt={activeSlide.question} position="left" />
+            <StoryProductImage
+              url={activeImage}
+              alt={activeSlide.question}
+              position="left"
+            />
 
             {/* ============================================================
                 CENTER CONTENT
@@ -368,7 +374,12 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                     </div>
 
                     {/* ============================================================
-                        QUESTION / MAIN HEADING
+                        QUESTION / MAIN HEADING + DESCRIPTION
+
+                        IMPORTANT:
+                        The global CSS sets margin: 0 on both h2 and p.
+                        Therefore we use FLEX + GAP here instead of relying
+                        on margin-top for the description.
                     ============================================================ */}
 
                     <div
@@ -383,96 +394,69 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                         lg:mt-5
                       "
                     >
-                      <h2
+                      <div
                         className="
-                          m-0
+                          flex
                           w-full
-                          font-[var(--font-poppins-brand)]
-                          text-[clamp(2.25rem,9vw,3.4rem)]
-                          font-bold
-                          leading-[0.88]
-                          tracking-[-0.035em]
-                          text-[#FFD54F]
+                          flex-col
+                          gap-7
 
-                          sm:text-[clamp(2.6rem,6vw,3.6rem)]
+                          sm:gap-7
 
-                          md:text-[clamp(2.8rem,4.5vw,3.8rem)]
+                          md:gap-7
 
-                          lg:text-[clamp(2.5rem,3.2vw,3.35rem)]
+                          lg:gap-7
                         "
                       >
-                        {activeSlide.question}
-                      </h2>
+                        <h2
+                          className="
+                            m-0
+                            w-full
+                            font-[var(--font-poppins-brand)]
+                            text-[clamp(2.25rem,9vw,3.4rem)]
+                            font-bold
+                            leading-[0.88]
+                            tracking-[-0.035em]
+                            text-[#FFD54F]
+
+                            sm:text-[clamp(2.6rem,6vw,3.6rem)]
+
+                            md:text-[clamp(2.8rem,4.5vw,3.8rem)]
+
+                            lg:text-[clamp(2.5rem,3.2vw,3.35rem)]
+                          "
+                        >
+                          {activeSlide.question}
+                        </h2>
+
+                        <p
+                          className="
+                            m-0
+                            w-full
+                            max-w-[320px]
+                            font-[var(--font-playpen-sans)]
+                            text-[11px]
+                            font-medium
+                            leading-[1.55]
+                            tracking-[0.005em]
+                            text-white
+
+                            sm:max-w-[370px]
+                            sm:text-[12px]
+                            sm:leading-[1.6]
+
+                            md:max-w-[400px]
+                            md:text-[13px]
+
+                            lg:max-w-[405px]
+                            lg:text-[14px]
+                            lg:leading-[1.55]
+                          "
+                        >
+                          {activeSlide.description}
+                        </p>
+                      </div>
                     </div>
-
-                    {/* ============================================================
-                        DESCRIPTION
-                    ============================================================ */}
-
-                    <p
-                      className="
-                        m-0
-                        mt-7
-                        w-full
-                        max-w-[320px]
-                        font-[var(--font-playpen-sans)]
-                        text-[11px]
-                        font-medium
-                        leading-[1.55]
-                        tracking-[0.005em]
-                        text-white
-
-                        max-sm:mt-6
-                        sm:mt-6
-                        sm:max-w-[370px]
-                        sm:text-[12px]
-                        sm:leading-[1.6]
-
-                        md:max-w-[400px]
-                        md:text-[13px]
-
-                        lg:mt-6
-                        lg:max-w-[405px]
-                        lg:text-[14px]
-                        lg:leading-[1.55]
-                      "
-                    >
-                      {activeSlide.description}
-                    </p>
-
-                    {/* ==========================================================
-                        DESCRIPTION
-                    ========================================================== */}
-
-                    <p
-                      className="
-                        m-0
-                        mt-5
-                        w-full
-                        max-w-[320px]
-                        font-[var(--font-playpen-sans)]
-                        text-[11px]
-                        font-medium
-                        leading-[1.55]
-                        tracking-[0.005em]
-                        text-white
-
-                        sm:mt-6
-                        sm:max-w-[370px]
-                        sm:text-[12px]
-                        sm:leading-[1.6]
-
-                        md:max-w-[400px]
-                        md:text-[13px]
-
-                        lg:mt-6
-                        lg:max-w-[405px]
-                        lg:text-[14px]
-                        lg:leading-[1.55]
-                      "
-                    >
-                      {activeSlide.description}
-                    </p>
 
                     {/* ==========================================================
                         CTA
@@ -527,7 +511,9 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                         xl:text-[12px]
                       "
                     >
-                      <span className="whitespace-nowrap">{activeSlide.buttonLabel}</span>
+                      <span className="whitespace-nowrap">
+                        {activeSlide.buttonLabel}
+                      </span>
 
                       <ArrowRight
                         className="
@@ -570,7 +556,6 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
 
             {/* ============================================================
                 RIGHT IMAGE — NEXT SLIDE
-            ============================================================
 
                 IMPORTANT:
                 This is NOT another image belonging to the active slide.
@@ -595,7 +580,11 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                 RIGHT = Geography
             ============================================================ */}
 
-            <StoryProductImage url={nextImage} alt={nextSlide.question} position="right" />
+            <StoryProductImage
+              url={nextImage}
+              alt={nextSlide.question}
+              position="right"
+            />
 
             {/* ============================================================
                 PREVIOUS
@@ -681,13 +670,17 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
             className="mx-auto max-w-[680px]"
           >
             {/* Mobile continues to use the CURRENT slide image */}
-            <MobileStoryImage url={activeImage} alt={activeSlide.question} />
+
+            <MobileStoryImage
+              url={activeImage}
+              alt={activeSlide.question}
+            />
 
             <div className="pt-6 text-center">
               <div className="flex items-center justify-center gap-3">
                 <span className="h-1.5 w-8 rounded-full bg-white" />
 
-                <p className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.16em] text-white/80 sm:text-[10px]">
+                <p className="m-0 inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.16em] text-white/80 sm:text-[10px]">
                   <Icon className="size-3.5" />
                   {activeSlide.eyebrow}
                 </p>
@@ -695,13 +688,21 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                 <span className="h-2 w-2 rounded-full bg-[#E83D59]" />
               </div>
 
-              <h2 className="mt-4 font-[var(--font-playpen)] text-[clamp(2rem,8vw,3.3rem)] leading-[0.9] tracking-[-0.035em] text-white">
-                {activeSlide.question}
-              </h2>
+              {/* ============================================================
+                  MOBILE HEADING + DESCRIPTION
 
-              <p className="mx-auto mt-5 max-w-[570px] font-[var(--font-poppins-brand)] text-[12px] leading-6 normal-case text-white/90 sm:text-[13px] sm:leading-7">
-                {activeSlide.description}
-              </p>
+                  Using flex + gap because globals.css resets p/h2 margins.
+              ============================================================ */}
+
+              <div className="mt-4 flex flex-col items-center gap-7">
+                <h2 className="m-0 font-[var(--font-playpen)] text-[clamp(2rem,8vw,3.3rem)] leading-[0.9] tracking-[-0.035em] text-white">
+                  {activeSlide.question}
+                </h2>
+
+                <p className="m-0 mx-auto max-w-[570px] font-[var(--font-poppins-brand)] text-[12px] leading-6 normal-case text-white/90 sm:text-[13px] sm:leading-7">
+                  {activeSlide.description}
+                </p>
+              </div>
 
               <Link
                 href={activeSlide.href}
@@ -740,7 +741,11 @@ export default function BrandStory({ products: _products }: BrandStoryProps) {
                   rounded-full
                   transition-all
                   duration-300
-                  ${index === activeIndex ? "w-7 bg-[#E83D59]" : "w-1.5 bg-white/45"}
+                  ${
+                    index === activeIndex
+                      ? "w-7 bg-[#E83D59]"
+                      : "w-1.5 bg-white/45"
+                  }
                 `}
               />
             ))}

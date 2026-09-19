@@ -212,7 +212,7 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
   xl:min-h-[66px]
   xl:px-16
-  xl:text-[14px]
+  xl:text-[18px]
 "
               >
                 <span className="text-black">Buy now</span>

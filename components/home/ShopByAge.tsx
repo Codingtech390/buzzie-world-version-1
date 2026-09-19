@@ -933,15 +933,15 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                     absolute
                     inset-y-[12%]
                     left-[21%]
-                    right-[7%]
+                    right-[5%]
                     flex
                     items-center
                     justify-center
                     text-center
                     font-[var(--font-playpen-sans)]
-                    text-[clamp(0.68rem,0.95vw,0.9rem)]
+                    text-[clamp(0.68rem,0.95vw,0.75rem)]
                     font-black
-                    leading-[0.9]
+                    leading-[0.8]
                     tracking-[-0.025em]
                     text-[#B90D45]
                     max-sm:mb-10
