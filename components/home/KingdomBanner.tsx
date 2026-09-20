@@ -456,51 +456,96 @@ export default function KingdomBanner() {
 
       <section
         className="
-          relative
-          overflow-hidden
-          bg-[#FFFFFF]
-          pt-8
-          pb-8
-          sm:pt-10
-          sm:pb-10
-          lg:pt-12
-          lg:pb-12
-        "
+        mb-8
+    relative
+    overflow-hidden
+    bg-[#FFD54F]
+    pt-8
+    pb-8
+    sm:pt-10
+    sm:pb-10
+    lg:pt-12
+    lg:pb-12
+  "
       >
+        {/* Subtle premium background accents */}
+        <div
+          aria-hidden="true"
+          className="
+      pointer-events-none
+      absolute
+      -left-24
+      top-10
+      size-[220px]
+      rounded-full
+      bg-white/10
+      blur-3xl
+
+      sm:-left-32
+      sm:size-[280px]
+
+      lg:-left-40
+      lg:size-[360px]
+    "
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+      pointer-events-none
+      absolute
+      -right-24
+      bottom-0
+      size-[260px]
+      rounded-full
+      bg-[#C391EE]/10
+      blur-3xl
+
+      sm:-right-32
+      sm:size-[340px]
+
+      lg:-right-40
+      lg:size-[420px]
+    "
+        />
+
         <div className="container relative">
           <Reveal>
             <header
               className="
-                mx-auto
-                max-w-[900px]
-                px-4
-                text-center
-                sm:px-6
-              "
+          mx-auto
+          max-w-[900px]
+          px-4
+          text-center
+
+          sm:px-6
+        "
             >
               {/* Small themed eyebrow */}
-
               <div className="flex items-center justify-center gap-3">
                 <span
                   aria-hidden="true"
                   className="
-                    h-[2px]
-                    w-8
-                    rounded-full
-                    bg-[#C391EE]
-                    sm:w-10
-                  "
+              h-[2px]
+              w-8
+              rounded-full
+              bg-[#C391EE]
+
+              sm:w-10
+            "
                 />
 
                 <p
                   className="
-                    font-[var(--font-poppins-brand)]
-                    text-[10px]
-                    font-semibold
-                    uppercase
-                    tracking-[0.18em]
-                    sm:text-[11px]
-                  "
+              font-[var(--font-poppins-brand)]
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[0.18em]
+              text-[#111111]
+
+              sm:text-[11px]
+            "
                 >
                   Watch &amp; Buy
                 </p>
@@ -508,85 +553,83 @@ export default function KingdomBanner() {
                 <span
                   aria-hidden="true"
                   className="
-                    h-2
-                    w-2
-                    rounded-full
-                    bg-[#C391EE]
-                  "
+              h-2
+              w-2
+              rounded-full
+              bg-[#C391EE]
+            "
                 />
               </div>
 
               {/* Main heading */}
-
               <h2
                 className="
-                  mx-auto
-                  mt-6
-                  max-w-[900px]
-                  text-balance
-                  font-[var(--font-poppins-brand)]
-                  text-[clamp(2.8rem,8vw,5.2rem)]
-                  font-bold
-                  uppercase
-                  leading-[0.84]
-                  tracking-[-0.035em]
-                  text-black
-                "
+            mx-auto
+            mt-6
+            max-w-[900px]
+            text-balance
+            font-[var(--font-poppins-brand)]
+            text-[clamp(2.8rem,8vw,5.2rem)]
+            font-bold
+            uppercase
+            leading-[0.84]
+            tracking-[-0.035em]
+            text-black
+          "
               >
                 See it.
-                <span className="text-[#E83D59]"> Love it.</span>
-                <span className="text-[#C391EE]"> Take it home.</span>
+                <span className="text-[#C391EE]"> Love it.</span>
+                <span className="text-[#E83D59]"> Take it home.</span>
               </h2>
             </header>
           </Reveal>
 
           <div
             className="
-              relative
-              mx-auto
-              mt-8
-              w-full
-              max-w-[1400px]
-              sm:mt-10
-              lg:mt-12
-            "
+        relative
+        mx-auto
+        mt-8
+        w-full
+        max-w-[1400px]
+
+        sm:mt-10
+
+        lg:mt-12
+      "
           >
             <div
               className="
-                w-full
-                overflow-x-auto
-                overflow-y-hidden
-                touch-pan-x
-                overscroll-x-contain
-                scroll-smooth
-                snap-x
-                snap-mandatory
-                [scrollbar-width:none]
-                [-ms-overflow-style:none]
-                [&::-webkit-scrollbar]:hidden
-              "
+          w-full
+          overflow-x-auto
+          overflow-y-hidden
+          touch-pan-x
+          overscroll-x-contain
+          scroll-smooth
+          snap-x
+          snap-mandatory
+          [scrollbar-width:none]
+          [-ms-overflow-style:none]
+          [&::-webkit-scrollbar]:hidden
+        "
             >
               <div
                 className="
-                  flex
-                  w-max
-                  shrink-0
-                  gap-4
-                  px-1
-                "
+            flex
+            w-max
+            shrink-0
+            gap-4
+            px-1
+          "
               >
                 {videoCards.map((card, index) => (
                   <div
                     key={card.id}
                     className="
-                      shrink-0
-                      snap-start
-                    "
+                shrink-0
+                snap-start
+              "
                   >
-                    <VideoCard
-                      card={card}
-                      index={index}
-                    />
+                    <VideoCard card={card} index={index} />
                   </div>
                 ))}
               </div>

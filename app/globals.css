@@ -693,19 +693,11 @@ body[data-scroll-locked] {
   animation: buzzieworld-marquee 28s linear infinite;
 }
 
-
 /* ================================================================
-   BUZZIEWORLD FOOTER WAVE
-   ================================================================ */
+   BUZZIEWORLD FOOTER WAVES
+================================================================ */
 
-.footer-wave {
-  animation-name: footerWaveDrift;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform;
-}
-
-@keyframes footerWaveDrift {
+@keyframes buzzie-footer-wave {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -715,24 +707,38 @@ body[data-scroll-locked] {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .footer-wave {
-    animation: none;
+@keyframes buzzie-footer-wave-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }
 
+.buzzie-footer-wave-main {
+  animation: buzzie-footer-wave 18s linear infinite;
+  will-change: transform;
+}
 
-/* ==========================================================================
-   BUZZIEWORLD LEGACY PURPLE COMPATIBILITY
-   ==========================================================================
-   Existing components use the literal Tailwind color #C391EE.
+.buzzie-footer-wave-lavender {
+  animation: buzzie-footer-wave-reverse 25s linear infinite;
+  will-change: transform;
+}
 
-   We intentionally keep those existing classes unchanged and remap their
-   rendered color to the new client-approved brand purple.
+.buzzie-footer-wave-highlight {
+  animation: buzzie-footer-wave 30s linear infinite;
+  will-change: transform;
+}
 
-   OLD: #C391EE
-   NEW: #b29ed2
-========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .buzzie-footer-wave-main,
+  .buzzie-footer-wave-lavender,
+  .buzzie-footer-wave-highlight {
+    animation: none;
+  }
+}
 
 /* Background */
 .bg-\[\#C391EE\] {

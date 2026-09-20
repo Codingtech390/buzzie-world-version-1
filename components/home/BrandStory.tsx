@@ -251,11 +251,7 @@ export default function BrandStory({
                 LEFT IMAGE — CURRENT SLIDE
             ============================================================ */}
 
-            <StoryProductImage
-              url={activeImage}
-              alt={activeSlide.question}
-              position="left"
-            />
+            <StoryProductImage url={activeImage} alt={activeSlide.question} position="left" />
 
             {/* ============================================================
                 CENTER CONTENT
@@ -396,62 +392,69 @@ export default function BrandStory({
                     >
                       <div
                         className="
-                          flex
-                          w-full
-                          flex-col
-                          gap-7
+    flex
+    w-full
+    flex-col
+    gap-6
 
-                          sm:gap-7
+    sm:gap-7
 
-                          md:gap-7
+    md:gap-7
 
-                          lg:gap-7
-                        "
+    lg:gap-7
+  "
                       >
                         <h2
                           className="
-                            m-0
-                            w-full
-                            font-[var(--font-poppins-brand)]
-                            text-[clamp(2.25rem,9vw,3.4rem)]
-                            font-bold
-                            leading-[0.88]
-                            tracking-[-0.035em]
-                            text-[#FFD54F]
+      m-0
+      w-full
+      max-w-[300px]
+      font-[var(--font-poppins-brand)]
+      text-[clamp(2rem,8.5vw,3.2rem)]
+      font-bold
+      leading-[1.02]
+      tracking-[-0.025em]
+      text-[#FFD54F]
 
-                            sm:text-[clamp(2.6rem,6vw,3.6rem)]
+      sm:max-w-[360px]
+      sm:text-[clamp(2.45rem,6vw,3.6rem)]
+      sm:leading-[0.98]
 
-                            md:text-[clamp(2.8rem,4.5vw,3.8rem)]
+      md:max-w-[400px]
+      md:text-[clamp(2.7rem,4.5vw,3.8rem)]
+      md:leading-[0.95]
 
-                            lg:text-[clamp(2.5rem,3.2vw,3.35rem)]
-                          "
+      lg:max-w-[405px]
+      lg:text-[clamp(2.5rem,3.4vw,3.35rem)]
+      lg:leading-[0.94]
+    "
                         >
                           {activeSlide.question}
                         </h2>
 
                         <p
                           className="
-                            m-0
-                            w-full
-                            max-w-[320px]
-                            font-[var(--font-playpen-sans)]
-                            text-[11px]
-                            font-medium
-                            leading-[1.55]
-                            tracking-[0.005em]
-                            text-white
+      m-0
+      w-full
+      max-w-[300px]
+      font-[var(--font-playpen-sans)]
+      text-[11px]
+      font-medium
+      leading-[1.55]
+      tracking-[0.005em]
+      text-white
 
-                            sm:max-w-[370px]
-                            sm:text-[12px]
-                            sm:leading-[1.6]
+      sm:max-w-[370px]
+      sm:text-[12px]
+      sm:leading-[1.6]
 
-                            md:max-w-[400px]
-                            md:text-[13px]
+      md:max-w-[400px]
+      md:text-[13px]
 
-                            lg:max-w-[405px]
-                            lg:text-[14px]
-                            lg:leading-[1.55]
-                          "
+      lg:max-w-[405px]
+      lg:text-[14px]
+      lg:leading-[1.55]
+    "
                         >
                           {activeSlide.description}
                         </p>
@@ -511,9 +514,7 @@ export default function BrandStory({
                         xl:text-[12px]
                       "
                     >
-                      <span className="whitespace-nowrap">
-                        {activeSlide.buttonLabel}
-                      </span>
+                      <span className="whitespace-nowrap">{activeSlide.buttonLabel}</span>
 
                       <ArrowRight
                         className="
@@ -580,11 +581,7 @@ export default function BrandStory({
                 RIGHT = Geography
             ============================================================ */}
 
-            <StoryProductImage
-              url={nextImage}
-              alt={nextSlide.question}
-              position="right"
-            />
+            <StoryProductImage url={nextImage} alt={nextSlide.question} position="right" />
 
             {/* ============================================================
                 PREVIOUS
@@ -671,10 +668,7 @@ export default function BrandStory({
           >
             {/* Mobile continues to use the CURRENT slide image */}
 
-            <MobileStoryImage
-              url={activeImage}
-              alt={activeSlide.question}
-            />
+            <MobileStoryImage url={activeImage} alt={activeSlide.question} />
 
             <div className="pt-6 text-center">
               <div className="flex items-center justify-center gap-3">
@@ -741,11 +735,7 @@ export default function BrandStory({
                   rounded-full
                   transition-all
                   duration-300
-                  ${
-                    index === activeIndex
-                      ? "w-7 bg-[#E83D59]"
-                      : "w-1.5 bg-white/45"
-                  }
+                  ${index === activeIndex ? "w-7 bg-[#E83D59]" : "w-1.5 bg-white/45"}
                 `}
               />
             ))}

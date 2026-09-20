@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ArrowUpRight,
   Mail,
@@ -19,7 +21,7 @@ const FOOTER_LOGO = "/images/hero/buzzie-logo-1.png";
 
 /* ================================================================
    FOOTER NAVIGATION
-   ================================================================ */
+================================================================ */
 
 const shopLinks = [
   { label: "Shop All", href: "/shop" },
@@ -55,7 +57,7 @@ const legalLinks = [
 
 /* ================================================================
    SOCIAL ICON
-   ================================================================ */
+================================================================ */
 
 function SocialIcon({
   type,
@@ -75,7 +77,7 @@ function SocialIcon({
 
 /* ================================================================
    FOOTER
-   ================================================================ */
+================================================================ */
 
 export default function Footer() {
   const socialLinks = [
@@ -97,822 +99,705 @@ export default function Footer() {
   ].filter((social) => Boolean(social.href));
 
   return (
-    <footer
-      id="footer"
-      className="
-        relative
-        isolate
-        overflow-hidden
-        bg-[#1D1B22]
-        text-white
-      "
-    >
-      {/* ============================================================
-          FOOTER BACKGROUND VIDEO
-
-          IMPORTANT:
-          This positioning is intentionally unchanged.
-      ============================================================ */}
-
-      <div
-        aria-hidden="true"
+    <>
+      <footer
+        id="footer"
         className="
-          pointer-events-none
-          absolute
-          inset-0
-          z-0
-          overflow-hidden
-        "
+    relative
+    isolate
+    min-h-[760px]
+    overflow-hidden
+    bg-[#1D1B22]
+    text-white
+
+    sm:min-h-[780px]
+
+    md:min-h-[820px]
+
+    lg:min-h-[900px]
+
+    xl:min-h-[960px]
+
+    2xl:min-h-[1020px]
+  "
       >
-        <video
+        {/* ================================================================
+            FOOTER BACKGROUND VIDEO
+        ================================================================ */}
+
+        <div
+          aria-hidden="true"
           className="
+            pointer-events-none
             absolute
             inset-0
-            h-full
-            w-full
-            object-cover
-            object-[center_28%]
-            opacity-[0.58]
-            translate-y-[5%]
-            scale-[1.15]
-            sm:translate-y-[5%]
-            sm:scale-[1.16]
-            lg:translate-y-[4%]
-            lg:scale-[1.18]
-            xl:translate-y-[4%]
-            xl:scale-[1.2]
+            z-0
+            overflow-hidden
           "
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
         >
-          <source
-            src="/images/hero/video/footer-video.mp4"
-            type="video/mp4"
+          <video
+            className="
+                absolute inset-0 h-full w-full object-cover
+                object-[center_30%] opacity-[0.58]
+                scale-[1.06]
+                sm:scale-[1.08]
+                md:scale-[1.10]
+                lg:translate-y-[50%] lg:scale-[1.12]
+                xl:translate-y-[11%] xl:scale-[1.14]
+                2xl:translate-y-[50%] 2xl:scale-[1.16]
+              "
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          >
+            <source src="/images/hero/video/footer-video.mp4" type="video/mp4" />
+          </video>
+
+          {/* Readability overlay */}
+          <div
+            className="
+              absolute
+              inset-0
+              bg-[#1D1B22]/20
+            "
           />
-        </video>
-
-        {/* Soft readability overlay */}
-        <div
-          className="
-            absolute
-            inset-0
-            bg-[#1D1B22]/20
-          "
-        />
-      </div>
-
-      {/* ============================================================
-          NATURAL WAVY BOUNDARY
-      ============================================================ */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-x-0
-          top-0
-          z-20
-          h-[105px]
-          overflow-hidden
-          sm:h-[125px]
-          lg:h-[150px]
-          xl:h-[165px]
-        "
-      >
-        {/* ==========================================================
-            MAIN CREAM WAVE
-        ========================================================== */}
-
-        <div
-          className="
-            footer-wave
-            absolute
-            inset-y-0
-            left-0
-            w-[200%]
-            min-w-[1800px]
-          "
-          style={{
-            animationDuration: "32s",
-          }}
-        >
-          <svg
-            viewBox="0 0 2880 170"
-            preserveAspectRatio="none"
-            className="h-full w-full"
-          >
-            <g>
-              <path
-                d="M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z"
-                fill="#FFF8E8"
-              >
-                <animate
-                  attributeName="d"
-                  dur="10s"
-                  repeatCount="indefinite"
-                  values="
-                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z;
-                    M0 0H1440V46C1265 25 1115 10 950 37C760 68 650 112 470 120C285 128 145 89 0 56Z;
-                    M0 0H1440V58C1255 12 1110 22 948 48C755 81 650 126 475 132C288 138 150 99 0 67Z;
-                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z
-                  "
-                  calcMode="spline"
-                  keyTimes="0;0.33;0.66;1"
-                  keySplines="
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1
-                  "
-                />
-              </path>
-            </g>
-
-            <g transform="translate(1440 0)">
-              <path
-                d="M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z"
-                fill="#FFF8E8"
-              >
-                <animate
-                  attributeName="d"
-                  dur="10s"
-                  repeatCount="indefinite"
-                  values="
-                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z;
-                    M0 0H1440V46C1265 25 1115 10 950 37C760 68 650 112 470 120C285 128 145 89 0 56Z;
-                    M0 0H1440V58C1255 12 1110 22 948 48C755 81 650 126 475 132C288 138 150 99 0 67Z;
-                    M0 0H1440V52C1260 18 1115 15 950 42C755 74 655 121 472 126C285 131 150 94 0 62Z
-                  "
-                  calcMode="spline"
-                  keyTimes="0;0.33;0.66;1"
-                  keySplines="
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1
-                  "
-                />
-              </path>
-            </g>
-          </svg>
         </div>
 
-        {/* ==========================================================
-            LAVENDER WAVE
-        ========================================================== */}
+        {/* ================================================================
+            NATURAL WAVY BOUNDARY
+
+            Important:
+            The SVG shapes themselves do NOT morph anymore.
+
+            Each wave contains two identical halves and moves exactly
+            50% of its width. When the first half leaves the viewport,
+            the second identical half is already there.
+
+            This creates a seamless infinite wave.
+        ================================================================ */}
 
         <div
+          aria-hidden="true"
           className="
-            footer-wave
+            pointer-events-none
             absolute
-            inset-y-0
-            left-0
-            w-[200%]
-            min-w-[1800px]
-          "
-          style={{
-            animationDuration: "43s",
-            animationDelay: "-11s",
-          }}
-        >
-          <svg
-            viewBox="0 0 2880 170"
-            preserveAspectRatio="none"
-            className="h-full w-full"
-          >
-            <g>
-              <path
-                d="M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z"
-                fill="#C9B8EA"
-                fillOpacity="0.42"
-              >
-                <animate
-                  attributeName="d"
-                  dur="13s"
-                  repeatCount="indefinite"
-                  values="
-                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z;
-                    M0 0H1440V56C1240 40 1100 19 940 47C755 78 635 121 460 130C275 139 130 96 0 67Z;
-                    M0 0H1440V72C1260 20 1100 35 945 61C760 91 650 140 470 145C280 150 145 113 0 81Z;
-                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z
-                  "
-                  calcMode="spline"
-                  keyTimes="0;0.33;0.66;1"
-                  keySplines="
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1
-                  "
-                />
-              </path>
-            </g>
+            inset-x-0
+            top-0
+            z-20
+            h-[125px]
+            overflow-hidden
 
-            <g transform="translate(1440 0)">
-              <path
-                d="M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z"
-                fill="#C9B8EA"
-                fillOpacity="0.42"
-              >
-                <animate
-                  attributeName="d"
-                  dur="13s"
-                  repeatCount="indefinite"
-                  values="
-                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z;
-                    M0 0H1440V56C1240 40 1100 19 940 47C755 78 635 121 460 130C275 139 130 96 0 67Z;
-                    M0 0H1440V72C1260 20 1100 35 945 61C760 91 650 140 470 145C280 150 145 113 0 81Z;
-                    M0 0H1440V64C1250 31 1110 27 942 54C760 84 640 133 465 138C275 143 135 105 0 74Z
-                  "
-                  calcMode="spline"
-                  keyTimes="0;0.33;0.66;1"
-                  keySplines="
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1
-                  "
-                />
-              </path>
-            </g>
-          </svg>
-        </div>
+            sm:h-[140px]
 
-        {/* ==========================================================
-            FINE HIGHLIGHT WAVE
-        ========================================================== */}
+            md:h-[155px]
 
-        <div
-          className="
-            footer-wave
-            absolute
-            inset-y-0
-            left-0
-            w-[200%]
-            min-w-[1800px]
-          "
-          style={{
-            animationDuration: "52s",
-            animationDelay: "-19s",
-          }}
-        >
-          <svg
-            viewBox="0 0 2880 170"
-            preserveAspectRatio="none"
-            className="h-full w-full"
-          >
-            <g>
-              <path
-                d="M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z"
-                fill="#FFF8E8"
-                fillOpacity="0.98"
-              >
-                <animate
-                  attributeName="d"
-                  dur="15s"
-                  repeatCount="indefinite"
-                  values="
-                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z;
-                    M0 0H1440V53C1270 20 1115 34 955 53C780 74 655 102 475 121C295 128 150 97 0 63Z;
-                    M0 0H1440V43C1280 30 1110 21 960 44C790 65 665 117 485 111C300 118 145 84 0 53Z;
-                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z
-                  "
-                  calcMode="spline"
-                  keyTimes="0;0.33;0.66;1"
-                  keySplines="
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1
-                  "
-                />
-              </path>
-            </g>
+            lg:h-[165px]
 
-            <g transform="translate(1440 0)">
-              <path
-                d="M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z"
-                fill="#FFF8E8"
-                fillOpacity="0.98"
-              >
-                <animate
-                  attributeName="d"
-                  dur="15s"
-                  repeatCount="indefinite"
-                  values="
-                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z;
-                    M0 0H1440V53C1270 20 1115 34 955 53C780 74 655 102 475 121C295 128 150 97 0 63Z;
-                    M0 0H1440V43C1280 30 1110 21 960 44C790 65 665 117 485 111C300 118 145 84 0 53Z;
-                    M0 0H1440V47C1275 25 1120 28 958 48C785 69 660 110 480 116C295 122 150 91 0 57Z
-                  "
-                  calcMode="spline"
-                  keyTimes="0;0.33;0.66;1"
-                  keySplines="
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1;
-                    0.42 0 0.58 1
-                  "
-                />
-              </path>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      {/* ================================================================
-          SOFT COLOUR ATMOSPHERE
-      ================================================================ */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -right-40
-          top-[100px]
-          -z-10
-          size-[32rem]
-          rounded-full
-          bg-[#7B61C9]/10
-          blur-3xl
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -bottom-40
-          -left-32
-          -z-10
-          size-[30rem]
-          rounded-full
-          bg-[#E83D59]/[0.07]
-          blur-3xl
-        "
-      />
-
-      {/* ================================================================
-          FOOTER CONTENT
-      ================================================================ */}
-
-      <div
-        className="
-          container
-          relative
-          z-10
-          mt-6
-          pt-[105px]
-          sm:mt-7
-          sm:pt-[120px]
-          lg:mt-8
-          lg:pt-[145px]
-          xl:pt-[155px]
-        "
-      >
-        {/* ==============================================================
-            MAIN FOOTER LAYOUT
-
-            Desktop:
-            - Left = brand/contact
-            - Right = ONE centered five-column navigation group
-
-            This is the important structural fix.
-        ============================================================== */}
-
-        <div
-          className="
-            grid
-            grid-cols-1
-            gap-10
-            pb-10
-
-            sm:gap-12
-            sm:pb-12
-
-            lg:grid-cols-[1.2fr_3.8fr]
-            lg:items-start
-            lg:gap-x-10
-            lg:gap-y-0
-            lg:pb-16
-
-            xl:grid-cols-[1.15fr_3.85fr]
-            xl:gap-x-12
+            xl:h-[175px]
           "
         >
-          {/* ==============================================================
-              BRAND / CONTACT
-          ============================================================== */}
+          {/* ============================================================
+              MAIN CREAM WAVE
+          ============================================================ */}
 
           <div
             className="
-              w-full
-              max-w-md
-              lg:pr-4
+              buzzie-footer-wave-motion
+              absolute
+              inset-0
+              left-0
+              w-[200%]
             "
           >
-            <Link
-              href="/"
-              aria-label="BuzzieWorld home"
-              className="
-                inline-flex
-                items-center
-                rounded-2xl
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[#E83D59]
-              "
+            <svg
+              viewBox="0 0 2880 175"
+              preserveAspectRatio="none"
+              className="h-full w-full"
+              aria-hidden="true"
             >
-              <Image
-                src={FOOTER_LOGO}
-                alt="BuzzieWorld"
-                width={180}
-                height={60}
-                className="
-                  h-auto
-                  w-[140px]
-                  object-contain
-                  sm:w-[160px]
-                  lg:w-[170px]
+              {/* FIRST HALF */}
+              <path
+                d="
+                  M0 0
+                  H1440
+                  V48
+                  C1260 18 1110 20 950 46
+                  C760 78 650 122 470 128
+                  C280 134 140 96 0 64
+                  Z
                 "
+                fill="#FFF8E8"
               />
-            </Link>
 
-            <p
-              className="
-                mt-5
-                max-w-sm
-                font-[var(--font-poppins-brand)]
-                text-[20px]
-                font-bold
-                leading-[1.05]
-                tracking-[-0.035em]
-                text-white
-                sm:mt-6
-                sm:text-[24px]
-              "
-            >
-              Your Daily Dose of Vitamin L
-            </p>
-
-            <p
-              className="
-                mt-3
-                max-w-sm
-                font-[var(--font-playpen)]
-                text-[13px]
-                font-medium
-                leading-6
-                text-white/60
-                sm:text-sm
-              "
-            >
-              We curate playful products that help children explore, create
-              and grow.
-            </p>
-
-            {/* ==========================================================
-                CONTACT DETAILS
-            ========================================================== */}
-
-            <div
-              className="
-                mt-6
-                space-y-3
-                font-[var(--font-playpen)]
-                text-[13px]
-                font-medium
-                text-white/65
-                sm:mt-7
-                sm:text-sm
-              "
-            >
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  transition-colors
-                  hover:text-white
+              {/* SECOND IDENTICAL HALF */}
+              <path
+                d="
+                  M1440 0
+                  H2880
+                  V48
+                  C2700 18 2550 20 2390 46
+                  C2200 78 2090 122 1910 128
+                  C1720 134 1580 96 1440 64
+                  Z
                 "
-              >
-                <Mail
-                  className="size-4 shrink-0"
-                  strokeWidth={1.9}
-                />
-
-                <span className="break-all sm:break-normal">
-                  {siteConfig.email}
-                </span>
-              </a>
-
-              <div className="flex items-center gap-3">
-                <MapPin
-                  className="size-4 shrink-0"
-                  strokeWidth={1.9}
-                />
-
-                <span>{siteConfig.country}</span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Phone
-                  className="size-4 shrink-0"
-                  strokeWidth={1.9}
-                />
-
-                <span>Customer care coming soon</span>
-              </div>
-            </div>
-
-            {/* ==========================================================
-                SOCIAL LINKS
-            ========================================================== */}
-
-            {socialLinks.length > 0 ? (
-              <div className="mt-6 flex items-center gap-2 sm:mt-7">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`BuzzieWorld ${social.label}`}
-                    className="
-                      flex
-                      size-9
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-white/15
-                      bg-white/[0.06]
-                      text-white/75
-                      transition-all
-                      duration-200
-                      hover:-translate-y-0.5
-                      hover:border-[#C391EE]/60
-                      hover:bg-[#C391EE]/15
-                      hover:text-white
-                      focus-visible:outline-none
-                      focus-visible:ring-2
-                      focus-visible:ring-[#E83D59]
-                      sm:size-10
-                    "
-                  >
-                    <SocialIcon type={social.type} />
-                  </a>
-                ))}
-              </div>
-            ) : null}
+                fill="#FFF8E8"
+              />
+            </svg>
           </div>
 
+          {/* ============================================================
+              LAVENDER WAVE
+          ============================================================ */}
+
+          <div
+            className="
+              buzzie-footer-wave-lavender
+              absolute
+              inset-0
+              left-0
+              w-[200%]
+              translate-y-[18px]
+            "
+          >
+            <svg
+              viewBox="0 0 2880 175"
+              preserveAspectRatio="none"
+              className="h-full w-full"
+              aria-hidden="true"
+            >
+              {/* FIRST HALF */}
+              <path
+                d="
+                  M0 0
+                  H1440
+                  V62
+                  C1250 32 1100 28 940 55
+                  C755 84 640 132 465 138
+                  C275 144 130 106 0 75
+                  Z
+                "
+                fill="#C9B8EA"
+                fillOpacity="0.42"
+              />
+
+              {/* SECOND IDENTICAL HALF */}
+              <path
+                d="
+                  M1440 0
+                  H2880
+                  V62
+                  C2690 32 2540 28 2380 55
+                  C2195 84 2080 132 1905 138
+                  C1715 144 1570 106 1440 75
+                  Z
+                "
+                fill="#C9B8EA"
+                fillOpacity="0.42"
+              />
+            </svg>
+          </div>
+
+          {/* ============================================================
+              FINE HIGHLIGHT WAVE
+          ============================================================ */}
+
+          <div
+            className="
+              buzzie-footer-wave-motion
+              absolute
+              inset-0
+              left-0
+              w-[200%]
+              translate-y-[8px]
+              opacity-90
+              will-change-transform
+            "
+            style={{
+              animation: "buzzieFooterWave 30s linear infinite",
+            }}
+          >
+            <svg
+              viewBox="0 0 2880 175"
+              preserveAspectRatio="none"
+              className="h-full w-full"
+              aria-hidden="true"
+            >
+              {/* FIRST HALF */}
+              <path
+                d="
+                  M0 0
+                  H1440
+                  V43
+                  C1275 23 1120 26 958 48
+                  C785 70 660 111 480 117
+                  C295 123 150 92 0 58
+                  Z
+                "
+                fill="#FFF8E8"
+              />
+
+              {/* SECOND IDENTICAL HALF */}
+              <path
+                d="
+                  M1440 0
+                  H2880
+                  V43
+                  C2715 23 2560 26 2398 48
+                  C2225 70 2100 111 1920 117
+                  C1735 123 1590 92 1440 58
+                  Z
+                "
+                fill="#FFF8E8"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* ================================================================
+            SOFT COLOUR ATMOSPHERE
+        ================================================================ */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            -right-40
+            top-[180px]
+            -z-10
+            size-[32rem]
+            rounded-full
+            bg-[#7B61C9]/10
+            blur-3xl
+          "
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            -bottom-40
+            -left-32
+            -z-10
+            size-[30rem]
+            rounded-full
+            bg-[#E83D59]/[0.07]
+            blur-3xl
+          "
+        />
+
+        {/* ================================================================
+            FOOTER CONTENT
+        ================================================================ */}
+
+        <div
+          className="
+            container
+            relative
+            z-30
+            mt-6
+            pt-[145px]
+
+            sm:mt-7
+            sm:pt-[155px]
+
+            md:pt-[170px]
+
+            lg:mt-8
+            lg:pt-[175px]
+
+            xl:pt-[185px]
+          "
+        >
           {/* ==============================================================
-              CENTERED NAVIGATION GROUP
+              MAIN FOOTER LAYOUT
 
-              IMPORTANT:
-              This is now a separate five-column grid.
-
-              The whole group occupies the right side and each individual
-              column is centered inside its own equal-width column.
+              Desktop:
+              - Left = brand/contact
+              - Right = centered five-column navigation group
           ============================================================== */}
 
           <div
             className="
               grid
-              w-full
-              grid-cols-2
-              gap-x-5
-              gap-y-10
+              grid-cols-1
+              gap-10
+              pb-10
 
-              sm:grid-cols-3
-              sm:gap-x-8
-              sm:gap-y-12
+              sm:gap-12
+              sm:pb-12
 
-              lg:grid-cols-5
+              lg:grid-cols-[1.2fr_3.8fr]
               lg:items-start
-              lg:justify-items-center
-              lg:gap-x-3
+              lg:gap-x-10
               lg:gap-y-0
+              lg:pb-16
 
-              xl:gap-x-7
+              xl:grid-cols-[1.15fr_3.85fr]
+              xl:gap-x-12
             "
           >
             {/* ==========================================================
-                SHOP
+                BRAND / CONTACT
             ========================================================== */}
 
-            <FooterColumn title="Shop">
-              {shopLinks.map((item) => (
-                <FooterLink
-                  key={`${item.href}-${item.label}`}
-                  href={item.href}
+            <div
+              className="
+                w-full
+                max-w-md
+                lg:pr-4
+              "
+            >
+              <Link
+                href="/"
+                aria-label="BuzzieWorld home"
+                className="
+                  inline-flex
+                  items-center
+                  rounded-2xl
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#E83D59]
+                "
+              >
+                <Image
+                  src={FOOTER_LOGO}
+                  alt="BuzzieWorld"
+                  width={180}
+                  height={60}
+                  className="
+                    h-auto
+                    w-[140px]
+                    object-contain
+
+                    sm:w-[160px]
+
+                    lg:w-[170px]
+                  "
+                />
+              </Link>
+
+              <p
+                className="
+                  mt-5
+                  max-w-sm
+                  font-[var(--font-poppins-brand)]
+                  text-[20px]
+                  font-bold
+                  leading-[1.05]
+                  tracking-[-0.035em]
+                  text-white
+
+                  sm:mt-6
+                  sm:text-[24px]
+                "
+              >
+                Your Daily Dose of Vitamin L
+              </p>
+
+              <p
+                className="
+                  mt-3
+                  max-w-sm
+                  font-[var(--font-playpen)]
+                  text-[13px]
+                  font-medium
+                  leading-6
+                  text-white/60
+
+                  sm:text-sm
+                "
+              >
+                We curate playful products that help children explore, create and grow.
+              </p>
+
+              {/* ==========================================================
+                  CONTACT DETAILS
+              ========================================================== */}
+
+              <div
+                className="
+                  mt-6
+                  space-y-3
+                  font-[var(--font-playpen)]
+                  text-[13px]
+                  font-medium
+                  text-white/65
+
+                  sm:mt-7
+                  sm:text-sm
+                "
+              >
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    transition-colors
+                    hover:text-white
+                  "
                 >
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+                  <Mail className="size-4 shrink-0" strokeWidth={1.9} />
 
-            {/* ==========================================================
-                COMPANY
-            ========================================================== */}
+                  <span className="break-all sm:break-normal">{siteConfig.email}</span>
+                </a>
 
-            <FooterColumn title="Company">
-              {companyLinks.map((item) => (
-                <FooterLink
-                  key={`${item.href}-${item.label}`}
-                  href={item.href}
-                >
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+                <div className="flex items-center gap-3">
+                  <MapPin className="size-4 shrink-0" strokeWidth={1.9} />
 
-            {/* ==========================================================
-                CUSTOMER CARE
-            ========================================================== */}
+                  <span>{siteConfig.country}</span>
+                </div>
 
-            <FooterColumn title="Customer Care">
-              {customerCareLinks.map((item) => (
-                <FooterLink
-                  key={`${item.href}-${item.label}`}
-                  href={item.href}
-                >
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+                <div className="flex items-center gap-3">
+                  <Phone className="size-4 shrink-0" strokeWidth={1.9} />
 
-            {/* ==========================================================
-                ACCOUNT
-            ========================================================== */}
+                  <span>Customer care coming soon</span>
+                </div>
+              </div>
 
-            <FooterColumn title="Your Account">
-              {accountLinks.map((item) => (
-                <FooterLink
-                  key={`${item.href}-${item.label}`}
-                  href={item.href}
-                >
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+              {/* ==========================================================
+                  SOCIAL LINKS
+              ========================================================== */}
 
-            {/* ==========================================================
-                LEGAL
-            ========================================================== */}
+              {socialLinks.length > 0 ? (
+                <div className="mt-6 flex items-center gap-2 sm:mt-7">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`BuzzieWorld ${social.label}`}
+                      className="
+                        flex
+                        size-9
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-white/15
+                        bg-white/[0.06]
+                        text-white/75
+                        transition-all
+                        duration-200
+                        hover:-translate-y-0.5
+                        hover:border-[#C391EE]/60
+                        hover:bg-[#C391EE]/15
+                        hover:text-white
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-[#E83D59]
 
-            <FooterColumn title="Legal">
-              {legalLinks.map((item) => (
-                <FooterLink
-                  key={`${item.href}-${item.label}`}
-                  href={item.href}
-                >
-                  {item.label}
-                </FooterLink>
-              ))}
-            </FooterColumn>
+                        sm:size-10
+                      "
+                    >
+                      <SocialIcon type={social.type} />
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+
+            {/* ==============================================================
+                CENTERED NAVIGATION GROUP
+            ============================================================== */}
+
+            <div
+              className="
+                grid
+                w-full
+                grid-cols-2
+                gap-x-5
+                gap-y-10
+
+                sm:grid-cols-3
+                sm:gap-x-8
+                sm:gap-y-12
+
+                lg:grid-cols-5
+                lg:items-start
+                lg:justify-items-center
+                lg:gap-x-3
+                lg:gap-y-0
+
+                xl:gap-x-7
+              "
+            >
+              {/* SHOP */}
+
+              <FooterColumn title="Shop">
+                {shopLinks.map((item) => (
+                  <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
+                    {item.label}
+                  </FooterLink>
+                ))}
+              </FooterColumn>
+
+              {/* COMPANY */}
+
+              <FooterColumn title="Company">
+                {companyLinks.map((item) => (
+                  <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
+                    {item.label}
+                  </FooterLink>
+                ))}
+              </FooterColumn>
+
+              {/* CUSTOMER CARE */}
+
+              <FooterColumn title="Customer Care">
+                {customerCareLinks.map((item) => (
+                  <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
+                    {item.label}
+                  </FooterLink>
+                ))}
+              </FooterColumn>
+
+              {/* ACCOUNT */}
+
+              <FooterColumn title="Your Account">
+                {accountLinks.map((item) => (
+                  <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
+                    {item.label}
+                  </FooterLink>
+                ))}
+              </FooterColumn>
+
+              {/* LEGAL */}
+
+              <FooterColumn title="Legal">
+                {legalLinks.map((item) => (
+                  <FooterLink key={`${item.href}-${item.label}`} href={item.href}>
+                    {item.label}
+                  </FooterLink>
+                ))}
+              </FooterColumn>
+            </div>
           </div>
-        </div>
 
-        {/* ================================================================
-            COPYRIGHT / LEGAL
-        ================================================================ */}
+          {/* ================================================================
+              COPYRIGHT / LEGAL
+          ================================================================ */}
 
-        <div className="border-t border-white/10 py-5 sm:py-6">
+          <div className="border-t border-white/10 py-5 sm:py-6">
+            <div
+              className="
+                flex
+                flex-col
+                gap-3
+                font-[var(--font-playpen)]
+                text-[11px]
+                font-medium
+                leading-5
+                text-white/45
+
+                sm:flex-row
+                sm:items-center
+                sm:justify-between
+                sm:gap-4
+                sm:text-xs
+              "
+            >
+              <p>
+                © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+              </p>
+
+              <div
+                className="
+                  flex
+                  flex-wrap
+                  items-center
+                  gap-x-4
+                  gap-y-2
+
+                  sm:gap-x-5
+                "
+              >
+                <Link href="/privacy-policy" className="transition-colors hover:text-white">
+                  Privacy Policy
+                </Link>
+
+                <span className="hidden text-white/20 sm:inline">•</span>
+
+                <Link href="/terms" className="transition-colors hover:text-white">
+                  Terms of Service
+                </Link>
+
+                <span className="hidden text-white/20 sm:inline">•</span>
+
+                <Link href="/disclaimer" className="transition-colors hover:text-white">
+                  Disclaimer
+                </Link>
+
+                <span className="hidden text-white/20 sm:inline">•</span>
+
+                <span>
+                  {siteConfig.currency} · {siteConfig.locale}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ================================================================
+              FOOTER SIGN-OFF
+          ================================================================ */}
+
           <div
             className="
               flex
               flex-col
               gap-3
+              pb-7
+              pt-2
               font-[var(--font-playpen)]
               text-[11px]
               font-medium
               leading-5
-              text-white/45
+              text-white/35
+
               sm:flex-row
               sm:items-center
               sm:justify-between
-              sm:gap-4
+              sm:pb-9
               sm:text-xs
             "
           >
-            <p>
-              © {new Date().getFullYear()} {siteConfig.name}. All rights
-              reserved.
-            </p>
+            <p>Built for curious minds, creative hands and happy families.</p>
 
-            <div
+            <Link
+              href="#main-content"
               className="
-                flex
-                flex-wrap
+                inline-flex
+                w-fit
                 items-center
-                gap-x-4
-                gap-y-2
-                sm:gap-x-5
+                gap-1.5
+                font-[var(--font-playpen)]
+                font-semibold
+                text-white/45
+                transition-colors
+                hover:text-white
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#E83D59]
               "
             >
-              <Link
-                href="/privacy-policy"
-                className="transition-colors hover:text-white"
-              >
-                Privacy Policy
-              </Link>
-
-              <span className="hidden text-white/20 sm:inline">
-                •
-              </span>
-
-              <Link
-                href="/terms"
-                className="transition-colors hover:text-white"
-              >
-                Terms of Service
-              </Link>
-
-              <span className="hidden text-white/20 sm:inline">
-                •
-              </span>
-
-              <Link
-                href="/disclaimer"
-                className="transition-colors hover:text-white"
-              >
-                Disclaimer
-              </Link>
-
-              <span className="hidden text-white/20 sm:inline">
-                •
-              </span>
-
-              <span>
-                {siteConfig.currency} · {siteConfig.locale}
-              </span>
-            </div>
+              Back to top
+              <ArrowUpRight className="size-3.5" strokeWidth={2} />
+            </Link>
           </div>
         </div>
-
-        {/* ================================================================
-            FOOTER SIGN-OFF
-        ================================================================ */}
-
-        <div
-          className="
-            flex
-            flex-col
-            gap-3
-            pb-7
-            pt-2
-            font-[var(--font-playpen)]
-            text-[11px]
-            font-medium
-            leading-5
-            text-white/35
-            sm:flex-row
-            sm:items-center
-            sm:justify-between
-            sm:pb-9
-            sm:text-xs
-          "
-        >
-          <p>
-            Built for curious minds, creative hands and happy families.
-          </p>
-
-          <Link
-            href="#main-content"
-            className="
-              inline-flex
-              w-fit
-              items-center
-              gap-1.5
-              font-[var(--font-playpen)]
-              font-semibold
-              text-white/45
-              transition-colors
-              hover:text-white
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#E83D59]
-            "
-          >
-            Back to top
-
-            <ArrowUpRight
-              className="size-3.5"
-              strokeWidth={2}
-            />
-          </Link>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }
 
 /* ================================================================
    FOOTER COLUMN
-   ================================================================ */
+================================================================ */
 
 function FooterColumn({
   title,
@@ -948,6 +833,7 @@ function FooterColumn({
           sm:text-[18px]
 
           lg:text-[19px]
+
           xl:text-[20px]
         "
       >
@@ -978,7 +864,7 @@ function FooterColumn({
 
 /* ================================================================
    FOOTER LINK
-   ================================================================ */
+================================================================ */
 
 function FooterLink({
   href,
@@ -1014,10 +900,11 @@ function FooterLink({
         sm:text-[13px]
 
         lg:text-[13px]
+
         xl:text-[13.5px]
       "
     >
-      {/* The text is independently centered */}
+      {/* Text is independently centered */}
       <span
         className="
           block
@@ -1030,7 +917,7 @@ function FooterLink({
         {children}
       </span>
 
-      {/* Arrow is removed from the centering calculation */}
+      {/* Arrow stays outside the text centering calculation */}
       <ArrowUpRight
         aria-hidden="true"
         className="
