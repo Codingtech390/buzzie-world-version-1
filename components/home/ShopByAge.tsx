@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import type { StorefrontProduct } from "@/types/storefront";
+import { ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
 
 interface ShopByAgeProps {
@@ -1064,6 +1065,590 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 }
 
 /* ============================================================================
+   MYTHOLOGY SERIES
+   ============================================================================ */
+
+export function MythologySeriesSection({ products: _products }: { products: StorefrontProduct[] }) {
+  return (
+    <section
+      aria-label="BuzzieWorld Mythology Series"
+      className="
+        relative
+        isolate
+        w-full
+        overflow-hidden
+        bg-[#FFFFFF]
+        pt-8
+        pb-8
+        sm:pt-10
+        sm:pb-10
+        lg:pt-12
+        lg:pb-12
+      "
+    >
+      {/* =========================================================================
+          HEADING
+      ========================================================================= */}
+
+      <div
+        className="
+          relative
+          z-30
+          mx-auto
+          w-full
+          max-w-[1100px]
+          px-5
+          text-center
+          sm:px-8
+          lg:px-10
+        "
+      >
+        {/* =========================================================================
+            EYEBROW
+        ========================================================================= */}
+
+        <div
+          className="
+            mb-3
+            flex
+            items-center
+            justify-center
+            gap-2
+            sm:mb-4
+          "
+        >
+          <span
+            aria-hidden="true"
+            className="
+              h-[2px]
+              w-7
+              rounded-full
+              bg-[#E83D59]
+              sm:w-9
+            "
+          />
+
+          <p
+            className="
+              font-[var(--font-poppins)]
+              text-[8px]
+              font-black
+              uppercase
+              tracking-[0.2em]
+              text-[#E83D59]
+              sm:text-[9px]
+              lg:text-[10px]
+            "
+          >
+            Games · Stories · Learning
+          </p>
+
+          <span
+            aria-hidden="true"
+            className="
+              h-[2px]
+              w-7
+              rounded-full
+              bg-[#E83D59]
+              sm:w-9
+            "
+          />
+        </div>
+
+        {/* =========================================================================
+            MAIN HEADING
+        ========================================================================= */}
+
+        <h2
+          className="
+            mx-auto
+            w-full
+            max-w-[950px]
+            text-balance
+            text-center
+            font-[var(--font-poppins-brand)]
+            text-[clamp(3.4rem,11vw,5.8rem)]
+            font-bold
+            uppercase
+            leading-[0.82]
+            tracking-[-0.025em]
+            text-[#111111]
+          "
+        >
+          Buzzie Special <span className="text-[#E83D59]">Mythology Series</span>
+        </h2>
+
+        {/* =========================================================================
+            DESCRIPTION
+        ========================================================================= */}
+
+        <div className="mx-auto flex w-full justify-center">
+          <p
+            className="
+              mt-4
+              w-full
+              max-w-[560px]
+              text-center
+              font-[var(--font-poppins)]
+              text-[10px]
+              font-medium
+              leading-[1.65]
+              text-[#687489]
+              sm:mt-5
+              sm:max-w-[620px]
+              sm:text-[11px]
+              lg:max-w-[680px]
+              lg:text-[13px]
+              xl:max-w-[680px]
+              xl:text-[16px]
+            "
+          >
+            Games and kits designed for kids to walk them through tales of Krishna, Ram, Mahabharata
+            and Indian mythology in a fun way.
+          </p>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          COMPLETE MYTHOLOGY ARTWORK
+
+          The artwork already contains:
+          - Krishna character
+          - Mythology products
+          - Purple background shape
+          - Blue background shape
+          - Decorative elements
+
+          Therefore there is no need to construct those elements separately.
+      ========================================================================= */}
+
+      <div
+        className="
+          relative
+          mx-auto
+          mt-5
+          w-full
+          max-w-[1650px]
+          px-3
+          sm:mt-7
+          sm:px-5
+          lg:mt-8
+          lg:px-6
+        "
+      >
+        <Link
+          href="/shop/mythology"
+          aria-label="Explore BuzzieWorld Mythology Series"
+          className="
+            group
+            relative
+            block
+            w-full
+            overflow-hidden
+            rounded-[12px]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#E83D59]
+            focus-visible:ring-offset-4
+          "
+        >
+          <img
+            src="/images/hero/mythology.png"
+            alt="BuzzieWorld Mythology Series featuring Krishna mythology games and products"
+            className="
+              block
+              h-auto
+              w-full
+              select-none
+              object-contain
+              transition-transform
+              duration-500
+              ease-out
+              group-hover:scale-[1.008]
+            "
+            draggable={false}
+          />
+
+          {/* Very subtle hover layer */}
+          <span
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-white
+              opacity-0
+              transition-opacity
+              duration-300
+              group-hover:opacity-[0.025]
+            "
+          />
+        </Link>
+      </div>
+
+      {/* =========================================================================
+          EXPLORE CTA
+      ========================================================================= */}
+
+      <div
+        className="
+          relative
+          z-30
+          mt-5
+          flex
+          justify-center
+          px-4
+          sm:mt-7
+          lg:mt-8
+        "
+      >
+        <Link
+          href="/shop/mythology"
+          className="
+            group
+            inline-flex
+            min-h-[48px]
+            w-fit
+            max-w-full
+            items-center
+            justify-center
+            gap-2.5
+            rounded-full
+            bg-[#C391EE]
+            px-6
+            font-[var(--font-poppins-brand)]
+            text-[12px]
+            font-bold
+            leading-none
+            text-white
+            shadow-[0_10px_24px_rgba(195,145,238,0.25)]
+            transition-all
+            duration-300
+            hover:-translate-y-1
+            hover:bg-[#E83D59]
+            hover:shadow-[0_14px_30px_rgba(232,61,89,0.22)]
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#E83D59]
+            focus-visible:ring-offset-2
+            sm:min-h-[52px]
+            sm:px-7
+            sm:text-[13px]
+            lg:min-h-[54px]
+            lg:px-8
+            lg:text-[12px]
+            uppercase
+          "
+        >
+          <span className="text-white">Explore More Mythology Products</span>
+
+          <span
+            aria-hidden="true"
+            className="
+              flex
+              size-7
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-white/20
+              sm:size-8
+            "
+          >
+            <ArrowRight
+              className="
+                size-3.5
+                text-white
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+                sm:size-4
+              "
+              strokeWidth={2.5}
+            />
+          </span>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+/**** ==========================================================================
+ *   BUZZIE GEOGRAPHY EDITION
+ *   ========================================================================== ****/
+
+function GeographySection() {
+  return (
+    <section
+      className="
+        relative
+        isolate
+        w-full
+        overflow-hidden
+        bg-white
+        pt-8
+        pb-8
+        sm:pt-10
+        sm:pb-10
+        lg:pt-12
+        lg:pb-12
+      "
+    >
+      {/* ================================================================
+          SECTION HEADING
+          ================================================================ */}
+
+      <div
+        className="
+          relative
+          z-20
+          mx-auto
+          w-full
+          max-w-[1100px]
+          px-5
+          text-center
+          sm:px-8
+          lg:px-10
+        "
+      >
+        {/* EYEBROW */}
+
+        <div
+          className="
+            mb-3
+            flex
+            items-center
+            justify-center
+            gap-2
+            sm:mb-4
+          "
+        >
+          <span
+            aria-hidden="true"
+            className="
+              h-[2px]
+              w-7
+              rounded-full
+              bg-[#E83D59]
+              sm:w-9
+            "
+          />
+
+          <p
+            className="
+              font-[var(--font-poppins)]
+              text-[8px]
+              font-black
+              uppercase
+              tracking-[0.2em]
+              text-[#E83D59]
+              sm:text-[9px]
+              lg:text-[10px]
+            "
+          >
+            Explore · Discover · Learn
+          </p>
+
+          <span
+            aria-hidden="true"
+            className="
+              h-[2px]
+              w-7
+              rounded-full
+              bg-[#E83D59]
+              sm:w-9
+            "
+          />
+        </div>
+
+        {/* HEADING */}
+
+        <h2
+          className="
+            mx-auto
+            w-full
+            max-w-[1150px]
+            text-balance
+            text-center
+            font-[var(--font-poppins-brand)]
+            text-[clamp(3.4rem,11vw,5.8rem)]
+            font-bold
+            uppercase
+            leading-[0.82]
+            tracking-[-0.025em]
+            text-[#111111]
+          "
+        >
+          Buzzie <span className="text-[#E83D59]">Geography Edition</span>
+        </h2>
+      </div>
+
+      {/* ================================================================
+          GEOGRAPHY ARTWORK
+          ================================================================ */}
+
+      <div
+        className="
+          relative
+          mx-auto
+          mt-6
+          flex
+          w-full
+          max-w-[1500px]
+          items-center
+          justify-center
+          px-3
+          sm:mt-7
+          sm:px-6
+          lg:mt-8
+          lg:px-10
+        "
+      >
+        {/* ==============================================================
+            CLICKABLE BACKGROUND ARTWORK
+            ============================================================== */}
+
+        <Link
+          href="/shop/geography"
+          aria-label="Explore Buzzie Geography Edition products"
+          className="
+            group
+            relative
+            block
+            w-full
+            cursor-pointer
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#E83D59]
+            focus-visible:ring-offset-4
+          "
+        >
+          <img
+            src="/images/hero/buzzie-geo-4.png"
+            alt="Buzzie Geography Edition"
+            className="
+              mx-auto
+              block
+              h-auto
+              w-full
+              max-w-[1450px]
+              select-none
+              object-contain
+              transition-transform
+              duration-500
+              group-hover:scale-[1.01]
+            "
+          />
+
+          {/* ============================================================
+              SUBTLE HOVER OVERLAY
+              ============================================================ */}
+
+          <span
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-white/0
+              transition-colors
+              duration-300
+              group-hover:bg-white/[0.025]
+            "
+          />
+        </Link>
+      </div>
+
+      {/* ================================================================
+          CTA
+          ================================================================ */}
+
+      <div
+        className="
+          relative
+          z-20
+          mt-5
+          flex
+          justify-center
+          px-4
+          sm:mt-6
+          lg:mt-7
+        "
+      >
+        <Link
+          href="/shop/geography"
+          className="
+            group
+            inline-flex
+            min-h-[48px]
+            w-fit
+            shrink-0
+            items-center
+            justify-center
+            gap-2.5
+            rounded-full
+            bg-[#C391EE]
+            px-5
+            font-[var(--font-poppins)]
+            text-[10px]
+            font-black
+            uppercase
+            tracking-[0.07em]
+            !text-white
+            shadow-[0_10px_24px_rgba(231,45,90,0.20)]
+            transition-all
+            duration-300
+            hover:-translate-y-0.5
+            hover:bg-[#D92350]
+            hover:shadow-[0_14px_32px_rgba(231,45,90,0.28)]
+            active:translate-y-0
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#E72D5A]
+            focus-visible:ring-offset-3
+            sm:min-h-[50px]
+            sm:px-6
+            sm:text-[11px]
+            lg:min-h-[52px]
+            lg:px-7
+          "
+        >
+          <span className="!text-white">Explore more Geography Products</span>
+
+          <span
+            className="
+              flex
+              size-7
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-white/20
+              sm:size-8
+            "
+          >
+            <ArrowRight
+              className="
+                size-3.5
+                !text-white
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+                sm:size-4
+              "
+              strokeWidth={2.5}
+            />
+          </span>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+/* ============================================================================
    MAIN COMPONENT
    ============================================================================ */
 
@@ -1080,6 +1665,20 @@ export default function ShopByAge({ products }: ShopByAgeProps) {
       "
     >
       <BuzzieFavorites products={products} />
+
+      <div className="container relative w-full">
+        {/* =========================================================
+            MYTHOLOGY SERIES
+           ========================================================= */}
+
+        <MythologySeriesSection products={products} />
+
+        {/* =========================================================
+            GEOGRAPHY
+           ========================================================= */}
+
+        <GeographySection />
+      </div>
     </section>
   );
 }

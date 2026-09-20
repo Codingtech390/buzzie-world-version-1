@@ -1,19 +1,10 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  Mail,
-  MapPin,
-  Phone,
-} from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
 
 import { siteConfig } from "@/config/site";
 
@@ -59,11 +50,7 @@ const legalLinks = [
    SOCIAL ICON
 ================================================================ */
 
-function SocialIcon({
-  type,
-}: {
-  type: "instagram" | "facebook" | "youtube";
-}) {
+function SocialIcon({ type }: { type: "instagram" | "facebook" | "youtube" }) {
   if (type === "instagram") {
     return <FaInstagram className="size-4" />;
   }
@@ -122,7 +109,7 @@ export default function Footer() {
   "
       >
         {/* ================================================================
-            FOOTER BACKGROUND VIDEO
+            FOOTER BACKGROUND IMAGE
         ================================================================ */}
 
         <div
@@ -135,224 +122,14 @@ export default function Footer() {
             overflow-hidden
           "
         >
-          <video
-            className="
-                absolute inset-0 h-full w-full object-cover
-                object-[center_30%] opacity-[0.58]
-                scale-[1.06]
-                sm:scale-[1.08]
-                md:scale-[1.10]
-                lg:translate-y-[50%] lg:scale-[1.12]
-                xl:translate-y-[11%] xl:scale-[1.14]
-                2xl:translate-y-[50%] 2xl:scale-[1.16]
-              "
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          >
-            <source src="/images/hero/video/footer-video.mp4" type="video/mp4" />
-          </video>
-
-          {/* Readability overlay */}
-          <div
-            className="
-              absolute
-              inset-0
-              bg-[#1D1B22]/20
-            "
+          <Image
+            src="/images/backgrounds/footer-img.jpeg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
           />
-        </div>
-
-        {/* ================================================================
-            NATURAL WAVY BOUNDARY
-
-            Important:
-            The SVG shapes themselves do NOT morph anymore.
-
-            Each wave contains two identical halves and moves exactly
-            50% of its width. When the first half leaves the viewport,
-            the second identical half is already there.
-
-            This creates a seamless infinite wave.
-        ================================================================ */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-x-0
-            top-0
-            z-20
-            h-[125px]
-            overflow-hidden
-
-            sm:h-[140px]
-
-            md:h-[155px]
-
-            lg:h-[165px]
-
-            xl:h-[175px]
-          "
-        >
-          {/* ============================================================
-              MAIN CREAM WAVE
-          ============================================================ */}
-
-          <div
-            className="
-              buzzie-footer-wave-motion
-              absolute
-              inset-0
-              left-0
-              w-[200%]
-            "
-          >
-            <svg
-              viewBox="0 0 2880 175"
-              preserveAspectRatio="none"
-              className="h-full w-full"
-              aria-hidden="true"
-            >
-              {/* FIRST HALF */}
-              <path
-                d="
-                  M0 0
-                  H1440
-                  V48
-                  C1260 18 1110 20 950 46
-                  C760 78 650 122 470 128
-                  C280 134 140 96 0 64
-                  Z
-                "
-                fill="#FFF8E8"
-              />
-
-              {/* SECOND IDENTICAL HALF */}
-              <path
-                d="
-                  M1440 0
-                  H2880
-                  V48
-                  C2700 18 2550 20 2390 46
-                  C2200 78 2090 122 1910 128
-                  C1720 134 1580 96 1440 64
-                  Z
-                "
-                fill="#FFF8E8"
-              />
-            </svg>
-          </div>
-
-          {/* ============================================================
-              LAVENDER WAVE
-          ============================================================ */}
-
-          <div
-            className="
-              buzzie-footer-wave-lavender
-              absolute
-              inset-0
-              left-0
-              w-[200%]
-              translate-y-[18px]
-            "
-          >
-            <svg
-              viewBox="0 0 2880 175"
-              preserveAspectRatio="none"
-              className="h-full w-full"
-              aria-hidden="true"
-            >
-              {/* FIRST HALF */}
-              <path
-                d="
-                  M0 0
-                  H1440
-                  V62
-                  C1250 32 1100 28 940 55
-                  C755 84 640 132 465 138
-                  C275 144 130 106 0 75
-                  Z
-                "
-                fill="#C9B8EA"
-                fillOpacity="0.42"
-              />
-
-              {/* SECOND IDENTICAL HALF */}
-              <path
-                d="
-                  M1440 0
-                  H2880
-                  V62
-                  C2690 32 2540 28 2380 55
-                  C2195 84 2080 132 1905 138
-                  C1715 144 1570 106 1440 75
-                  Z
-                "
-                fill="#C9B8EA"
-                fillOpacity="0.42"
-              />
-            </svg>
-          </div>
-
-          {/* ============================================================
-              FINE HIGHLIGHT WAVE
-          ============================================================ */}
-
-          <div
-            className="
-              buzzie-footer-wave-motion
-              absolute
-              inset-0
-              left-0
-              w-[200%]
-              translate-y-[8px]
-              opacity-90
-              will-change-transform
-            "
-            style={{
-              animation: "buzzieFooterWave 30s linear infinite",
-            }}
-          >
-            <svg
-              viewBox="0 0 2880 175"
-              preserveAspectRatio="none"
-              className="h-full w-full"
-              aria-hidden="true"
-            >
-              {/* FIRST HALF */}
-              <path
-                d="
-                  M0 0
-                  H1440
-                  V43
-                  C1275 23 1120 26 958 48
-                  C785 70 660 111 480 117
-                  C295 123 150 92 0 58
-                  Z
-                "
-                fill="#FFF8E8"
-              />
-
-              {/* SECOND IDENTICAL HALF */}
-              <path
-                d="
-                  M1440 0
-                  H2880
-                  V43
-                  C2715 23 2560 26 2398 48
-                  C2225 70 2100 111 1920 117
-                  C1735 123 1590 92 1440 58
-                  Z
-                "
-                fill="#FFF8E8"
-              />
-            </svg>
-          </div>
         </div>
 
         {/* ================================================================
@@ -398,8 +175,7 @@ export default function Footer() {
             container
             relative
             z-30
-            mt-6
-            pt-[145px]
+
 
             sm:mt-7
             sm:pt-[155px]
@@ -409,7 +185,7 @@ export default function Footer() {
             lg:mt-8
             lg:pt-[175px]
 
-            xl:pt-[185px]
+
           "
         >
           {/* ==============================================================
@@ -489,7 +265,7 @@ export default function Footer() {
                   font-bold
                   leading-[1.05]
                   tracking-[-0.035em]
-                  text-white
+                  text-black
 
                   sm:mt-6
                   sm:text-[24px]
@@ -500,13 +276,13 @@ export default function Footer() {
 
               <p
                 className="
-                  mt-3
+                  mt-4
                   max-w-sm
                   font-[var(--font-playpen)]
                   text-[13px]
                   font-medium
                   leading-6
-                  text-white/60
+                  text-black
 
                   sm:text-sm
                 "
@@ -525,7 +301,7 @@ export default function Footer() {
                   font-[var(--font-playpen)]
                   text-[13px]
                   font-medium
-                  text-white/65
+                  text-black
 
                   sm:mt-7
                   sm:text-sm
@@ -683,7 +459,7 @@ export default function Footer() {
               COPYRIGHT / LEGAL
           ================================================================ */}
 
-          <div className="border-t border-white/10 py-5 sm:py-6">
+          <div className="border-t border-black py-5 sm:py-6">
             <div
               className="
                 flex
@@ -693,7 +469,7 @@ export default function Footer() {
                 text-[11px]
                 font-medium
                 leading-5
-                text-white/45
+                text-black
 
                 sm:flex-row
                 sm:items-center
@@ -757,7 +533,7 @@ export default function Footer() {
               text-[11px]
               font-medium
               leading-5
-              text-white/35
+              text-black
 
               sm:flex-row
               sm:items-center
@@ -777,7 +553,7 @@ export default function Footer() {
                 gap-1.5
                 font-[var(--font-playpen)]
                 font-semibold
-                text-white/45
+                text-black
                 transition-colors
                 hover:text-white
                 focus-visible:outline-none
@@ -799,13 +575,7 @@ export default function Footer() {
    FOOTER COLUMN
 ================================================================ */
 
-function FooterColumn({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div
       className="
@@ -828,7 +598,7 @@ function FooterColumn({
           font-semibold
           leading-[1.35]
           tracking-[0.01em]
-          text-white
+          text-black
 
           sm:text-[18px]
 
@@ -843,6 +613,7 @@ function FooterColumn({
       <nav
         aria-label={`${title} navigation`}
         className="
+        text-black
           mt-3
           flex
           w-full
@@ -866,13 +637,7 @@ function FooterColumn({
    FOOTER LINK
 ================================================================ */
 
-function FooterLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) {
+function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
