@@ -275,7 +275,7 @@ export default function ProductInfoArtwork({
         "
       >
         <Image
-          src="/images/benefits-vectors/product-details-badges.png"
+          src="/images/benefits-vectors/product-details-badges-2.png"
           alt="Product benefits and safety features"
           width={1200}
           height={220}

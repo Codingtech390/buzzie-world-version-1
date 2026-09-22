@@ -85,8 +85,7 @@ export default function ReturnGiftsPage() {
           {/* Main heading */}
           <h1 className="text-balance font-[var(--font-roboto)] text-[clamp(2.3rem,6vw,5rem)] font-black uppercase leading-[0.9] tracking-[-0.06em] text-[#24385E]">
             Return Gifts
-            <br />
-            <span className="text-[#E83D59]">Bulk Orders</span>
+            <span className="text-[#E83D59]"> Bulk Orders</span>
           </h1>
 
           {/* Description */}

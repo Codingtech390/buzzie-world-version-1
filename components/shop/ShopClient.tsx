@@ -379,7 +379,7 @@ export default function ShopClient() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#FCFAF7] text-[#17213D] font-[var(--font-poppins)]">
       {/* HERO */}
-      <section className=" bg-[#FFFDFC]">
+      <section>
         <div className="mx-auto w-full max-w-[1500px] px-0 sm:px-4 lg:px-6">
           <div
             className="
@@ -387,12 +387,11 @@ export default function ShopClient() {
         w-full
         overflow-hidden
         rounded-none
-        sm:rounded-[24px]
-        lg:rounded-[30px]
+
       "
           >
             <Image
-              src="/images/banners/shop-page-banner.png"
+              src="/images/banners/shop-top-1.png"
               alt="BuzzieWorld — Shop games, books and learning toys for kids"
               width={1920}
               height={1080}
@@ -419,18 +418,19 @@ export default function ShopClient() {
 
           <div className="mb-7 flex items-end justify-between">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-2">
                 <span className="h-[2px] w-8 rounded-full bg-[#E72D5A]" />
 
                 <p
                   className="
-              font-[var(--font-poppins)]
+              font-playpen
               text-[9px]
               font-black
               uppercase
               tracking-[0.18em]
               text-[#E72D5A]
               sm:text-[10px]
+              lg:text-[14px]
             "
                 >
                   Find their next
@@ -442,7 +442,7 @@ export default function ShopClient() {
               <h2
                 className="
             mt-1.5
-            font-[var(--font-roboto)]
+            font-playpen
             text-[30px]
             font-black
             leading-none
@@ -461,7 +461,7 @@ export default function ShopClient() {
           hidden
           pb-1
           font-[var(--font-poppins)]
-          text-[11px]
+          text-[12px]
           font-medium
           text-[#77717B]
           sm:block
@@ -472,58 +472,46 @@ export default function ShopClient() {
           </div>
 
           {/* =========================================================
-        AGE COLLECTION
-       ========================================================= */}
+    AGE COLLECTION
+   ========================================================= */}
 
           <div
             className="
-        grid
-        grid-cols-1
-        gap-5
-        sm:grid-cols-2
-        lg:grid-cols-4
-        lg:gap-6
-        xl:gap-7
-      "
+    grid
+    grid-cols-1
+    gap-5
+    sm:grid-cols-2
+    lg:grid-cols-4
+    lg:gap-6
+    xl:gap-7
+  "
           >
-            {(
-              [
-                {
-                  label: "1–3",
-                  displayLabel: "1–3 YEARS",
-                  image: "/images/shop-by-age/1-3-removebg-preview.png",
-                  background: "#F8D8E5",
-                  accent: "#E72D5A",
-                },
-                {
-                  label: "3–6",
-                  displayLabel: "3–6 YEARS",
-                  image: "/images/shop-by-age/3-6-removebg-preview.png",
-                  background: "#F8E5B7",
-                  accent: "#E99A25",
-                },
-                {
-                  label: "6–9",
-                  displayLabel: "6–9 YEARS",
-                  image: "/images/shop-by-age/6-9-removebg-preview.png",
-                  background: "#D9E9B8",
-                  accent: "#6CA83A",
-                },
-                {
-                  label: "9–15",
-                  displayLabel: "9–15 YEARS",
-                  image: "/images/shop-by-age/9-15-removebg-preview.png",
-                  background: "#DCD2F3",
-                  accent: "#7550A5",
-                },
-              ] as {
-                label: AgeGroup;
-                displayLabel: string;
-                image: string;
-                background: string;
-                accent: string;
-              }[]
-            ).map((age) => {
+            {[
+              {
+                label: "1–3" as AgeGroup,
+                displayLabel: "1–3 YEARS",
+                image: "/images/shop-by-age/0-to-3.png",
+                background: "#F8D8E5",
+              },
+              {
+                label: "3–6" as AgeGroup,
+                displayLabel: "3–6 YEARS",
+                image: "/images/shop-by-age/3-plus.png",
+                background: "#F8E5B7",
+              },
+              {
+                label: "6–9" as AgeGroup,
+                displayLabel: "6–9 YEARS",
+                image: "/images/shop-by-age/age-3-final.png",
+                background: "#D9E9B8",
+              },
+              {
+                label: "9–15" as AgeGroup,
+                displayLabel: "9–15 YEARS",
+                image: "/images/shop-by-age/age-4-final.png",
+                background: "#DCD2F3",
+              },
+            ].map((age) => {
               const active = selectedAge === age.label;
 
               return (
@@ -534,122 +522,60 @@ export default function ShopClient() {
                   aria-label={`Shop products for ${age.displayLabel}`}
                   aria-pressed={active}
                   className="
-              group
-              relative
-              w-full
-              text-left
-              focus-visible:outline-none
-            "
+          group
+          relative
+          w-full
+          text-left
+          focus-visible:outline-none
+        "
                 >
                   {/* =================================================
-                ORGANIC CATEGORY TILE
-               ================================================= */}
+            ORGANIC CATEGORY TILE
+           ================================================= */}
 
                   <div
                     className={`
-                relative
-                mx-auto
-                w-full
-                max-w-[340px]
-                overflow-hidden
-                rounded-[42%_58%_48%_52%/36%_34%_66%_64%]
-                px-3
-                pt-3
-                pb-5
-                transition-all
-                duration-300
-                ease-out
+            relative
+            mx-auto
+            w-full
+            max-w-[340px]
+            overflow-hidden
 
-                sm:max-w-none
-                sm:px-4
-                sm:pt-4
-                sm:pb-6
-
-                ${
-                  active
-                    ? "scale-[1.015] shadow-[0_18px_40px_rgba(40,25,50,0.14)]"
-                    : "shadow-[0_8px_25px_rgba(40,25,50,0.045)] group-hover:-translate-y-1 group-hover:shadow-[0_16px_35px_rgba(40,25,50,0.10)]"
-                }
-              `}
-                    style={{
-                      backgroundColor: age.background,
-                    }}
+            px-3
+            pt-3
+            pb-5
+            transition-all
+            duration-300
+            ease-out
+            sm:max-w-none
+            sm:px-4
+            sm:pt-4
+            sm:pb-6
+            ${active ? "scale-[1.015]" : "group-hover:-translate-y-1"}
+          `}
                   >
-                    {/* Soft inner glow */}
-                    <div
-                      aria-hidden="true"
-                      className="
-                  pointer-events-none
-                  absolute
-                  -bottom-16
-                  left-1/2
-                  h-36
-                  w-[85%]
-                  -translate-x-1/2
-                  rounded-full
-                  bg-white/25
-                  blur-xl
-                "
-                    />
+                    {/* =================================================
+              IMAGE — 20% SMALLER
+             ================================================= */}
 
-                    {/* Image */}
                     <div className="relative z-10 flex w-full items-center justify-center">
                       <img
                         src={age.image}
                         alt={`BuzzieWorld ${age.label} collection`}
                         className="
-                    block
-                    h-auto
-                    w-full
-                    object-contain
-                    transition-transform
-                    duration-500
-                    ease-out
-                    group-hover:scale-[1.025]
-                  "
+                block
+                h-auto
+                w-[75%]
+                object-contain
+                transition-transform
+                duration-500
+                ease-out
+                group-hover:scale-[1.025]
+              "
                         loading="lazy"
                       />
                     </div>
                   </div>
-
-                  {/* =================================================
-                SMALL EDITORIAL ACCENT
-               ================================================= */}
-
-                  <div className="mt-3 flex items-center justify-center gap-1.5">
-                    <span
-                      className="h-[2px] w-5 rounded-full opacity-30"
-                      style={{ backgroundColor: age.accent }}
-                    />
-
-                    <span
-                      className="size-1.5 rounded-full"
-                      style={{ backgroundColor: age.accent }}
-                    />
-
-                    <span
-                      className="h-[2px] w-5 rounded-full opacity-30"
-                      style={{ backgroundColor: age.accent }}
-                    />
-                  </div>
-
-                  {/* Accessible active indicator */}
-                  <span
-                    aria-hidden="true"
-                    className={`
-                pointer-events-none
-                absolute
-                inset-0
-                rounded-[42%_58%_48%_52%/36%_34%_66%_64%]
-                border-2
-                transition-opacity
-                duration-300
-                ${active ? "opacity-100" : "border-transparent opacity-0"}
-              `}
-                    style={{
-                      borderColor: `${age.accent}55`,
-                    }}
-                  />
                 </button>
               );
             })}
@@ -671,7 +597,7 @@ export default function ShopClient() {
                     Refine
                   </p>
 
-                  <h2 className="mt-1 text-[17px] font-black">Filters</h2>
+                  <h2 className="mt-1 text-[20px] font-black font-playpen">Filters</h2>
                 </div>
 
                 <button
@@ -713,7 +639,7 @@ export default function ShopClient() {
 
               {/* PRICE RANGE */}
               <FilterBlock title="Price Range">
-                <div className="px-1">
+                <div className="px-1 font-playpen">
                   <div className="relative h-1.5 rounded-full bg-[#E8E1D8]">
                     <div className="absolute inset-y-0 left-0 w-[80%] rounded-full bg-[#17213D]" />
 
@@ -775,24 +701,6 @@ export default function ShopClient() {
                     );
                   })}
                 </div>
-              </FilterBlock>
-
-              {/* COLLECTION */}
-              <FilterBlock title="Collection">
-                {filterLoading ? (
-                  <FilterSkeleton />
-                ) : (
-                  <div className="space-y-2.5">
-                    {collections.slice(0, 5).map((item, index) => (
-                      <FilterCheckbox
-                        key={`${item._id || item.name}-${index}`}
-                        checked={collection === item._id}
-                        label={item.name}
-                        onClick={() => updateCollection(collection === item._id ? "" : item._id)}
-                      />
-                    ))}
-                  </div>
-                )}
               </FilterBlock>
 
               {/* APPLY FILTERS */}
@@ -959,142 +867,6 @@ export default function ShopClient() {
         </div>
       </section>
 
-      {/* CATEGORY DISCOVERY */}
-      <section className="border-y border-[#EEE7DE] bg-[#FFFDFC]">
-        <div className="mx-auto w-full max-w-[1500px] px-5 py-12 sm:px-8 lg:px-12 xl:px-16">
-          <div className="mb-7 flex items-end justify-between gap-5">
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-[0.18em] text-[#E72D5A]">
-                Keep exploring
-              </p>
-
-              <h2 className="mt-1 text-[30px] font-black tracking-[-0.045em] text-[#17213D] sm:text-[36px]">
-                Shop by category
-              </h2>
-
-              <p className="mt-1.5 max-w-[520px] text-[11px] leading-5 text-[#737A87] sm:text-xs">
-                Discover games and learning experiences designed around curiosity, creativity and
-                real-world play.
-              </p>
-            </div>
-
-            <Sparkles className="hidden size-7 text-[#C391EE] sm:block" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {categoryItems.map(({ definition, category: matchedCategory }) => {
-              const active = category === matchedCategory?._id;
-              const categoryImage = getCategoryProductImage(products, matchedCategory);
-
-              return (
-                <button
-                  key={definition.key}
-                  type="button"
-                  disabled={!matchedCategory}
-                  onClick={() => {
-                    if (!matchedCategory) return;
-
-                    updateCategory(category === matchedCategory._id ? "" : matchedCategory._id);
-
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
-                  }}
-                  className="group min-w-0 text-left disabled:cursor-not-allowed disabled:opacity-45"
-                >
-                  <div
-                    className={[
-                      "relative overflow-hidden rounded-[22px] border bg-white transition-all duration-300",
-                      active
-                        ? "border-[#17213D] shadow-[0_12px_30px_rgba(23,33,61,0.13)]"
-                        : "border-[#E6DED5] group-hover:-translate-y-1 group-hover:shadow-[0_14px_32px_rgba(23,33,61,0.09)]",
-                    ].join(" ")}
-                  >
-                    <div
-                      className="relative aspect-[1.08] overflow-hidden"
-                      style={{ backgroundColor: definition.tone }}
-                    >
-                      {categoryImage ? (
-                        <Image
-                          src={categoryImage}
-                          alt={definition.label}
-                          fill
-                          sizes="(max-width: 639px) 46vw, (max-width: 1023px) 30vw, 20vw"
-                          className="object-contain p-5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
-                        />
-                      ) : (
-                        <div className="flex h-full items-center justify-center">
-                          <div className="flex size-16 items-center justify-center rounded-full bg-white/55 text-2xl font-black text-[#17213D] shadow-sm">
-                            {definition.label.charAt(0)}
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="absolute left-3 top-3">
-                        <span className="rounded-full bg-white/90 px-2.5 py-1 text-[7px] font-black uppercase tracking-[0.08em] text-[#17213D] shadow-sm backdrop-blur-sm">
-                          Explore
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex min-h-[70px] items-center justify-between gap-2 bg-white px-4 py-3.5">
-                      <div className="min-w-0">
-                        <h3 className="truncate text-[11px] font-black text-[#17213D] sm:text-xs">
-                          {definition.label}
-                        </h3>
-                        <p className="mt-1 text-[8px] font-medium uppercase tracking-[0.08em] text-[#8B8F98]">
-                          Explore collection
-                        </p>
-                      </div>
-
-                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-[#E3DCD4] text-[13px] text-[#E72D5A] transition-all duration-200 group-hover:border-[#C391EE] group-hover:bg-[#C391EE] group-hover:text-white">
-                        ↗
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* TRUST / BENEFITS */}
-      <section className="mx-auto w-full max-w-[1500px] px-5 py-9 sm:px-8 lg:px-12 xl:px-16">
-        <div className="grid overflow-hidden rounded-[22px] border border-[#E6DED5] bg-white sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              title: "Curated Quality",
-              text: "Thoughtful picks for curious young minds.",
-              image: "/images/benefits-vectors/bird.png",
-            },
-            {
-              title: "Designed to Learn",
-              text: "Build skills through play and curiosity.",
-              image: "/images/benefits-vectors/finance.png",
-            },
-            {
-              title: "Fast Delivery",
-              text: "Little adventures shouldn't have to wait.",
-              image: "/images/benefits-vectors/car.png",
-            },
-            {
-              title: "Easy Returns",
-              text: "A shopping experience designed for parents.",
-              image: "/images/benefits-vectors/happy.png",
-            },
-          ].map((benefit) => (
-            <Benefit
-              key={benefit.title}
-              title={benefit.title}
-              text={benefit.text}
-              image={benefit.image}
-            />
-          ))}
-        </div>
-      </section>
-
       {/* MOBILE FILTER DRAWER */}
       {showMobileFilters ? (
         <div
@@ -1247,10 +1019,10 @@ function FilterBlock({ title, children }: { title: string; children: ReactNode }
   return (
     <div className="border-b border-[#EEE8DF] px-5 py-5">
       <div className="mb-3.5 flex items-center justify-between">
-        <h3 className="text-[10px] font-black uppercase tracking-[0.08em] text-[#26314A]">
+        <h3 className="text-[16px] font-black font-playpen uppercase tracking-[0.08em] text-[#E83D59]">
           {title}
         </h3>
-        <ChevronDown size={11} className="text-[#8A8199]" />
+        <ChevronDown size={14} className="text-[#E83D59]" />
       </div>
 
       <div className="space-y-2.5">{children}</div>
@@ -1284,7 +1056,7 @@ function FilterCheckbox({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-2.5 text-left transition hover:translate-x-0.5"
+      className="flex w-full items-center gap-3.5 text-left transition hover:translate-x-0.5"
     >
       <span
         className={[
@@ -1292,10 +1064,10 @@ function FilterCheckbox({
           checked ? "border-[#C391EE] bg-[#C391EE]" : "border-[#CFC7BC] bg-white",
         ].join(" ")}
       >
-        {checked ? <span className="text-[8px] font-black text-white">✓</span> : null}
+        {checked ? <span className="text-[13px] font-black text-white">✓</span> : null}
       </span>
 
-      <span className="min-w-0 truncate text-[9px] font-medium leading-4 text-[#3D4657]">
+      <span className="min-w-0 truncate font-playpen text-[14px] font-medium leading-4 text-[#3D4657]">
         {label}
       </span>
     </button>

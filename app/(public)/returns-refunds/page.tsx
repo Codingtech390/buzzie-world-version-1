@@ -26,7 +26,9 @@ export default function ReturnsRefundsPage() {
             <p>
               We want customers to have a clear and fair process when something goes wrong with an
               order. Return and refund eligibility depends on the product, condition, reason for
-              return and applicable consumer rights.
+              return and applicable consumer rights. Customer needs to share 360 degree of received
+              product with unboxing video via email : lookwhatagift@gmail.com or watsapp us
+              @8826345978 with Customer ID.
             </p>
           ),
         },
@@ -41,10 +43,10 @@ export default function ReturnsRefundsPage() {
           ],
         },
         {
-          title: "Return condition",
+          title: "Exchange condition",
           content: (
             <p>
-              Where a return is permitted, products may need to be returned in the condition
+              Where a exchange is permitted, products may need to be returned in the condition
               specified for that product, including applicable packaging, accessories, tags, manuals
               or other included components. Certain products may be subject to specific return
               conditions.
@@ -107,8 +109,9 @@ export default function ReturnsRefundsPage() {
           content: (
             <p>
               Responsibility for return shipping may depend on the reason for the return and the
-              applicable return terms. Where a product is returned because it is damaged, defective
-              or incorrect, the applicable resolution will be determined based on the circumstances.
+              applicable return terms. Where a product is returned for replacement/ exchange because
+              it is damaged, defective or incorrect, the applicable resolution will be determined
+              based on the circumstances.
             </p>
           ),
         },

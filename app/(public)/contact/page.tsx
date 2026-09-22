@@ -1,6 +1,6 @@
+import { ArrowRight, Clock3, Mail, MessageCircle, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock3, Mail, MessageCircle, ShieldCheck } from "lucide-react";
 
 import Reveal from "@/components/home/Reveal";
 
@@ -29,28 +29,68 @@ export default function ContactPage() {
       </section>
 
       {/* =========================================================
-          CONTACT INTRO
-         ========================================================= */}
+    CONTACT INTRO
+   ========================================================= */}
       <section className="px-4 py-12 sm:px-6 sm:py-18 lg:px-8 lg:py-22">
         <Reveal>
-          <div className="mx-auto max-w-[760px] text-center">
+          <div className="mx-auto flex max-w-[760px] flex-col items-center text-center">
+            {/* Eyebrow */}
             <div className="flex items-center justify-center gap-2">
               <span className="h-[2px] w-8 rounded-full bg-[#E72D5A]" />
 
-              <span className="font-[var(--font-poppins)] text-[9px] font-black uppercase tracking-[0.18em] text-[#E72D5A] sm:text-[10px]">
+              <span
+                className="
+            font-playpen
+            text-[9px]
+            font-black
+            uppercase
+            tracking-[0.18em]
+            text-[#E72D5A]
+            sm:text-[10px]
+          "
+              >
                 Let&apos;s connect
               </span>
 
               <span className="size-1.5 rounded-full bg-[#F59A23]" />
             </div>
 
-            <h1 className="mx-auto mt-5 max-w-[700px] font-[var(--font-roboto)] text-[clamp(2.5rem,5vw,4.5rem)] font-black leading-[0.92] tracking-[-0.06em] text-[#111111]">
+            {/* Heading */}
+            <h1
+              className="
+          mx-auto
+          mt-5
+          w-full
+          max-w-[700px]
+          text-center
+          font-playpen
+          text-[clamp(2.5rem,4vw,4.5rem)]
+          font-black
+          leading-[0.92]
+          tracking-[-0.06em]
+          text-[#111111]
+        "
+            >
               Have something
-              <br />
-              <span className="text-[#E72D5A]">to tell us?</span>
+              <span className="text-[#E72D5A]"> to tell us?</span>
             </h1>
 
-            <p className="mx-auto mt-7 max-w-[600px] font-[var(--font-poppins)] text-[13px] leading-7 text-[#687489] sm:text-[14px] sm:leading-8">
+            {/* Description */}
+            <p
+              className="
+          mx-auto
+          mt-8
+          w-full
+          max-w-[600px]
+          text-center
+          font-[var(--font-poppins)]
+          text-[13px]
+          leading-7
+          text-[#687489]
+          sm:text-[14px]
+          sm:leading-8
+        "
+            >
               Whether you have a question about an order, need help choosing something, or simply
               want to say hello, we&apos;d love to hear from you.
             </p>
