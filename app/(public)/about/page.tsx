@@ -8,7 +8,7 @@ export default function AboutPage() {
          ========================================================= */}
       <section className="w-full">
         <Image
-          src="/images/banners/about-1.png"
+          src="/images/banners/about-1-1.png"
           alt="The story behind BuzzieWorld"
           width={1920}
           height={1080}
@@ -23,7 +23,7 @@ export default function AboutPage() {
          ========================================================= */}
       <section className="w-full mb-8">
         <Image
-          src="/images/banners/about-2.png"
+          src="/images/banners/about-2-3.png"
           alt="How BuzzieWorld was created"
           width={1920}
           height={1080}
