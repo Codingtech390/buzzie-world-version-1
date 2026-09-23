@@ -13,6 +13,7 @@ type PolicySection = {
 type PolicyPageProps = {
   eyebrow: string;
   title: string;
+  highlight?: string;
   description: string;
   lastUpdated: string;
   sections: PolicySection[];
@@ -21,6 +22,7 @@ type PolicyPageProps = {
 export default function PolicyPage({
   eyebrow,
   title,
+  highlight,
   description,
   lastUpdated,
   sections,
@@ -86,7 +88,7 @@ export default function PolicyPage({
                     text-[#111111]
                   "
                 >
-                  {title}
+                  {title} {highlight ? <span className="text-[#E72D5A]">{highlight}</span> : null}
                 </h1>
 
                 <p
@@ -143,7 +145,7 @@ export default function PolicyPage({
                ===================================================== */}
             <aside className="hidden lg:block">
               <div className="sticky top-28 rounded-[22px] border border-[#ECE9E7] bg-[#FFFCFA] p-5">
-                <p className="font-[var(--font-poppins)] text-[9px] font-black uppercase tracking-[0.17em] text-[#E72D5A]">
+                <p className="font-[var(--font-poppins)] text-[12px] font-black uppercase tracking-[0.17em] text-[#E72D5A]">
                   On this page
                 </p>
 
@@ -158,7 +160,7 @@ export default function PolicyPage({
                         px-3
                         py-2
                         font-[var(--font-poppins)]
-                        text-[11px]
+                        text-[14px]
                         leading-5
                         text-[#687489]
                         transition-colors

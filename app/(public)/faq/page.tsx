@@ -234,13 +234,14 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
                   className="
                     line-clamp-2
                     min-h-[34px]
-                    font-[var(--font-playpen-sans)]
+                    font-playpen
                     text-[14px]
                     font-black
                     leading-[1.2]
                     tracking-[-0.02em]
                     text-[#17213D]
                     sm:text-[15px]
+                    xl:text-[15px]
                   "
                 >
                   {product.name}
@@ -259,6 +260,7 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
                     leading-[1.55]
                     text-[#77727F]
                     sm:text-[10px]
+                    xl:text-[13px]
                   "
                 >
                   {product.description}
@@ -817,14 +819,17 @@ export default function FAQPage() {
                 {/* Heading */}
                 <h2
                   className="
-              mt-3
-              text-center
-              font-[var(--font-playpen-sans)]
-              text-[clamp(2rem,4.5vw,3.5rem)]
-              font-black
-              leading-[0.94]
-              tracking-[-0.045em]
-              text-[#17131F]
+              mt-5
+        w-full
+        max-w-[760px]
+        text-center
+        font-[var(--font-roboto)]
+        text-[clamp(2.25rem,5vw,4.4rem)]
+        font-black
+        uppercase
+        leading-[0.92]
+        tracking-[-0.055em]
+        text-[#111111]
             "
                 >
                   We&apos;re here to <span className="text-[#E72D5A]">help.</span>

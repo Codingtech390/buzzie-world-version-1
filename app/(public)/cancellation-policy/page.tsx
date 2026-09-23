@@ -16,7 +16,8 @@ export default function CancellationPolicyPage() {
   return (
     <PolicyPage
       eyebrow="Customer care"
-      title="Cancellation Policy"
+      title="Cancellation"
+      highlight="Policy"
       description="Understand when a BuzzieWorld order can be cancelled and what happens to your payment when an order is cancelled."
       lastUpdated="27 August 2026"
       sections={[

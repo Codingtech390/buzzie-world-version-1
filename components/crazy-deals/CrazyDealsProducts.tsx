@@ -325,122 +325,49 @@ export default function CrazyDealsProducts() {
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
         {/* ============================================================
-            SECTION HEADER
-        ============================================================ */}
+    SECTION HEADER
+============================================================ */}
 
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-[680px]">
-            {/* Eyebrow */}
-            <div className="flex items-center gap-2">
-              <span className="h-[2px] w-8 rounded-full bg-[#E72D5A]" />
-
-              <span
-                className="
-                  font-[var(--font-poppins)]
-                  text-[9px]
-                  font-black
-                  uppercase
-                  tracking-[0.18em]
-                  text-[#E72D5A]
-                  sm:text-[10px]
-                "
-              >
-                Crazy deals
-              </span>
-
-              <span className="size-1.5 rounded-full bg-[#F59A23]" />
-            </div>
-
+        <div className="flex flex-col items-center gap-6 text-center">
+          {/* Heading Content */}
+          <div className="flex w-full max-w-[680px] flex-col items-center text-center">
             {/* Heading */}
             <h2
               className="
-                mt-4
-                font-[var(--font-roboto)]
-                text-[clamp(2rem,4.5vw,3.5rem)]
-                font-black
-                leading-[0.94]
-                tracking-[-0.055em]
-                text-[#111111]
-              "
+              mt-5
+        w-full
+        max-w-[760px]
+        text-center
+        font-[var(--font-roboto)]
+        text-[clamp(2.25rem,5vw,4.4rem)]
+        font-black
+        uppercase
+        leading-[0.92]
+        tracking-[-0.055em]
+        text-[#111111]
+      "
             >
-              Big savings.
-              <br />
-              <span className="text-[#E72D5A]">Better play.</span>
+              Big savings. <span className="text-[#E72D5A]">Better play.</span>
             </h2>
 
             {/* Description */}
             <p
               className="
-                mt-5
-                max-w-[570px]
-                font-[var(--font-poppins)]
-                text-[13px]
-                leading-6
-                text-[#687489]
-                sm:text-[14px]
-                sm:leading-7
-              "
+        mt-5
+        max-w-[570px]
+        text-center
+        font-[var(--font-poppins)]
+        text-[13px]
+        leading-6
+        text-[#687489]
+        sm:text-[14px]
+        sm:leading-7
+      "
             >
-              The products they love, now at prices you'll love even more. Grab the best offers
-              before they're gone.
+              The products they love, now at prices you&apos;ll love even more. Grab the best offers
+              before they&apos;re gone.
             </p>
           </div>
-
-          {/* Product count / CTA */}
-          <div className="flex shrink-0 items-center gap-4 sm:pb-1">
-            <span
-              className="
-                rounded-full
-                bg-[#F8F2FF]
-                px-3.5
-                py-2
-                font-[var(--font-poppins)]
-                text-[10px]
-                font-bold
-                text-[#6F32F5]
-              "
-            >
-              {dealProducts.length} deals
-            </span>
-
-            <Link
-              href="/shop"
-              className="
-                group
-                inline-flex
-                items-center
-                gap-2
-                font-[var(--font-poppins)]
-                text-[11px]
-                font-black
-                uppercase
-                tracking-[0.07em]
-                text-[#6F32F5]
-                transition-colors
-                hover:text-[#E72D5A]
-              "
-            >
-              View all products
-              <ArrowRight
-                className="
-                  size-4
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
-                "
-              />
-            </Link>
-          </div>
-        </div>
-
-        {/* ============================================================
-            EDITORIAL ACCENT
-        ============================================================= */}
-
-        <div className="mt-7 flex items-center gap-1.5">
-          <span className="h-[2px] w-10 rounded-full bg-[#C391EE]" />
-          <span className="h-[2px] w-3 rounded-full bg-[#E72D5A]" />
-          <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
         </div>
 
         {/* ============================================================
@@ -486,10 +413,10 @@ export default function CrazyDealsProducts() {
               border-[#E8DDF5]
               bg-white
               px-7
-              font-[var(--font-poppins)]
-              text-[11px]
+              font-playpen
+              text-[14px]
               font-black
-              uppercase
+
               tracking-[0.08em]
               text-[#6F32F5]
               shadow-[0_10px_25px_rgba(39,52,74,0.05)]

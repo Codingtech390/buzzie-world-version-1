@@ -58,17 +58,17 @@ export default function ContactPage() {
             {/* Heading */}
             <h1
               className="
-          mx-auto
           mt-5
-          w-full
-          max-w-[700px]
-          text-center
-          font-playpen
-          text-[clamp(2.5rem,4vw,4.5rem)]
-          font-black
-          leading-[0.92]
-          tracking-[-0.06em]
-          text-[#111111]
+        w-full
+        max-w-[760px]
+        text-center
+        font-[var(--font-roboto)]
+        text-[clamp(2.25rem,5vw,4.4rem)]
+        font-black
+        uppercase
+        leading-[0.92]
+        tracking-[-0.055em]
+        text-[#111111]
         "
             >
               Have something
@@ -172,7 +172,7 @@ export default function ContactPage() {
                     <span className="size-1.5 rounded-full bg-[#F59A23]" />
                   </div>
 
-                  <h2 className="max-w-[470px] font-[var(--font-roboto)] text-[clamp(2.5rem,5vw,4.3rem)] font-black leading-[0.92] tracking-[-0.06em] text-white">
+                  <h2 className="max-w-[470px] font-playpen text-[clamp(2.5rem,3vw,4.3rem)] font-black leading-[0.92] tracking-[-0.06em] text-white mb-5">
                     Let&apos;s start a
                     <br />
                     <span className="text-[#E72D5A]">conversation.</span>
@@ -306,49 +306,7 @@ export default function ContactPage() {
         </Reveal>
       </section>
 
-      {/* =========================================================
-          FINAL CONTACT STRIP
-         ========================================================= */}
-      <section className="px-4 pb-20 sm:px-6 sm:pb-24 lg:px-8 lg:pb-28">
-        <Reveal>
-          <div className="mx-auto max-w-[900px] text-center">
-            <div className="flex items-center justify-center gap-1.5">
-              <span className="h-[2px] w-10 rounded-full bg-[#C391EE]" />
-              <span className="h-[2px] w-3 rounded-full bg-[#E72D5A]" />
-              <span className="h-[2px] w-2 rounded-full bg-[#F5B5C5]" />
-            </div>
 
-            <p className="mt-6 font-[var(--font-poppins)] text-[12px] leading-6 text-[#687489]">
-              We&apos;re only a message away.
-            </p>
-
-            <Link
-              href="/shop"
-              className="
-                group
-                mt-5
-                inline-flex
-                items-center
-                gap-2
-                font-[var(--font-poppins)]
-                text-[11px]
-                font-black
-                uppercase
-                tracking-[0.08em]
-                text-[#6F32F5]
-                transition-colors
-                hover:text-[#E72D5A]
-              "
-            >
-              Continue exploring
-              <ArrowRight
-                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                strokeWidth={2.5}
-              />
-            </Link>
-          </div>
-        </Reveal>
-      </section>
     </main>
   );
 }
@@ -448,9 +406,9 @@ function ContactCard({
          ========================================================= */}
       <h2
         className="
-          mt-2
+          mt-5
           max-w-[270px]
-          font-[var(--font-roboto)]
+          font-playpen
           text-[22px]
           font-black
           leading-[1.02]
@@ -458,7 +416,7 @@ function ContactCard({
           text-[#111111]
 
           sm:text-[23px]
-          lg:text-[24px]
+          lg:text-[18px]
         "
       >
         {title}

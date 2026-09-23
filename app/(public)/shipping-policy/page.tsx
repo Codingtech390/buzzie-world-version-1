@@ -16,7 +16,8 @@ export default function ShippingPolicyPage() {
   return (
     <PolicyPage
       eyebrow="Customer care"
-      title="Shipping & Delivery"
+      title="Shipping &"
+      highlight="Delivery"
       description="Everything you need to know about how BuzzieWorld orders are processed, shipped and delivered."
       lastUpdated="27 August 2026"
       sections={[

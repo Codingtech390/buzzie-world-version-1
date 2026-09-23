@@ -16,7 +16,8 @@ export default function ReturnsRefundsPage() {
   return (
     <PolicyPage
       eyebrow="Customer care"
-      title="Returns & Refunds"
+      title="Returns & "
+      highlight="Refunds"
       description="Our return and refund guidelines explain what to do when a product is damaged, defective, incorrect or otherwise eligible for a return."
       lastUpdated="27 August 2026"
       sections={[

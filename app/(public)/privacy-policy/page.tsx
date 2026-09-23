@@ -16,7 +16,8 @@ export default function PrivacyPolicyPage() {
   return (
     <PolicyPage
       eyebrow="Your privacy"
-      title="Privacy Policy"
+      title="Privacy"
+      highlight="Policy"
       description="We believe customers should understand what information is collected, why it is used and how it is handled when they use BuzzieWorld."
       lastUpdated="27 August 2026"
       sections={[

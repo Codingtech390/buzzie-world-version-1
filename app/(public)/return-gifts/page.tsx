@@ -122,7 +122,7 @@ export default function ReturnGiftsPage() {
                 Tell us what you need
               </p>
 
-              <h2 className="mt-2 font-[var(--font-roboto)] text-[26px] font-black tracking-[-0.035em] text-[#24385E] sm:text-[30px]">
+              <h2 className="mt-2 font-playpen text-[20px] font-black tracking-[-0.035em] text-[#24385E] sm:text-[30px]">
                 Let&apos;s plan something special.
               </h2>
 

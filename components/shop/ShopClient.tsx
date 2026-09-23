@@ -721,7 +721,7 @@ export default function ShopClient() {
           <section className="min-w-0">
             <div className="mb-5 flex flex-wrap items-center gap-2.5">
               <div className="mr-auto">
-                <p className="text-[9px] font-medium text-[#737A87] sm:text-[10px]">
+                <p className="text-[13px] font-medium text-[#737A87] sm:text-[10px]">
                   Showing{" "}
                   <strong className="text-[#17213D]">
                     {loading ? "..." : totalProducts === 0 ? 0 : (page - 1) * PRODUCTS_PER_PAGE + 1}
@@ -1090,7 +1090,7 @@ function Benefit({ title, text, image }: { title: string; text: string; image: s
       </div>
 
       <div className="mt-2 max-w-[210px]">
-        <h3 className="text-[12px] font-bold tracking-[-0.015em] text-[#17213D] sm:text-[13px]">
+        <h3 className="text-[13px] font-bold tracking-[-0.015em] text-[#17213D] sm:text-[13px]">
           {title}
         </h3>
         <p className="mt-1 text-[10px] leading-[1.5] text-[#737A87] sm:text-[11px]">{text}</p>

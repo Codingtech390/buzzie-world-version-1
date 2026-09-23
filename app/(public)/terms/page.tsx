@@ -4,6 +4,7 @@ import PolicyPage from "@/components/legal/PolicyPage";
 
 export const metadata: Metadata = {
   title: "Terms of Service | BuzzieWorld",
+
   description:
     "Read the BuzzieWorld Terms of Service covering website use, accounts, orders, payments, products, cancellations, returns, refunds and other terms.",
   robots: {
@@ -16,7 +17,8 @@ export default function TermsPage() {
   return (
     <PolicyPage
       eyebrow="Legal"
-      title="Terms of Service"
+      title="Terms of"
+      highlight="Service"
       description="These terms explain the rules that apply when you use the BuzzieWorld website, create an account, purchase products or interact with our services."
       lastUpdated="27 August 2026"
       sections={[
@@ -266,4 +268,3 @@ export default function TermsPage() {
     />
   );
 }
-

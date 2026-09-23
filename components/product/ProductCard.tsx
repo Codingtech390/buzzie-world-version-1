@@ -225,7 +225,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   py-1
                   text-[12px]
                   font-black
-                  uppercase
+                  
                   leading-none
                   tracking-[0.04em]
                   text-white
@@ -275,7 +275,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               text-center
                 line-clamp-2
                 min-h-[2.8rem]
-                font-[var(--font-poppins)]
+                font-playpen
                 text-[12px]
                 font-bold
                 leading-[1.4]
@@ -285,7 +285,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 duration-200
                 group-hover:text-[#69419A]
                 sm:text-[12px]
-                xl:text-[18px]
+                xl:text-[14px]
               "
             >
               {product.name}
