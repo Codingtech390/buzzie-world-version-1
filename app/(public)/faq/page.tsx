@@ -285,7 +285,7 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
     font-[var(--font-poppins)]
     text-[10px]
     font-black
-    uppercase
+
     tracking-[0.025em]
     text-white
     shadow-[0_9px_20px_rgba(160,146,205,0.24)]
@@ -297,6 +297,7 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
     sm:min-h-[46px]
     sm:px-8
     sm:text-[10px]
+    lg:text-[13px]
   "
                 >
                   <span className="text-white">How to Play</span>

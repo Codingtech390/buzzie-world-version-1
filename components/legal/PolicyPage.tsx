@@ -189,16 +189,18 @@ export default function PolicyPage({
                         </span>
                       </div>
 
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 mt-2">
                         <h2
                           className="
-                            font-[var(--font-roboto)]
+
+                            font-playpen
                             text-[24px]
                             font-black
                             leading-[1.05]
                             tracking-[-0.035em]
                             text-[#111111]
                             sm:text-[28px]
+                            lg:text-[20px]
                           "
                         >
                           {section.title}
