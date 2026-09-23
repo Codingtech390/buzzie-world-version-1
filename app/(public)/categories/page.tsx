@@ -1,17 +1,14 @@
-import "./categories.css";
-
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Brain,
+  BookOpen,
   Compass,
   Gamepad2,
   Gift,
   Layers3,
   Map,
   Palette,
-  BookOpen,
 } from "lucide-react";
 
 import type { CSSProperties, ElementType } from "react";
@@ -26,10 +23,10 @@ type Category = {
   title: string;
   description: string;
   href: string;
-  color: string;
-  textColor?: string;
+  background: string;
+  accent: string;
   icon: ElementType;
-  size: "large" | "medium" | "small" | "wide";
+  blob: string;
 };
 
 /* ============================================================================
@@ -41,268 +38,269 @@ const categories: Category[] = [
     id: "binder",
     number: "01",
     title: "Binder",
-    description:
-      "Collect, organize and keep their favourite discoveries together.",
+    description: "Collect, organize and keep their favourite discoveries together.",
     href: "/shop?category=binder",
-    color: "#F47B43",
+    background: "#F8D8E5",
+    accent: "#E72D5A",
     icon: Layers3,
-    size: "large",
+    blob: "48% 52% 45% 55% / 52% 46% 54% 48%",
   },
   {
     id: "mythology",
     number: "02",
     title: "Mythology",
-    description:
-      "Legends, stories and fascinating worlds from across time.",
+    description: "Legends, stories and fascinating worlds from across time.",
     href: "/shop?category=mythology",
-    color: "#E8DDBE",
-    textColor: "#111111",
+    background: "#F8E5B7",
+    accent: "#B99055",
     icon: BookOpen,
-    size: "large",
+    blob: "54% 46% 52% 48% / 46% 54% 48% 52%",
   },
   {
     id: "mind-games",
     number: "03",
     title: "Mind Games",
-    description:
-      "Challenge the brain with clever games, puzzles and strategy.",
+    description: "Challenge the brain with clever games, puzzles and strategy.",
     href: "/shop?category=mind-games",
-    color: "#D80B62",
+    background: "#F7DCE7",
+    accent: "#E72D5A",
     icon: Brain,
-    size: "large",
+    blob: "46% 54% 49% 51% / 54% 47% 53% 46%",
   },
   {
     id: "on-the-go-games",
     number: "04",
     title: "On-the-Go Games",
-    description:
-      "Compact games made for travel, waiting and spontaneous play.",
+    description: "Compact games made for travel, waiting and spontaneous play.",
     href: "/shop?category=on-the-go-games",
-    color: "#536FAF",
+    background: "#DDE7F4",
+    accent: "#667EAC",
     icon: Compass,
-    size: "wide",
+    blob: "52% 48% 44% 56% / 48% 56% 44% 52%",
   },
   {
     id: "phonics",
     number: "05",
     title: "Phonics",
-    description:
-      "Build language skills through playful learning.",
+    description: "Build language skills through playful learning.",
     href: "/shop?category=phonics",
-    color: "#111111",
+    background: "#E9E4DE",
+    accent: "#77716A",
     icon: BookOpen,
-    size: "wide",
+    blob: "45% 55% 53% 47% / 51% 45% 55% 49%",
   },
   {
     id: "card-games",
     number: "06",
     title: "Card Games",
-    description:
-      "Quick to learn. Hard to put down.",
+    description: "Quick to learn. Hard to put down.",
     href: "/shop?category=card-games",
-    color: "#F4A13F",
-    textColor: "#111111",
+    background: "#F8E7C9",
+    accent: "#E39A3C",
     icon: Gamepad2,
-    size: "small",
+    blob: "56% 44% 48% 52% / 44% 53% 47% 56%",
   },
   {
     id: "geography",
     number: "07",
     title: "Geography",
-    description:
-      "Explore countries, places, people and our world.",
+    description: "Explore countries, places, people and our world.",
     href: "/shop?category=geography",
-    color: "#4D9B91",
+    background: "#DDEBD9",
+    accent: "#6C9D70",
     icon: Map,
-    size: "small",
+    blob: "49% 51% 55% 45% / 55% 48% 52% 45%",
   },
   {
     id: "return-gifts",
     number: "08",
     title: "Return Gifts",
-    description:
-      "Little surprises that make celebrations memorable.",
+    description: "Little surprises that make celebrations memorable.",
     href: "/shop?category=return-gifts",
-    color: "#E6DCC7",
-    textColor: "#111111",
+    background: "#F3E1D3",
+    accent: "#C98967",
     icon: Gift,
-    size: "small",
+    blob: "53% 47% 46% 54% / 47% 55% 45% 53%",
   },
   {
     id: "customised-products",
     number: "09",
     title: "Customised Products",
-    description:
-      "Make their playtime a little more personal.",
+    description: "Make their playtime a little more personal.",
     href: "/shop?category=customized-products",
-    color: "#E61D65",
+    background: "#E8E0F4",
+    accent: "#8D76B9",
     icon: Palette,
-    size: "wide",
+    blob: "47% 53% 51% 49% / 53% 44% 56% 47%",
   },
 ];
 
 /* ============================================================================
-   PAGE HEADING
+   CATEGORY BLOB
 ============================================================================ */
 
-function CategoriesHeading() {
-  return (
-    <section className="categories-page-heading">
-      <div className="heading-kicker">
-        <span />
-        BUZZIEWORLD
-        <b />
-      </div>
-
-      <h1>
-        Find their
-        <br />
-        <em>kind of play.</em>
-      </h1>
-
-      <div className="heading-bottom">
-        <p>
-          Games, stories, learning tools and experiences
-          designed for curious minds from 3–15 years.
-        </p>
-
-        <div className="heading-age">
-          <strong>03</strong>
-          <span>—</span>
-          <strong>15</strong>
-          <small>YEARS</small>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================================
-   CLIENT IMAGE FEATURE
-============================================================================ */
-
-function GameInstructionsFeature() {
-  return (
-    <section className="game-instructions-feature">
-      <div className="game-instructions-image">
-        <Image
-          src="/images/categories/game-instructions.png"
-          alt="BuzzieWorld children enjoying educational games"
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 1380px"
-          className="game-instructions-img"
-        />
-      </div>
-
-      <div className="game-instructions-caption">
-        <span>PLAY • LEARN • GROW</span>
-
-        <p>Because the best learning experiences don&apos;t feel like lessons.</p>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================================
-   INTRO
-============================================================================ */
-
-function CategoriesIntro() {
-  return (
-    <section className="categories-intro">
-      <div className="intro-main">
-        <span className="intro-label">
-          EXPLORE BY INTEREST
-        </span>
-
-        <h2>
-          There is more than
-          <br />
-          <span>one way to play.</span>
-        </h2>
-      </div>
-
-      <div className="intro-side">
-        <p>
-          From quick card games to mythology,
-          phonics and geography — find something
-          that matches how they love to learn,
-          think and play.
-        </p>
-
-        <div className="intro-mark">
-          <span />
-          <span />
-          <span />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================================
-   CATEGORY CARD
-============================================================================ */
-
-function CategoryCard({
-  category,
-}: {
-  category: Category;
-}) {
+function CategoryBlob({ category }: { category: Category }) {
   const Icon = category.icon;
 
   return (
     <Link
       href={category.href}
-      className={[
-        "category-modern-card",
-        `category-${category.size}`,
-        "group",
-      ].join(" ")}
-      style={
-        {
-          "--category-bg": category.color,
-          "--category-text":
-            category.textColor || "#FFFFFF",
-        } as CSSProperties
-      }
+      className="
+        group
+        relative
+        block
+        aspect-square
+        w-full
+        max-w-[390px]
+        transition-transform
+        duration-500
+        ease-out
+        hover:-translate-y-2
+      "
     >
-      <span className="category-number">
-        {category.number}
-      </span>
-
-      <div className="category-icon">
-        <Icon
+      {/* Blob */}
+      <div
+        className="
+          absolute
+          inset-0
+          overflow-hidden
+          transition-all
+          duration-500
+          ease-out
+          group-hover:scale-[1.025]
+        "
+        style={{
+          backgroundColor: category.background,
+          borderRadius: category.blob,
+        }}
+      >
+        {/* Very subtle inner highlight */}
+        <span
           aria-hidden="true"
-          strokeWidth={1.8}
+          className="
+            pointer-events-none
+            absolute
+            -right-10
+            -top-10
+            size-32
+            rounded-full
+            bg-white/25
+            blur-2xl
+          "
+        />
+
+        {/* Small decorative dot */}
+        <span
+          aria-hidden="true"
+          className="
+            absolute
+            bottom-[22%]
+            right-[17%]
+            size-2
+            rounded-full
+            opacity-40
+          "
+          style={{ backgroundColor: category.accent }}
         />
       </div>
 
-      <div className="category-modern-content">
-        <h2>{category.title}</h2>
+      {/* Content */}
+      <div className="absolute inset-0 flex flex-col p-[14%]">
+        {/* Top row */}
+        <div className="flex items-start justify-between">
+          <span
+            className="
+              font-[var(--font-poppins)]
+              text-[9px]
+              font-black
+              tracking-[0.16em]
+              text-[#77717B]
+              sm:text-[10px]
+            "
+          >
+            {category.number}
+          </span>
 
-        <p>{category.description}</p>
+          <span
+            className="
+              flex
+              size-10
+              items-center
+              justify-center
+              rounded-full
+              bg-white/60
+              text-[#17213D]
+              backdrop-blur-sm
+              transition-transform
+              duration-500
+              group-hover:rotate-[-8deg]
+              group-hover:scale-105
+            "
+          >
+            <Icon aria-hidden="true" className="size-[17px]" strokeWidth={1.8} />
+          </span>
+        </div>
 
-        <span className="category-explore">
-          Explore
-          <ArrowRight
-            aria-hidden="true"
-            className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-            strokeWidth={2.4}
-          />
-        </span>
+        {/* Main content */}
+        <div className="mt-auto max-w-[82%] pb-[3%]">
+          <h2
+            className="
+              font-playpen
+              text-[clamp(1.55rem,3vw,2.2rem)]
+              font-black
+              leading-[1]
+              tracking-[-0.045em]
+              text-[#17213D]
+            "
+          >
+            {category.title}
+          </h2>
+
+          <p
+            className="
+              mt-3
+              max-w-[300px]
+              font-[var(--font-poppins)]
+              text-[10px]
+              leading-5
+              text-[#687489]
+              sm:text-[11px]
+              sm:leading-5
+            "
+          >
+            {category.description}
+          </p>
+
+          <span
+            className="
+              mt-4
+              inline-flex
+              items-center
+              gap-1.5
+              font-[var(--font-poppins)]
+              text-[9px]
+              font-black
+              uppercase
+              tracking-[0.08em]
+              transition-all
+              duration-300
+            "
+            style={{ color: category.accent }}
+          >
+            Explore
+            <ArrowRight
+              aria-hidden="true"
+              className="
+                size-3.5
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+              strokeWidth={2.4}
+            />
+          </span>
+        </div>
       </div>
-
-      <span
-        aria-hidden="true"
-        className="category-orb"
-      />
-
-      <span
-        aria-hidden="true"
-        className="category-line"
-      />
     </Link>
   );
 }
@@ -311,152 +309,46 @@ function CategoryCard({
    CATEGORY GRID
 ============================================================================ */
 
-function CategoryGrid() {
-  return (
-    <section className="category-section">
-
-      <div className="category-section-header">
-        <div>
-          <span>09 WORLDS TO DISCOVER</span>
-
-          <h2>
-            Pick a
-            <em> direction.</em>
-          </h2>
-        </div>
-
-        <p>
-          Whatever they're curious about,
-          there's a world waiting for them.
-        </p>
-      </div>
-
-      <div className="modern-category-grid">
-        {categories.map((category) => (
-          <CategoryCard
-            key={category.id}
-            category={category}
-          />
-        ))}
-      </div>
-
-    </section>
-  );
-}
-
-/* ============================================================================
-   AGE STRIP
-============================================================================ */
-
-function AgeStrip() {
-  return (
-    <section className="age-strip">
-
-      <div className="age-strip-number">
-        03
-      </div>
-
-      <div className="age-strip-copy">
-        <span>
-          MADE TO GROW WITH THEM
-        </span>
-
-        <h3>
-          From curious kids
-          <br />
-          <span>to confident thinkers.</span>
-        </h3>
-      </div>
-
-      <div className="age-range">
-        <span>3</span>
-
-        <div className="age-range-line">
-          <div />
-        </div>
-
-        <span>15</span>
-
-        <small>YEARS</small>
-      </div>
-
-    </section>
-  );
-}
-
-/* ============================================================================
-   BOTTOM CTA
-============================================================================ */
-
-function BottomCTA() {
-  return (
-    <section className="categories-bottom-cta">
-
-      <div>
-        <span>
-          READY TO FIND THEIR NEXT FAVOURITE?
-        </span>
-
-        <h2>
-          Let the
-          <em> exploring</em>
-          <br />
-          begin.
-        </h2>
-      </div>
-
-      <Link
-        href="/shop"
-        className="categories-cta-button"
-      >
-        Explore all products
-
-        <ArrowRight
-          className="size-4"
-          strokeWidth={2.4}
-        />
-      </Link>
-
-    </section>
-  );
-}
-
-/* ============================================================================
-   PAGE
-============================================================================ */
-
 export default function CategoriesPage() {
   return (
-    <main className="categories-modern-page">
+    <main className="min-h-screen overflow-hidden bg-[#FCFAF7]">
+      <section className="px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mx-auto w-full max-w-[1250px]">
+          {/* Small page label */}
+          <div className="mb-10 flex flex-col items-center text-center sm:mb-12">
+            <div className="flex items-center gap-2">
+              <span className="h-[2px] w-7 rounded-full bg-[#E72D5A]" />
 
-      <div className="categories-modern-wrapper">
+              <span className="font-[var(--font-poppins)] text-[9px] font-black uppercase tracking-[0.18em] text-[#E72D5A]">
+                Explore categories
+              </span>
 
-        {/* 01 — LARGE EDITORIAL HEADING */}
+              <span className="size-1.5 rounded-full bg-[#F59A23]" />
+            </div>
 
-        <CategoriesHeading />
+            <h1
+              className="
+                mt-4
+                font-playpen
+                text-[clamp(2rem,4.5vw,3.5rem)]
+                font-black
+                leading-none
+                tracking-[-0.05em]
+                text-[#17213D]
+              "
+            >
+              Find their <span className="text-[#E72D5A]">kind of play.</span>
+            </h1>
+          </div>
 
-        {/* 02 — CLIENT'S GAME INSTRUCTIONS IMAGE */}
-
-        <GameInstructionsFeature />
-
-        {/* 03 — CATEGORY INTRO */}
-
-        <CategoriesIntro />
-
-        {/* 04 — CATEGORY COLLECTION */}
-
-        <CategoryGrid />
-
-        {/* 05 — AGE MESSAGE */}
-
-        <AgeStrip />
-
-        {/* 06 — FINAL CTA */}
-
-        <BottomCTA />
-
-      </div>
-
+          {/* Blobs */}
+          <div className="grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3 lg:gap-12">
+            {categories.map((category) => (
+              <CategoryBlob key={category.id} category={category} />
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

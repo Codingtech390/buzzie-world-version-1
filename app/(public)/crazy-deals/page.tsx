@@ -16,7 +16,7 @@ export default function CrazyDealsPage() {
         <div className="mx-auto w-full max-w-[1440px] px-3 pt-4 sm:px-5 sm:pt-6 lg:px-8 lg:pt-8">
           <div className="relative overflow-hidden rounded-[22px] sm:rounded-[30px] lg:rounded-[38px]">
             <img
-              src="/images/banners/deals.png"
+              src="/images/banners/deals-2.png"
               alt="BuzzieWorld Crazy Deals — up to 50% off"
               className="
                 block

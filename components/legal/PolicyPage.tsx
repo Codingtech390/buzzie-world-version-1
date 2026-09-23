@@ -259,11 +259,11 @@ export default function PolicyPage({
                   CONTACT / QUESTIONS
                  ===================================================== */}
               <div className="mt-14 rounded-[24px] bg-[#F7EEFF] p-6 sm:mt-16 sm:p-8">
-                <p className="font-[var(--font-poppins)] text-[9px] font-black uppercase tracking-[0.17em] text-[#E72D5A]">
+                <p className="font-[var(--font-poppins)] text-[12px] font-black uppercase tracking-[0.17em] text-[#E72D5A]">
                   Questions?
                 </p>
 
-                <h2 className="mt-2 font-[var(--font-roboto)] text-[25px] font-black leading-tight tracking-[-0.035em] text-[#111111]">
+                <h2 className="mt-2 font-playpen text-[20px] font-black leading-tight tracking-[-0.035em] text-[#111111]">
                   We&apos;re here to help.
                 </h2>
 
@@ -286,9 +286,9 @@ export default function PolicyPage({
                     bg-[#C391EE]
                     px-6
                     font-[var(--font-poppins)]
-                    text-[10px]
+                    text-[14px]
                     font-black
-                    uppercase
+
                     tracking-[0.08em]
                     !text-white
                     shadow-[0_10px_25px_rgba(195,145,238,0.22)]

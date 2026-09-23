@@ -419,7 +419,7 @@ export default function FAQPage() {
         <div className="mx-auto w-full max-w-[1440px]">
           <div className="relative overflow-hidden">
             <Image
-              src="/images/banners/faq-banner-2.png"
+              src="/images/banners/faq-1.png"
               alt="BuzzieWorld How to Play and FAQ"
               width={1920}
               height={1080}
