@@ -66,9 +66,43 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const imageAlt = product.images?.find((image) => Boolean(image.alt))?.alt || product.name;
 
-  const discount = getDiscountPercentage(product.price, product.compareAtPrice);
+  /* ================================================================
+     PRICE / DISCOUNT
+  ================================================================= */
 
-  const isOutOfStock = product.stock <= 0;
+  const discount =
+    typeof product.price === "number"
+      ? getDiscountPercentage(product.price, product.compareAtPrice)
+      : 0;
+
+  /* ================================================================
+     STOCK
+     Undefined stock means inventory has not been configured yet.
+  ================================================================= */
+
+  const hasStock = typeof product.stock === "number";
+
+  const isOutOfStock = product.stock === undefined || product.stock <= 0;
+
+  /* ================================================================
+     PURCHASE AVAILABILITY
+
+     A product should only be purchasable when:
+     - price exists
+     - stock exists
+     - stock is greater than zero
+  ================================================================= */
+
+  const canPurchase =
+    typeof product.price === "number" && typeof product.stock === "number" && product.stock > 0;
+
+  /* ================================================================
+     LOW STOCK
+
+     Explicitly narrow stock before comparing it.
+  ================================================================= */
+
+  const isLowStock = typeof product.stock === "number" && product.stock > 0 && product.stock <= 5;
 
   return (
     <article className="group relative flex h-full min-w-0 flex-col">
@@ -225,7 +259,6 @@ export default function ProductCard({ product }: ProductCardProps) {
                   py-1
                   text-[12px]
                   font-black
-                  
                   leading-none
                   tracking-[0.04em]
                   text-white
@@ -272,7 +305,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           >
             <h3
               className="
-              text-center
+                text-center
                 line-clamp-2
                 min-h-[2.8rem]
                 font-playpen
@@ -298,11 +331,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           <p
             className="
-            text-center
               mt-1
               line-clamp-2
               min-h-[2rem]
               max-w-full
+              text-center
               font-[var(--font-poppins)]
               text-[12px]
               font-medium
@@ -331,10 +364,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                   xl:text-xl
                 "
               >
-                {formatPrice(product.price)}
+                {typeof product.price === "number"
+                  ? formatPrice(product.price)
+                  : "Price coming soon"}
               </p>
 
-              {discount > 0 && product.compareAtPrice ? (
+              {discount > 0 && typeof product.compareAtPrice === "number" ? (
                 <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                   <p
                     className="
@@ -363,9 +398,12 @@ export default function ProductCard({ product }: ProductCardProps) {
               ) : null}
             </div>
 
-            {/* LOW STOCK */}
+            {/* ==================================================
+                LOW STOCK
+                Only access product.stock after narrowing it.
+            =================================================== */}
 
-            {product.stock > 0 && product.stock <= 5 ? (
+            {isLowStock ? (
               <p
                 className="
                   mt-2
@@ -384,7 +422,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             =================================================== */}
 
             <div className="mt-3 flex items-center gap-2">
-              {isOutOfStock ? (
+              {!canPurchase ? (
                 <button
                   type="button"
                   disabled
@@ -404,7 +442,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     sm:text-[10px]
                   "
                 >
-                  Sold Out
+                  {typeof product.price !== "number" ? "Coming Soon" : "Sold Out"}
                 </button>
               ) : (
                 <AddToCartButton

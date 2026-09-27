@@ -30,6 +30,15 @@ export default function ProductInfoArtwork({
 }: ProductInfoArtworkProps) {
   const [wishlistActive, setWishlistActive] = useState(false);
 
+  /*
+   * Storefront products can legitimately have no price yet.
+   * Narrow the optional values into concrete local values so
+   * TypeScript knows exactly what is being passed to formatPrice().
+   */
+  const price = typeof product.price === "number" ? product.price : null;
+
+  const compareAtPrice = typeof product.compareAtPrice === "number" ? product.compareAtPrice : null;
+
   return (
     <section className="w-full">
       {/* ================================================================
@@ -212,21 +221,37 @@ export default function ProductInfoArtwork({
       ================================================================= */}
 
       <div className="mt-5 flex flex-wrap items-end gap-3">
-        <span
-          className="
-            font-[var(--font-roboto)]
-            text-[2.25rem]
-            font-black
-            leading-none
-            tracking-[-0.055em]
-            text-[#E72D5A]
-            sm:text-[2.65rem]
-          "
-        >
-          {formatPrice(product.price)}
-        </span>
+        {price !== null ? (
+          <span
+            className="
+              font-[var(--font-roboto)]
+              text-[2.25rem]
+              font-black
+              leading-none
+              tracking-[-0.055em]
+              text-[#E72D5A]
+              sm:text-[2.65rem]
+            "
+          >
+            {formatPrice(price)}
+          </span>
+        ) : (
+          <span
+            className="
+              font-[var(--font-roboto)]
+              text-[1.35rem]
+              font-black
+              leading-none
+              tracking-[-0.035em]
+              text-[#7044B8]
+              sm:text-[1.5rem]
+            "
+          >
+            Price coming soon
+          </span>
+        )}
 
-        {hasDiscount ? (
+        {hasDiscount && compareAtPrice !== null ? (
           <span
             className="
               pb-1
@@ -238,11 +263,11 @@ export default function ProductInfoArtwork({
               sm:text-[16px]
             "
           >
-            {formatPrice(product.compareAtPrice!)}
+            {formatPrice(compareAtPrice)}
           </span>
         ) : null}
 
-        {discount > 0 ? (
+        {discount > 0 && price !== null ? (
           <span
             className="
               mb-1

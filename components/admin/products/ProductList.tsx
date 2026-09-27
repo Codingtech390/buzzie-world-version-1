@@ -58,6 +58,7 @@ interface SelectorResponse {
 
 type FilterStatus = "" | Product["status"];
 type FeaturedFilter = "" | "true" | "false";
+type PublishedFilter = "" | "true" | "false";
 
 function formatPrice(price?: number): string {
   if (price === undefined || price === null || !Number.isFinite(price)) {
@@ -140,6 +141,7 @@ export default function ProductList() {
   const [collection, setCollection] = useState("");
   const [status, setStatus] = useState<FilterStatus>("");
   const [featured, setFeatured] = useState<FeaturedFilter>("");
+  const [published, setPublished] = useState<PublishedFilter>("");
 
   const [products, setProducts] = useState<ProductListItem[]>([]);
 
@@ -201,6 +203,14 @@ export default function ProductList() {
       setFeatured(urlFeatured);
     } else {
       setFeatured("");
+    }
+
+    const urlPublished = params.get("published") || "";
+
+    if (urlPublished === "true" || urlPublished === "false") {
+      setPublished(urlPublished);
+    } else {
+      setPublished("");
     }
 
     setUrlInitialized(true);
@@ -310,6 +320,10 @@ export default function ProductList() {
           params.set("featured", featured);
         }
 
+        if (published) {
+          params.set("published", published);
+        }
+
         const response = await fetch(`/api/products?${params.toString()}`, {
           signal: controller.signal,
         });
@@ -377,6 +391,12 @@ export default function ProductList() {
           url.searchParams.delete("featured");
         }
 
+        if (published) {
+          url.searchParams.set("published", published);
+        } else {
+          url.searchParams.delete("published");
+        }
+
         window.history.replaceState({}, "", url);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") {
@@ -395,7 +415,7 @@ export default function ProductList() {
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [urlInitialized, search, category, brand, collection, status, featured, page, refreshKey]);
+  }, [urlInitialized, search, category, brand, collection, status, featured, published, page, refreshKey]);
 
   function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value);
@@ -413,6 +433,7 @@ export default function ProductList() {
     setCollection("");
     setStatus("");
     setFeatured("");
+    setPublished("");
     setPage(1);
   }
 
@@ -439,12 +460,49 @@ export default function ProductList() {
     }, 3000);
   }
 
+  async function handleTogglePublished(productId: string, published: boolean) {
+    try {
+      setError(null);
+
+      const response = await fetch(`/api/products/${productId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          published: !published,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Failed to update publication status");
+      }
+
+      setSuccessMessage(
+        published
+          ? "Product hidden from the storefront."
+          : "Product published to the storefront.",
+      );
+      setRefreshKey((value) => value + 1);
+
+      window.setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to update publication status");
+    }
+  }
+
+
   const hasActiveFilters =
     Boolean(category) ||
     Boolean(brand) ||
     Boolean(collection) ||
     Boolean(status) ||
-    Boolean(featured);
+    Boolean(featured) ||
+    Boolean(published);
 
   const hasSearch = Boolean(search.trim());
 
@@ -560,7 +618,7 @@ export default function ProductList() {
                 )}
               </div>
               <p className="mt-0.5 text-xs leading-5 text-[#8993A5]">
-                Narrow your catalog by category, brand, collection, status or featured state.
+                Narrow your catalog by category, brand, collection, status, storefront visibility or featured state.
               </p>
             </div>
             {hasActiveFilters && (
@@ -581,7 +639,7 @@ export default function ProductList() {
               <p className="text-sm font-medium text-[#C44770]">{filterError}</p>
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
               {[
                 {
                   id: "category-filter",
@@ -683,6 +741,27 @@ export default function ProductList() {
                   <option value="">All products</option>
                   <option value="true">Featured</option>
                   <option value="false">Not featured</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="published-filter"
+                  className="mb-1.5 block text-[10px] font-black uppercase tracking-[0.1em] text-[#7C8798]"
+                >
+                  Visibility
+                </label>
+                <select
+                  id="published-filter"
+                  value={published}
+                  onChange={(event) => {
+                    setPublished(event.target.value as PublishedFilter);
+                    setPage(1);
+                  }}
+                  className="h-11 w-full rounded-[13px] border border-[#E4DDEA] bg-white px-3 text-sm font-medium text-[#27344A] outline-none transition hover:border-[#D8C8E3] focus:border-[#C391EE] focus:ring-4 focus:ring-[#C391EE]/10"
+                >
+                  <option value="">All visibility</option>
+                  <option value="true">Published</option>
+                  <option value="false">Hidden</option>
                 </select>
               </div>
             </div>
@@ -794,6 +873,7 @@ export default function ProductList() {
                       "Price",
                       "Stock",
                       "Status",
+                      "Visibility",
                       "Featured",
                       "Actions",
                     ].map((heading) => (
@@ -882,6 +962,38 @@ export default function ProductList() {
                                 Setup incomplete
                               </span>
                             )}
+                          </div>
+                        </td>
+                        <td className="px-5 py-4">
+                          <div className="flex flex-col items-start gap-1.5">
+                            {product.published ? (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#79D45C]/15 px-2.5 py-1 text-[10px] font-black text-[#4D9A38]">
+                                <span className="size-1.5 rounded-full bg-[#79D45C]" />
+                                Published
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F0EBF3] px-2.5 py-1 text-[10px] font-black text-[#7C8798]">
+                                <span className="size-1.5 rounded-full bg-[#9AA2AE]" />
+                                Hidden
+                              </span>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleTogglePublished(
+                                  product._id,
+                                  Boolean(product.published),
+                                )
+                              }
+                              disabled={isLoading}
+                              className={`rounded-[8px] px-2.5 py-1 text-[9px] font-black transition ${
+                                product.published
+                                  ? "border border-[#E3D9E9] bg-white text-[#687489] hover:border-[#F56B9A]/40 hover:bg-[#FFF1F4] hover:text-[#C44770]"
+                                  : "bg-[#C391EE] text-white hover:bg-[#E83D59]"
+                              } disabled:cursor-not-allowed disabled:opacity-50`}
+                            >
+                              {product.published ? "Unpublish" : "Publish"}
+                            </button>
                           </div>
                         </td>
                         <td className="px-5 py-4">
@@ -982,6 +1094,17 @@ export default function ProductList() {
                               Setup incomplete
                             </span>
                           )}
+                          {product.published ? (
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#79D45C]/15 px-2.5 py-1 text-[9px] font-black text-[#4D9A38]">
+                              <span className="size-1.5 rounded-full bg-[#79D45C]" />
+                              Published
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F0EBF3] px-2.5 py-1 text-[9px] font-black text-[#7C8798]">
+                              <span className="size-1.5 rounded-full bg-[#9AA2AE]" />
+                              Hidden
+                            </span>
+                          )}
                           <span
                             className={`inline-flex items-center gap-1.5 rounded-full ${
                               stock.isPending ? "bg-[#F4E9FF]" : "bg-[#F5F3F7]"
@@ -1015,7 +1138,24 @@ export default function ProductList() {
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleTogglePublished(
+                            product._id,
+                            Boolean(product.published),
+                          )
+                        }
+                        disabled={isLoading}
+                        className={`rounded-[10px] px-3 py-2.5 text-center text-[10px] font-bold transition ${
+                          product.published
+                            ? "border border-[#E3D9E9] bg-white text-[#687489] hover:border-[#F56B9A]/40 hover:bg-[#FFF1F4] hover:text-[#C44770]"
+                            : "bg-[#C391EE] text-white hover:bg-[#E83D59]"
+                        } disabled:cursor-not-allowed disabled:opacity-50`}
+                      >
+                        {product.published ? "Unpublish" : "Publish"}
+                      </button>
                       <a
                         href={`/products/${product.slug}`}
                         target="_blank"

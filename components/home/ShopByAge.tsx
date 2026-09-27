@@ -63,8 +63,10 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     return "All Ages";
   })();
 
+  const stock = typeof product.stock === "number" ? product.stock : undefined;
+
   const stockLabel =
-    product.stock > 0 ? `${product.stock.toLocaleString("en-IN")} Pieces` : "Out of Stock";
+    stock !== undefined && stock > 0 ? `${stock.toLocaleString("en-IN")} Pieces` : "Out of Stock";
 
   const featuredLabel = product.featured ? "Featured" : "Our Pick";
 
@@ -878,9 +880,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                       text-center
                     "
                   >
-                    <span>
-                      {stockLabel.replace(/\s*Pieces$/i, "")}
-                    </span>
+                    <span>{stockLabel.replace(/\s*Pieces$/i, "")}</span>
                     <span>Pieces</span>
                   </span>
                 </span>
@@ -1014,8 +1014,8 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                   draggable={false}
                 />
 
-<span
-  className="
+                <span
+                  className="
     pointer-events-none
     absolute
     inset-y-[12%]
@@ -1034,9 +1034,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
     max-sm:mb-10
                     xl:mb-12
   "
->
-  <span
-    className="
+                >
+                  <span
+                    className="
       flex
       w-[78%]
       max-w-[78%]
@@ -1045,18 +1045,13 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       justify-center
       text-center
     "
-  >
-    <span>Watch</span>
-    <span>Demo</span>
-  </span>
-</span>
+                  >
+                    <span>Watch</span>
+                    <span>Demo</span>
+                  </span>
+                </span>
               </Link>
             </div>
-
-
-
-
-
           </div>
         </div>
       </div>
@@ -1336,8 +1331,8 @@ export function MythologySeriesSection({ products: _products }: { products: Stor
             sm:text-[13px]
             lg:min-h-[54px]
             lg:px-8
-            lg:text-[12px]
-            uppercase
+            lg:text-[14px]
+
           "
         >
           <span className="text-white">Explore More Mythology Products</span>
@@ -1590,9 +1585,9 @@ function GeographySection() {
             bg-[#C391EE]
             px-5
             font-[var(--font-poppins)]
-            text-[10px]
+            text-[14px]
             font-black
-            uppercase
+
             tracking-[0.07em]
             !text-white
             shadow-[0_10px_24px_rgba(231,45,90,0.20)]
@@ -1611,6 +1606,7 @@ function GeographySection() {
             sm:text-[11px]
             lg:min-h-[52px]
             lg:px-7
+            lg:text-[14px]
           "
         >
           <span className="!text-white">Explore more Geography Products</span>
@@ -1644,9 +1640,6 @@ function GeographySection() {
     </section>
   );
 }
-
-
-
 
 /* ============================================================================
    MAIN COMPONENT

@@ -44,7 +44,16 @@ export interface Product {
 
   stock?: number;
 
+  /**
+   * Commerce lifecycle.
+   */
   status: ProductStatus;
+
+  /**
+   * Controls whether the product is visible
+   * in the public storefront catalog.
+   */
+  published: boolean;
 
   featured: boolean;
 

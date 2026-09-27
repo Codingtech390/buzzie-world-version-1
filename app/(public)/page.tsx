@@ -4,10 +4,8 @@ import type {
   StorefrontSelector,
 } from "@/types/storefront";
 
-import BrandStory from "@/components/home/BrandStory";
 import BenefitsStrip from "@/components/home/BenefitsStrip";
-import BestSellers from "@/components/home/BestSellers";
-import CategoryShowcase from "@/components/home/CategoryShowcase";
+import BrandStory from "@/components/home/BrandStory";
 import CollectionShowcase from "@/components/home/CollectionShowcase";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
 import Hero from "@/components/home/Hero";
@@ -57,11 +55,11 @@ async function getHomepageData(): Promise<HomepageData> {
   const [featuredResponse, latestResponse, categoriesResponse, collectionsResponse] =
     await Promise.all([
       fetchJson<StorefrontProductsResponse>(
-        "/api/products?status=active&featured=true&sort=newest&page=1&limit=8",
+        "/api/products?published=true&featured=true&sort=newest&page=1&limit=8",
       ),
 
       fetchJson<StorefrontProductsResponse>(
-        "/api/products?status=active&sort=newest&page=1&limit=8",
+        "/api/products?published=true&sort=newest&page=1&limit=8",
       ),
 
       fetchJson<{

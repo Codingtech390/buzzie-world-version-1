@@ -71,26 +71,36 @@ export default function CrazyDealsProducts() {
   ================================================================= */
 
   const dealProducts = useMemo(() => {
-    return products
-      .filter(
-        (product) =>
-          typeof product.price === "number" &&
-          typeof product.compareAtPrice === "number" &&
-          product.compareAtPrice > product.price,
-      )
-      .sort((a, b) => {
-        const aDiscount =
-          typeof a.compareAtPrice === "number" && a.compareAtPrice > 0
-            ? ((a.compareAtPrice - a.price) / a.compareAtPrice) * 100
-            : 0;
+    /*
+     * Filter first so only products with both a real price and
+     * compare-at price can enter the deal list.
+     *
+     * We then create a narrowed type for the sorting operation.
+     * This prevents TypeScript from treating price as possibly
+     * undefined inside Array.prototype.sort().
+     */
 
-        const bDiscount =
-          typeof b.compareAtPrice === "number" && b.compareAtPrice > 0
-            ? ((b.compareAtPrice - b.price) / b.compareAtPrice) * 100
-            : 0;
+    const eligibleProducts = products.filter(
+      (
+        product,
+      ): product is StorefrontProduct & {
+        price: number;
+        compareAtPrice: number;
+      } =>
+        typeof product.price === "number" &&
+        typeof product.compareAtPrice === "number" &&
+        product.compareAtPrice > product.price,
+    );
 
-        return bDiscount - aDiscount;
-      });
+    return eligibleProducts.sort((a, b) => {
+      const aDiscount =
+        a.compareAtPrice > 0 ? ((a.compareAtPrice - a.price) / a.compareAtPrice) * 100 : 0;
+
+      const bDiscount =
+        b.compareAtPrice > 0 ? ((b.compareAtPrice - b.price) / b.compareAtPrice) * 100 : 0;
+
+      return bDiscount - aDiscount;
+    });
   }, [products]);
 
   /* ================================================================
@@ -182,7 +192,7 @@ export default function CrazyDealsProducts() {
               sm:text-[14px]
             "
           >
-            We couldn't load the latest offers right now. Please try again.
+            We couldn&apos;t load the latest offers right now. Please try again.
           </p>
 
           <button
@@ -275,8 +285,8 @@ export default function CrazyDealsProducts() {
               sm:text-[14px]
             "
           >
-            But there's still plenty to discover. Explore the full BuzzieWorld collection and find
-            something worth bringing home.
+            But there&apos;s still plenty to discover. Explore the full BuzzieWorld collection and
+            find something worth bringing home.
           </p>
 
           <Link
@@ -325,8 +335,8 @@ export default function CrazyDealsProducts() {
     <section className="bg-white py-14 sm:py-16 lg:py-20">
       <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
         {/* ============================================================
-    SECTION HEADER
-============================================================ */}
+            SECTION HEADER
+        ============================================================= */}
 
         <div className="flex flex-col items-center gap-6 text-center">
           {/* Heading Content */}
@@ -334,18 +344,18 @@ export default function CrazyDealsProducts() {
             {/* Heading */}
             <h2
               className="
-              mt-5
-        w-full
-        max-w-[760px]
-        text-center
-        font-[var(--font-roboto)]
-        text-[clamp(2.25rem,5vw,4.4rem)]
-        font-black
-        uppercase
-        leading-[0.92]
-        tracking-[-0.055em]
-        text-[#111111]
-      "
+                mt-5
+                w-full
+                max-w-[760px]
+                text-center
+                font-[var(--font-roboto)]
+                text-[clamp(2.25rem,5vw,4.4rem)]
+                font-black
+                uppercase
+                leading-[0.92]
+                tracking-[-0.055em]
+                text-[#111111]
+              "
             >
               Big savings. <span className="text-[#E72D5A]">Better play.</span>
             </h2>
@@ -353,16 +363,16 @@ export default function CrazyDealsProducts() {
             {/* Description */}
             <p
               className="
-        mt-5
-        max-w-[570px]
-        text-center
-        font-[var(--font-poppins)]
-        text-[13px]
-        leading-6
-        text-[#687489]
-        sm:text-[14px]
-        sm:leading-7
-      "
+                mt-5
+                max-w-[570px]
+                text-center
+                font-[var(--font-poppins)]
+                text-[13px]
+                leading-6
+                text-[#687489]
+                sm:text-[14px]
+                sm:leading-7
+              "
             >
               The products they love, now at prices you&apos;ll love even more. Grab the best offers
               before they&apos;re gone.
@@ -416,7 +426,6 @@ export default function CrazyDealsProducts() {
               font-playpen
               text-[14px]
               font-black
-
               tracking-[0.08em]
               text-[#6F32F5]
               shadow-[0_10px_25px_rgba(39,52,74,0.05)]

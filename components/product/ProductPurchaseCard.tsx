@@ -108,12 +108,25 @@ export default function ProductPurchaseCard({ product, isOutOfStock }: ProductPu
           [&_p]:!text-[12px]
         "
       >
-        <ProductPurchaseOptions
-          productId={product._id}
-          price={product.price}
-          stock={product.stock}
-          disabled={isOutOfStock}
-        />
+        {typeof product.price === "number" && typeof product.stock === "number" ? (
+          <ProductPurchaseOptions
+            productId={product._id}
+            price={product.price}
+            stock={product.stock}
+            disabled={isOutOfStock}
+          />
+        ) : (
+          <div className="rounded-[18px] border border-[#EEE8F4] bg-[#FAF8FC] p-4">
+            <p className="font-[var(--font-poppins)] text-[11px] font-extrabold text-[#171B35]">
+              Purchase details coming soon
+            </p>
+
+            <p className="mt-1 font-[var(--font-poppins)] text-[10px] leading-5 text-[#777985]">
+              Price and availability will be updated before this product becomes available to
+              purchase.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* ================================================================

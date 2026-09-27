@@ -31,6 +31,22 @@ function parseSort(value: string | null): ProductSort {
   }
 }
 
+function parseOptionalBoolean(value: string | null): boolean | undefined {
+  if (value === null) {
+    return undefined;
+  }
+
+  if (value === "true") {
+    return true;
+  }
+
+  if (value === "false") {
+    return false;
+  }
+
+  return undefined;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -41,26 +57,29 @@ export async function GET(request: NextRequest) {
 
     const limit = Math.min(requestedLimit, 100);
 
-    const featuredParam = searchParams.get("featured");
+    const featured = parseOptionalBoolean(searchParams.get("featured"));
 
-    const featured =
-      featuredParam === null
-        ? undefined
-        : featuredParam === "true"
-          ? true
-          : featuredParam === "false"
-            ? false
-            : undefined;
+    const published = parseOptionalBoolean(searchParams.get("published"));
 
     const result = await getProducts({
       search: searchParams.get("search") || undefined,
+
       category: searchParams.get("category") || undefined,
+
       brand: searchParams.get("brand") || undefined,
+
       collection: searchParams.get("collection") || undefined,
+
       status: searchParams.get("status") || undefined,
+
+      published,
+
       featured,
+
       sort: parseSort(searchParams.get("sort")),
+
       page,
+
       limit,
     });
 
@@ -173,11 +192,28 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    /*
+     * Published is intentionally separate from status.
+     *
+     * draft + published=true
+     *     → visible in storefront
+     *     → not purchasable
+     *
+     * active + published=true
+     *     → visible in storefront
+     *     → commercially ready
+     *
+     * archived
+     *     → should not be used as a purchasable product
+     */
+    const published = body.published === true;
+
     const product = await createProduct({
       ...body,
       status,
       price,
       stock,
+      published,
     });
 
     return NextResponse.json(

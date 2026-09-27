@@ -6,8 +6,8 @@ import { notFound } from "next/navigation";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInfoArtwork from "@/components/product/ProductInfoArtwork";
 import ProductInfoDiary from "@/components/product/ProductInfoDiary";
-import RelatedProducts from "@/components/product/RelatedProducts";
 import ProductPurchaseCard from "@/components/product/ProductPurchaseCard";
+import RelatedProducts from "@/components/product/RelatedProducts";
 
 import Reveal from "@/components/home/Reveal";
 import type { StorefrontProduct, StorefrontProductResponse } from "@/types/storefront";
@@ -697,14 +697,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
      DERIVED PRODUCT DATA
   ========================================================================== */
 
+  /*
+   * price and stock are optional in the storefront model.
+   *
+   * This is intentional because the new catalog contains draft products
+   * where pricing/inventory has not yet been configured.
+   *
+   * Never substitute 0 for missing price/stock here.
+   */
+
+  const hasPrice = typeof product.price === "number";
+
+  const hasCompareAtPrice = typeof product.compareAtPrice === "number";
+
   const hasDiscount =
-    typeof product.compareAtPrice === "number" && product.compareAtPrice > product.price;
+    typeof product.price === "number" &&
+    typeof product.compareAtPrice === "number" &&
+    product.compareAtPrice > product.price;
 
-  const discount = hasDiscount
-    ? Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)
-    : 0;
+  let discount = 0;
 
-  const isOutOfStock = product.stock <= 0;
+  if (
+    typeof product.price === "number" &&
+    typeof product.compareAtPrice === "number" &&
+    product.compareAtPrice > product.price
+  ) {
+    discount = Math.round(
+      ((product.compareAtPrice - product.price) / product.compareAtPrice) * 100,
+    );
+  }
+
+  /*
+   * Undefined stock means inventory has not been configured yet.
+   * Such a product must not be treated as purchasable.
+   */
+  const isOutOfStock = typeof product.stock !== "number" || product.stock <= 0;
 
   const ageLabel = getAgeLabel(product.ageRange);
 
@@ -793,76 +820,76 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </nav>
 
         {/* ===================================================================
-    MAIN PRODUCT AREA
+            MAIN PRODUCT AREA
 
-    Desktop structure:
+            Desktop structure:
 
-    ┌──────────────┬──────────────────────┬──────────────┐
-    │   GALLERY    │   PRODUCT INFO       │   PURCHASE   │
-    │              │                      │              │
-    │   TRUST      │   NAME               │   CART       │
-    │   BADGES     │   PRICE              │   SHIPPING   │
-    ├──────────────┴──────────────────────┤              │
-    │                                     │              │
-    │          PRODUCT DIARY               │              │
-    │                                     │              │
-    └─────────────────────────────────────┴──────────────┘
-==================================================================== */}
+            ┌──────────────┬──────────────────────┬──────────────┐
+            │   GALLERY    │   PRODUCT INFO       │   PURCHASE   │
+            │              │                      │              │
+            │   TRUST      │   NAME               │   CART       │
+            │   BADGES     │   PRICE              │   SHIPPING   │
+            ├──────────────┴──────────────────────┤              │
+            │                                     │              │
+            │          PRODUCT DIARY               │              │
+            │                                     │              │
+            └─────────────────────────────────────┴──────────────┘
+        ==================================================================== */}
 
         <div
           className="
-    grid
-    items-start
-    gap-6
-    lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)_255px]
-    lg:gap-8
-    xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_270px]
-    xl:gap-10
-  "
+            grid
+            items-start
+            gap-6
+            lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)_255px]
+            lg:gap-8
+            xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_270px]
+            xl:gap-10
+          "
         >
           {/* ================================================================
-      LEFT — PRODUCT GALLERY
-  ================================================================= */}
+              LEFT — PRODUCT GALLERY
+          ================================================================= */}
 
           <section className="min-w-0">
             <ProductGallery images={product.images} productName={product.name} />
           </section>
 
           {/* ================================================================
-      CENTER — PRODUCT INFORMATION
-  ================================================================= */}
+              CENTER — PRODUCT INFORMATION
+          ================================================================= */}
 
           <section className="min-w-0">
             <ProductInfoArtwork {...(productInfoArtworkProps as any)} />
           </section>
 
           {/* ================================================================
-      RIGHT — PURCHASE / DELIVERY
+              RIGHT — PURCHASE / DELIVERY
 
-      The purchase card spans the diary row on desktop.
-  ================================================================= */}
+              The purchase card spans the diary row on desktop.
+          ================================================================= */}
 
           <section className="min-w-0 lg:row-span-2">
             <ProductPurchaseCard product={product} isOutOfStock={isOutOfStock} />
           </section>
 
           {/* ================================================================
-      PRODUCT DIARY
+              PRODUCT DIARY
 
-      Starts directly below the gallery + product information.
+              Starts directly below the gallery + product information.
 
-      col-span-2 means:
-      gallery column + product-info column
+              col-span-2 means:
+              gallery column + product-info column
 
-      It does NOT enter the purchase column.
-  ================================================================= */}
+              It does NOT enter the purchase column.
+          ================================================================= */}
 
           <section
             className="
-      min-w-0
-      lg:col-span-2
-      lg:mt-0
-    "
+              min-w-0
+              lg:col-span-2
+              lg:mt-0
+            "
           >
             <ProductInfoDiary
               product={product}
@@ -919,11 +946,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             <div
               className="
+                mb-5
                 flex
                 items-center
                 justify-center
                 gap-2.5
-                mb-5
               "
             >
               <span className="h-[2px] w-7 rounded-full bg-[#E72D5A] sm:w-9" />
@@ -981,6 +1008,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             "
           >
             {/* Mobile / tablet horizontal scrolling */}
+
             <div
               className="
                 -mx-4
@@ -997,9 +1025,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             >
               <div
                 className="
+                  mb-12
                   flex
                   gap-4
-                  mb-12
                   sm:grid
                   sm:grid-cols-2
                   sm:gap-5
@@ -1035,9 +1063,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               alt={`${product.name} — product features, what's included, learning benefits and product experience`}
               width={1600}
               height={2400}
-              sizes="
-                100vw
-              "
+              sizes="100vw"
               className="
                 block
                 h-auto

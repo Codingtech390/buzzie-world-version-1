@@ -8,6 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
+    "catalog:check": "tsx scripts/check-catalog.ts",
+    "catalog:publish": "tsx scripts/publish-all-products.ts",
+    "catalog:media-scan": "tsx scripts/scan-product-media.ts",
+
+
+
     "create-admin": "tsx scripts/create-admin.ts",
     "import:client-products": "tsx scripts/import-client-products.ts"
   },

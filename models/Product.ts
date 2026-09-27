@@ -49,7 +49,27 @@ export interface IProduct {
 
   stock?: number;
 
+  /**
+   * Commerce lifecycle.
+   *
+   * draft    = still being prepared
+   * active   = commercially ready to sell
+   * archived = no longer available
+   */
   status: "draft" | "active" | "archived";
+
+  /**
+   * Storefront visibility.
+   *
+   * published = true
+   *   The product may appear in the public catalog.
+   *
+   * published = false
+   *   The product remains hidden from the public catalog.
+   *
+   * This is intentionally separate from `status`.
+   */
+  published: boolean;
 
   featured: boolean;
 
@@ -212,10 +232,24 @@ const ProductSchema = new Schema<IProduct>(
       min: 0,
     },
 
+    /**
+     * Commerce lifecycle.
+     */
     status: {
       type: String,
       enum: ["draft", "active", "archived"],
       default: "draft",
+      index: true,
+    },
+
+    /**
+     * Storefront visibility.
+     *
+     * New products are hidden until explicitly published.
+     */
+    published: {
+      type: Boolean,
+      default: false,
       index: true,
     },
 

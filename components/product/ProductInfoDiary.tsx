@@ -74,7 +74,13 @@ function getDiaryContent(
         points: [
           `Age: ${ageLabel || "Suitable age group not specified"}`,
           `SKU: ${product.sku || "Not specified"}`,
-          `Availability: ${product.stock > 0 ? "In stock" : "Currently unavailable"}`,
+          `Availability: ${
+            product.stock === undefined
+              ? "Availability pending"
+              : product.stock > 0
+                ? "In stock"
+                : "Currently unavailable"
+          }`,
         ],
         icon: Tag,
       };
@@ -232,12 +238,11 @@ export default function ProductInfoDiary({
             <p
               className="
                 font-[var(--font-poppins)]
-                text-[8px]
+                text-[12px]
                 font-black
                 uppercase
                 tracking-[0.18em]
                 text-[#E72D5A]
-                sm:text-[9px]
               "
             >
               Product diary
@@ -247,7 +252,7 @@ export default function ProductInfoDiary({
               id="product-diary-heading"
               className="
                 mt-1
-                font-[var(--font-roboto)]
+                font-playpen
                 text-[20px]
                 font-black
                 leading-tight
@@ -339,11 +344,11 @@ export default function ProductInfoDiary({
 
                   <span
                     className="
-                      font-[var(--font-poppins)]
-                      text-[10px]
-                      font-extrabold
                       whitespace-nowrap
-                      sm:text-[11px]
+                      font-[var(--font-poppins)]
+                      text-[12px]
+                      font-extrabold
+                      sm:text-[14px]
                     "
                   >
                     {tab.label}
@@ -373,13 +378,26 @@ export default function ProductInfoDiary({
             RIGHT — DIARY CONTENT
         ================================================================= */}
 
-        <div className="min-w-0 p-4 sm:p-6 lg:p-7 xl:p-8">
+        <div
+          className="
+            min-w-0
+            w-full
+            px-5
+            py-7
+            sm:px-7
+            sm:py-8
+            lg:px-10
+            lg:py-10
+            xl:px-11
+            xl:py-11
+          "
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
               initial={{
                 opacity: 0,
-                y: 10,
+                y: 12,
               }}
               animate={{
                 opacity: 1,
@@ -390,24 +408,29 @@ export default function ProductInfoDiary({
                 y: -8,
               }}
               transition={{
-                duration: 0.25,
+                duration: 0.3,
                 ease: "easeOut",
               }}
+              className="w-full min-w-0"
             >
-              {/* Content heading */}
+              {/* ------------------------------------------------------------
+                  HEADER
+              ------------------------------------------------------------- */}
 
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-4">
+                {/* Icon */}
+
                 <motion.div
                   initial={{
                     rotate: -8,
-                    scale: 0.85,
+                    scale: 0.88,
                   }}
                   animate={{
                     rotate: 0,
                     scale: 1,
                   }}
                   transition={{
-                    duration: 0.35,
+                    duration: 0.4,
                     ease: "easeOut",
                   }}
                   className="
@@ -416,26 +439,32 @@ export default function ProductInfoDiary({
                     shrink-0
                     items-center
                     justify-center
-                    rounded-2xl
-                    bg-[linear-gradient(145deg,#F1EAFF_0%,#E9DEFF_100%)]
+                    rounded-[15px]
+                    border
+                    border-[#C391EE]/20
+                    bg-gradient-to-br
+                    from-[#F6F0FF]
+                    to-[#EDE2FF]
                     text-[#7044B8]
-                    shadow-[0_8px_20px_rgba(112,68,184,0.12)]
+                    shadow-[0_6px_18px_rgba(112,68,184,0.10)]
                     sm:size-12
+                    sm:rounded-[16px]
                   "
                 >
-                  <ContentIcon className="size-5" strokeWidth={1.8} />
+                  <ContentIcon className="size-[19px] sm:size-5" strokeWidth={1.9} />
                 </motion.div>
 
-                <div className="min-w-0 flex-1">
+                {/* Heading */}
+
+                <div className="min-w-0 flex-1 pt-0.5">
                   <p
                     className="
                       font-[var(--font-poppins)]
-                      text-[8px]
-                      font-black
+                      text-[12px]
+                      font-bold
                       uppercase
-                      tracking-[0.16em]
+                      tracking-[0.18em]
                       text-[#E72D5A]
-                      sm:text-[9px]
                     "
                   >
                     {content.eyebrow}
@@ -443,55 +472,66 @@ export default function ProductInfoDiary({
 
                   <h3
                     className="
-                      mt-1
-                      font-[var(--font-roboto)]
+                      mt-1.5
+                      font-playpen
                       text-[20px]
                       font-black
-                      leading-tight
-                      tracking-[-0.035em]
+                      leading-[1.2]
+                      tracking-[-0.025em]
                       text-[#10183B]
-                      sm:text-[24px]
+                      sm:text-[25px]
+                      lg:text-[27px]
                     "
                   >
                     {content.title}
                   </h3>
                 </div>
 
-                {/* Diary dots */}
+                {/* Decorative dots */}
 
-                <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
+                <div className="hidden shrink-0 items-center gap-1.5 pt-2 sm:flex">
                   <span className="size-1.5 rounded-full bg-[#E72D5A]" />
                   <span className="size-1.5 rounded-full bg-[#C391EE]" />
                   <span className="size-1.5 rounded-full bg-[#F1A348]" />
                 </div>
               </div>
 
-              {/* Main description */}
+              {/* ------------------------------------------------------------
+                  DESCRIPTION
+              ------------------------------------------------------------- */}
 
               <p
                 className="
-                  mt-4
+                  mt-7
                   max-w-3xl
                   font-[var(--font-poppins)]
                   text-[12px]
-                  font-medium
-                  leading-6
-                  text-[#55596B]
+                  font-normal
+                  leading-[1.8]
+                  tracking-[-0.005em]
+                  text-[#5D6172]
+                  sm:mt-8
                   sm:text-[13px]
-                  sm:leading-7
+                  sm:leading-[1.85]
+                  lg:text-[14px]
+                  lg:leading-[1.9]
                 "
               >
                 {content.body}
               </p>
 
-              {/* Information points */}
+              {/* ------------------------------------------------------------
+                  INFORMATION POINTS
+              ------------------------------------------------------------- */}
 
               <div
                 className="
-                  mt-5
+                  mt-7
                   grid
-                  gap-2.5
+                  gap-3
+                  sm:mt-8
                   sm:grid-cols-3
+                  sm:gap-3
                 "
               >
                 {content.points.map((point, index) => (
@@ -499,54 +539,75 @@ export default function ProductInfoDiary({
                     key={point}
                     initial={{
                       opacity: 0,
-                      x: -5,
+                      y: 6,
                     }}
                     animate={{
                       opacity: 1,
-                      x: 0,
+                      y: 0,
                     }}
                     transition={{
                       delay: index * 0.06,
-                      duration: 0.22,
+                      duration: 0.25,
+                      ease: "easeOut",
+                    }}
+                    whileHover={{
+                      y: -2,
                     }}
                     className="
-                        flex
-                        items-start
-                        gap-2.5
-                        rounded-[14px]
-                        border
-                        border-[#EEE8F4]
-                        bg-white/80
-                        px-3
-                        py-3
-                        transition-colors
-                        hover:bg-[#F9F5FF]
-                      "
+                      group
+                      flex
+                      min-h-[72px]
+                      items-start
+                      gap-2.5
+                      rounded-[16px]
+                      border
+                      border-[#ECE7F2]
+                      bg-[#FCFAFF]
+                      px-3.5
+                      py-3.5
+                      shadow-[0_3px_12px_rgba(38,24,67,0.025)]
+                      transition-all
+                      duration-200
+                      hover:border-[#DCCCF2]
+                      hover:bg-[#F9F5FF]
+                      hover:shadow-[0_7px_20px_rgba(112,68,184,0.07)]
+                      sm:px-3
+                      sm:py-3.5
+                    "
                   >
-                    <span
-                      className="
-                          mt-0.5
-                          flex
-                          size-5
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-full
-                          bg-[#FDE8EE]
-                          text-[#E72D5A]
-                        "
-                    >
-                      <Check className="size-3" strokeWidth={2.5} />
-                    </span>
+                    {/* Check */}
 
                     <span
                       className="
-                          font-[var(--font-poppins)]
-                          text-[10px]
-                          font-semibold
-                          leading-4
-                          text-[#4E5264]
-                        "
+                        mt-0.5
+                        flex
+                        size-[21px]
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-[#FDE9EF]
+                        text-[#E72D5A]
+                        transition-transform
+                        duration-200
+                        group-hover:scale-105
+                      "
+                    >
+                      <Check className="size-[11px]" strokeWidth={2.7} />
+                    </span>
+
+                    {/* Text */}
+
+                    <span
+                      className="
+                        pt-px
+                        font-[var(--font-poppins)]
+                        text-[12px]
+                        font-medium
+                        leading-[1.55]
+                        tracking-[-0.005em]
+                        text-[#505467]
+                      "
                     >
                       {point}
                     </span>
@@ -554,28 +615,34 @@ export default function ProductInfoDiary({
                 ))}
               </div>
 
-              {/* Small diary footer */}
+              {/* ------------------------------------------------------------
+                  FOOTER
+              ------------------------------------------------------------- */}
 
               <div
                 className="
-                  mt-5
+                  mt-7
                   flex
-                  items-center
-                  justify-between
+                  flex-col
+                  gap-2
                   border-t
-                  border-[#EEE8F4]
+                  border-[#ECE7F2]
                   pt-4
+                  sm:mt-8
+                  sm:flex-row
+                  sm:items-center
+                  sm:justify-between
+                  sm:gap-4
                 "
               >
                 <span
                   className="
                     font-[var(--font-poppins)]
-                    text-[8px]
-                    font-bold
+                    text-[12px]
+                    font-semibold
                     uppercase
-                    tracking-[0.14em]
-                    text-[#A1A2AA]
-                    sm:text-[9px]
+                    tracking-[0.16em]
+                    text-[#A2A3AD]
                   "
                 >
                   BuzzieWorld product notes
@@ -583,11 +650,14 @@ export default function ProductInfoDiary({
 
                 <span
                   className="
+                    min-w-0
+                    truncate
                     font-[var(--font-poppins)]
-                    text-[8px]
-                    font-semibold
-                    text-[#C391EE]
-                    sm:text-[9px]
+                    text-[12px]
+                    font-medium
+                    text-[#A27BCF]
+                    sm:max-w-[55%]
+                    sm:text-right
                   "
                 >
                   {product.name}
@@ -600,3 +670,4 @@ export default function ProductInfoDiary({
     </section>
   );
 }
+  

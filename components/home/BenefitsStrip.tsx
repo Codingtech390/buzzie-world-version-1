@@ -1,15 +1,11 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  ChevronLeft,
-  ChevronRight,
-  Heart,
-  ShoppingCart,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
 
 import type { StorefrontProduct } from "@/types/storefront";
 import Reveal from "./Reveal";
@@ -34,6 +30,7 @@ const THEMED_STAR = "/images/hero/themed-icons/themed-star-red.png";
 
 const MARQUEE_TEXT =
   "BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun. BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun.";
+
 /* -------------------------------------------------------------------------- */
 /*                               SHOP BY AGE                                   */
 /* -------------------------------------------------------------------------- */
@@ -131,7 +128,9 @@ function DecorativeStar({ className = "", size = 20 }: { className?: string; siz
   );
 }
 
-// Marquee
+/* -------------------------------------------------------------------------- */
+/*                                  MARQUEE                                   */
+/* -------------------------------------------------------------------------- */
 
 function BrandMarquee() {
   return (
@@ -220,12 +219,23 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
 
   const imageAlt = product.images?.[0]?.alt || product.name || "BuzzieWorld product";
 
-  const hasDiscount =
-    typeof product.compareAtPrice === "number" && product.compareAtPrice > product.price;
+  /*
+   * StorefrontProduct.price and compareAtPrice are optional.
+   *
+   * Keep narrowed local values so TypeScript never has to infer
+   * the relationship between product.price and product.compareAtPrice.
+   */
+  const price = typeof product.price === "number" ? product.price : undefined;
 
-  const discount = hasDiscount
-    ? Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)
-    : 0;
+  const compareAtPrice =
+    typeof product.compareAtPrice === "number" ? product.compareAtPrice : undefined;
+
+  const hasDiscount = price !== undefined && compareAtPrice !== undefined && compareAtPrice > price;
+
+  const discount =
+    price !== undefined && compareAtPrice !== undefined && compareAtPrice > price
+      ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100)
+      : 0;
 
   const description =
     product.shortDescription || product.description || "A fun pick for curious young minds.";
@@ -243,16 +253,13 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
         href={`/products/${product.slug}`}
         aria-label={`View ${product.name}`}
         className="
-
-        block
+          block
           w-full
           overflow-hidden
           rounded-[28px]
-
           transition-all
           duration-300
           hover:-translate-y-1
-
           focus-visible:outline-none
           focus-visible:ring-2
           focus-visible:ring-[#A99AD2]
@@ -294,7 +301,6 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
               bottom-0
               top-[8%]
               rounded-[50%_50%_0_0]
-
             "
           />
 
@@ -380,7 +386,6 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
                   font-[var(--font-poppins-brand)]
                   text-[12px]
                   font-extrabold
-
                   leading-none
                   tracking-[0.01em]
                   text-white
@@ -417,9 +422,9 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
           </div>
 
           {/* Product name */}
+
           <h3
             className="
-
               font-playpen
               text-center
               line-clamp-1
@@ -438,27 +443,29 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
           </h3>
 
           {/* Description */}
+
           <p
             className="
-    mt-4
-    text-center
-    line-clamp-2
-    min-h-[34px]
-    font-[var(--font-playpen-sans)]
-    text-[12px]
-    font-normal
-    capitalize
-    leading-[1.45]
-    tracking-[0.01em]
-    text-[#8991A2]
-    sm:min-h-[38px]
-    sm:text-[10px]
-    lg:mt-4
-    lg:text-[12px]
-  "
+              mt-4
+              text-center
+              line-clamp-2
+              min-h-[34px]
+              font-[var(--font-playpen-sans)]
+              text-[12px]
+              font-normal
+              capitalize
+              leading-[1.45]
+              tracking-[0.01em]
+              text-[#8991A2]
+              sm:min-h-[38px]
+              sm:text-[10px]
+              lg:mt-4
+              lg:text-[12px]
+            "
           >
             {description}
           </p>
+
           {/* Price */}
 
           <div
@@ -472,52 +479,69 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
             "
           >
             <div className="min-w-0">
-              <div className="flex flex-wrap items-baseline gap-x-2">
+              {price !== undefined ? (
+                <>
+                  <div className="flex flex-wrap items-baseline gap-x-2">
+                    <span
+                      className="
+                        font-[var(--font-poppins-brand)]
+                        text-[17px]
+                        font-extrabold
+                        leading-none
+                        text-[#263451]
+                        sm:text-[18px]
+                      "
+                    >
+                      ₹{price.toLocaleString("en-IN")}
+                    </span>
+
+                    {hasDiscount && compareAtPrice !== undefined && (
+                      <span
+                        className="
+                            font-[var(--font-poppins-brand)]
+                            text-[9px]
+                            font-medium
+                            leading-none
+                            text-[#9BA2AF]
+                            line-through
+                            sm:text-[10px]
+                          "
+                      >
+                        ₹{compareAtPrice.toLocaleString("en-IN")}
+                      </span>
+                    )}
+                  </div>
+
+                  {discount > 0 && (
+                    <span
+                      className="
+                        mt-1
+                        block
+                        font-[var(--font-poppins-brand)]
+                        text-[7px]
+                        font-bold
+                        uppercase
+                        leading-none
+                        text-[#F04461]
+                        sm:text-[8px]
+                      "
+                    >
+                      Save {discount}%
+                    </span>
+                  )}
+                </>
+              ) : (
                 <span
                   className="
                     font-[var(--font-poppins-brand)]
-                    text-[17px]
-                    font-extrabold
+                    text-[11px]
+                    font-semibold
                     leading-none
-                    text-[#263451]
-                    sm:text-[18px]
+                    text-[#8991A2]
+                    sm:text-[12px]
                   "
                 >
-                  ₹{product.price.toLocaleString("en-IN")}
-                </span>
-
-                {hasDiscount && (
-                  <span
-                    className="
-                      font-[var(--font-poppins-brand)]
-                      text-[9px]
-                      font-medium
-                      leading-none
-                      text-[#9BA2AF]
-                      line-through
-                      sm:text-[10px]
-                    "
-                  >
-                    ₹{product.compareAtPrice!.toLocaleString("en-IN")}
-                  </span>
-                )}
-              </div>
-
-              {discount > 0 && (
-                <span
-                  className="
-                    mt-1
-                    block
-                    font-[var(--font-poppins-brand)]
-                    text-[7px]
-                    font-bold
-                    uppercase
-                    leading-none
-                    text-[#F04461]
-                    sm:text-[8px]
-                  "
-                >
-                  Save {discount}%
+                  Price coming soon
                 </span>
               )}
             </div>
@@ -534,36 +558,62 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
               sm:mt-3.5
             "
           >
-            <span
-              className="
-                flex
-                min-w-0
-                flex-1
-                items-center
-                justify-center
-                gap-2
-                rounded-full
-                bg-[#C391EE]
-                px-3
-                py-2.5
-                font-[var(--font-poppins-brand)]
-                text-[10px]
-                font-extrabold
-                uppercase
-                leading-none
-                text-white
-                shadow-[0_6px_16px_rgba(169,154,210,0.28)]
-                transition-all
-                duration-300
-                group-hover:bg-[#927FC5]
-                sm:py-3
-                sm:text-[11px]
-              "
-            >
-              <ShoppingCart aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.2} />
+            {price !== undefined ? (
+              <span
+                className="
+                  flex
+                  min-w-0
+                  flex-1
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-full
+                  bg-[#C391EE]
+                  px-3
+                  py-2.5
+                  font-[var(--font-poppins-brand)]
+                  text-[10px]
+                  font-extrabold
+                  uppercase
+                  leading-none
+                  text-white
+                  shadow-[0_6px_16px_rgba(169,154,210,0.28)]
+                  transition-all
+                  duration-300
+                  group-hover:bg-[#927FC5]
+                  sm:py-3
+                  sm:text-[11px]
+                "
+              >
+                <ShoppingCart aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.2} />
 
-              <span className="truncate">Add to Cart</span>
-            </span>
+                <span className="truncate">Add to Cart</span>
+              </span>
+            ) : (
+              <span
+                className="
+                  flex
+                  min-w-0
+                  flex-1
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-[#E9E4F2]
+                  px-3
+                  py-2.5
+                  font-[var(--font-poppins-brand)]
+                  text-[10px]
+                  font-extrabold
+                  uppercase
+                  leading-none
+                  text-[#7A6A91]
+                  sm:py-3
+                  sm:text-[11px]
+                "
+              >
+                Price Coming Soon
+              </span>
+            )}
 
             <button
               type="button"
@@ -611,6 +661,7 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
     </motion.article>
   );
 }
+
 /* -------------------------------------------------------------------------- */
 /*                            AGE IMAGE                                       */
 /* -------------------------------------------------------------------------- */
@@ -681,6 +732,7 @@ function AgeImage({ age }: { age: (typeof ageGroups)[number] }) {
     </motion.div>
   );
 }
+
 /* -------------------------------------------------------------------------- */
 /*                            PRODUCT CAROUSEL                                 */
 /* -------------------------------------------------------------------------- */
@@ -745,9 +797,7 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
       return 0;
     }
 
-    const firstCard = container.querySelector<HTMLElement>(
-      "[data-product-card]",
-    );
+    const firstCard = container.querySelector<HTMLElement>("[data-product-card]");
 
     if (!firstCard) {
       return 0;
@@ -811,6 +861,7 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
     }
 
     const maxScroll = container.scrollWidth - container.clientWidth;
+
     const current = container.scrollLeft;
 
     if (current >= maxScroll - 4) {
@@ -839,6 +890,7 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
     }
 
     let intervalId: ReturnType<typeof setInterval> | null = null;
+
     let restartTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const stopAutoPlay = () => {
@@ -853,18 +905,20 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
         return;
       }
 
-      const firstCard = container.querySelector<HTMLElement>(
-        "[data-product-card]",
-      );
+      const firstCard = container.querySelector<HTMLElement>("[data-product-card]");
 
       if (!firstCard) {
         return;
       }
 
       const cardWidth = firstCard.getBoundingClientRect().width;
+
       const styles = window.getComputedStyle(container);
+
       const gap = parseFloat(styles.columnGap || styles.gap || "0");
+
       const step = cardWidth + gap;
+
       const maxScroll = container.scrollWidth - container.clientWidth;
 
       if (maxScroll <= 4) {
@@ -913,6 +967,7 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
      * The products should continue moving automatically even while
      * the user is hovering over the carousel.
      */
+
     container.addEventListener("touchstart", handleTouchStart, {
       passive: true,
     });
@@ -1006,11 +1061,7 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
         }}
       >
         {products.map((product) => (
-          <div
-            key={product._id}
-            data-product-card
-            className={getCarouselCardClass()}
-          >
+          <div key={product._id} data-product-card className={getCarouselCardClass()}>
             <ProductArcCard product={product} />
           </div>
         ))}
@@ -1136,6 +1187,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
             "
           >
             {/* Decorative stars */}
+
             <DecorativeStar
               className="
                 left-[3%]
@@ -1146,6 +1198,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               "
               size={16}
             />
+
             <DecorativeStar
               className="
                 right-[4%]
@@ -1155,58 +1208,60 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               "
               size={14}
             />
+
             {/* ------------------------------------------------------------ */}
             {/* HEADING                                                      */}
             {/* ------------------------------------------------------------ */}
+
             <div
               className="
-    relative
-    z-20
-    flex
-    flex-col
-    items-center
-    text-center
-  "
+                relative
+                z-20
+                flex
+                flex-col
+                items-center
+                text-center
+              "
             >
               {/* Eyebrow */}
 
               <div
                 className="
-      mx-auto
-      mb-4
-      flex
-      w-full
-      items-center
-      justify-center
-      gap-2
-      text-center
-      sm:mb-5
-    "
+                  mx-auto
+                  mb-4
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-2
+                  text-center
+                  sm:mb-5
+                "
               >
                 <span
                   aria-hidden="true"
                   className="
-        h-[2px]
-        w-7
-        shrink-0
-        rounded-full
-        bg-[#E72D5A]
-        sm:w-8
-      "
+                    h-[2px]
+                    w-7
+                    shrink-0
+                    rounded-full
+                    bg-[#E72D5A]
+                    sm:w-8
+                  "
                 />
 
                 <span
                   className="
-        whitespace-nowrap
-        font-[var(--font-poppins-brand)]
-        text-[8px]
-        font-black
-        uppercase
-        tracking-[0.18em]
-        text-[#E72D5A]
-        sm:text-[10px]
-        xl:text-[12px]
-      "
+                    whitespace-nowrap
+                    font-[var(--font-poppins-brand)]
+                    text-[8px]
+                    font-black
+                    uppercase
+                    tracking-[0.18em]
+                    text-[#E72D5A]
+                    sm:text-[10px]
+                    xl:text-[12px]
+                  "
                 >
                   Latest &amp; Trending
                 </span>
@@ -1214,49 +1269,46 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                 <span
                   aria-hidden="true"
                   className="
-        size-1.5
-        shrink-0
-        rounded-full
-        bg-[#E83D59]
-      "
+                    size-1.5
+                    shrink-0
+                    rounded-full
+                    bg-[#E83D59]
+                  "
                 />
               </div>
 
               {/* ================================================================
-      MAIN HEADING + ARROW
-  ================================================================= */}
+                  MAIN HEADING + ARROW
+              ================================================================= */}
 
               <div
                 className="
-      flex
-      w-auto
-      max-w-full
-      items-center
-      justify-center
-      text-center
-    "
+                  flex
+                  w-auto
+                  max-w-full
+                  items-center
+                  justify-center
+                  text-center
+                "
               >
                 <h2
                   className="
-        m-0
-        text-center
-        font-[var(--font-poppins-brand)]
-        text-[clamp(3.5rem,12vw,5.8rem)]
-        font-bold
-        uppercase
-        leading-[0.82]
-        tracking-[-0.025em]
-        text-[#111111]
-
-
-      "
+                    m-0
+                    text-center
+                    font-[var(--font-poppins-brand)]
+                    text-[clamp(3.5rem,12vw,5.8rem)]
+                    font-bold
+                    uppercase
+                    leading-[0.82]
+                    tracking-[-0.025em]
+                    text-[#111111]
+                  "
                 >
                   Buzzie <span className="text-[#E72D5A]">Products</span>
                 </h2>
 
                 {/* Arrow */}
 
-                {/* Arrow */}
                 <div
                   aria-hidden="true"
                   className="
@@ -1275,13 +1327,13 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                     src="/images/buttons/buzzie-arrow.png"
                     alt=""
                     className="
-      block
-      h-auto
-      w-[46px]
-      object-contain
-      sm:w-[60px]
-      lg:w-[76px]
-    "
+                      block
+                      h-auto
+                      w-[46px]
+                      object-contain
+                      sm:w-[60px]
+                      lg:w-[76px]
+                    "
                   />
                 </div>
               </div>
@@ -1292,24 +1344,24 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
             ) : (
               <div
                 className="
-      mx-auto
-      mt-6
-      max-w-[900px]
-      rounded-[28px]
-      bg-white
-      px-6
-      py-12
-      text-center
-      shadow-[0_10px_40px_rgba(23,33,61,0.04)]
-    "
+                  mx-auto
+                  mt-6
+                  max-w-[900px]
+                  rounded-[28px]
+                  bg-white
+                  px-6
+                  py-12
+                  text-center
+                  shadow-[0_10px_40px_rgba(23,33,61,0.04)]
+                "
               >
                 <p
                   className="
-        font-[var(--font-poppins-brand)]
-        text-sm
-        font-semibold
-        text-[#687489]
-      "
+                    font-[var(--font-poppins-brand)]
+                    text-sm
+                    font-semibold
+                    text-[#687489]
+                  "
                 >
                   Our little collection is getting ready.
                 </p>
@@ -1325,11 +1377,10 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
         <Reveal>
           <div
             className="
-            relative
-            px-0
-            pt-8
-
-      pb-0
+              relative
+              px-0
+              pt-8
+              pb-0
             "
           >
             {/* ------------------------------------------------------------ */}
@@ -1397,7 +1448,6 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                   leading-[0.82]
                   tracking-[-0.025em]
                   text-[#111111]
-
                   sm:text-[5.2rem]
                   md:text-[5.8rem]
                   lg:text-[6.2rem]
@@ -1406,8 +1456,6 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               >
                 Shop By <span className="text-[#E83D59]">Age</span>
               </h2>
-
-
             </div>
 
             {/* ------------------------------------------------------------ */}
@@ -1421,7 +1469,6 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                 mt-6
                 sm:mt-7
                 lg:mt-8
-
               "
             >
               <motion.div
@@ -1441,7 +1488,6 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                   lg:grid-cols-4
                   lg:gap-5
                   xl:gap-6
-
                 "
               >
                 {ageGroups.map((age) => (

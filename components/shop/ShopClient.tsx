@@ -163,38 +163,73 @@ const AGE_GROUPS: {
   },
 ];
 
-const SORT_OPTIONS: { value: ShopSort; label: string }[] = [
-  { value: "newest", label: "Featured" },
-  { value: "oldest", label: "Oldest first" },
-  { value: "price-low", label: "Price: Low to High" },
-  { value: "price-high", label: "Price: High to Low" },
-  { value: "name-az", label: "Name: A to Z" },
-  { value: "name-za", label: "Name: Z to A" },
+const SORT_OPTIONS: {
+  value: ShopSort;
+  label: string;
+}[] = [
+  {
+    value: "newest",
+    label: "Featured",
+  },
+  {
+    value: "oldest",
+    label: "Oldest first",
+  },
+  {
+    value: "price-low",
+    label: "Price: Low to High",
+  },
+  {
+    value: "price-high",
+    label: "Price: High to Low",
+  },
+  {
+    value: "name-az",
+    label: "Name: A to Z",
+  },
+  {
+    value: "name-za",
+    label: "Name: Z to A",
+  },
 ];
 
 export default function ShopClient() {
   const searchParams = useSearchParams();
 
   const [products, setProducts] = useState<StorefrontProduct[]>([]);
+
   const [categories, setCategories] = useState<StorefrontSelector[]>([]);
+
   const [collections, setCollections] = useState<StorefrontSelector[]>([]);
 
   const [page, setPage] = useState(1);
+
   const [totalPages, setTotalPages] = useState(1);
+
   const [totalProducts, setTotalProducts] = useState(0);
 
   const [search, setSearch] = useState("");
+
   const [category, setCategory] = useState("");
+
   const [collection, setCollection] = useState("");
+
   const [sort, setSort] = useState<ShopSort>("newest");
+
   const [selectedAge, setSelectedAge] = useState<AgeGroup>("All Ages");
+
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
 
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
   const [showSort, setShowSort] = useState(false);
+
   const [loading, setLoading] = useState(true);
+
   const [filterLoading, setFilterLoading] = useState(true);
+
   const [error, setError] = useState<string | null>(null);
+
   const [filterError, setFilterError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -238,8 +273,13 @@ export default function ShopClient() {
         setFilterError(null);
 
         const [categoriesResponse, collectionsResponse] = await Promise.all([
-          fetch("/api/categories", { signal: controller.signal }),
-          fetch("/api/collections", { signal: controller.signal }),
+          fetch("/api/categories", {
+            signal: controller.signal,
+          }),
+
+          fetch("/api/collections", {
+            signal: controller.signal,
+          }),
         ]);
 
         if (!categoriesResponse.ok || !collectionsResponse.ok) {
@@ -252,17 +292,23 @@ export default function ShopClient() {
         ] = await Promise.all([categoriesResponse.json(), collectionsResponse.json()]);
 
         setCategories(categoriesData.categories ?? []);
+
         setCollections(collectionsData.collections ?? []);
       } catch (err) {
-        if (err instanceof DOMException && err.name === "AbortError") return;
+        if (err instanceof DOMException && err.name === "AbortError") {
+          return;
+        }
 
         setFilterError(err instanceof Error ? err.message : "Unable to load filters.");
       } finally {
-        if (!controller.signal.aborted) setFilterLoading(false);
+        if (!controller.signal.aborted) {
+          setFilterLoading(false);
+        }
       }
     }
 
     loadSelectors();
+
     return () => controller.abort();
   }, []);
 
@@ -275,20 +321,47 @@ export default function ShopClient() {
         setError(null);
 
         const params = new URLSearchParams();
+
         params.set("page", String(page));
+
         params.set("limit", String(PRODUCTS_PER_PAGE));
-        params.set("status", "active");
+
+        /*
+         * IMPORTANT:
+         *
+         * Storefront visibility is now controlled
+         * by `published`, not `status`.
+         *
+         * This allows:
+         *
+         * published=true + status=draft
+         *
+         * to appear in the catalog while remaining
+         * non-purchasable until commercially complete.
+         */
+        params.set("published", "true");
+
         params.set("sort", sort);
 
-        if (search.trim()) params.set("search", search.trim());
-        if (category) params.set("category", category);
-        if (collection) params.set("collection", collection);
+        if (search.trim()) {
+          params.set("search", search.trim());
+        }
+
+        if (category) {
+          params.set("category", category);
+        }
+
+        if (collection) {
+          params.set("collection", collection);
+        }
 
         const response = await fetch(`/api/products?${params.toString()}`, {
           signal: controller.signal,
         });
 
-        if (!response.ok) throw new Error("Unable to load products.");
+        if (!response.ok) {
+          throw new Error("Unable to load products.");
+        }
 
         const data: StorefrontProductsResponse = await response.json();
 
@@ -297,33 +370,54 @@ export default function ShopClient() {
         }
 
         setProducts(data.products ?? []);
+
         setTotalProducts(data.pagination?.total ?? 0);
+
         setTotalPages(data.pagination?.totalPages ?? 1);
 
         const url = new URL(window.location.href);
 
-        if (page > 1) url.searchParams.set("page", String(page));
-        else url.searchParams.delete("page");
+        if (page > 1) {
+          url.searchParams.set("page", String(page));
+        } else {
+          url.searchParams.delete("page");
+        }
 
-        if (search.trim()) url.searchParams.set("search", search.trim());
-        else url.searchParams.delete("search");
+        if (search.trim()) {
+          url.searchParams.set("search", search.trim());
+        } else {
+          url.searchParams.delete("search");
+        }
 
-        if (category) url.searchParams.set("category", category);
-        else url.searchParams.delete("category");
+        if (category) {
+          url.searchParams.set("category", category);
+        } else {
+          url.searchParams.delete("category");
+        }
 
-        if (collection) url.searchParams.set("collection", collection);
-        else url.searchParams.delete("collection");
+        if (collection) {
+          url.searchParams.set("collection", collection);
+        } else {
+          url.searchParams.delete("collection");
+        }
 
-        if (sort !== "newest") url.searchParams.set("sort", sort);
-        else url.searchParams.delete("sort");
+        if (sort !== "newest") {
+          url.searchParams.set("sort", sort);
+        } else {
+          url.searchParams.delete("sort");
+        }
 
         window.history.replaceState({}, "", url);
       } catch (err) {
-        if (err instanceof DOMException && err.name === "AbortError") return;
+        if (err instanceof DOMException && err.name === "AbortError") {
+          return;
+        }
 
         setError(err instanceof Error ? err.message : "Unable to load products.");
       } finally {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }, 180);
 
@@ -381,15 +475,7 @@ export default function ShopClient() {
       {/* HERO */}
       <section>
         <div className="mx-auto w-full max-w-[1500px] px-0 sm:px-4 lg:px-6">
-          <div
-            className="
-        relative
-        w-full
-        overflow-hidden
-        rounded-none
-
-      "
-          >
+          <div className="relative w-full overflow-hidden rounded-none">
             <Image
               src="/images/banners/shop-top-1.png"
               alt="BuzzieWorld — Shop games, books and learning toys for kids"
@@ -398,12 +484,7 @@ export default function ShopClient() {
               priority
               quality={90}
               sizes="100vw"
-              className="
-          block
-          h-auto
-          w-full
-          object-cover
-        "
+              className="block h-auto w-full object-cover"
             />
           </div>
         </div>
@@ -412,80 +493,29 @@ export default function ShopClient() {
       {/* AGE NAVIGATION */}
       <section className="mt-10 mb-12 bg-[#FFFDFC]">
         <div className="mx-auto w-full max-w-[1500px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          {/* =========================================================
-        SECTION HEADER
-       ========================================================= */}
-
           <div className="mb-7 flex items-end justify-between">
             <div>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="mt-2 flex items-center gap-2">
                 <span className="h-[2px] w-8 rounded-full bg-[#E72D5A]" />
 
-                <p
-                  className="
-              font-playpen
-              text-[9px]
-              font-black
-              uppercase
-              tracking-[0.18em]
-              text-[#E72D5A]
-              sm:text-[10px]
-              lg:text-[14px]
-            "
-                >
+                <p className="font-playpen text-[9px] font-black uppercase tracking-[0.18em] text-[#E72D5A] sm:text-[10px] lg:text-[14px]">
                   Find their next
                 </p>
 
                 <span className="size-1.5 rounded-full bg-[#F59A23]" />
               </div>
 
-              <h2
-                className="
-            mt-1.5
-            font-playpen
-            text-[30px]
-            font-black
-            leading-none
-            tracking-[-0.055em]
-            text-[#111111]
-            sm:text-[36px]
-            lg:text-[40px]
-          "
-              >
+              <h2 className="mt-1.5 font-playpen text-[30px] font-black leading-none tracking-[-0.055em] text-[#111111] sm:text-[36px] lg:text-[40px]">
                 Shop by age
               </h2>
             </div>
 
-            <p
-              className="
-          hidden
-          pb-1
-          font-[var(--font-poppins)]
-          text-[12px]
-          font-medium
-          text-[#77717B]
-          sm:block
-        "
-            >
+            <p className="hidden pb-1 font-[var(--font-poppins)] text-[12px] font-medium text-[#77717B] sm:block">
               Find the right fit for every stage
             </p>
           </div>
 
-          {/* =========================================================
-    AGE COLLECTION
-   ========================================================= */}
-
-          <div
-            className="
-    grid
-    grid-cols-1
-    gap-5
-    sm:grid-cols-2
-    lg:grid-cols-4
-    lg:gap-6
-    xl:gap-7
-  "
-          >
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6 xl:gap-7">
             {[
               {
                 label: "1–3" as AgeGroup,
@@ -521,57 +551,18 @@ export default function ShopClient() {
                   onClick={() => setSelectedAge(age.label)}
                   aria-label={`Shop products for ${age.displayLabel}`}
                   aria-pressed={active}
-                  className="
-          group
-          relative
-          w-full
-          text-left
-          focus-visible:outline-none
-        "
+                  className="group relative w-full text-left focus-visible:outline-none"
                 >
-                  {/* =================================================
-            ORGANIC CATEGORY TILE
-           ================================================= */}
-
                   <div
-                    className={`
-            relative
-            mx-auto
-            w-full
-            max-w-[340px]
-            overflow-hidden
-
-            px-3
-            pt-3
-            pb-5
-            transition-all
-            duration-300
-            ease-out
-            sm:max-w-none
-            sm:px-4
-            sm:pt-4
-            sm:pb-6
-            ${active ? "scale-[1.015]" : "group-hover:-translate-y-1"}
-          `}
+                    className={`relative mx-auto w-full max-w-[340px] overflow-hidden px-3 pt-3 pb-5 transition-all duration-300 ease-out sm:max-w-none sm:px-4 sm:pt-4 sm:pb-6 ${
+                      active ? "scale-[1.015]" : "group-hover:-translate-y-1"
+                    }`}
                   >
-                    {/* =================================================
-              IMAGE — 20% SMALLER
-             ================================================= */}
-
                     <div className="relative z-10 flex w-full items-center justify-center">
                       <img
                         src={age.image}
                         alt={`BuzzieWorld ${age.label} collection`}
-                        className="
-                block
-                h-auto
-                w-[75%]
-                object-contain
-                transition-transform
-                duration-500
-                ease-out
-                group-hover:scale-[1.025]
-              "
+                        className="block h-auto w-[75%] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.025]"
                         loading="lazy"
                       />
                     </div>
@@ -586,18 +577,16 @@ export default function ShopClient() {
       {/* CONTENT */}
       <section className="mx-auto w-full max-w-[1500px] px-4 pb-14 pt-7 sm:px-7 lg:px-10 lg:pt-9 xl:px-14">
         <div className="grid gap-7 lg:grid-cols-[235px_minmax(0,1fr)] xl:grid-cols-[250px_minmax(0,1fr)] xl:gap-9">
-          {/* SIDEBAR — BRAND INTENTIONALLY REMOVED */}
-
+          {/* SIDEBAR */}
           <aside className="hidden lg:block">
             <div className="sticky top-5 overflow-hidden rounded-[20px] border border-[#E5DED4] bg-[#FFFDFC] shadow-[0_8px_28px_rgba(28,24,20,0.035)]">
-              {/* Sidebar Header */}
               <div className="flex items-center justify-between border-b border-[#EEE8DF] px-5 py-4">
                 <div>
                   <p className="text-[13px] font-black uppercase tracking-[0.15em] text-[#E72D5A]">
                     Refine
                   </p>
 
-                  <h2 className="mt-1 text-[20px] font-black font-playpen">Filters</h2>
+                  <h2 className="mt-1 font-playpen text-[20px] font-black">Filters</h2>
                 </div>
 
                 <button
@@ -618,7 +607,9 @@ export default function ShopClient() {
                 ) : (
                   <div className="space-y-2.5">
                     {categoryItems.map(({ definition, category: matchedCategory }) => {
-                      if (!matchedCategory) return null;
+                      if (!matchedCategory) {
+                        return null;
+                      }
 
                       return (
                         <FilterCheckbox
@@ -686,7 +677,9 @@ export default function ShopClient() {
                         </span>
 
                         <span className="flex">
-                          {Array.from({ length: 5 }).map((_, index) => (
+                          {Array.from({
+                            length: 5,
+                          }).map((_, index) => (
                             <Star
                               key={index}
                               size={12}
@@ -737,6 +730,7 @@ export default function ShopClient() {
                   size={14}
                   className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7D8490]"
                 />
+
                 <input
                   value={search}
                   onChange={(event) => updateSearch(event.target.value)}
@@ -795,6 +789,7 @@ export default function ShopClient() {
                         ].join(" ")}
                       >
                         {option.label}
+
                         {sort === option.value ? <span>✓</span> : null}
                       </button>
                     ))}
@@ -805,15 +800,20 @@ export default function ShopClient() {
 
             {loading ? (
               <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, index) => (
+                {Array.from({
+                  length: 8,
+                }).map((_, index) => (
                   <div
                     key={index}
                     className="overflow-hidden rounded-[20px] border border-[#E6DFD6] bg-white"
                   >
                     <div className="aspect-[0.9] animate-pulse bg-[#EEE8E0]" />
+
                     <div className="space-y-2 p-4">
                       <div className="h-2 w-1/2 animate-pulse rounded bg-[#EEE8E0]" />
+
                       <div className="h-3 w-4/5 animate-pulse rounded bg-[#EEE8E0]" />
+
                       <div className="h-3 w-1/3 animate-pulse rounded bg-[#EEE8E0]" />
                     </div>
                   </div>
@@ -822,6 +822,7 @@ export default function ShopClient() {
             ) : error ? (
               <div className="rounded-[22px] border border-[#E7C0C0] bg-[#FFF5F5] p-12 text-center">
                 <p className="text-sm font-bold text-[#A44B4B]">{error}</p>
+
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
@@ -833,10 +834,13 @@ export default function ShopClient() {
             ) : products.length === 0 ? (
               <div className="rounded-[22px] border border-[#E4DED5] bg-white p-12 text-center">
                 <Search size={24} className="mx-auto text-[#8A92A1]" />
+
                 <h2 className="mt-3 text-lg font-black">No products found</h2>
+
                 <p className="mx-auto mt-1 max-w-sm text-xs text-[#747B89]">
                   Try changing your search or filters.
                 </p>
+
                 <button
                   type="button"
                   onClick={clearFilters}
@@ -882,6 +886,7 @@ export default function ShopClient() {
                 <p className="text-[8px] font-black uppercase tracking-[0.14em] text-[#E72D5A]">
                   Refine your selection
                 </p>
+
                 <h2 className="mt-1 text-lg font-black">Filters</h2>
               </div>
 
@@ -916,7 +921,9 @@ export default function ShopClient() {
 
             <FilterBlock title="Category">
               {categoryItems.map(({ definition, category: matchedCategory }) => {
-                if (!matchedCategory) return null;
+                if (!matchedCategory) {
+                  return null;
+                }
 
                 return (
                   <FilterCheckbox
@@ -933,9 +940,9 @@ export default function ShopClient() {
 
             <FilterBlock title="Collection">
               <div className="space-y-2.5">
-                {collections.map((item, index) => (
+                {collections.map((item) => (
                   <FilterCheckbox
-                    key={`${item._id || item.name}-${index}`}
+                    key={item._id || item.slug || item.name}
                     checked={collection === item._id}
                     label={item.name}
                     onClick={() => updateCollection(collection === item._id ? "" : item._id)}
@@ -974,7 +981,9 @@ export default function ShopClient() {
                       </span>
 
                       <span className="flex">
-                        {Array.from({ length: 5 }).map((_, index) => (
+                        {Array.from({
+                          length: 5,
+                        }).map((_, index) => (
                           <Star
                             key={index}
                             size={11}
@@ -1019,9 +1028,10 @@ function FilterBlock({ title, children }: { title: string; children: ReactNode }
   return (
     <div className="border-b border-[#EEE8DF] px-5 py-5">
       <div className="mb-3.5 flex items-center justify-between">
-        <h3 className="text-[16px] font-black font-playpen uppercase tracking-[0.08em] text-[#E83D59]">
+        <h3 className="font-playpen text-[16px] font-black uppercase tracking-[0.08em] text-[#E83D59]">
           {title}
         </h3>
+
         <ChevronDown size={14} className="text-[#E83D59]" />
       </div>
 
@@ -1033,9 +1043,12 @@ function FilterBlock({ title, children }: { title: string; children: ReactNode }
 function FilterSkeleton() {
   return (
     <div className="space-y-2.5">
-      {Array.from({ length: 4 }).map((_, index) => (
+      {Array.from({
+        length: 4,
+      }).map((_, index) => (
         <div key={index} className="flex items-center gap-2">
           <div className="size-3.5 animate-pulse rounded bg-[#EEE8DF]" />
+
           <div className="h-2.5 w-20 animate-pulse rounded bg-[#EEE8DF]" />
         </div>
       ))}
@@ -1079,6 +1092,7 @@ function Benefit({ title, text, image }: { title: string; text: string; image: s
     <div className="group flex min-h-[145px] flex-col items-center justify-center border-b border-[#E7DED5] px-5 py-6 text-center last:border-b-0 sm:min-h-[160px] lg:border-b-0 lg:border-r lg:last:border-r-0">
       <div className="relative flex h-[58px] w-[72px] items-center justify-center">
         <div className="absolute left-1/2 top-1/2 h-11 w-14 -translate-x-1/2 -translate-y-1/2 rounded-[46%_54%_55%_45%] bg-[#E72D5A]/7 transition duration-500 group-hover:scale-110" />
+
         <Image
           src={image}
           alt=""
@@ -1093,8 +1107,10 @@ function Benefit({ title, text, image }: { title: string; text: string; image: s
         <h3 className="text-[13px] font-bold tracking-[-0.015em] text-[#17213D] sm:text-[13px]">
           {title}
         </h3>
+
         <p className="mt-1 text-[10px] leading-[1.5] text-[#737A87] sm:text-[11px]">{text}</p>
       </div>
     </div>
   );
 }
+

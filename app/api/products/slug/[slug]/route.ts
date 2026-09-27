@@ -24,7 +24,9 @@ export async function GET(_request: NextRequest, context: ProductSlugRouteContex
       );
     }
 
-    const product = await getProductBySlug(normalizedSlug);
+    const product = await getProductBySlug(normalizedSlug, {
+      published: true,
+    });
 
     if (!product) {
       return NextResponse.json(

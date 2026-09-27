@@ -1,0 +1,2121 @@
+{
+  "generatedAt": "2026-09-27T05:31:40.575Z",
+  "mediaRoot": "C:\\Users\\DELL\\Downloads\\img",
+  "databaseProductCount": 49,
+  "localFolderCount": 29,
+  "totalImages": 184,
+  "totalSizeBytes": 415999523,
+  "totalSizeFormatted": "396.73 MB",
+  "extensionSummary": {
+    ".png": 160,
+    ".jpg": 24
+  },
+  "matchedFolderCount": 24,
+  "possibleFolderCount": 5,
+  "unmatchedFolderCount": 0,
+  "emptyFolderCount": 0,
+  "products": [
+    {
+      "_id": "6ab42055168800b46029f38a",
+      "name": "Brain Binder",
+      "slug": "brain-binder-activity-book-kids"
+    },
+    {
+      "_id": "6ab42055168800b46029f38b",
+      "name": "Daily Oral Binder",
+      "slug": "daily-oral-binder-kids"
+    },
+    {
+      "_id": "6ab42055168800b46029f38c",
+      "name": "Match O Fun",
+      "slug": "match-o-fun-learning-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f38d",
+      "name": "Toddler Busy Binder",
+      "slug": "toddler-busy-binder-learning-book"
+    },
+    {
+      "_id": "6ab42055168800b46029f38e",
+      "name": "Animal Homes",
+      "slug": "animal-homes-learning-game-kids"
+    },
+    {
+      "_id": "6ab42055168800b46029f38f",
+      "name": "Math Busy Book",
+      "slug": "math-busy-book-kids"
+    },
+    {
+      "_id": "6ab42055168800b46029f390",
+      "name": "Animal Busy Book",
+      "slug": "animal-busy-book"
+    },
+    {
+      "_id": "6ab42055168800b46029f391",
+      "name": "My First Busy Book",
+      "slug": "my-first-busy-book"
+    },
+    {
+      "_id": "6ab42055168800b46029f392",
+      "name": "Buzzie Brains Part 1",
+      "slug": "buzzie-brains-reusable-activity-mats"
+    },
+    {
+      "_id": "6ab42055168800b46029f393",
+      "name": "Buzzie Brains Part 2",
+      "slug": "buzzie-brains-part-2-activity-mats"
+    },
+    {
+      "_id": "6ab42055168800b46029f394",
+      "name": "Guess Who I Am",
+      "slug": "guess-who-i-am-riddle-cards"
+    },
+    {
+      "_id": "6ab42055168800b46029f395",
+      "name": "KT 1",
+      "slug": "knowledge-train-level-1-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f396",
+      "name": "KT 2 Part 1",
+      "slug": "knowledge-train-level-2-part-1"
+    },
+    {
+      "_id": "6ab42055168800b46029f397",
+      "name": "KT 2 Part 2",
+      "slug": "knowledge-train-level-2-part-2"
+    },
+    {
+      "_id": "6ab42055168800b46029f398",
+      "name": "KT 2 Part 1 and 2",
+      "slug": "knowledge-train-level-2-combo"
+    },
+    {
+      "_id": "6ab42055168800b46029f399",
+      "name": "Animal World",
+      "slug": "animal-world"
+    },
+    {
+      "_id": "6ab42055168800b46029f39a",
+      "name": "KT 3",
+      "slug": "kt-3"
+    },
+    {
+      "_id": "6ab42055168800b46029f39b",
+      "name": "Multiplication Table 1 to 20",
+      "slug": "multiplication-table-flashcards-1-20"
+    },
+    {
+      "_id": "6ab42055168800b46029f39c",
+      "name": "QUACK - Buzz/ Dibs from Skillmatics",
+      "slug": "quack-trivia-card-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f39d",
+      "name": "Logo Blitz",
+      "slug": "logo-blitz"
+    },
+    {
+      "_id": "6ab42055168800b46029f39e",
+      "name": "Car Logo Blitz",
+      "slug": "car-logo-blitz"
+    },
+    {
+      "_id": "6ab42055168800b46029f39f",
+      "name": "Logology",
+      "slug": "logology-logo-guessing-card-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a0",
+      "name": "Same Pinch - Festival",
+      "slug": "same-pinch-festive-edition"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a1",
+      "name": "Same Pinch - Logo",
+      "slug": "same-pinch-logo-edition"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a2",
+      "name": "Why Zone of Giggles",
+      "slug": "why-zone-of-giggles"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a3",
+      "name": "Startegy Game Monster on the go",
+      "slug": "monster-on-the-go-matching-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a4",
+      "name": "Word Families Flash Catds",
+      "slug": "word-family-flashcards"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a5",
+      "name": "Spell Master",
+      "slug": "spell-master-phonics-cards"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a6",
+      "name": "Wordlogy",
+      "slug": "worldlogy-guess-the-city-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a7",
+      "name": "Wordlogy - Emoji Edition",
+      "slug": "worldlogy-emoji-city-guessing-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a8",
+      "name": "Indialogy",
+      "slug": "indialogy-indian-city-guessing-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3a9",
+      "name": "Flag It",
+      "slug": "flag-it-world-flags-bingo"
+    },
+    {
+      "_id": "6ab42055168800b46029f3aa",
+      "name": "India Bingo",
+      "slug": "india-bingo-states-capitals-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3ab",
+      "name": "Guess the City - India Edition",
+      "slug": "guess-the-city-india-card-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3ac",
+      "name": "Guess the City - World Edition",
+      "slug": "guess-the-city-world-edition"
+    },
+    {
+      "_id": "6ab42055168800b46029f3ad",
+      "name": "Travel Scrapbook",
+      "slug": "lets-travel-memory-book"
+    },
+    {
+      "_id": "6ab42055168800b46029f3ae",
+      "name": "My Gods Flash Cards",
+      "slug": "my-god-cards-hindu-mythology-flashcards"
+    },
+    {
+      "_id": "6ab42055168800b46029f3af",
+      "name": "Guess Who I Am - Ramayana Edition",
+      "slug": "guess-who-i-am-ramayana-edition"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b0",
+      "name": "Krishna Quest",
+      "slug": "krishna-quest-trivia-card-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b1",
+      "name": "Diwali Kit Small",
+      "slug": "diwali-chhota-gift-box"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b2",
+      "name": "Epic Tale Ramayana",
+      "slug": "epic-tale-ramayana-activity-kit"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b3",
+      "name": "Create your own Ganesha",
+      "slug": "create-your-own-ganesha-craft-kit"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b4",
+      "name": "Create your own Lantern",
+      "slug": "diy-diwali-lantern-kit-single-pack"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b5",
+      "name": "Godmoji",
+      "slug": "godmoji-emoji-card-game"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b6",
+      "name": "DIY DIYA KIT",
+      "slug": "diy-diya-kit"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b7",
+      "name": "DIY JHAROKA KIT",
+      "slug": "diy-jharoka-kit"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b8",
+      "name": "DIY RAM MANDIR",
+      "slug": "diy-ram-mandir"
+    },
+    {
+      "_id": "6ab42055168800b46029f3b9",
+      "name": "DIY RANGOLI",
+      "slug": "diy-rangoli"
+    },
+    {
+      "_id": "6ab42055168800b46029f3ba",
+      "name": "DIY Wall Hanging",
+      "slug": "shubh-labh-diy-wall-hanging-kit"
+    }
+  ],
+  "folders": [
+    {
+      "folderName": "Animal-homes",
+      "imageCount": 9,
+      "totalSizeBytes": 26522298,
+      "extensions": {
+        ".png": 9
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f38e",
+        "productName": "Animal Homes",
+        "productSlug": "animal-homes-learning-game-kids",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\1.png",
+          "relativePath": "Animal-homes\\1.png",
+          "extension": ".png",
+          "sizeBytes": 3936427
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\2.png",
+          "relativePath": "Animal-homes\\2.png",
+          "extension": ".png",
+          "sizeBytes": 3299664
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\3.png",
+          "relativePath": "Animal-homes\\3.png",
+          "extension": ".png",
+          "sizeBytes": 1364705
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\4.png",
+          "relativePath": "Animal-homes\\4.png",
+          "extension": ".png",
+          "sizeBytes": 993834
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\5.png",
+          "relativePath": "Animal-homes\\5.png",
+          "extension": ".png",
+          "sizeBytes": 3267798
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\6.png",
+          "relativePath": "Animal-homes\\6.png",
+          "extension": ".png",
+          "sizeBytes": 3587604
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\7.png",
+          "relativePath": "Animal-homes\\7.png",
+          "extension": ".png",
+          "sizeBytes": 3679205
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\8.png",
+          "relativePath": "Animal-homes\\8.png",
+          "extension": ".png",
+          "sizeBytes": 3448688
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-homes\\9.png",
+          "relativePath": "Animal-homes\\9.png",
+          "extension": ".png",
+          "sizeBytes": 2944373
+        }
+      ]
+    },
+    {
+      "folderName": "Animal-world",
+      "imageCount": 8,
+      "totalSizeBytes": 21633556,
+      "extensions": {
+        ".png": 8
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f399",
+        "productName": "Animal World",
+        "productSlug": "animal-world",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\2.png",
+          "relativePath": "Animal-world\\2.png",
+          "extension": ".png",
+          "sizeBytes": 2830107
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\3.png",
+          "relativePath": "Animal-world\\3.png",
+          "extension": ".png",
+          "sizeBytes": 2678706
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\4.png",
+          "relativePath": "Animal-world\\4.png",
+          "extension": ".png",
+          "sizeBytes": 3350447
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\5.png",
+          "relativePath": "Animal-world\\5.png",
+          "extension": ".png",
+          "sizeBytes": 2601095
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\6.png",
+          "relativePath": "Animal-world\\6.png",
+          "extension": ".png",
+          "sizeBytes": 3631100
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\7.png",
+          "relativePath": "Animal-world\\7.png",
+          "extension": ".png",
+          "sizeBytes": 1723680
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\8.png",
+          "relativePath": "Animal-world\\8.png",
+          "extension": ".png",
+          "sizeBytes": 2065134
+        },
+        {
+          "name": "KT creative.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Animal-world\\KT creative.png",
+          "relativePath": "Animal-world\\KT creative.png",
+          "extension": ".png",
+          "sizeBytes": 2753287
+        }
+      ]
+    },
+    {
+      "folderName": "Brain-binder",
+      "imageCount": 6,
+      "totalSizeBytes": 10199426,
+      "extensions": {
+        ".png": 6
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f38a",
+        "productName": "Brain Binder",
+        "productSlug": "brain-binder-activity-book-kids",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "Copy of Toddler busy book cover.png.PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Brain-binder\\Copy of Toddler busy book cover.png.PNG",
+          "relativePath": "Brain-binder\\Copy of Toddler busy book cover.png.PNG",
+          "extension": ".png",
+          "sizeBytes": 2237855
+        },
+        {
+          "name": "Copy of Toddler busy book cover.png(1).PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Brain-binder\\Copy of Toddler busy book cover.png(1).PNG",
+          "relativePath": "Brain-binder\\Copy of Toddler busy book cover.png(1).PNG",
+          "extension": ".png",
+          "sizeBytes": 1492376
+        },
+        {
+          "name": "Copy of Toddler busy book cover.png(2).PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Brain-binder\\Copy of Toddler busy book cover.png(2).PNG",
+          "relativePath": "Brain-binder\\Copy of Toddler busy book cover.png(2).PNG",
+          "extension": ".png",
+          "sizeBytes": 1837177
+        },
+        {
+          "name": "Copy of Toddler busy book cover.png(3).PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Brain-binder\\Copy of Toddler busy book cover.png(3).PNG",
+          "relativePath": "Brain-binder\\Copy of Toddler busy book cover.png(3).PNG",
+          "extension": ".png",
+          "sizeBytes": 1259491
+        },
+        {
+          "name": "Copy of Toddler busy book cover.png(4).PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Brain-binder\\Copy of Toddler busy book cover.png(4).PNG",
+          "relativePath": "Brain-binder\\Copy of Toddler busy book cover.png(4).PNG",
+          "extension": ".png",
+          "sizeBytes": 1600715
+        },
+        {
+          "name": "Copy of Toddler busy book cover.png(5).PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Brain-binder\\Copy of Toddler busy book cover.png(5).PNG",
+          "relativePath": "Brain-binder\\Copy of Toddler busy book cover.png(5).PNG",
+          "extension": ".png",
+          "sizeBytes": 1771812
+        }
+      ]
+    },
+    {
+      "folderName": "Buzzie-brain-part-1",
+      "imageCount": 4,
+      "totalSizeBytes": 8734423,
+      "extensions": {
+        ".png": 4
+      },
+      "productMatch": {
+        "status": "possible",
+        "reason": "Possible product matches found. Nothing was automatically assigned.",
+        "candidates": [
+          {
+            "productId": "6ab42055168800b46029f392",
+            "productName": "Buzzie Brains Part 1",
+            "productSlug": "buzzie-brains-reusable-activity-mats",
+            "score": 75
+          },
+          {
+            "productId": "6ab42055168800b46029f393",
+            "productName": "Buzzie Brains Part 2",
+            "productSlug": "buzzie-brains-part-2-activity-mats",
+            "score": 50
+          },
+          {
+            "productId": "6ab42055168800b46029f396",
+            "productName": "KT 2 Part 1",
+            "productSlug": "knowledge-train-level-2-part-1",
+            "score": 50
+          },
+          {
+            "productId": "6ab42055168800b46029f398",
+            "productName": "KT 2 Part 1 and 2",
+            "productSlug": "knowledge-train-level-2-combo",
+            "score": 50
+          }
+        ]
+      },
+      "files": [
+        {
+          "name": "1 (4).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-1\\1 (4).png",
+          "relativePath": "Buzzie-brain-part-1\\1 (4).png",
+          "extension": ".png",
+          "sizeBytes": 2118333
+        },
+        {
+          "name": "2 (3).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-1\\2 (3).png",
+          "relativePath": "Buzzie-brain-part-1\\2 (3).png",
+          "extension": ".png",
+          "sizeBytes": 2348827
+        },
+        {
+          "name": "3 (1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-1\\3 (1).png",
+          "relativePath": "Buzzie-brain-part-1\\3 (1).png",
+          "extension": ".png",
+          "sizeBytes": 2304210
+        },
+        {
+          "name": "4 (2).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-1\\4 (2).png",
+          "relativePath": "Buzzie-brain-part-1\\4 (2).png",
+          "extension": ".png",
+          "sizeBytes": 1963053
+        }
+      ]
+    },
+    {
+      "folderName": "Buzzie-brain-part-2",
+      "imageCount": 7,
+      "totalSizeBytes": 22384933,
+      "extensions": {
+        ".png": 7
+      },
+      "productMatch": {
+        "status": "possible",
+        "reason": "Possible product matches found. Nothing was automatically assigned.",
+        "candidates": [
+          {
+            "productId": "6ab42055168800b46029f393",
+            "productName": "Buzzie Brains Part 2",
+            "productSlug": "buzzie-brains-part-2-activity-mats",
+            "score": 75
+          },
+          {
+            "productId": "6ab42055168800b46029f392",
+            "productName": "Buzzie Brains Part 1",
+            "productSlug": "buzzie-brains-reusable-activity-mats",
+            "score": 50
+          },
+          {
+            "productId": "6ab42055168800b46029f396",
+            "productName": "KT 2 Part 1",
+            "productSlug": "knowledge-train-level-2-part-1",
+            "score": 50
+          },
+          {
+            "productId": "6ab42055168800b46029f398",
+            "productName": "KT 2 Part 1 and 2",
+            "productSlug": "knowledge-train-level-2-combo",
+            "score": 50
+          },
+          {
+            "productId": "6ab42055168800b46029f397",
+            "productName": "KT 2 Part 2",
+            "productSlug": "knowledge-train-level-2-part-2",
+            "score": 50
+          }
+        ]
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\1.png",
+          "relativePath": "Buzzie-brain-part-2\\1.png",
+          "extension": ".png",
+          "sizeBytes": 3254594
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\2.png",
+          "relativePath": "Buzzie-brain-part-2\\2.png",
+          "extension": ".png",
+          "sizeBytes": 4026466
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\3.png",
+          "relativePath": "Buzzie-brain-part-2\\3.png",
+          "extension": ".png",
+          "sizeBytes": 2882949
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\4.png",
+          "relativePath": "Buzzie-brain-part-2\\4.png",
+          "extension": ".png",
+          "sizeBytes": 3799686
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\5.png",
+          "relativePath": "Buzzie-brain-part-2\\5.png",
+          "extension": ".png",
+          "sizeBytes": 3471953
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\6.png",
+          "relativePath": "Buzzie-brain-part-2\\6.png",
+          "extension": ".png",
+          "sizeBytes": 2790895
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Buzzie-brain-part-2\\7.png",
+          "relativePath": "Buzzie-brain-part-2\\7.png",
+          "extension": ".png",
+          "sizeBytes": 2158390
+        }
+      ]
+    },
+    {
+      "folderName": "Car-logo-blitz",
+      "imageCount": 1,
+      "totalSizeBytes": 1648394,
+      "extensions": {
+        ".png": 1
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f39e",
+        "productName": "Car Logo Blitz",
+        "productSlug": "car-logo-blitz",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "car logo blitz.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Car-logo-blitz\\car logo blitz.png",
+          "relativePath": "Car-logo-blitz\\car logo blitz.png",
+          "extension": ".png",
+          "sizeBytes": 1648394
+        }
+      ]
+    },
+    {
+      "folderName": "Flag-it",
+      "imageCount": 6,
+      "totalSizeBytes": 17222305,
+      "extensions": {
+        ".jpg": 6
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a9",
+        "productName": "Flag It",
+        "productSlug": "flag-it-world-flags-bingo",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "20260508_125511.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Flag-it\\20260508_125511.jpg",
+          "relativePath": "Flag-it\\20260508_125511.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2150817
+        },
+        {
+          "name": "20260508_125701.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Flag-it\\20260508_125701.jpg",
+          "relativePath": "Flag-it\\20260508_125701.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2458211
+        },
+        {
+          "name": "20260508_125705.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Flag-it\\20260508_125705.jpg",
+          "relativePath": "Flag-it\\20260508_125705.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2756898
+        },
+        {
+          "name": "20260508_125729.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Flag-it\\20260508_125729.jpg",
+          "relativePath": "Flag-it\\20260508_125729.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 3268382
+        },
+        {
+          "name": "20260508_125754.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Flag-it\\20260508_125754.jpg",
+          "relativePath": "Flag-it\\20260508_125754.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 3284901
+        },
+        {
+          "name": "20260508_125836.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Flag-it\\20260508_125836.jpg",
+          "relativePath": "Flag-it\\20260508_125836.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 3303096
+        }
+      ]
+    },
+    {
+      "folderName": "Guess-the-city-india-edition",
+      "imageCount": 1,
+      "totalSizeBytes": 2280209,
+      "extensions": {
+        ".png": 1
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3ab",
+        "productName": "Guess the City - India Edition",
+        "productSlug": "guess-the-city-india-card-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "guess the city.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-the-city-india-edition\\guess the city.png",
+          "relativePath": "Guess-the-city-india-edition\\guess the city.png",
+          "extension": ".png",
+          "sizeBytes": 2280209
+        }
+      ]
+    },
+    {
+      "folderName": "Guess-who-ramayana",
+      "imageCount": 6,
+      "totalSizeBytes": 24582458,
+      "extensions": {
+        ".jpg": 6
+      },
+      "productMatch": {
+        "status": "possible",
+        "reason": "Possible product matches found. Nothing was automatically assigned.",
+        "candidates": [
+          {
+            "productId": "6ab42055168800b46029f3af",
+            "productName": "Guess Who I Am - Ramayana Edition",
+            "productSlug": "guess-who-i-am-ramayana-edition",
+            "score": 100
+          },
+          {
+            "productId": "6ab42055168800b46029f394",
+            "productName": "Guess Who I Am",
+            "productSlug": "guess-who-i-am-riddle-cards",
+            "score": 67
+          }
+        ]
+      },
+      "files": [
+        {
+          "name": "20260505_090823.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-who-ramayana\\20260505_090823.jpg",
+          "relativePath": "Guess-who-ramayana\\20260505_090823.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 4579003
+        },
+        {
+          "name": "20260505_090826.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-who-ramayana\\20260505_090826.jpg",
+          "relativePath": "Guess-who-ramayana\\20260505_090826.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 4543107
+        },
+        {
+          "name": "20260505_090842.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-who-ramayana\\20260505_090842.jpg",
+          "relativePath": "Guess-who-ramayana\\20260505_090842.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 4816836
+        },
+        {
+          "name": "20260505_090852.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-who-ramayana\\20260505_090852.jpg",
+          "relativePath": "Guess-who-ramayana\\20260505_090852.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 6075936
+        },
+        {
+          "name": "20260505_090914.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-who-ramayana\\20260505_090914.jpg",
+          "relativePath": "Guess-who-ramayana\\20260505_090914.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2070912
+        },
+        {
+          "name": "20260505_090942.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Guess-who-ramayana\\20260505_090942.jpg",
+          "relativePath": "Guess-who-ramayana\\20260505_090942.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2496664
+        }
+      ]
+    },
+    {
+      "folderName": "India-bingo",
+      "imageCount": 6,
+      "totalSizeBytes": 14400911,
+      "extensions": {
+        ".jpg": 6
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3aa",
+        "productName": "India Bingo",
+        "productSlug": "india-bingo-states-capitals-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "20260512_101643.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\India-bingo\\20260512_101643.jpg",
+          "relativePath": "India-bingo\\20260512_101643.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2286960
+        },
+        {
+          "name": "20260512_101739.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\India-bingo\\20260512_101739.jpg",
+          "relativePath": "India-bingo\\20260512_101739.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2179913
+        },
+        {
+          "name": "20260512_101837.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\India-bingo\\20260512_101837.jpg",
+          "relativePath": "India-bingo\\20260512_101837.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2879403
+        },
+        {
+          "name": "20260512_101842.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\India-bingo\\20260512_101842.jpg",
+          "relativePath": "India-bingo\\20260512_101842.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2628939
+        },
+        {
+          "name": "20260512_101848.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\India-bingo\\20260512_101848.jpg",
+          "relativePath": "India-bingo\\20260512_101848.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 2924707
+        },
+        {
+          "name": "20260512_101954.jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\India-bingo\\20260512_101954.jpg",
+          "relativePath": "India-bingo\\20260512_101954.jpg",
+          "extension": ".jpg",
+          "sizeBytes": 1500989
+        }
+      ]
+    },
+    {
+      "folderName": "Indialogy",
+      "imageCount": 1,
+      "totalSizeBytes": 2776061,
+      "extensions": {
+        ".png": 1
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a8",
+        "productName": "Indialogy",
+        "productSlug": "indialogy-indian-city-guessing-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "ChatGPT Image Sep 12, 2026, 03_18_04 AM.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Indialogy\\ChatGPT Image Sep 12, 2026, 03_18_04 AM.png",
+          "relativePath": "Indialogy\\ChatGPT Image Sep 12, 2026, 03_18_04 AM.png",
+          "extension": ".png",
+          "sizeBytes": 2776061
+        }
+      ]
+    },
+    {
+      "folderName": "KT-1",
+      "imageCount": 8,
+      "totalSizeBytes": 18304813,
+      "extensions": {
+        ".png": 8
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f395",
+        "productName": "KT 1",
+        "productSlug": "knowledge-train-level-1-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\2.png",
+          "relativePath": "KT-1\\2.png",
+          "extension": ".png",
+          "sizeBytes": 1732379
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\3.png",
+          "relativePath": "KT-1\\3.png",
+          "extension": ".png",
+          "sizeBytes": 1554037
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\4.png",
+          "relativePath": "KT-1\\4.png",
+          "extension": ".png",
+          "sizeBytes": 1484121
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\5.png",
+          "relativePath": "KT-1\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1678942
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\6.png",
+          "relativePath": "KT-1\\6.png",
+          "extension": ".png",
+          "sizeBytes": 2735318
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\7.png",
+          "relativePath": "KT-1\\7.png",
+          "extension": ".png",
+          "sizeBytes": 3238443
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\8.png",
+          "relativePath": "KT-1\\8.png",
+          "extension": ".png",
+          "sizeBytes": 3454868
+        },
+        {
+          "name": "Riddle.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-1\\Riddle.png",
+          "relativePath": "KT-1\\Riddle.png",
+          "extension": ".png",
+          "sizeBytes": 2426705
+        }
+      ]
+    },
+    {
+      "folderName": "KT-2-Part-1-and-2",
+      "imageCount": 9,
+      "totalSizeBytes": 15341444,
+      "extensions": {
+        ".png": 9
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f398",
+        "productName": "KT 2 Part 1 and 2",
+        "productSlug": "knowledge-train-level-2-combo",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\2.png",
+          "relativePath": "KT-2-Part-1-and-2\\2.png",
+          "extension": ".png",
+          "sizeBytes": 1353273
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\3.png",
+          "relativePath": "KT-2-Part-1-and-2\\3.png",
+          "extension": ".png",
+          "sizeBytes": 854391
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\4.png",
+          "relativePath": "KT-2-Part-1-and-2\\4.png",
+          "extension": ".png",
+          "sizeBytes": 1379909
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\5.png",
+          "relativePath": "KT-2-Part-1-and-2\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1452752
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\6.png",
+          "relativePath": "KT-2-Part-1-and-2\\6.png",
+          "extension": ".png",
+          "sizeBytes": 1398693
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\7.png",
+          "relativePath": "KT-2-Part-1-and-2\\7.png",
+          "extension": ".png",
+          "sizeBytes": 2957694
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\8.png",
+          "relativePath": "KT-2-Part-1-and-2\\8.png",
+          "extension": ".png",
+          "sizeBytes": 2733121
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\9.png",
+          "relativePath": "KT-2-Part-1-and-2\\9.png",
+          "extension": ".png",
+          "sizeBytes": 276329
+        },
+        {
+          "name": "KT 2 PART 2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-1-and-2\\KT 2 PART 2.png",
+          "relativePath": "KT-2-Part-1-and-2\\KT 2 PART 2.png",
+          "extension": ".png",
+          "sizeBytes": 2935282
+        }
+      ]
+    },
+    {
+      "folderName": "KT-2-Part-2",
+      "imageCount": 10,
+      "totalSizeBytes": 19249609,
+      "extensions": {
+        ".png": 10
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f397",
+        "productName": "KT 2 Part 2",
+        "productSlug": "knowledge-train-level-2-part-2",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\2.png",
+          "relativePath": "KT-2-Part-2\\2.png",
+          "extension": ".png",
+          "sizeBytes": 1350557
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\3.png",
+          "relativePath": "KT-2-Part-2\\3.png",
+          "extension": ".png",
+          "sizeBytes": 852252
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\4.png",
+          "relativePath": "KT-2-Part-2\\4.png",
+          "extension": ".png",
+          "sizeBytes": 1549321
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\5.png",
+          "relativePath": "KT-2-Part-2\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1452747
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\6.png",
+          "relativePath": "KT-2-Part-2\\6.png",
+          "extension": ".png",
+          "sizeBytes": 1410884
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\7.png",
+          "relativePath": "KT-2-Part-2\\7.png",
+          "extension": ".png",
+          "sizeBytes": 2957689
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\8.png",
+          "relativePath": "KT-2-Part-2\\8.png",
+          "extension": ".png",
+          "sizeBytes": 2733116
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\9.png",
+          "relativePath": "KT-2-Part-2\\9.png",
+          "extension": ".png",
+          "sizeBytes": 4264472
+        },
+        {
+          "name": "10.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\10.png",
+          "relativePath": "KT-2-Part-2\\10.png",
+          "extension": ".png",
+          "sizeBytes": 275800
+        },
+        {
+          "name": "KT 2 PART 2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-2-Part-2\\KT 2 PART 2.png",
+          "relativePath": "KT-2-Part-2\\KT 2 PART 2.png",
+          "extension": ".png",
+          "sizeBytes": 2402771
+        }
+      ]
+    },
+    {
+      "folderName": "KT-3",
+      "imageCount": 10,
+      "totalSizeBytes": 21712675,
+      "extensions": {
+        ".png": 10
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f39a",
+        "productName": "KT 3",
+        "productSlug": "kt-3",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\2.png",
+          "relativePath": "KT-3\\2.png",
+          "extension": ".png",
+          "sizeBytes": 2642443
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\3.png",
+          "relativePath": "KT-3\\3.png",
+          "extension": ".png",
+          "sizeBytes": 2156174
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\4.png",
+          "relativePath": "KT-3\\4.png",
+          "extension": ".png",
+          "sizeBytes": 2575934
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\5.png",
+          "relativePath": "KT-3\\5.png",
+          "extension": ".png",
+          "sizeBytes": 2527872
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\6.png",
+          "relativePath": "KT-3\\6.png",
+          "extension": ".png",
+          "sizeBytes": 231061
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\7.png",
+          "relativePath": "KT-3\\7.png",
+          "extension": ".png",
+          "sizeBytes": 2658720
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\8.png",
+          "relativePath": "KT-3\\8.png",
+          "extension": ".png",
+          "sizeBytes": 3001797
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\9.png",
+          "relativePath": "KT-3\\9.png",
+          "extension": ".png",
+          "sizeBytes": 2924033
+        },
+        {
+          "name": "10.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\10.png",
+          "relativePath": "KT-3\\10.png",
+          "extension": ".png",
+          "sizeBytes": 276381
+        },
+        {
+          "name": "KT 3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\KT-3\\KT 3.png",
+          "relativePath": "KT-3\\KT 3.png",
+          "extension": ".png",
+          "sizeBytes": 2718260
+        }
+      ]
+    },
+    {
+      "folderName": "Logo-blitz",
+      "imageCount": 1,
+      "totalSizeBytes": 1978624,
+      "extensions": {
+        ".png": 1
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f39d",
+        "productName": "Logo Blitz",
+        "productSlug": "logo-blitz",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "logo blitz.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logo-blitz\\logo blitz.png",
+          "relativePath": "Logo-blitz\\logo blitz.png",
+          "extension": ".png",
+          "sizeBytes": 1978624
+        }
+      ]
+    },
+    {
+      "folderName": "Logology",
+      "imageCount": 7,
+      "totalSizeBytes": 27478433,
+      "extensions": {
+        ".png": 7
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f39f",
+        "productName": "Logology",
+        "productSlug": "logology-logo-guessing-card-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "Logology_1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_1.png",
+          "relativePath": "Logology\\Logology_1.png",
+          "extension": ".png",
+          "sizeBytes": 4317572
+        },
+        {
+          "name": "Logology_2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_2.png",
+          "relativePath": "Logology\\Logology_2.png",
+          "extension": ".png",
+          "sizeBytes": 4761445
+        },
+        {
+          "name": "Logology_3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_3.png",
+          "relativePath": "Logology\\Logology_3.png",
+          "extension": ".png",
+          "sizeBytes": 4483237
+        },
+        {
+          "name": "Logology_4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_4.png",
+          "relativePath": "Logology\\Logology_4.png",
+          "extension": ".png",
+          "sizeBytes": 4389553
+        },
+        {
+          "name": "Logology_6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_6.png",
+          "relativePath": "Logology\\Logology_6.png",
+          "extension": ".png",
+          "sizeBytes": 4628476
+        },
+        {
+          "name": "Logology_8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_8.png",
+          "relativePath": "Logology\\Logology_8.png",
+          "extension": ".png",
+          "sizeBytes": 683251
+        },
+        {
+          "name": "Logology_15png.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Logology\\Logology_15png.png",
+          "relativePath": "Logology\\Logology_15png.png",
+          "extension": ".png",
+          "sizeBytes": 4214899
+        }
+      ]
+    },
+    {
+      "folderName": "Match-O-Fun",
+      "imageCount": 8,
+      "totalSizeBytes": 15319004,
+      "extensions": {
+        ".png": 8
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f38c",
+        "productName": "Match O Fun",
+        "productSlug": "match-o-fun-learning-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\1.png",
+          "relativePath": "Match-O-Fun\\1.png",
+          "extension": ".png",
+          "sizeBytes": 3129669
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\2.png",
+          "relativePath": "Match-O-Fun\\2.png",
+          "extension": ".png",
+          "sizeBytes": 1560659
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\3.png",
+          "relativePath": "Match-O-Fun\\3.png",
+          "extension": ".png",
+          "sizeBytes": 1910218
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\4.png",
+          "relativePath": "Match-O-Fun\\4.png",
+          "extension": ".png",
+          "sizeBytes": 1736649
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\5.png",
+          "relativePath": "Match-O-Fun\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1578732
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\6.png",
+          "relativePath": "Match-O-Fun\\6.png",
+          "extension": ".png",
+          "sizeBytes": 1737109
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\7.png",
+          "relativePath": "Match-O-Fun\\7.png",
+          "extension": ".png",
+          "sizeBytes": 1655532
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Match-O-Fun\\8.png",
+          "relativePath": "Match-O-Fun\\8.png",
+          "extension": ".png",
+          "sizeBytes": 2010436
+        }
+      ]
+    },
+    {
+      "folderName": "Math-Busy-Book",
+      "imageCount": 9,
+      "totalSizeBytes": 17830768,
+      "extensions": {
+        ".png": 9
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f38f",
+        "productName": "Math Busy Book",
+        "productSlug": "math-busy-book-kids",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\1.png",
+          "relativePath": "Math-Busy-Book\\1.png",
+          "extension": ".png",
+          "sizeBytes": 1707171
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\2.png",
+          "relativePath": "Math-Busy-Book\\2.png",
+          "extension": ".png",
+          "sizeBytes": 1889984
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\3.png",
+          "relativePath": "Math-Busy-Book\\3.png",
+          "extension": ".png",
+          "sizeBytes": 1953192
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\4.png",
+          "relativePath": "Math-Busy-Book\\4.png",
+          "extension": ".png",
+          "sizeBytes": 2016831
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\5.png",
+          "relativePath": "Math-Busy-Book\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1947331
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\6.png",
+          "relativePath": "Math-Busy-Book\\6.png",
+          "extension": ".png",
+          "sizeBytes": 2008350
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\7.png",
+          "relativePath": "Math-Busy-Book\\7.png",
+          "extension": ".png",
+          "sizeBytes": 2072268
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\8.png",
+          "relativePath": "Math-Busy-Book\\8.png",
+          "extension": ".png",
+          "sizeBytes": 2224890
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Math-Busy-Book\\9.png",
+          "relativePath": "Math-Busy-Book\\9.png",
+          "extension": ".png",
+          "sizeBytes": 2010751
+        }
+      ]
+    },
+    {
+      "folderName": "Multiplication-table",
+      "imageCount": 9,
+      "totalSizeBytes": 13249170,
+      "extensions": {
+        ".png": 9
+      },
+      "productMatch": {
+        "status": "possible",
+        "reason": "Possible product matches found. Nothing was automatically assigned.",
+        "candidates": [
+          {
+            "productId": "6ab42055168800b46029f39b",
+            "productName": "Multiplication Table 1 to 20",
+            "productSlug": "multiplication-table-flashcards-1-20",
+            "score": 100
+          }
+        ]
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\1.png",
+          "relativePath": "Multiplication-table\\1.png",
+          "extension": ".png",
+          "sizeBytes": 3225130
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\2.png",
+          "relativePath": "Multiplication-table\\2.png",
+          "extension": ".png",
+          "sizeBytes": 711644
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\3.png",
+          "relativePath": "Multiplication-table\\3.png",
+          "extension": ".png",
+          "sizeBytes": 1486297
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\4.png",
+          "relativePath": "Multiplication-table\\4.png",
+          "extension": ".png",
+          "sizeBytes": 1938247
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\5.png",
+          "relativePath": "Multiplication-table\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1833961
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\6.png",
+          "relativePath": "Multiplication-table\\6.png",
+          "extension": ".png",
+          "sizeBytes": 1697169
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\7.png",
+          "relativePath": "Multiplication-table\\7.png",
+          "extension": ".png",
+          "sizeBytes": 603036
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\8.png",
+          "relativePath": "Multiplication-table\\8.png",
+          "extension": ".png",
+          "sizeBytes": 991674
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Multiplication-table\\9.png",
+          "relativePath": "Multiplication-table\\9.png",
+          "extension": ".png",
+          "sizeBytes": 762012
+        }
+      ]
+    },
+    {
+      "folderName": "Same-pinch-festival",
+      "imageCount": 6,
+      "totalSizeBytes": 7440148,
+      "extensions": {
+        ".png": 6
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a0",
+        "productName": "Same Pinch - Festival",
+        "productSlug": "same-pinch-festive-edition",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "Same pinch festival - images - 2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-festival\\Same pinch festival - images - 2.png",
+          "relativePath": "Same-pinch-festival\\Same pinch festival - images - 2.png",
+          "extension": ".png",
+          "sizeBytes": 1526454
+        },
+        {
+          "name": "Same pinch festival - images - 3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-festival\\Same pinch festival - images - 3.png",
+          "relativePath": "Same-pinch-festival\\Same pinch festival - images - 3.png",
+          "extension": ".png",
+          "sizeBytes": 1339463
+        },
+        {
+          "name": "Same pinch festival - images - 4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-festival\\Same pinch festival - images - 4.png",
+          "relativePath": "Same-pinch-festival\\Same pinch festival - images - 4.png",
+          "extension": ".png",
+          "sizeBytes": 1142665
+        },
+        {
+          "name": "Same pinch festival - images - 5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-festival\\Same pinch festival - images - 5.png",
+          "relativePath": "Same-pinch-festival\\Same pinch festival - images - 5.png",
+          "extension": ".png",
+          "sizeBytes": 747048
+        },
+        {
+          "name": "Same pinch festival - images - 6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-festival\\Same pinch festival - images - 6.png",
+          "relativePath": "Same-pinch-festival\\Same pinch festival - images - 6.png",
+          "extension": ".png",
+          "sizeBytes": 1651780
+        },
+        {
+          "name": "Same pinch festival - images.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-festival\\Same pinch festival - images.png",
+          "relativePath": "Same-pinch-festival\\Same pinch festival - images.png",
+          "extension": ".png",
+          "sizeBytes": 1032738
+        }
+      ]
+    },
+    {
+      "folderName": "Same-pinch-logo",
+      "imageCount": 5,
+      "totalSizeBytes": 8049730,
+      "extensions": {
+        ".png": 5
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a1",
+        "productName": "Same Pinch - Logo",
+        "productSlug": "same-pinch-logo-edition",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "Same_pinch_2_logo.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-logo\\Same_pinch_2_logo.png",
+          "relativePath": "Same-pinch-logo\\Same_pinch_2_logo.png",
+          "extension": ".png",
+          "sizeBytes": 878955
+        },
+        {
+          "name": "Same_pinch_logo_1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-logo\\Same_pinch_logo_1.png",
+          "relativePath": "Same-pinch-logo\\Same_pinch_logo_1.png",
+          "extension": ".png",
+          "sizeBytes": 1571925
+        },
+        {
+          "name": "Same_pinch_logo_3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-logo\\Same_pinch_logo_3.png",
+          "relativePath": "Same-pinch-logo\\Same_pinch_logo_3.png",
+          "extension": ".png",
+          "sizeBytes": 4173962
+        },
+        {
+          "name": "Same_pinch_logo_4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-logo\\Same_pinch_logo_4.png",
+          "relativePath": "Same-pinch-logo\\Same_pinch_logo_4.png",
+          "extension": ".png",
+          "sizeBytes": 1080891
+        },
+        {
+          "name": "Same_pinch_logo_5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Same-pinch-logo\\Same_pinch_logo_5.png",
+          "relativePath": "Same-pinch-logo\\Same_pinch_logo_5.png",
+          "extension": ".png",
+          "sizeBytes": 343997
+        }
+      ]
+    },
+    {
+      "folderName": "Spell-master",
+      "imageCount": 9,
+      "totalSizeBytes": 20879373,
+      "extensions": {
+        ".png": 9
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a5",
+        "productName": "Spell Master",
+        "productSlug": "spell-master-phonics-cards",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\1.png",
+          "relativePath": "Spell-master\\1.png",
+          "extension": ".png",
+          "sizeBytes": 2476758
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\2.png",
+          "relativePath": "Spell-master\\2.png",
+          "extension": ".png",
+          "sizeBytes": 2294413
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\3.png",
+          "relativePath": "Spell-master\\3.png",
+          "extension": ".png",
+          "sizeBytes": 2685913
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\4.png",
+          "relativePath": "Spell-master\\4.png",
+          "extension": ".png",
+          "sizeBytes": 2227387
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\5.png",
+          "relativePath": "Spell-master\\5.png",
+          "extension": ".png",
+          "sizeBytes": 2453555
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\6.png",
+          "relativePath": "Spell-master\\6.png",
+          "extension": ".png",
+          "sizeBytes": 2459824
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\7.png",
+          "relativePath": "Spell-master\\7.png",
+          "extension": ".png",
+          "sizeBytes": 2073748
+        },
+        {
+          "name": "8.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\8.png",
+          "relativePath": "Spell-master\\8.png",
+          "extension": ".png",
+          "sizeBytes": 2130059
+        },
+        {
+          "name": "9.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Spell-master\\9.png",
+          "relativePath": "Spell-master\\9.png",
+          "extension": ".png",
+          "sizeBytes": 2077716
+        }
+      ]
+    },
+    {
+      "folderName": "Toddler-Busy-Binder",
+      "imageCount": 5,
+      "totalSizeBytes": 10979755,
+      "extensions": {
+        ".png": 5
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f38d",
+        "productName": "Toddler Busy Binder",
+        "productSlug": "toddler-busy-binder-learning-book",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Toddler-Busy-Binder\\1.png",
+          "relativePath": "Toddler-Busy-Binder\\1.png",
+          "extension": ".png",
+          "sizeBytes": 2293630
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Toddler-Busy-Binder\\3.png",
+          "relativePath": "Toddler-Busy-Binder\\3.png",
+          "extension": ".png",
+          "sizeBytes": 2403817
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Toddler-Busy-Binder\\4.png",
+          "relativePath": "Toddler-Busy-Binder\\4.png",
+          "extension": ".png",
+          "sizeBytes": 2570640
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Toddler-Busy-Binder\\5.png",
+          "relativePath": "Toddler-Busy-Binder\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1780841
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Toddler-Busy-Binder\\7.png",
+          "relativePath": "Toddler-Busy-Binder\\7.png",
+          "extension": ".png",
+          "sizeBytes": 1930827
+        }
+      ]
+    },
+    {
+      "folderName": "Travel-scrapbook",
+      "imageCount": 15,
+      "totalSizeBytes": 27062010,
+      "extensions": {
+        ".png": 15
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3ad",
+        "productName": "Travel Scrapbook",
+        "productSlug": "lets-travel-memory-book",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "Copy of Copy of Same pinch festival - images.zip - 5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Copy of Copy of Same pinch festival - images.zip - 5.png",
+          "relativePath": "Travel-scrapbook\\Copy of Copy of Same pinch festival - images.zip - 5.png",
+          "extension": ".png",
+          "sizeBytes": 2127640
+        },
+        {
+          "name": "travel_scrapbook.PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\travel_scrapbook.PNG",
+          "relativePath": "Travel-scrapbook\\travel_scrapbook.PNG",
+          "extension": ".png",
+          "sizeBytes": 2848152
+        },
+        {
+          "name": "travel_scrapbook(1).PNG",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\travel_scrapbook(1).PNG",
+          "relativePath": "Travel-scrapbook\\travel_scrapbook(1).PNG",
+          "extension": ".png",
+          "sizeBytes": 2848152
+        },
+        {
+          "name": "Travel_Scrapbook1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook1.png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook1.png",
+          "extension": ".png",
+          "sizeBytes": 2046456
+        },
+        {
+          "name": "Travel_Scrapbook1(1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook1(1).png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook1(1).png",
+          "extension": ".png",
+          "sizeBytes": 2046456
+        },
+        {
+          "name": "Travel_Scrapbook2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook2.png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook2.png",
+          "extension": ".png",
+          "sizeBytes": 1625625
+        },
+        {
+          "name": "Travel_Scrapbook2(1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook2(1).png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook2(1).png",
+          "extension": ".png",
+          "sizeBytes": 1625625
+        },
+        {
+          "name": "Travel_Scrapbook3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook3.png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook3.png",
+          "extension": ".png",
+          "sizeBytes": 1888104
+        },
+        {
+          "name": "Travel_Scrapbook3(1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook3(1).png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook3(1).png",
+          "extension": ".png",
+          "sizeBytes": 1888104
+        },
+        {
+          "name": "Travel_Scrapbook4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook4.png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook4.png",
+          "extension": ".png",
+          "sizeBytes": 1413803
+        },
+        {
+          "name": "Travel_Scrapbook4(1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook4(1).png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook4(1).png",
+          "extension": ".png",
+          "sizeBytes": 1413803
+        },
+        {
+          "name": "Travel_Scrapbook5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook5.png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook5.png",
+          "extension": ".png",
+          "sizeBytes": 1350184
+        },
+        {
+          "name": "Travel_Scrapbook5(1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook5(1).png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook5(1).png",
+          "extension": ".png",
+          "sizeBytes": 1350184
+        },
+        {
+          "name": "Travel_Scrapbook6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook6.png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook6.png",
+          "extension": ".png",
+          "sizeBytes": 1294861
+        },
+        {
+          "name": "Travel_Scrapbook6(1).png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Travel-scrapbook\\Travel_Scrapbook6(1).png",
+          "relativePath": "Travel-scrapbook\\Travel_Scrapbook6(1).png",
+          "extension": ".png",
+          "sizeBytes": 1294861
+        }
+      ]
+    },
+    {
+      "folderName": "Why-zone-of-giggles",
+      "imageCount": 9,
+      "totalSizeBytes": 24708064,
+      "extensions": {
+        ".png": 3,
+        ".jpg": 6
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a2",
+        "productName": "Why Zone of Giggles",
+        "productSlug": "why-zone-of-giggles",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "ChatGPT Image Apr 28, 2026, 04_36_29 PM.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\ChatGPT Image Apr 28, 2026, 04_36_29 PM.png",
+          "relativePath": "Why-zone-of-giggles\\ChatGPT Image Apr 28, 2026, 04_36_29 PM.png",
+          "extension": ".png",
+          "sizeBytes": 2269373
+        },
+        {
+          "name": "ChatGPT Image Apr 28, 2026, 04_56_26 PM.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\ChatGPT Image Apr 28, 2026, 04_56_26 PM.png",
+          "relativePath": "Why-zone-of-giggles\\ChatGPT Image Apr 28, 2026, 04_56_26 PM.png",
+          "extension": ".png",
+          "sizeBytes": 2327256
+        },
+        {
+          "name": "Why Zone of Giggles.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\Why Zone of Giggles.png",
+          "relativePath": "Why-zone-of-giggles\\Why Zone of Giggles.png",
+          "extension": ".png",
+          "sizeBytes": 479636
+        },
+        {
+          "name": "why_giggles (1).jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\why_giggles (1).jpg",
+          "relativePath": "Why-zone-of-giggles\\why_giggles (1).jpg",
+          "extension": ".jpg",
+          "sizeBytes": 3819282
+        },
+        {
+          "name": "why_giggles (2).jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\why_giggles (2).jpg",
+          "relativePath": "Why-zone-of-giggles\\why_giggles (2).jpg",
+          "extension": ".jpg",
+          "sizeBytes": 1448261
+        },
+        {
+          "name": "why_giggles (3).jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\why_giggles (3).jpg",
+          "relativePath": "Why-zone-of-giggles\\why_giggles (3).jpg",
+          "extension": ".jpg",
+          "sizeBytes": 1625510
+        },
+        {
+          "name": "why_giggles (4).jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\why_giggles (4).jpg",
+          "relativePath": "Why-zone-of-giggles\\why_giggles (4).jpg",
+          "extension": ".jpg",
+          "sizeBytes": 4638804
+        },
+        {
+          "name": "why_giggles (5).jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\why_giggles (5).jpg",
+          "relativePath": "Why-zone-of-giggles\\why_giggles (5).jpg",
+          "extension": ".jpg",
+          "sizeBytes": 3772776
+        },
+        {
+          "name": "why_giggles (6).jpg",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Why-zone-of-giggles\\why_giggles (6).jpg",
+          "relativePath": "Why-zone-of-giggles\\why_giggles (6).jpg",
+          "extension": ".jpg",
+          "sizeBytes": 4327166
+        }
+      ]
+    },
+    {
+      "folderName": "Word-families",
+      "imageCount": 7,
+      "totalSizeBytes": 10303212,
+      "extensions": {
+        ".png": 7
+      },
+      "productMatch": {
+        "status": "possible",
+        "reason": "Possible product matches found. Nothing was automatically assigned.",
+        "candidates": [
+          {
+            "productId": "6ab42055168800b46029f3a4",
+            "productName": "Word Families Flash Catds",
+            "productSlug": "word-family-flashcards",
+            "score": 100
+          }
+        ]
+      },
+      "files": [
+        {
+          "name": "1.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\1.png",
+          "relativePath": "Word-families\\1.png",
+          "extension": ".png",
+          "sizeBytes": 2647292
+        },
+        {
+          "name": "2.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\2.png",
+          "relativePath": "Word-families\\2.png",
+          "extension": ".png",
+          "sizeBytes": 1191694
+        },
+        {
+          "name": "3.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\3.png",
+          "relativePath": "Word-families\\3.png",
+          "extension": ".png",
+          "sizeBytes": 960813
+        },
+        {
+          "name": "4.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\4.png",
+          "relativePath": "Word-families\\4.png",
+          "extension": ".png",
+          "sizeBytes": 1353845
+        },
+        {
+          "name": "5.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\5.png",
+          "relativePath": "Word-families\\5.png",
+          "extension": ".png",
+          "sizeBytes": 1746529
+        },
+        {
+          "name": "6.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\6.png",
+          "relativePath": "Word-families\\6.png",
+          "extension": ".png",
+          "sizeBytes": 1773103
+        },
+        {
+          "name": "7.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Word-families\\7.png",
+          "relativePath": "Word-families\\7.png",
+          "extension": ".png",
+          "sizeBytes": 629936
+        }
+      ]
+    },
+    {
+      "folderName": "Wordlogy",
+      "imageCount": 1,
+      "totalSizeBytes": 1878409,
+      "extensions": {
+        ".png": 1
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a6",
+        "productName": "Wordlogy",
+        "productSlug": "worldlogy-guess-the-city-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "worldlogy.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Wordlogy\\worldlogy.png",
+          "relativePath": "Wordlogy\\worldlogy.png",
+          "extension": ".png",
+          "sizeBytes": 1878409
+        }
+      ]
+    },
+    {
+      "folderName": "Wordlogy-Emoji-edition",
+      "imageCount": 1,
+      "totalSizeBytes": 1849308,
+      "extensions": {
+        ".png": 1
+      },
+      "productMatch": {
+        "status": "matched",
+        "productId": "6ab42055168800b46029f3a7",
+        "productName": "Wordlogy - Emoji Edition",
+        "productSlug": "worldlogy-emoji-city-guessing-game",
+        "reason": "Exact normalized product-name match"
+      },
+      "files": [
+        {
+          "name": "ChatGPT Image Sep 12, 2026, 03_23_07 AM.png",
+          "path": "C:\\Users\\DELL\\Downloads\\img\\Wordlogy-Emoji-edition\\ChatGPT Image Sep 12, 2026, 03_23_07 AM.png",
+          "relativePath": "Wordlogy-Emoji-edition\\ChatGPT Image Sep 12, 2026, 03_23_07 AM.png",
+          "extension": ".png",
+          "sizeBytes": 1849308
+        }
+      ]
+    }
+  ]
+}

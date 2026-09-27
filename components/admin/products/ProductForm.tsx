@@ -39,6 +39,7 @@ interface FormState {
   sku: string;
   stock: string;
   status: ProductStatus;
+  published: boolean;
   featured: boolean;
   category: string;
   brand: string;
@@ -59,6 +60,7 @@ const initialForm: FormState = {
   sku: "",
   stock: "",
   status: "draft",
+  published: false,
   featured: false,
   category: "",
   brand: "",
@@ -86,6 +88,37 @@ function optionalNumber(value: string): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
+function normalizeSelectorItems(items: SelectorItem[] | undefined): SelectorItem[] {
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  const seen = new Set<string>();
+  const normalized: SelectorItem[] = [];
+
+  for (const item of items) {
+    if (!item || typeof item._id !== "string" || !item._id.trim()) {
+      continue;
+    }
+
+    const id = item._id.trim();
+
+    if (seen.has(id)) {
+      continue;
+    }
+
+    seen.add(id);
+
+    normalized.push({
+      _id: id,
+      name: typeof item.name === "string" ? item.name : "Unnamed",
+      slug: typeof item.slug === "string" ? item.slug : "",
+    });
+  }
+
+  return normalized;
+}
+
 function SectionHeader({
   eyebrow,
   title,
@@ -96,22 +129,24 @@ function SectionHeader({
   description?: string;
 }) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex items-start gap-3.5">
       {eyebrow && (
-        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#3F7DFF]">
+        <span className="mt-0.5 flex h-8 min-w-8 items-center justify-center rounded-xl bg-[#C391EE]/15 px-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A5BC2] ring-1 ring-inset ring-[#C391EE]/20">
           {eyebrow}
-        </p>
+        </span>
       )}
 
-      <h2 className="text-lg font-semibold tracking-[-0.02em] text-foreground">
-        {title}
-      </h2>
+      <div className="min-w-0">
+        <h2 className="text-[17px] font-bold tracking-[-0.025em] text-foreground sm:text-lg">
+          {title}
+        </h2>
 
-      {description && (
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          {description}
-        </p>
-      )}
+        {description && (
+          <p className="mt-1 max-w-2xl text-[13px] leading-5 text-muted-foreground">
+            {description}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -124,7 +159,7 @@ function FieldLabel({
   required?: boolean;
 }) {
   return (
-    <label className="mb-2 block text-sm font-medium text-foreground">
+    <label className="mb-2.5 block text-[12px] font-semibold uppercase tracking-[0.045em] text-foreground/80">
       {children}
       {required && (
         <span className="ml-1 text-[#E83D59]">*</span>
@@ -134,13 +169,13 @@ function FieldLabel({
 }
 
 const inputClass =
-  "h-11 w-full rounded-xl border border-border/80 bg-background px-3.5 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/60 focus:border-[#3F7DFF] focus:ring-4 focus:ring-[#3F7DFF]/10";
+  "h-12 w-full rounded-xl border  bg-background/90 px-4 text-sm text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.03)] outline-none transition-all placeholder:text-muted-foreground/55 hover:border-[#C391EE]/45 focus:border-[#C391EE] focus:ring-4 focus:ring-[#C391EE]/12";
 
 const textareaClass =
-  "w-full rounded-xl border border-border/80 bg-background px-3.5 py-3 text-sm leading-6 text-foreground outline-none transition-all placeholder:text-muted-foreground/60 focus:border-[#3F7DFF] focus:ring-4 focus:ring-[#3F7DFF]/10";
+  "w-full rounded-xl border bg-background/90 px-4 py-3.5 text-sm leading-6 text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.03)] outline-none transition-all placeholder:text-muted-foreground/55 hover:border-[#C391EE]/45 focus:border-[#C391EE] focus:ring-4 focus:ring-[#C391EE]/12";
 
 const selectClass =
-  "h-11 w-full rounded-xl border border-border/80 bg-background px-3.5 text-sm text-foreground outline-none transition-all focus:border-[#3F7DFF] focus:ring-4 focus:ring-[#3F7DFF]/10 disabled:cursor-not-allowed disabled:opacity-60";
+  "h-12 w-full rounded-xl border bg-background/90 px-4 text-sm text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.03)] outline-none transition-all hover:border-[#C391EE]/45 focus:border-[#C391EE] focus:ring-4 focus:ring-[#C391EE]/12 disabled:cursor-not-allowed disabled:opacity-60";
 
 export default function ProductForm({
   mode,
@@ -217,9 +252,9 @@ export default function ProductForm({
           );
         }
 
-        setCategories(categoriesData.categories ?? []);
-        setBrands(brandsData.brands ?? []);
-        setCollections(collectionsData.collections ?? []);
+        setCategories(normalizeSelectorItems(categoriesData.categories));
+        setBrands(normalizeSelectorItems(brandsData.brands));
+        setCollections(normalizeSelectorItems(collectionsData.collections));
       } catch (err) {
         if (isAbortError(err)) {
           return;
@@ -275,82 +310,65 @@ export default function ProductForm({
           name: product.name ?? "",
           slug: product.slug ?? "",
           description: product.description ?? "",
-          shortDescription:
-            product.shortDescription ?? "",
+          shortDescription: product.shortDescription ?? "",
 
-          price:
-            product.price !== undefined &&
-            product.price !== null
-              ? String(product.price)
-              : "",
+          price: product.price !== undefined && product.price !== null ? String(product.price) : "",
 
           compareAtPrice:
-            product.compareAtPrice !== undefined &&
-            product.compareAtPrice !== null
+            product.compareAtPrice !== undefined && product.compareAtPrice !== null
               ? String(product.compareAtPrice)
               : "",
 
           sku: product.sku ?? "",
 
-          stock:
-            product.stock !== undefined &&
-            product.stock !== null
-              ? String(product.stock)
-              : "",
+          stock: product.stock !== undefined && product.stock !== null ? String(product.stock) : "",
 
           status: product.status ?? "draft",
+          published: Boolean(product.published),
 
           featured: Boolean(product.featured),
 
           category:
             typeof product.category === "object"
-              ? product.category?._id ?? ""
-              : product.category ?? "",
+              ? (product.category?._id ?? "")
+              : (product.category ?? ""),
 
           brand:
-            typeof product.brand === "object"
-              ? product.brand?._id ?? ""
-              : product.brand ?? "",
+            typeof product.brand === "object" ? (product.brand?._id ?? "") : (product.brand ?? ""),
 
           collection:
             typeof product.collection === "object"
-              ? product.collection?._id ?? ""
-              : product.collection ?? "",
+              ? (product.collection?._id ?? "")
+              : (product.collection ?? ""),
 
           ageMin:
-            product.ageRange?.min !== undefined &&
-            product.ageRange?.min !== null
+            product.ageRange?.min !== undefined && product.ageRange?.min !== null
               ? String(product.ageRange.min)
               : "",
 
           ageMax:
-            product.ageRange?.max !== undefined &&
-            product.ageRange?.max !== null
+            product.ageRange?.max !== undefined && product.ageRange?.max !== null
               ? String(product.ageRange.max)
               : "",
 
           images: product.images ?? [],
 
-          variants: (product.variants ?? []).map(
-            (variant: ProductVariant) => ({
-              _id: variant._id,
-              name: variant.name ?? "",
-              value: variant.value ?? "",
-              sku: variant.sku ?? "",
+          variants: (product.variants ?? []).map((variant: ProductVariant) => ({
+            _id: variant._id,
+            name: variant.name ?? "",
+            value: variant.value ?? "",
+            sku: variant.sku ?? "",
 
-              price:
-                variant.price !== undefined &&
-                variant.price !== null
-                  ? Number(variant.price)
-                  : undefined,
+            price:
+              variant.price !== undefined && variant.price !== null
+                ? Number(variant.price)
+                : undefined,
 
-              stock:
-                variant.stock !== undefined &&
-                variant.stock !== null
-                  ? Number(variant.stock)
-                  : undefined,
-            }),
-          ),
+            stock:
+              variant.stock !== undefined && variant.stock !== null
+                ? Number(variant.stock)
+                : undefined,
+          })),
         });
       } catch (err) {
         if (isAbortError(err)) {
@@ -583,15 +601,11 @@ export default function ProductForm({
 
         description: form.description.trim(),
 
-        shortDescription:
-          form.shortDescription.trim() || undefined,
+        shortDescription: form.shortDescription.trim() || undefined,
 
         price,
 
-        compareAtPrice:
-          form.compareAtPrice.trim() === ""
-            ? undefined
-            : Number(form.compareAtPrice),
+        compareAtPrice: form.compareAtPrice.trim() === "" ? undefined : Number(form.compareAtPrice),
 
         sku: form.sku.trim() || undefined,
 
@@ -613,14 +627,12 @@ export default function ProductForm({
           sku: variant.sku?.trim() || undefined,
 
           price:
-            variant.price === undefined ||
-            variant.price === null
+            variant.price === undefined || variant.price === null
               ? undefined
               : Number(variant.price),
 
           stock:
-            variant.stock === undefined ||
-            variant.stock === null
+            variant.stock === undefined || variant.stock === null
               ? undefined
               : Number(variant.stock),
         })),
@@ -628,21 +640,15 @@ export default function ProductForm({
         stock,
 
         status: form.status,
-
+        published: form.published,
         featured: form.featured,
 
         ageRange:
           form.ageMin || form.ageMax
             ? {
-                min:
-                  form.ageMin.trim() === ""
-                    ? undefined
-                    : Number(form.ageMin),
+                min: form.ageMin.trim() === "" ? undefined : Number(form.ageMin),
 
-                max:
-                  form.ageMax.trim() === ""
-                    ? undefined
-                    : Number(form.ageMax),
+                max: form.ageMax.trim() === "" ? undefined : Number(form.ageMax),
               }
             : undefined,
       };
@@ -699,7 +705,7 @@ export default function ProductForm({
     return (
       <div className="flex min-h-[460px] items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-muted border-t-[#3F7DFF]" />
+          <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-muted border-t-[#C391EE]" />
 
           <p className="mt-4 text-sm font-medium text-foreground">
             Loading product...
@@ -719,27 +725,38 @@ export default function ProductForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto w-full max-w-6xl space-y-6 pb-10"
+      className="mx-auto w-full max-w-7xl space-y-5 rounded-[32px] bg-gradient-to-b from-background via-background to-[#C391EE]/[0.025] pb-28"
     >
       {/* Page header */}
-      <div className="rounded-2xl border border-border/70 bg-background/80 p-5 shadow-sm backdrop-blur-sm sm:p-6">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#3F7DFF]">
-              Catalog Management
-            </p>
+      <div className="relative overflow-hidden rounded-[28px] border border-[#C391EE]/20 bg-gradient-to-br from-[#C391EE]/15 via-background to-[#FFD54F]/10 p-5 shadow-[0_16px_50px_rgba(90,55,120,0.08)] sm:p-7">
+        <div className="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-[#C391EE]/15 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-20 right-28 h-40 w-40 rounded-full bg-[#FFD54F]/15 blur-2xl" />
 
-            <h1 className="text-2xl font-semibold tracking-[-0.03em] text-foreground sm:text-[28px]">
-              {mode === "create"
-                ? "Create Product"
-                : "Edit Product"}
-            </h1>
+        <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#C391EE] text-xl text-white shadow-[0_10px_24px_rgba(195,145,238,0.35)]">
+              ✦
+            </div>
+            <div>
+              <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A5BC2]">
+                  Catalog Management
+                </p>
+                <span className="rounded-full bg-background/80 px-2.5 py-1 text-[10px] font-semibold text-muted-foreground ring-1 ring-inset ring-border/60">
+                  {mode === "create" ? "NEW PRODUCT" : "EDIT MODE"}
+                </span>
+              </div>
 
-            <p className="mt-1.5 max-w-xl text-sm leading-6 text-muted-foreground">
-              {mode === "create"
-                ? "Add a new product to your BuzzieWorld catalog."
-                : "Update product information, pricing and catalog settings."}
-            </p>
+              <h1 className="text-2xl font-bold tracking-[-0.035em] text-foreground sm:text-[30px]">
+                {mode === "create" ? "Create Product" : "Edit Product"}
+              </h1>
+
+              <p className="mt-1.5 max-w-2xl text-sm leading-6 text-muted-foreground">
+                {mode === "create"
+                  ? "Build a polished product listing with content, pricing, classification, media and variants."
+                  : "Refine product information, media, pricing and catalog settings without losing your existing data."}
+              </p>
+            </div>
           </div>
 
           <button
@@ -748,7 +765,7 @@ export default function ProductForm({
               window.location.href = "/admin/products";
             }}
             disabled={isSaving}
-            className="h-10 rounded-xl border border-border/80 bg-background px-4 text-sm font-medium text-foreground transition-all hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-11 shrink-0 rounded-2xl border border-border/70 bg-background/90 px-5 text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#C391EE]/40 hover:bg-background hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
           >
             Cancel
           </button>
@@ -763,13 +780,9 @@ export default function ProductForm({
           </div>
 
           <div>
-            <p className="text-sm font-medium text-[#C44770]">
-              Unable to save product
-            </p>
+            <p className="text-sm font-medium text-[#C44770]">Unable to save product</p>
 
-            <p className="mt-0.5 text-sm leading-5 text-[#C44770]/90">
-              {error}
-            </p>
+            <p className="mt-0.5 text-sm leading-5 text-[#C44770]/90">{error}</p>
           </div>
         </div>
       )}
@@ -780,130 +793,99 @@ export default function ProductForm({
             ✓
           </div>
 
-          <p className="pt-0.5 text-sm font-medium text-[#4D9A38]">
-            {success}
-          </p>
+          <p className="pt-0.5 text-sm font-medium text-[#4D9A38]">{success}</p>
         </div>
       )}
 
       {/* Draft guidance */}
       {isDraft && (
-        <div className="rounded-2xl border border-[#3F7DFF]/15 bg-[#3F7DFF]/[0.035] px-4 py-3.5 sm:px-5">
-          <p className="text-sm font-medium text-foreground">
-            Draft mode
-          </p>
+        <div className="rounded-2xl border border-[#C391EE]/20 bg-gradient-to-r from-[#C391EE]/[0.07] to-transparent px-4 py-4 shadow-sm sm:px-5">
+          <p className="text-sm font-medium text-foreground">Draft mode</p>
 
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            You can save this product while pricing and inventory
-            information is still incomplete. Price and stock are
-            required before the product can be made Active.
+            You can save this product while pricing and inventory information is still incomplete.
+            Price and stock are required before the product can be made Active.
           </p>
         </div>
       )}
 
       {isActive && (
         <div className="rounded-2xl border border-[#79D45C]/20 bg-[#79D45C]/[0.055] px-4 py-3.5 sm:px-5">
-          <p className="text-sm font-medium text-foreground">
-            Active product
-          </p>
+          <p className="text-sm font-medium text-foreground">Active product</p>
 
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            This product is ready to be published. Make sure its
-            price and stock information are complete.
+            This product is ready to be published. Make sure its price and stock information are
+            complete.
           </p>
         </div>
       )}
 
       {/* Basic information */}
-      <section className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm sm:p-6">
+      <section className="rounded-[26px]  bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <SectionHeader
           eyebrow="01"
           title="Basic Information"
           description="Define the core information customers and your team will use to identify this product."
         />
 
-        <div className="mt-6 grid gap-5">
+        <div className="mt-7 grid gap-5">
           <div>
-            <FieldLabel required>
-              Product Name
-            </FieldLabel>
+            <FieldLabel required>Product Name</FieldLabel>
 
             <input
               value={form.name}
-              onChange={(event) =>
-                updateField("name", event.target.value)
-              }
+              onChange={(event) => updateField("name", event.target.value)}
               placeholder="e.g. Wooden Safari Puzzle"
               className={inputClass}
             />
           </div>
 
           <div>
-            <FieldLabel>
-              Slug
-            </FieldLabel>
+            <FieldLabel>Slug</FieldLabel>
 
             <input
               value={form.slug}
-              onChange={(event) =>
-                updateField("slug", event.target.value)
-              }
+              onChange={(event) => updateField("slug", event.target.value)}
               placeholder="wooden-safari-puzzle"
               className={inputClass}
             />
 
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
-              Leave empty to generate automatically from the
-              product name.
+              Leave empty to generate automatically from the product name.
             </p>
           </div>
 
           <div>
-            <FieldLabel>
-              Short Description
-            </FieldLabel>
+            <FieldLabel>Short Description</FieldLabel>
 
             <input
               value={form.shortDescription}
-              onChange={(event) =>
-                updateField(
-                  "shortDescription",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("shortDescription", event.target.value)}
               placeholder="A short product summary"
               className={inputClass}
             />
           </div>
 
           <div>
-            <FieldLabel required>
-              Description
-            </FieldLabel>
+            <FieldLabel required>Description</FieldLabel>
 
             <textarea
               value={form.description}
-              onChange={(event) =>
-                updateField(
-                  "description",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("description", event.target.value)}
               rows={6}
               placeholder="Describe the product, its contents, learning value and important details..."
               className={textareaClass}
             />
 
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
-              Keep the description clear and useful for both
-              parents and customers.
+              Keep the description clear and useful for both parents and customers.
             </p>
           </div>
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm sm:p-6">
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <SectionHeader
           eyebrow="02"
           title="Pricing & Inventory"
@@ -914,11 +896,9 @@ export default function ProductForm({
           }
         />
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <FieldLabel required={isActive}>
-              Price
-            </FieldLabel>
+            <FieldLabel required={isActive}>Price</FieldLabel>
 
             <div className="relative">
               <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
@@ -930,28 +910,17 @@ export default function ProductForm({
                 min="0"
                 step="0.01"
                 value={form.price}
-                onChange={(event) =>
-                  updateField(
-                    "price",
-                    event.target.value,
-                  )
-                }
+                onChange={(event) => updateField("price", event.target.value)}
                 placeholder="0.00"
                 className={`${inputClass} pl-8`}
               />
             </div>
 
-            {isDraft && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                Optional while Draft.
-              </p>
-            )}
+            {isDraft && <p className="mt-2 text-xs text-muted-foreground">Optional while Draft.</p>}
           </div>
 
           <div>
-            <FieldLabel>
-              Compare-at Price
-            </FieldLabel>
+            <FieldLabel>Compare-at Price</FieldLabel>
 
             <div className="relative">
               <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
@@ -963,12 +932,7 @@ export default function ProductForm({
                 min="0"
                 step="0.01"
                 value={form.compareAtPrice}
-                onChange={(event) =>
-                  updateField(
-                    "compareAtPrice",
-                    event.target.value,
-                  )
-                }
+                onChange={(event) => updateField("compareAtPrice", event.target.value)}
                 placeholder="0.00"
                 className={`${inputClass} pl-8`}
               />
@@ -976,83 +940,56 @@ export default function ProductForm({
           </div>
 
           <div>
-            <FieldLabel>
-              SKU
-            </FieldLabel>
+            <FieldLabel>SKU</FieldLabel>
 
             <input
               value={form.sku}
-              onChange={(event) =>
-                updateField("sku", event.target.value)
-              }
+              onChange={(event) => updateField("sku", event.target.value)}
               placeholder="BW-SAFARI-001"
               className={inputClass}
             />
           </div>
 
           <div>
-            <FieldLabel required={isActive}>
-              Stock
-            </FieldLabel>
+            <FieldLabel required={isActive}>Stock</FieldLabel>
 
             <input
               type="number"
               min="0"
               step="1"
               value={form.stock}
-              onChange={(event) =>
-                updateField(
-                  "stock",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("stock", event.target.value)}
               placeholder="0"
               className={inputClass}
             />
 
-            {isDraft && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                Optional while Draft.
-              </p>
-            )}
+            {isDraft && <p className="mt-2 text-xs text-muted-foreground">Optional while Draft.</p>}
           </div>
         </div>
       </section>
 
       {/* Catalog classification */}
-      <section className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm sm:p-6">
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <SectionHeader
           eyebrow="03"
           title="Catalog Classification"
           description="Organize the product so it can be discovered and managed throughout the store."
         />
 
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
+        <div className="mt-7 grid gap-5 md:grid-cols-3">
           <div>
-            <FieldLabel>
-              Category
-            </FieldLabel>
+            <FieldLabel>Category</FieldLabel>
 
             <select
               value={form.category}
-              onChange={(event) =>
-                updateField(
-                  "category",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("category", event.target.value)}
               disabled={isLoadingSelectors}
               className={selectClass}
             >
-              <option value="">
-                Select category
-              </option>
+              <option value="">Select category</option>
 
               {categories.map((item) => (
-                <option
-                  key={item._id}
-                  value={item._id}
-                >
+                <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
               ))}
@@ -1060,30 +997,18 @@ export default function ProductForm({
           </div>
 
           <div>
-            <FieldLabel>
-              Brand
-            </FieldLabel>
+            <FieldLabel>Brand</FieldLabel>
 
             <select
               value={form.brand}
-              onChange={(event) =>
-                updateField(
-                  "brand",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("brand", event.target.value)}
               disabled={isLoadingSelectors}
               className={selectClass}
             >
-              <option value="">
-                Select brand
-              </option>
+              <option value="">Select brand</option>
 
               {brands.map((item) => (
-                <option
-                  key={item._id}
-                  value={item._id}
-                >
+                <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
               ))}
@@ -1091,30 +1016,18 @@ export default function ProductForm({
           </div>
 
           <div>
-            <FieldLabel>
-              Collection
-            </FieldLabel>
+            <FieldLabel>Collection</FieldLabel>
 
             <select
               value={form.collection}
-              onChange={(event) =>
-                updateField(
-                  "collection",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("collection", event.target.value)}
               disabled={isLoadingSelectors}
               className={selectClass}
             >
-              <option value="">
-                Select collection
-              </option>
+              <option value="">Select collection</option>
 
               {collections.map((item) => (
-                <option
-                  key={item._id}
-                  value={item._id}
-                >
+                <option key={item._id} value={item._id}>
                   {item.name}
                 </option>
               ))}
@@ -1124,7 +1037,7 @@ export default function ProductForm({
       </section>
 
       {/* Product settings */}
-      <section className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm sm:p-6">
+      <section className="rounded-[26px]  bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <SectionHeader
           eyebrow="04"
           title="Product Settings"
@@ -1133,31 +1046,18 @@ export default function ProductForm({
 
         <div className="mt-6 grid gap-5 sm:grid-cols-3">
           <div>
-            <FieldLabel>
-              Status
-            </FieldLabel>
+            <FieldLabel>Status</FieldLabel>
 
             <select
               value={form.status}
-              onChange={(event) =>
-                updateField(
-                  "status",
-                  event.target.value as ProductStatus,
-                )
-              }
+              onChange={(event) => updateField("status", event.target.value as ProductStatus)}
               className={selectClass}
             >
-              <option value="draft">
-                Draft
-              </option>
+              <option value="draft">Draft</option>
 
-              <option value="active">
-                Active
-              </option>
+              <option value="active">Active</option>
 
-              <option value="archived">
-                Archived
-              </option>
+              <option value="archived">Archived</option>
             </select>
 
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
@@ -1166,70 +1066,80 @@ export default function ProductForm({
           </div>
 
           <div>
-            <FieldLabel>
-              Minimum Age
-            </FieldLabel>
+            <FieldLabel>Minimum Age</FieldLabel>
 
             <input
               type="number"
               min="0"
               step="1"
               value={form.ageMin}
-              onChange={(event) =>
-                updateField(
-                  "ageMin",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("ageMin", event.target.value)}
               placeholder="e.g. 3"
               className={inputClass}
             />
           </div>
 
           <div>
-            <FieldLabel>
-              Maximum Age
-            </FieldLabel>
+            <FieldLabel>Maximum Age</FieldLabel>
 
             <input
               type="number"
               min="0"
               step="1"
               value={form.ageMax}
-              onChange={(event) =>
-                updateField(
-                  "ageMax",
-                  event.target.value,
-                )
-              }
+              onChange={(event) => updateField("ageMax", event.target.value)}
               placeholder="e.g. 8"
               className={inputClass}
             />
           </div>
+          <div className="mt-6 rounded-2xl border border-[#C391EE]/15 bg-gradient-to-r from-[#C391EE]/[0.055] to-muted/10 p-4">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={form.published}
+                onChange={(event) => updateField("published", event.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-border accent-[#C391EE]"
+              />
+
+              <span>
+                <span className="block text-sm font-medium text-foreground">
+                  Publish on storefront
+                </span>
+
+                <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
+                  Make this product visible in the public BuzzieWorld catalog.
+                </span>
+              </span>
+            </label>
+
+            <div className="mt-3 rounded-xl border border-border/50 bg-background/70 px-3.5 py-3">
+              {form.published ? (
+                <p className="text-xs leading-5 text-emerald-700">
+                  This product is visible on the storefront.
+                </p>
+              ) : (
+                <p className="text-xs leading-5 text-muted-foreground">
+                  This product is hidden from the storefront until you publish it.
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-border/60 bg-muted/20 p-4">
+        <div className="mt-6 rounded-2xl border border-[#C391EE]/15 bg-gradient-to-r from-[#C391EE]/[0.055] to-muted/10 p-4">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
               checked={form.featured}
-              onChange={(event) =>
-                updateField(
-                  "featured",
-                  event.target.checked,
-                )
-              }
-              className="mt-0.5 h-4 w-4 rounded border-border accent-[#3F7DFF]"
+              onChange={(event) => updateField("featured", event.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-border accent-[#C391EE]"
             />
 
             <span>
-              <span className="block text-sm font-medium text-foreground">
-                Featured product
-              </span>
+              <span className="block text-sm font-medium text-foreground">Featured product</span>
 
               <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
-                Highlight this product in featured sections
-                across the storefront.
+                Highlight this product in featured sections across the storefront.
               </span>
             </span>
           </label>
@@ -1237,26 +1147,24 @@ export default function ProductForm({
       </section>
 
       {/* Media */}
-      <section className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm sm:p-6">
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <SectionHeader
           eyebrow="05"
           title="Product Media"
           description="Manage the product images used across your catalog and storefront."
         />
 
-        <div className="mt-6">
+        <div className="mt-7 overflow-hidden rounded-2xl  bg-muted/[0.10] p-3 sm:p-4">
           <ProductMedia
             images={form.images}
-            onChange={(images) =>
-              updateField("images", images)
-            }
+            onChange={(images) => updateField("images", images)}
             disabled={isSaving}
           />
         </div>
       </section>
 
       {/* Variants */}
-      <section className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm sm:p-6">
+      <section className="rounded-[26px]  bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <SectionHeader
             eyebrow="06"
@@ -1268,22 +1176,19 @@ export default function ProductForm({
             type="button"
             onClick={addVariant}
             disabled={isSaving}
-            className="shrink-0 rounded-xl border border-border/80 bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-2xl bg-[#C391EE] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_18px_rgba(195,145,238,0.25)] transition-all hover:-translate-y-0.5 hover:bg-[#B074E4] hover:shadow-[0_10px_22px_rgba(195,145,238,0.32)] disabled:cursor-not-allowed disabled:opacity-50"
           >
             + Add Variant
           </button>
         </div>
 
         {form.variants.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-border/80 bg-muted/[0.18] px-4 py-10 text-center">
-            <p className="text-sm font-medium text-foreground">
-              No variants added
-            </p>
+          <div className="mt-6 rounded-[22px] border border-dashed border-[#C391EE]/30 bg-gradient-to-br from-[#C391EE]/[0.06] to-muted/[0.12] px-4 py-12 text-center">
+            <p className="text-sm font-medium text-foreground">No variants added</p>
 
             <p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-muted-foreground">
-              Variants are optional. Add them when this product
-              has different sizes, colors, formats or other
-              selectable options.
+              Variants are optional. Add them when this product has different sizes, colors, formats
+              or other selectable options.
             </p>
           </div>
         ) : (
@@ -1291,25 +1196,20 @@ export default function ProductForm({
             {form.variants.map((variant, index) => (
               <div
                 key={variant._id || index}
-                className="rounded-2xl border border-border/70 bg-muted/[0.12] p-4 sm:p-5"
+                className="rounded-[22px] border border-border/60 bg-gradient-to-br from-muted/[0.20] to-background p-4 shadow-sm sm:p-5"
               >
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-foreground">
-                      Variant {index + 1}
-                    </p>
+                    <p className="text-sm font-semibold text-foreground">Variant {index + 1}</p>
 
                     <p className="mt-0.5 text-xs text-muted-foreground">
-                      Define the option and its optional
-                      inventory details.
+                      Define the option and its optional inventory details.
                     </p>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() =>
-                      removeVariant(index)
-                    }
+                    onClick={() => removeVariant(index)}
                     disabled={isSaving}
                     className="rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#C44770] transition-colors hover:bg-[#F56B9A]/10 disabled:opacity-50"
                   >
@@ -1319,66 +1219,40 @@ export default function ProductForm({
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                   <div>
-                    <FieldLabel>
-                      Name
-                    </FieldLabel>
+                    <FieldLabel>Name</FieldLabel>
 
                     <input
                       value={variant.name}
-                      onChange={(event) =>
-                        updateVariant(
-                          index,
-                          "name",
-                          event.target.value,
-                        )
-                      }
+                      onChange={(event) => updateVariant(index, "name", event.target.value)}
                       placeholder="e.g. Color"
                       className={inputClass}
                     />
                   </div>
 
                   <div>
-                    <FieldLabel>
-                      Value
-                    </FieldLabel>
+                    <FieldLabel>Value</FieldLabel>
 
                     <input
                       value={variant.value}
-                      onChange={(event) =>
-                        updateVariant(
-                          index,
-                          "value",
-                          event.target.value,
-                        )
-                      }
+                      onChange={(event) => updateVariant(index, "value", event.target.value)}
                       placeholder="e.g. Blue"
                       className={inputClass}
                     />
                   </div>
 
                   <div>
-                    <FieldLabel>
-                      SKU
-                    </FieldLabel>
+                    <FieldLabel>SKU</FieldLabel>
 
                     <input
                       value={variant.sku || ""}
-                      onChange={(event) =>
-                        updateVariant(
-                          index,
-                          "sku",
-                          event.target.value,
-                        )
-                      }
+                      onChange={(event) => updateVariant(index, "sku", event.target.value)}
                       placeholder="Variant SKU"
                       className={inputClass}
                     />
                   </div>
 
                   <div>
-                    <FieldLabel>
-                      Price
-                    </FieldLabel>
+                    <FieldLabel>Price</FieldLabel>
 
                     <div className="relative">
                       <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
@@ -1389,20 +1263,12 @@ export default function ProductForm({
                         type="number"
                         min="0"
                         step="0.01"
-                        value={
-                          variant.price === undefined
-                            ? ""
-                            : variant.price
-                        }
+                        value={variant.price === undefined ? "" : variant.price}
                         onChange={(event) =>
                           updateVariant(
                             index,
                             "price",
-                            event.target.value === ""
-                              ? undefined
-                              : Number(
-                                  event.target.value,
-                                ),
+                            event.target.value === "" ? undefined : Number(event.target.value),
                           )
                         }
                         placeholder="0.00"
@@ -1413,26 +1279,18 @@ export default function ProductForm({
                 </div>
 
                 <div className="mt-4 max-w-[220px]">
-                  <FieldLabel>
-                    Stock
-                  </FieldLabel>
+                  <FieldLabel>Stock</FieldLabel>
 
                   <input
                     type="number"
                     min="0"
                     step="1"
-                    value={
-                      variant.stock ?? ""
-                    }
+                    value={variant.stock ?? ""}
                     onChange={(event) =>
                       updateVariant(
                         index,
                         "stock",
-                        event.target.value === ""
-                          ? undefined
-                          : Number(
-                              event.target.value,
-                            ),
+                        event.target.value === "" ? undefined : Number(event.target.value),
                       )
                     }
                     placeholder="0"
@@ -1446,29 +1304,35 @@ export default function ProductForm({
       </section>
 
       {/* Submit */}
-      <div className="flex flex-col-reverse gap-3 border-t border-border/70 pt-6 sm:flex-row sm:items-center sm:justify-end">
-        <button
-          type="button"
-          onClick={() => {
-            window.location.href = "/admin/products";
-          }}
-          disabled={isSaving}
-          className="h-11 rounded-xl border border-border/80 bg-background px-5 text-sm font-medium text-foreground transition-all hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="submit"
-          disabled={isSaving}
-          className="h-11 rounded-xl bg-[#3F7DFF] px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#356FE6] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
-        >
+      <div className="sticky bottom-4 z-20 flex flex-col-reverse gap-3 rounded-[22px] bg-background/90 p-3 shadow-[0_16px_50px_rgba(20,20,30,0.12)] backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
+        <p className="hidden px-2 text-xs text-muted-foreground sm:block">
           {isSaving
-            ? "Saving..."
+            ? "Saving your product changes..."
             : mode === "create"
-              ? "Create Product"
-              : "Save Changes"}
-        </button>
+              ? "Review the details before creating this product."
+              : "Review your changes before saving."}
+        </p>
+
+        <div className="flex flex-col-reverse gap-2 sm:ml-auto sm:flex-row">
+          <button
+            type="button"
+            onClick={() => {
+              window.location.href = "/admin/products";
+            }}
+            disabled={isSaving}
+            className="h-11 rounded-2xl border border-border/70 bg-background px-5 text-sm font-semibold text-foreground transition-all hover:border-[#C391EE]/40 hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={isSaving}
+            className="h-11 rounded-2xl bg-[#C391EE] px-6 text-sm font-bold text-white shadow-[0_10px_24px_rgba(195,145,238,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#B074E4] hover:shadow-[0_12px_28px_rgba(195,145,238,0.34)] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isSaving ? "Saving..." : mode === "create" ? "Create Product" : "Save Changes"}
+          </button>
+        </div>
       </div>
     </form>
   );

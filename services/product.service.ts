@@ -17,6 +17,7 @@ export interface ProductFilters {
   brand?: string;
   collection?: string;
   status?: string;
+  published?: boolean;
   featured?: boolean;
   sort?: ProductSort;
   page?: number;
@@ -98,6 +99,14 @@ export interface ProductInput {
   stock?: number;
 
   status?: "draft" | "active" | "archived";
+
+  /**
+   * Controls whether the product is visible
+   * in the public storefront.
+   *
+   * This is intentionally separate from `status`.
+   */
+  published?: boolean;
 
   featured?: boolean;
 
@@ -218,6 +227,14 @@ function normalizeProductInput(data: ProductInput) {
 
     status: data.status ?? "draft",
 
+    /**
+     * Storefront visibility.
+     *
+     * New products default to hidden unless explicitly
+     * published.
+     */
+    published: data.published ?? false,
+
     featured: Boolean(data.featured),
 
     ageRange:
@@ -239,6 +256,7 @@ export async function getProducts(filters: ProductFilters = {}) {
     brand,
     collection,
     status,
+    published,
     sort = "newest",
     featured,
     page = 1,
@@ -267,6 +285,10 @@ export async function getProducts(filters: ProductFilters = {}) {
 
   if (status) {
     query.status = status;
+  }
+
+  if (typeof published === "boolean") {
+    query.published = published;
   }
 
   if (typeof featured === "boolean") {
@@ -310,10 +332,23 @@ export async function getProductById(id: string) {
     .lean();
 }
 
-export async function getProductBySlug(slug: string) {
+export async function getProductBySlug(
+  slug: string,
+  options?: {
+    published?: boolean;
+  },
+) {
   await connectToDatabase();
 
-  return Product.findOne({ slug })
+  const query: Record<string, unknown> = {
+    slug,
+  };
+
+  if (typeof options?.published === "boolean") {
+    query.published = options.published;
+  }
+
+  return Product.findOne(query)
     .populate("category", "name slug")
     .populate("brand", "name slug")
     .populate("collection", "name slug")
@@ -369,6 +404,8 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
 
     status: data.status !== undefined ? data.status : existing.status,
 
+    published: data.published !== undefined ? data.published : existing.published,
+
     featured: data.featured !== undefined ? data.featured : existing.featured,
 
     ageRange: data.ageRange !== undefined ? data.ageRange : existing.ageRange,
@@ -396,7 +433,7 @@ export async function deleteProduct(id: string) {
   return Product.findByIdAndDelete(id);
 }
 
-/*
+/**
  * Register referenced models explicitly.
  *
  * Product.populate() needs these models registered in the same
@@ -405,4 +442,3 @@ export async function deleteProduct(id: string) {
 void Category;
 void Brand;
 void Collection;
-
