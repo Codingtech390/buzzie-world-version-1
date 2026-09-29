@@ -245,7 +245,7 @@ export default function BrandStory({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="absolute left-0 right-0 top-[32px] flex h-[516px] items-start pl-[72px]"
+            className="absolute left-0 right-0 top-[32px] flex h-[516px] items-start pl-[122px]"
           >
             {/* ============================================================
                 LEFT IMAGE — CURRENT SLIDE
@@ -593,7 +593,7 @@ export default function BrandStory({
               aria-label="Previous story"
               className="
                 absolute
-                left-[82px]
+                left-[92px]
                 top-[292px]
                 z-30
                 flex

@@ -22,6 +22,7 @@ function formatPrice(price: number): string {
   }).format(price);
 }
 
+
 export default function ProductInfoArtwork({
   product,
   ageLabel,
@@ -29,6 +30,10 @@ export default function ProductInfoArtwork({
   discount,
 }: ProductInfoArtworkProps) {
   const [wishlistActive, setWishlistActive] = useState(false);
+
+  const keyFeatures = Array.isArray(product.keyFeatures)
+    ? product.keyFeatures
+    : [];
 
   /*
    * Storefront products can legitimately have no price yet.
@@ -38,6 +43,7 @@ export default function ProductInfoArtwork({
   const price = typeof product.price === "number" ? product.price : null;
 
   const compareAtPrice = typeof product.compareAtPrice === "number" ? product.compareAtPrice : null;
+
 
   return (
     <section className="w-full">
@@ -150,8 +156,8 @@ export default function ProductInfoArtwork({
       <h1
         className="
           mt-2
-          font-[var(--font-roboto)]
-          text-[clamp(2rem,3.2vw,2.75rem)]
+          font-playpen
+          text-[clamp(2rem,3.2vw,2rem)]
           font-black
           leading-[1.02]
           tracking-[-0.055em]
@@ -168,19 +174,97 @@ export default function ProductInfoArtwork({
       {product.shortDescription ? (
         <p
           className="
-            mt-4
-            max-w-2xl
-            font-[var(--font-poppins)]
-            text-[14px]
-            font-medium
-            leading-6
-            text-[#20243D]
-            sm:text-[15px]
-            sm:leading-7
-          "
+      mt-4
+      max-w-xl
+      font-[var(--font-poppins)]
+      text-[14px]
+      font-medium
+      leading-6
+      text-[#20243D]
+      sm:text-[13px]
+      sm:leading-6
+      xl:text-[13px]
+    "
         >
           {product.shortDescription}
         </p>
+      ) : null}
+
+      {/* ================================================================
+    KEY FEATURES
+================================================================ */}
+
+      {keyFeatures.length > 0 ? (
+        <div
+          className="
+      mt-6
+      max-w-2xl
+      rounded-2xl
+      border
+      border-[#C391EE]/20
+      bg-[#F9F6FF]
+      px-4
+      py-4
+      sm:mt-7
+      sm:px-5
+      sm:py-5
+    "
+        >
+          <h2
+            className="
+        font-playpen
+        text-[13px]
+        font-extrabold
+        uppercase
+        tracking-[0.08em]
+        text-[#7044B8]
+      "
+          >
+            Key Features
+          </h2>
+
+          <ul className="mt-3 space-y-2.5">
+            {keyFeatures.map((feature, index) => (
+              <li
+                key={`${product._id}-feature-${index}`}
+                className="
+            flex
+            items-start
+            gap-3
+            font-[var(--font-poppins)]
+            text-[12px]
+            font-medium
+            leading-[1.7]
+            text-[#34384D]
+            sm:text-[13px]
+            sm:leading-6
+            lg:text-[13px]
+          "
+              >
+                <span
+                  aria-hidden="true"
+                  className="
+              mt-[6px]
+              flex
+              size-4
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-[#C391EE]/90
+              text-[9px]
+              font-black
+              text-black
+            "
+                >
+                  ✓
+                </span>
+
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
 
       {/* ================================================================
@@ -297,13 +381,14 @@ export default function ProductInfoArtwork({
           w-full
           overflow-hidden
           sm:mt-5
+          xl:-mt-5
         "
       >
         <Image
-          src="/images/benefits-vectors/product-details-badges-2.png"
+          src="/images/benefits-vectors/info-artwork.png"
           alt="Product benefits and safety features"
           width={1200}
-          height={220}
+          height={200}
           sizes="100%"
           className="
             block

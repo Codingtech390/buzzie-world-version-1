@@ -886,10 +886,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           <section
             className="
-              min-w-0
-              lg:col-span-2
-              lg:mt-0
-            "
+    min-w-0
+    w-full
+    lg:col-span-3
+    lg:mt-0
+  "
           >
             <ProductInfoDiary
               product={product}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Info, PackageCheck, Sparkles, Tag } from "lucide-react";
+import { Check, Info, PackageCheck, Sparkles, Tag, Ruler, Scale } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
@@ -13,7 +13,7 @@ interface ProductInfoDiaryProps {
   discount: number;
 }
 
-type DiaryTab = "overview" | "description" | "specs" | "benefits";
+type DiaryTab = "overview" | "keyFeatures" | "specs" | "benefits";
 
 const diaryTabs: Array<{
   id: DiaryTab;
@@ -26,8 +26,8 @@ const diaryTabs: Array<{
     icon: Info,
   },
   {
-    id: "description",
-    label: "Story",
+    id: "keyFeatures",
+    label: "Key Feature",
     icon: PackageCheck,
   },
   {
@@ -42,27 +42,34 @@ const diaryTabs: Array<{
   },
 ];
 
-function getDiaryContent(
-  tab: DiaryTab,
-  product: StorefrontProduct,
-  ageLabel: string | null,
-  hasDiscount: boolean,
-  discount: number,
-) {
+function getDescriptionPoints(description: string): string[] {
+  return description
+    .split(/\n\s*\n/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+const staticBenefits = [
+  {
+    title: "Skill Building & Learning",
+    description:
+      "Boosts general knowledge, visual-spatial skills, memory, critical thinking and social play. An educational toy that combines learning with laughter.",
+  },
+];
+
+function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: string | null) {
+  const descriptionPoints = getDescriptionPoints(product.description);
+
   switch (tab) {
-    case "description":
+    case "keyFeatures":
       return {
-        eyebrow: "PRODUCT STORY",
-        title: "Made for curious minds.",
-        body:
-          product.description ||
-          product.shortDescription ||
-          "A thoughtfully selected product designed for fun, discovery and everyday play.",
-        points: [
-          "Thoughtfully designed for engaging play",
-          "Easy to understand and enjoy",
-          "Made for memorable everyday moments",
-        ],
+        eyebrow: "KEY FEATURES",
+        title: "Everything that makes it special.",
+        body: "A quick look at what comes with the product and the key features worth knowing.",
+        points:
+          product.keyFeatures.length > 0
+            ? product.keyFeatures
+            : ["Key features will be available soon."],
         icon: PackageCheck,
       };
 
@@ -87,46 +94,34 @@ function getDiaryContent(
 
     case "benefits":
       return {
-        eyebrow: "VALUE & OFFERS",
-        title: hasDiscount ? `${discount}% off right now.` : "More value, more fun.",
-        body: hasDiscount
-          ? "This product currently has a special price. Check the purchase panel for the current price and quantity options."
-          : "Look for eligible offers, quantity savings and purchase benefits in the panel alongside this section.",
-        points: [
-          hasDiscount ? `${discount}% current discount` : "No current product discount",
-          "Quantity savings may be available",
-          "Secure checkout and delivery support",
-        ],
+        eyebrow: "BENEFITS",
+        title: "Made to learn, play and grow.",
+        body: "Every BuzzieWorld product is designed to make learning feel playful and meaningful.",
+        points: staticBenefits.map((benefit) => `${benefit.title} — ${benefit.description}`),
         icon: Sparkles,
       };
 
     default:
       return {
         eyebrow: "QUICK OVERVIEW",
-        title: product.shortDescription || "A little more fun for every day.",
+        title: product.name,
         body:
-          product.shortDescription ||
-          product.description ||
-          "Discover the key details of this product before you choose your favourite.",
-        points: [
-          "Playful and thoughtfully selected",
-          ageLabel ? `Designed for ${ageLabel}` : "Age information available in Specs",
-          "Ready to become part of their next adventure",
-        ],
+          descriptionPoints.length > 0
+            ? descriptionPoints
+            : [
+                product.shortDescription ||
+                  "Discover the key details of this product before you choose your favourite.",
+              ],
+        points: [],
         icon: Info,
       };
   }
 }
 
-export default function ProductInfoDiary({
-  product,
-  ageLabel,
-  hasDiscount,
-  discount,
-}: ProductInfoDiaryProps) {
+export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiaryProps) {
   const [activeTab, setActiveTab] = useState<DiaryTab>("overview");
 
-  const content = getDiaryContent(activeTab, product, ageLabel, hasDiscount, discount);
+  const content = getDiaryContent(activeTab, product, ageLabel);
 
   const ContentIcon = content.icon;
 
@@ -136,6 +131,7 @@ export default function ProductInfoDiary({
       className="
         relative
         w-full
+
         overflow-hidden
         rounded-[28px]
         border
@@ -243,6 +239,9 @@ export default function ProductInfoDiary({
                 uppercase
                 tracking-[0.18em]
                 text-[#E72D5A]
+                sm:text-[12px]
+                lg:text-[12px]
+
               "
             >
               Product diary
@@ -269,36 +268,52 @@ export default function ProductInfoDiary({
 
           <div
             className="
-              flex
-              gap-2
+              w-full
+              min-w-0
               overflow-x-auto
+              overflow-y-hidden
+              overscroll-x-contain
+              touch-pan-x
               pb-1
+              [-webkit-overflow-scrolling:touch]
               [scrollbar-width:none]
               [&::-webkit-scrollbar]:hidden
-              lg:block
-              lg:space-y-2
               lg:overflow-visible
               lg:pb-0
             "
             role="tablist"
             aria-label="Product information"
           >
-            {diaryTabs.map((tab) => {
-              const Icon = tab.icon;
-              const active = activeTab === tab.id;
+            <div
+              className="
+                flex
+                w-max
+                min-w-max
+                flex-nowrap
+                gap-2
+                lg:w-full
+                lg:min-w-0
+                lg:flex-col
+                lg:gap-2
+              "
+            >
+              {diaryTabs.map((tab) => {
+                const Icon = tab.icon;
+                const active = activeTab === tab.id;
 
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`
                     group
                     relative
                     flex
-                    min-w-fit
+                    w-max
+                    min-w-max
                     shrink-0
                     items-center
                     gap-2.5
@@ -322,9 +337,9 @@ export default function ProductInfoDiary({
                         : "border-transparent bg-transparent text-[#737686] hover:border-[#ECE5F4] hover:bg-white/70"
                     }
                   `}
-                >
-                  <span
-                    className={`
+                  >
+                    <span
+                      className={`
                       flex
                       size-8
                       shrink-0
@@ -332,32 +347,33 @@ export default function ProductInfoDiary({
                       justify-center
                       rounded-full
                       transition-all
+
                       ${
                         active
                           ? "bg-[#F0E7FF] text-[#7044B8]"
                           : "bg-white text-[#8B8E9A] group-hover:text-[#7044B8]"
                       }
                     `}
-                  >
-                    <Icon className="size-4" strokeWidth={1.9} />
-                  </span>
+                    >
+                      <Icon className="size-4" strokeWidth={1.9} />
+                    </span>
 
-                  <span
-                    className="
-                      whitespace-nowrap
+                    <span
+                      className="
                       font-[var(--font-poppins)]
                       text-[12px]
                       font-extrabold
+                      whitespace-nowrap
                       sm:text-[14px]
                     "
-                  >
-                    {tab.label}
-                  </span>
+                    >
+                      {tab.label}
+                    </span>
 
-                  {active ? (
-                    <span
-                      aria-hidden="true"
-                      className="
+                    {active ? (
+                      <span
+                        aria-hidden="true"
+                        className="
                         absolute
                         right-2
                         hidden
@@ -366,32 +382,20 @@ export default function ProductInfoDiary({
                         bg-[#E72D5A]
                         lg:block
                       "
-                    />
-                  ) : null}
-                </button>
-              );
-            })}
+                      />
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </aside>
 
         {/* ================================================================
-            RIGHT — DIARY CONTENT
-        ================================================================= */}
+    RIGHT — DIARY CONTENT
+================================================================= */}
 
-        <div
-          className="
-            min-w-0
-            w-full
-            px-5
-            py-7
-            sm:px-7
-            sm:py-8
-            lg:px-10
-            lg:py-10
-            xl:px-11
-            xl:py-11
-          "
-        >
+        <div className="min-w-0 w-full px-5 py-7 sm:px-7 sm:py-8 lg:px-10 lg:py-10 xl:px-11 xl:py-11">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -414,12 +418,11 @@ export default function ProductInfoDiary({
               className="w-full min-w-0"
             >
               {/* ------------------------------------------------------------
-                  HEADER
-              ------------------------------------------------------------- */}
+          HEADER
+      ------------------------------------------------------------- */}
 
               <div className="flex items-start gap-4">
                 {/* Icon */}
-
                 <motion.div
                   initial={{
                     rotate: -8,
@@ -434,231 +437,216 @@ export default function ProductInfoDiary({
                     ease: "easeOut",
                   }}
                   className="
-                    flex
-                    size-11
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-[15px]
-                    border
-                    border-[#C391EE]/20
-                    bg-gradient-to-br
-                    from-[#F6F0FF]
-                    to-[#EDE2FF]
-                    text-[#7044B8]
-                    shadow-[0_6px_18px_rgba(112,68,184,0.10)]
-                    sm:size-12
-                    sm:rounded-[16px]
-                  "
+            flex
+            size-11
+            shrink-0
+            items-center
+            justify-center
+            rounded-[15px]
+            border
+            border-[#C391EE]/20
+            bg-gradient-to-br
+            from-[#F6F0FF]
+            to-[#EDE2FF]
+            text-[#7044B8]
+            shadow-[0_6px_18px_rgba(112,68,184,0.10)]
+            sm:size-12
+            sm:rounded-[16px]
+          "
                 >
                   <ContentIcon className="size-[19px] sm:size-5" strokeWidth={1.9} />
                 </motion.div>
 
                 {/* Heading */}
-
                 <div className="min-w-0 flex-1 pt-0.5">
                   <p
                     className="
-                      font-[var(--font-poppins)]
-                      text-[12px]
-                      font-bold
-                      uppercase
-                      tracking-[0.18em]
-                      text-[#E72D5A]
-                    "
+              font-[var(--font-poppins)]
+              text-[12px]
+              font-bold
+              uppercase
+              tracking-[0.18em]
+              text-[#E72D5A]
+              sm:text-[12px]
+            "
                   >
                     {content.eyebrow}
                   </p>
 
                   <h3
                     className="
-                      mt-1.5
-                      font-playpen
-                      text-[20px]
-                      font-black
-                      leading-[1.2]
-                      tracking-[-0.025em]
-                      text-[#10183B]
-                      sm:text-[25px]
-                      lg:text-[27px]
-                    "
+              mt-1.5
+              font-playpen
+              text-[20px]
+              font-black
+              leading-[1.2]
+              tracking-[-0.025em]
+              text-[#10183B]
+              sm:text-[25px]
+              lg:text-[27px]
+            "
                   >
                     {content.title}
                   </h3>
                 </div>
+              </div>
 
-                {/* Decorative dots */}
+              {/* ------------------------------------------------------------
+          DESCRIPTION
+      ------------------------------------------------------------- */}
 
-                <div className="hidden shrink-0 items-center gap-1.5 pt-2 sm:flex">
-                  <span className="size-1.5 rounded-full bg-[#E72D5A]" />
-                  <span className="size-1.5 rounded-full bg-[#C391EE]" />
-                  <span className="size-1.5 rounded-full bg-[#F1A348]" />
+              <div
+                className="
+          mt-7
+          max-w-3xl
+          space-y-4
+          font-[var(--font-poppins)]
+          text-[12px]
+          font-normal
+          leading-[1.8]
+          tracking-[-0.005em]
+          text-[#5D6172]
+          sm:mt-8
+          sm:space-y-4
+          sm:text-[13px]
+          sm:leading-[1.85]
+          lg:text-[14px]
+          lg:leading-[1.9]
+        "
+              >
+                {(Array.isArray(content.body) ? content.body : [content.body]).map(
+                  (paragraph, index) => (
+                    <p key={`${activeTab}-body-${index}`}>{paragraph}</p>
+                  ),
+                )}
+              </div>
+
+              {/* ------------------------------------------------------------
+          PRODUCT PACKAGING DETAILS — SPECS
+      ------------------------------------------------------------- */}
+
+              {activeTab === "specs" ? (
+                <div className="mt-7 grid gap-3 sm:grid-cols-3 sm:gap-3">
+                  {[
+                    { label: "What's Inside", value: "Product contents", icon: PackageCheck },
+                    { label: "Box Dimension", value: "Details coming soon", icon: Ruler },
+                    { label: "Box Weight", value: "Details coming soon", icon: Scale },
+                  ].map((item) => {
+                    const ItemIcon = item.icon;
+                    return (
+                      <div
+                        key={item.label}
+                        className="rounded-[16px] border border-[#ECE7F2] bg-white/75 px-3.5 py-3 shadow-[0_3px_12px_rgba(38,24,67,0.025)]"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F0E7FF] text-[#7044B8]">
+                            <ItemIcon className="size-4" strokeWidth={1.8} />
+                          </span>
+                          <span className="font-[var(--font-poppins)] text-[12px] font-bold text-[#30344A]">
+                            {item.label}
+                          </span>
+                        </div>
+                        <p className="mt-2 font-[var(--font-poppins)] text-[12px] font-medium leading-5 text-[#6A6E7E]">
+                          {item.value}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
+              ) : null}
 
               {/* ------------------------------------------------------------
-                  DESCRIPTION
-              ------------------------------------------------------------- */}
+          INFORMATION POINTS
+      ------------------------------------------------------------- */}
 
-              <p
-                className="
-                  mt-7
-                  max-w-3xl
-                  font-[var(--font-poppins)]
-                  text-[12px]
-                  font-normal
-                  leading-[1.8]
-                  tracking-[-0.005em]
-                  text-[#5D6172]
-                  sm:mt-8
-                  sm:text-[13px]
-                  sm:leading-[1.85]
-                  lg:text-[14px]
-                  lg:leading-[1.9]
-                "
-              >
-                {content.body}
-              </p>
-
-              {/* ------------------------------------------------------------
-                  INFORMATION POINTS
-              ------------------------------------------------------------- */}
-
-              <div
-                className="
-                  mt-7
-                  grid
-                  gap-3
-                  sm:mt-8
-                  sm:grid-cols-3
-                  sm:gap-3
-                "
-              >
-                {content.points.map((point, index) => (
-                  <motion.div
-                    key={point}
-                    initial={{
-                      opacity: 0,
-                      y: 6,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    transition={{
-                      delay: index * 0.06,
-                      duration: 0.25,
-                      ease: "easeOut",
-                    }}
-                    whileHover={{
-                      y: -2,
-                    }}
-                    className="
-                      group
-                      flex
-                      min-h-[72px]
-                      items-start
-                      gap-2.5
-                      rounded-[16px]
-                      border
-                      border-[#ECE7F2]
-                      bg-[#FCFAFF]
-                      px-3.5
-                      py-3.5
-                      shadow-[0_3px_12px_rgba(38,24,67,0.025)]
-                      transition-all
-                      duration-200
-                      hover:border-[#DCCCF2]
-                      hover:bg-[#F9F5FF]
-                      hover:shadow-[0_7px_20px_rgba(112,68,184,0.07)]
-                      sm:px-3
-                      sm:py-3.5
-                    "
+              {content.points.length > 0 ? (
+                activeTab === "benefits" ? (
+                  <ul className="mt-7 space-y-4 sm:mt-8">
+                    {content.points.map((point, index) => (
+                      <motion.li
+                        key={point}
+                        initial={{ opacity: 0, x: -6 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.06, duration: 0.25, ease: "easeOut" }}
+                        className="flex items-start gap-3"
+                      >
+                        <span className="mt-[0.45rem] size-2 shrink-0 rounded-full bg-[#E72D5A]" />
+                        <span className="font-[var(--font-poppins)] text-[12px] font-medium leading-[1.7] tracking-[-0.005em] text-[#505467] sm:text-[13px] lg:text-[14px]">
+                          {point}
+                        </span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div
+                    className={`mt-7 grid gap-3 sm:mt-8 ${activeTab === "keyFeatures" ? "grid-cols-1" : "sm:grid-cols-3 sm:gap-3"}`}
                   >
-                    {/* Check */}
-
-                    <span
-                      className="
-                        mt-0.5
-                        flex
-                        size-[21px]
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-[#FDE9EF]
-                        text-[#E72D5A]
-                        transition-transform
-                        duration-200
-                        group-hover:scale-105
-                      "
-                    >
-                      <Check className="size-[11px]" strokeWidth={2.7} />
-                    </span>
-
-                    {/* Text */}
-
-                    <span
-                      className="
-                        pt-px
-                        font-[var(--font-poppins)]
-                        text-[12px]
-                        font-medium
-                        leading-[1.55]
-                        tracking-[-0.005em]
-                        text-[#505467]
-                      "
-                    >
-                      {point}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
+                    {content.points.map((point, index) => (
+                      <motion.div
+                        key={point}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.06, duration: 0.25, ease: "easeOut" }}
+                        whileHover={{ y: -2 }}
+                        className={`group flex items-start gap-2.5 rounded-[16px] border border-[#ECE7F2] bg-[#FCFAFF] px-3.5 py-3 shadow-[0_3px_12px_rgba(38,24,67,0.025)] transition-all duration-200 hover:border-[#DCCCF2] hover:bg-[#F9F5FF] hover:shadow-[0_7px_20px_rgba(112,68,184,0.07)] sm:px-3.5 ${activeTab === "keyFeatures" ? "min-h-0" : "min-h-[72px] sm:py-3.5"}`}
+                      >
+                        <span className="mt-0.5 flex size-[21px] shrink-0 items-center justify-center rounded-full bg-[#FDE9EF] text-[#E72D5A] transition-transform duration-200 group-hover:scale-105">
+                          <Check className="size-[11px]" strokeWidth={2.7} />
+                        </span>
+                        <span className="pt-px font-[var(--font-poppins)] text-[12px] font-medium leading-[1.55] tracking-[-0.005em] text-[#505467] sm:text-[12px]">
+                          {point}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                )
+              ) : null}
 
               {/* ------------------------------------------------------------
-                  FOOTER
-              ------------------------------------------------------------- */}
+          FOOTER
+      ------------------------------------------------------------- */}
 
               <div
                 className="
-                  mt-7
-                  flex
-                  flex-col
-                  gap-2
-                  border-t
-                  border-[#ECE7F2]
-                  pt-4
-                  sm:mt-8
-                  sm:flex-row
-                  sm:items-center
-                  sm:justify-between
-                  sm:gap-4
-                "
+          mt-7
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-[#ECE7F2]
+          pt-4
+          sm:mt-8
+          sm:flex-row
+          sm:items-center
+          sm:justify-between
+          sm:gap-4
+        "
               >
                 <span
                   className="
-                    font-[var(--font-poppins)]
-                    text-[12px]
-                    font-semibold
-                    uppercase
-                    tracking-[0.16em]
-                    text-[#A2A3AD]
-                  "
+            font-[var(--font-poppins)]
+            text-[12px]
+            font-semibold
+            uppercase
+            tracking-[0.16em]
+            text-[#A2A3AD]
+            sm:text-[12px]
+          "
                 >
                   BuzzieWorld product notes
                 </span>
 
                 <span
                   className="
-                    min-w-0
-                    truncate
-                    font-[var(--font-poppins)]
-                    text-[12px]
-                    font-medium
-                    text-[#A27BCF]
-                    sm:max-w-[55%]
-                    sm:text-right
-                  "
+            min-w-0
+            truncate
+            font-[var(--font-poppins)]
+            text-[12px]
+            font-medium
+            text-[#A27BCF]
+            sm:max-w-[55%]
+            sm:text-right
+          "
                 >
                   {product.name}
                 </span>
@@ -670,4 +658,3 @@ export default function ProductInfoDiary({
     </section>
   );
 }
-  

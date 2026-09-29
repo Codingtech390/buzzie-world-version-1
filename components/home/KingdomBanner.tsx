@@ -459,7 +459,7 @@ export default function KingdomBanner() {
         mb-8
     relative
     overflow-hidden
-    bg-[#FFD54F]
+    bg-[#FFE082]
     pt-8
     pb-8
     sm:pt-10

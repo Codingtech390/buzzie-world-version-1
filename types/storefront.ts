@@ -53,6 +53,7 @@ export interface StorefrontProduct {
 
   description: string;
   shortDescription?: string;
+  keyFeatures: string[];
 
   price?: number;
   compareAtPrice?: number;

@@ -46,7 +46,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
   const ageLabel = (() => {
     const ageRange = product.ageRange;
 
-    if (!ageRange) return "All Ages";
+    if (!ageRange) return null;
 
     if (ageRange.min !== undefined && ageRange.max !== undefined) {
       return `Ages ${ageRange.min}–${ageRange.max}`;
@@ -60,13 +60,17 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
       return `Up to ${ageRange.max}`;
     }
 
-    return "All Ages";
+    return null;
   })();
 
   const stock = typeof product.stock === "number" ? product.stock : undefined;
 
   const stockLabel =
-    stock !== undefined && stock > 0 ? `${stock.toLocaleString("en-IN")} Pieces` : "Out of Stock";
+    stock === undefined
+      ? null
+      : stock > 0
+        ? `${stock.toLocaleString("en-IN")} Pieces`
+        : "Out of Stock";
 
   const featuredLabel = product.featured ? "Featured" : "Our Pick";
 
@@ -732,7 +736,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
               <Link
                 href={`/products/${product.slug}`}
-                aria-label={`View ${product.name} — ${ageLabel}`}
+                aria-label={`View ${product.name} — ${ageLabel ?? "Age details coming soon"}`}
                 className="
                   group
                   relative
@@ -800,8 +804,17 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                       text-center
                     "
                   >
-                    <span>Ages</span>
-                    <span>{ageLabel.replace(/^Ages\s*/i, "")}</span>
+                    {ageLabel ? (
+                      <>
+                        <span>Ages</span>
+                        <span>{ageLabel.replace(/^Ages\s*/i, "")}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Age</span>
+                        <span>Details Soon</span>
+                      </>
+                    )}
                   </span>
                 </span>
               </Link>
@@ -812,7 +825,7 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
               <Link
                 href={`/products/${product.slug}`}
-                aria-label={`View ${product.name} — ${stockLabel}`}
+                aria-label={`View ${product.name} — ${stockLabel ?? "Stock details coming soon"}`}
                 className="
                   group
                   relative
@@ -880,8 +893,22 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                       text-center
                     "
                   >
-                    <span>{stockLabel.replace(/\s*Pieces$/i, "")}</span>
-                    <span>Pieces</span>
+                    {stock === undefined ? (
+                      <>
+                        <span>Stock</span>
+                        <span>Details Soon</span>
+                      </>
+                    ) : stock > 0 ? (
+                      <>
+                        <span>{stock.toLocaleString("en-IN")}</span>
+                        <span>Pieces</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Out of</span>
+                        <span>Stock</span>
+                      </>
+                    )}
                   </span>
                 </span>
               </Link>
@@ -1577,35 +1604,33 @@ function GeographySection() {
             inline-flex
             min-h-[48px]
             w-fit
-            shrink-0
+            max-w-full
             items-center
             justify-center
             gap-2.5
             rounded-full
             bg-[#C391EE]
-            px-5
-            font-[var(--font-poppins)]
-            text-[14px]
-            font-black
-
-            tracking-[0.07em]
-            !text-white
-            shadow-[0_10px_24px_rgba(231,45,90,0.20)]
+            px-6
+            font-[var(--font-poppins-brand)]
+            text-[12px]
+            font-bold
+            leading-none
+            text-white
+            shadow-[0_10px_24px_rgba(195,145,238,0.25)]
             transition-all
             duration-300
-            hover:-translate-y-0.5
-            hover:bg-[#D92350]
-            hover:shadow-[0_14px_32px_rgba(231,45,90,0.28)]
-            active:translate-y-0
+            hover:-translate-y-1
+            hover:bg-[#E83D59]
+            hover:shadow-[0_14px_30px_rgba(232,61,89,0.22)]
             focus-visible:outline-none
             focus-visible:ring-2
-            focus-visible:ring-[#E72D5A]
-            focus-visible:ring-offset-3
-            sm:min-h-[50px]
-            sm:px-6
-            sm:text-[11px]
-            lg:min-h-[52px]
-            lg:px-7
+            focus-visible:ring-[#E83D59]
+            focus-visible:ring-offset-2
+            sm:min-h-[52px]
+            sm:px-7
+            sm:text-[13px]
+            lg:min-h-[54px]
+            lg:px-8
             lg:text-[14px]
           "
         >
@@ -1675,3 +1700,4 @@ export default function ShopByAge({ products }: ShopByAgeProps) {
     </section>
   );
 }
+

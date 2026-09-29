@@ -92,20 +92,9 @@ export default function Footer() {
         className="
     relative
     isolate
-    min-h-[760px]
     overflow-hidden
     bg-[#1D1B22]
     text-white
-
-    sm:min-h-[780px]
-
-    md:min-h-[820px]
-
-    lg:min-h-[900px]
-
-    xl:min-h-[960px]
-
-    2xl:min-h-[1020px]
   "
       >
         {/* ================================================================
@@ -177,13 +166,10 @@ export default function Footer() {
             z-30
 
 
-            sm:mt-7
-            sm:pt-[155px]
-
-            md:pt-[170px]
-
-            lg:mt-8
-            lg:pt-[175px]
+            pt-8
+            sm:pt-10
+            md:pt-12
+            lg:pt-14
 
 
           "
@@ -384,6 +370,8 @@ export default function Footer() {
 
             <div
               className="
+
+              mt-42
                 grid
                 w-full
                 grid-cols-2

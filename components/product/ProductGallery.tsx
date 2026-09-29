@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   ChevronLeft,
@@ -26,6 +27,7 @@ export default function ProductGallery({
   const validImages = images.filter((image) => Boolean(image.url));
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
 
 useEffect(() => {
   if (selectedIndex >= validImages.length) {
@@ -34,6 +36,33 @@ useEffect(() => {
     setSelectedIndex(0);
   }
 }, [selectedIndex, validImages.length]);
+
+  useEffect(() => {
+    if (!isFullscreenOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsFullscreenOpen(false);
+      } else if (event.key === "ArrowLeft") {
+        setSelectedIndex((current) =>
+          current === 0 ? validImages.length - 1 : current - 1,
+        );
+      } else if (event.key === "ArrowRight") {
+        setSelectedIndex((current) =>
+          current === validImages.length - 1 ? 0 : current + 1,
+        );
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isFullscreenOpen, validImages.length]);
 
   const selectedImage =
     validImages[selectedIndex] ?? validImages[0];
@@ -315,7 +344,8 @@ useEffect(() => {
 
           <button
             type="button"
-            aria-label="View product image"
+            onClick={() => setIsFullscreenOpen(true)}
+            aria-label="View product image in fullscreen"
             className="
               absolute
               right-4
@@ -545,6 +575,38 @@ useEffect(() => {
             <Heart className="size-4" />
           </button>
 
+          <button
+            type="button"
+            onClick={() => setIsFullscreenOpen(true)}
+            aria-label="View product image in fullscreen"
+            className="
+              absolute
+              right-4
+              top-[4.25rem]
+              z-20
+              flex
+              size-9
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/80
+              bg-white/90
+              text-[#526075]
+              shadow-[0_7px_18px_rgba(39,52,74,0.10)]
+              backdrop-blur-md
+              transition
+              hover:scale-105
+              hover:text-[#3F7DFF]
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[#3F7DFF]
+              focus-visible:ring-offset-2
+            "
+          >
+            <Expand className="size-4" />
+          </button>
+
           <div
             className="
               relative
@@ -678,15 +740,130 @@ useEffect(() => {
           These stay underneath the entire gallery.
       ================================================================= */}
 
-      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <TrustBadge icon="✦" text="Strong Magnets" className="bg-[#FFF8E4] text-[#B98500]" />
-
-        <TrustBadge icon="✓" text="BPA Free" className="bg-[#EEF7E7] text-[#5D8D3F]" />
-
-        <TrustBadge icon="✓" text="Non-Toxic" className="bg-[#EEF5FF] text-[#4276B9]" />
-
-        <TrustBadge icon="♢" text="Safe for Kids" className="bg-[#F4EEFB] text-[#7655A3]" />
+      <div className="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
+        <TrustBadge
+          icon="✦"
+          text="Laminated"
+          className="bg-[#FFF8E4] text-[#B98500]"
+        />
+        <TrustBadge
+          icon="✓"
+          text="Water Proof"
+          className="bg-[#EEF7E7] text-[#5D8D3F]"
+        />
+        <TrustBadge
+          icon="✓"
+          text="Reusable"
+          className="bg-[#EEF5FF] text-[#4276B9]"
+        />
+        <TrustBadge
+          icon="♢"
+          text="Family Fun"
+          className="bg-[#F4EEFB] text-[#7655A3]"
+        />
       </div>
+
+      {/* ================================================================
+          FULLSCREEN PRODUCT VIEW
+          Amazon / Flipkart-style image lightbox.
+      ================================================================= */}
+
+      <AnimatePresence>
+        {isFullscreenOpen ? (
+          <motion.div
+            key="product-fullscreen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#10131B]/95 p-3 sm:p-5 lg:p-8"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${productName} fullscreen product gallery`}
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) {
+                setIsFullscreenOpen(false);
+              }
+            }}
+          >
+            <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+              <div className="rounded-full border border-white/10 bg-white/10 px-3.5 py-2 font-[var(--font-poppins)] text-[12px] font-semibold text-white/85 backdrop-blur-md">
+                {selectedIndex + 1} / {validImages.length}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsFullscreenOpen(false)}
+                aria-label="Close fullscreen product view"
+                className="flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-md transition hover:scale-105 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+              >
+                <span className="text-[24px] font-light leading-none">×</span>
+              </button>
+            </div>
+
+            <div className="relative h-[calc(100vh-150px)] w-full max-w-6xl overflow-hidden rounded-[24px] sm:h-[calc(100vh-165px)] lg:rounded-[30px]">
+              <Image
+                key={`fullscreen-${selectedImage.url}`}
+                src={selectedImage.url}
+                alt={selectedImage.alt || `${productName} fullscreen product image`}
+                fill
+                sizes="100vw"
+                className="object-contain p-4 sm:p-8 lg:p-10"
+                priority
+              />
+
+              {validImages.length > 1 ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={showPrevious}
+                    aria-label="Previous product image"
+                    className="absolute left-2 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white shadow-lg backdrop-blur-md transition hover:-translate-x-0.5 hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:left-4 sm:size-12"
+                  >
+                    <ChevronLeft className="size-5" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={showNext}
+                    aria-label="Next product image"
+                    className="absolute right-2 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/30 text-white shadow-lg backdrop-blur-md transition hover:translate-x-0.5 hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:right-4 sm:size-12"
+                  >
+                    <ChevronRight className="size-5" />
+                  </button>
+                </>
+              ) : null}
+            </div>
+
+            {validImages.length > 1 ? (
+              <div className="absolute bottom-4 left-1/2 z-30 flex max-w-[calc(100vw-32px)] -translate-x-1/2 gap-2 overflow-x-auto rounded-2xl border border-white/10 bg-black/35 p-2 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:bottom-5">
+                {validImages.map((image, index) => {
+                  const isSelected = selectedIndex === index;
+
+                  return (
+                    <button
+                      key={`${image.url}-fullscreen-${index}`}
+                      type="button"
+                      onClick={() => setSelectedIndex(index)}
+                      aria-label={`View fullscreen product image ${index + 1}`}
+                      aria-current={isSelected ? "true" : undefined}
+                      className={`relative size-14 shrink-0 overflow-hidden rounded-xl border-2 bg-white/10 transition sm:size-16 ${isSelected ? "border-[#E72D5A] shadow-[0_0_0_2px_rgba(231,45,90,0.25)]" : "border-white/15 opacity-70 hover:border-white/50 hover:opacity-100"}`}
+                    >
+                      <Image
+                        src={image.url}
+                        alt={image.alt || `${productName} fullscreen thumbnail ${index + 1}`}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            ) : null}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
@@ -737,7 +914,9 @@ function TrustBadge({
         {icon}
       </span>
 
-      <span className="truncate text-[8px] font-bold text-[#526075] sm:text-[9px]">
+      <span
+        className="whitespace-nowrap text-[12px] font-bold leading-none text-[#526075]"
+      >
         {text}
       </span>
     </div>

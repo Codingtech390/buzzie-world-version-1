@@ -1,9 +1,10 @@
 "use client";
 
-import { Clock3, ShieldCheck, Truck } from "lucide-react";
+import { Tag } from "lucide-react";
 import { useState } from "react";
 
 import ProductPurchaseOptions from "@/components/product/ProductPurchaseOptions";
+
 import type { StorefrontProduct } from "@/types/storefront";
 
 interface ProductPurchaseCardProps {
@@ -116,7 +117,7 @@ export default function ProductPurchaseCard({ product, isOutOfStock }: ProductPu
             disabled={isOutOfStock}
           />
         ) : (
-          <div className="rounded-[18px] border border-[#EEE8F4] bg-[#FAF8FC] p-4">
+          <div className="mt-5 rounded-[18px] border border-[#EEE8F4] bg-[#FAF8FC] p-4">
             <p className="font-[var(--font-poppins)] text-[11px] font-extrabold text-[#171B35]">
               Purchase details coming soon
             </p>
@@ -130,35 +131,224 @@ export default function ProductPurchaseCard({ product, isOutOfStock }: ProductPu
       </div>
 
       {/* ================================================================
-          SERVICE BENEFITS
+          DISCOUNT OFFERS
       ================================================================= */}
 
       <div
         className="
           mt-6
-          space-y-3.5
           border-t
           border-[#F0ECEE]
           pt-6
         "
       >
-        <ServiceBenefit
-          icon={<Truck className="size-4" strokeWidth={1.8} />}
-          title="Free Shipping"
-          description="On eligible orders"
-        />
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <p
+              className="
+                font-[var(--font-poppins)]
+                text-[12px]
+                font-extrabold
+                uppercase
+                tracking-[0.12em]
+                text-[#171B35]
+              "
+            >
+              Special Offers
+            </p>
 
-        <ServiceBenefit
-          icon={<Clock3 className="size-4" strokeWidth={1.8} />}
-          title="Easy Returns"
-          description="Simple return process"
-        />
+            <p
+              className="
+                mt-0.5
+                font-[var(--font-poppins)]
+                text-[10px]
+                font-medium
+                text-[#858692]
+              "
+            >
+              Save more on your order
+            </p>
+          </div>
 
-        <ServiceBenefit
-          icon={<ShieldCheck className="size-4" strokeWidth={1.8} />}
-          title="Secure Payments"
-          description="Safe checkout"
-        />
+          <span
+            className="
+              flex
+              size-8
+              shrink-0
+              items-center
+              justify-center
+              rounded-full
+              bg-[#FFF0F4]
+              text-[#E72D5A]
+            "
+          >
+            <Tag className="size-4" strokeWidth={1.9} />
+          </span>
+        </div>
+
+        <div className="space-y-3">
+          {/* Offer 1 */}
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-[16px]
+              border
+              border-[#EFDCE4]
+              bg-[linear-gradient(135deg,#FFF9FB_0%,#FFF1F5_100%)]
+              px-4
+              py-3.5
+            "
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p
+                  className="
+                    font-[var(--font-poppins)]
+                    text-[19px]
+                    font-black
+                    leading-none
+                    tracking-[-0.03em]
+                    text-[#171B35]
+                  "
+                >
+                  15% OFF
+                </p>
+
+                <p
+                  className="
+                    mt-1.5
+                    font-[var(--font-poppins)]
+                    text-[10px]
+                    font-medium
+                    text-[#777985]
+                  "
+                >
+                  On orders above ₹999
+                </p>
+              </div>
+
+              <div
+                className="
+                  shrink-0
+                  rounded-[8px]
+                  bg-[#E72D5A]
+                  px-2.5
+                  py-1.5
+                  text-center
+                  shadow-[0_5px_12px_rgba(231,45,90,0.14)]
+                "
+              >
+                <p
+                  className="
+                    font-[var(--font-poppins)]
+                    text-[9px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.08em]
+                    text-white/80
+                  "
+                >
+                  Code
+                </p>
+
+                <p
+                  className="
+                    mt-0.5
+                    font-[var(--font-poppins)]
+                    text-[11px]
+                    font-black
+                    leading-none
+                    text-white
+                  "
+                >
+                  FIRST15
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Offer 2 */}
+          <div
+            className="
+              relative
+              overflow-hidden
+              rounded-[16px]
+              border
+              border-[#E6DDF1]
+              bg-[linear-gradient(135deg,#FCFAFF_0%,#F5EEFF_100%)]
+              px-4
+              py-3.5
+            "
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p
+                  className="
+                    font-[var(--font-poppins)]
+                    text-[19px]
+                    font-black
+                    leading-none
+                    tracking-[-0.03em]
+                    text-[#171B35]
+                  "
+                >
+                  20% OFF
+                </p>
+
+                <p
+                  className="
+                    mt-1.5
+                    font-[var(--font-poppins)]
+                    text-[10px]
+                    font-medium
+                    text-[#777985]
+                  "
+                >
+                  On orders above ₹1299
+                </p>
+              </div>
+
+              <div
+                className="
+                  shrink-0
+                  rounded-[8px]
+                  bg-[#A66BD5]
+                  px-2.5
+                  py-1.5
+                  text-center
+                  shadow-[0_5px_12px_rgba(166,107,213,0.14)]
+                "
+              >
+                <p
+                  className="
+                    font-[var(--font-poppins)]
+                    text-[9px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.08em]
+                    text-white/80
+                  "
+                >
+                  Code
+                </p>
+
+                <p
+                  className="
+                    mt-0.5
+                    font-[var(--font-poppins)]
+                    text-[11px]
+                    font-black
+                    leading-none
+                    text-white
+                  "
+                >
+                  FIRST20
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ================================================================
@@ -187,7 +377,7 @@ export default function ProductPurchaseCard({ product, isOutOfStock }: ProductPu
               shadow-[0_5px_14px_rgba(231,45,90,0.07)]
             "
           >
-            <Truck className="size-4" strokeWidth={1.8} />
+            <Tag className="size-4" strokeWidth={1.8} />
           </span>
 
           <div>
@@ -290,66 +480,5 @@ export default function ProductPurchaseCard({ product, isOutOfStock }: ProductPu
         ) : null}
       </div>
     </aside>
-  );
-}
-
-/* ============================================================================
-   SERVICE BENEFIT
-============================================================================ */
-
-function ServiceBenefit({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <span
-        className="
-          flex
-          size-8
-          shrink-0
-          items-center
-          justify-center
-          rounded-full
-          bg-[#F5F0FF]
-          text-[#7044B8]
-          shadow-[0_5px_14px_rgba(112,68,184,0.07)]
-        "
-      >
-        {icon}
-      </span>
-
-      <div>
-        <p
-          className="
-            font-[var(--font-poppins)]
-            text-[11px]
-            font-extrabold
-            text-[#272B41]
-            sm:text-[12px]
-          "
-        >
-          {title}
-        </p>
-
-        <p
-          className="
-            mt-0.5
-            font-[var(--font-poppins)]
-            text-[9px]
-            font-medium
-            text-[#747783]
-            sm:text-[10px]
-          "
-        >
-          {description}
-        </p>
-      </div>
-    </div>
   );
 }

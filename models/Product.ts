@@ -29,7 +29,7 @@ export interface IProduct {
   slug: string;
   description: string;
   shortDescription?: string;
-
+  keyFeatures: string[];
   /**
    * Price and stock are optional while a product is a draft.
    * Active products are validated below.
@@ -174,6 +174,10 @@ const ProductSchema = new Schema<IProduct>(
       type: String,
     },
 
+    keyFeatures: {
+      type: [String],
+      default: [],
+    },
     /**
      * Optional for draft products.
      * Active products are validated below.

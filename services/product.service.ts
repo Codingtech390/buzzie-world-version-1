@@ -80,7 +80,7 @@ export interface ProductInput {
   slug?: string;
   description: string;
   shortDescription?: string;
-
+  keyFeatures?: string[];
   // Optional because draft products may not have these yet.
   price?: number;
   compareAtPrice?: number;
@@ -205,7 +205,13 @@ function normalizeProductInput(data: ProductInput) {
 
     shortDescription: cleanOptionalString(data.shortDescription),
 
-    // These remain undefined when not supplied.
+    keyFeatures: Array.isArray(data.keyFeatures)
+    ? data.keyFeatures
+        .filter((feature): feature is string => typeof feature === "string")
+        .map((feature) => feature.trim())
+        .filter(Boolean)
+      : [],
+    
     price,
 
     compareAtPrice,
