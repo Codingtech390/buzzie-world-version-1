@@ -3,6 +3,28 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, SlidersHorizontal } from "lucide-react";
 
 import ProductCard from "@/components/product/ProductCard";
+import type { Metadata } from "next";
+
+import { createPageMetadata } from "@/lib/seo";
+
+interface AgePageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: AgePageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const ageLabel = slug.replace(/-/g, " ").replace(/\b\w/g, (character) => character.toUpperCase());
+
+  return createPageMetadata({
+    title: `Toys for ${ageLabel}`,
+    description: `Explore age-appropriate toys, games and learning products for ${ageLabel} at BuzzieWorld.`,
+    path: `/shop/age/${slug}`,
+  });
+}
+
 
 type AgeGroup = {
   age: string;

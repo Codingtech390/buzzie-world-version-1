@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAuthenticatedApiSession } from "@/lib/auth";
 import { verifyPayment } from "@/services/order.service";
 
 export async function POST(request: NextRequest) {
@@ -21,11 +22,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const session = await getAuthenticatedApiSession();
+
+    const customerId = session?.user?.role === "customer" ? session.user.id : undefined;
+
     const order = await verifyPayment(
       body.orderId,
       body.razorpay_payment_id,
       body.razorpay_order_id,
       body.razorpay_signature,
+      customerId,
     );
 
     return NextResponse.json({

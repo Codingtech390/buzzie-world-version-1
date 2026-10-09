@@ -1,10 +1,12 @@
 "use client";
 
+import { Heart, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 import AddToCartButton from "@/components/cart/AddToCartButton";
+import { useWishlist } from "@/hooks/useWishlist";
 
 import type { StorefrontProduct } from "@/types/storefront";
 
@@ -62,6 +64,36 @@ function getShortDescription(product: StorefrontProduct): string {
 ================================================================ */
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { toggle, isWishlisted } = useWishlist();
+
+  const [wishlistBusy, setWishlistBusy] = useState(false);
+
+  const toggleWishlist = async () => {
+    if (wishlistBusy) {
+      return;
+    }
+
+    setWishlistBusy(true);
+
+    try {
+      await toggle(String(product._id));
+    } catch (error) {
+      console.error("Wishlist update failed:", error);
+
+      if (error instanceof Error && error.message === "Customer authentication required.") {
+        const callbackUrl = window.location.pathname;
+
+        window.location.href = `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+
+        return;
+      }
+
+      window.alert(error instanceof Error ? error.message : "Unable to update wishlist.");
+    } finally {
+      setWishlistBusy(false);
+    }
+  };
+
   const primaryImage = product.images?.find((image) => Boolean(image.url))?.url || null;
 
   const imageAlt = product.images?.find((image) => Boolean(image.alt))?.alt || product.name;
@@ -153,7 +185,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               bottom-0
               h-[92%]
               overflow-hidden
-              bg-[#a092cd]
+
             "
             style={{
               borderRadius: "50% 50% 0 0 / 44% 44% 0 0",
@@ -470,34 +502,48 @@ export default function ProductCard({ product }: ProductCardProps) {
                 />
               )}
 
-              <Link
-                href="/account/wishlist"
-                aria-label={`Open wishlist for ${product.name}`}
+              <button
+                type="button"
+                disabled={wishlistBusy}
+                aria-busy={wishlistBusy}
+                aria-label={
+                  isWishlisted(String(product._id))
+                    ? `Remove ${product.name} from wishlist`
+                    : `Add ${product.name} to wishlist`
+                }
+                aria-pressed={isWishlisted(String(product._id))}
+                onClick={toggleWishlist}
                 className="
-                  inline-flex
-                  size-9
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#E4DFEC]
-                  bg-[#F8F6FC]
-                  text-[#17213D]
-                  transition-all
-                  duration-200
-                  hover:-translate-y-0.5
-                  hover:border-[#a092cd]
-                  hover:bg-[#a092cd]
-                  hover:text-white
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#a092cd]
-                  focus-visible:ring-offset-2
-                "
+    inline-flex
+    size-9
+    shrink-0
+    items-center
+    justify-center
+    rounded-full
+    border
+    border-[#E4DFEC]
+    bg-[#F8F6FC]
+    text-[#17213D]
+    transition-all
+    duration-200
+    hover:-translate-y-0.5
+    hover:border-[#a092cd]
+    hover:bg-[#a092cd]
+    hover:text-white
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-[#a092cd]
+    focus-visible:ring-offset-2
+    disabled:pointer-events-none
+    disabled:opacity-60
+  "
               >
-                <Heart className="size-[15px]" strokeWidth={1.9} />
-              </Link>
+                <Heart
+                  className="size-[15px]"
+                  strokeWidth={1.9}
+                  fill={isWishlisted(String(product._id)) ? "currentColor" : "none"}
+                />
+              </button>
             </div>
           </div>
         </div>

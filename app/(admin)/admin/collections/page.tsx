@@ -440,21 +440,8 @@ export default function CollectionsPage() {
         {/* Header */}
         <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-sm font-medium text-violet-600">
-              <FolderOpen className="h-4 w-4" />
 
-              <span>Catalog</span>
-
-              <span className="text-slate-300">
-                /
-              </span>
-
-              <span className="text-slate-500">
-                Collections
-              </span>
-            </div>
-
-            <h1 className="font-[Poppins] text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="font-playpen text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
               Collections
             </h1>
 

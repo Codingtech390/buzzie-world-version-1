@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import type { Metadata } from "next";
+import JsonLd from "@/components/seo/JsonLd";
+import { absoluteUrl, createBreadcrumbJsonLd, createProductJsonLd } from "@/lib/seo";
+
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInfoArtwork from "@/components/product/ProductInfoArtwork";
 import ProductInfoDiary from "@/components/product/ProductInfoDiary";
@@ -45,6 +49,71 @@ async function getProduct(slug: string): Promise<StorefrontProduct | null> {
   }
 
   return data.product;
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const product = await getProduct(slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The requested BuzzieWorld product could not be found.",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const description =
+    product.shortDescription || product.description || `Discover ${product.name} at BuzzieWorld.`;
+
+  const canonicalUrl = absoluteUrl(`/products/${product.slug}`);
+
+  const imageUrl = product.images[0]?.url
+    ? absoluteUrl(product.images[0].url)
+    : absoluteUrl("/opengraph-image");
+
+  return {
+    title: product.name,
+
+    description: description.slice(0, 160),
+
+    alternates: {
+      canonical: canonicalUrl,
+    },
+
+    openGraph: {
+      type: "website",
+      url: canonicalUrl,
+      siteName: "BuzzieWorld",
+      title: product.name,
+      description: description.slice(0, 160),
+
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: description.slice(0, 160),
+      images: [imageUrl],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
 }
 
 /* ============================================================================
@@ -753,6 +822,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <main className="min-h-screen overflow-hidden bg-white">
       {/* =====================================================================
+        SEO — PRODUCT JSON-LD
+    ====================================================================== */}
+
+      <JsonLd data={createProductJsonLd(product, `/products/${product.slug}`)} />
+
+      {/* =====================================================================
+        SEO — BREADCRUMB JSON-LD
+    ====================================================================== */}
+
+      <JsonLd
+        data={createBreadcrumbJsonLd([
+          {
+            name: "Home",
+            url: "/",
+          },
+          {
+            name: "Shop",
+            url: "/shop",
+          },
+          ...(product.category?.name && product.category?.slug
+            ? [
+                {
+                  name: product.category.name,
+                  url: `/categories/${product.category.slug}`,
+                },
+              ]
+            : []),
+          {
+            name: product.name,
+            url: `/products/${product.slug}`,
+          },
+        ])}
+      />
+
+      {/* =====================================================================
           SUBTLE PAGE ATMOSPHERE
       ====================================================================== */}
 
@@ -852,7 +956,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ================================================================= */}
 
           <section className="min-w-0">
-            <ProductGallery images={product.images} productName={product.name} />
+            <ProductGallery
+              images={product.images}
+              productName={product.name}
+              productId={product._id}
+            />
           </section>
 
           {/* ================================================================

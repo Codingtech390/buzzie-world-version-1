@@ -1,7 +1,13 @@
 import { Suspense } from "react";
 
 import ShopClient from "@/components/shop/ShopClient";
+import { createPageMetadata } from "@/lib/seo";
 
+export const metadata = createPageMetadata({
+  title: "Shop Kids Toys & Learning Products",
+  description: "Shop toys, games, books and learning products for curious kids at BuzzieWorld.",
+  path: "/shop",
+});
 function ShopLoading() {
   return (
     <main className="min-h-screen bg-[#FBF8F1]">

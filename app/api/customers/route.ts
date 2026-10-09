@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAdminApiSession } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/mongoose";
 import { User } from "@/models/User";
 
@@ -47,6 +48,18 @@ function serializeCustomer(customer: any) {
  */
 export async function GET(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);
@@ -124,6 +137,18 @@ export async function GET(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const body = await request.json();

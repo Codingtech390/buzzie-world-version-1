@@ -3,18 +3,10 @@
 import { ArrowRight, Heart, ShoppingBag, Sparkles, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useWishlist } from "@/hooks/useWishlist";
 
-/*
-|--------------------------------------------------------------------------
-| TEMPORARY WISHLIST TYPE
-|--------------------------------------------------------------------------
-|
-| The actual wishlist model/store/API is currently empty in the project.
-| This UI is therefore intentionally structured so that the real
-| wishlist data layer can be connected without redesigning the page.
-|
-*/
+
 
 interface WishlistProduct {
   id: string;
@@ -26,19 +18,8 @@ interface WishlistProduct {
   inStock: boolean;
 }
 
-/*
-|--------------------------------------------------------------------------
-| TEMPORARY DATA
-|--------------------------------------------------------------------------
-|
-| Keep this empty for now.
-|
-| Once wishlistStore / wishlist.service / API are implemented, replace
-| the `wishlistProducts` state with data coming from useWishlist().
-|
-*/
 
-const wishlistProducts: WishlistProduct[] = [];
+
 
 function WishlistProductSkeleton() {
   return (
@@ -212,19 +193,25 @@ function WishlistCard({
 }
 
 export default function WishlistClient() {
-  const [products, setProducts] = useState<WishlistProduct[]>(wishlistProducts);
+  const { items, loading, loadWishlist, remove } = useWishlist();
 
-  const [isLoading] = useState(false);
+  useEffect(() => {
+    void loadWishlist();
+  }, [loadWishlist]);
 
-  const removeFromWishlist = (id: string) => {
-    setProducts((current) => current.filter((product) => product.id !== id));
+  const products: WishlistProduct[] = items;
+
+  const removeFromWishlist = async (id: string) => {
+    try {
+      await remove(id);
+    } catch (error) {
+      console.error("Wishlist removal failed:", error);
+
+      window.alert(error instanceof Error ? error.message : "Unable to remove item from wishlist.");
+    }
   };
 
-  /*
-   * ------------------------------------------------------------
-   * LOADING
-   * ------------------------------------------------------------
-   */
+  const isLoading = loading;
 
   if (isLoading) {
     return (

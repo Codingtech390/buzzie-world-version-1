@@ -3,7 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Reveal from "@/components/home/Reveal";
+import { createPageMetadata } from "@/lib/seo";
 
+export const metadata = createPageMetadata({
+  title: "Contact Us",
+  description:
+    "Get in touch with BuzzieWorld for questions about products, orders, shipping and support.",
+  path: "/contact",
+});
 export default function ContactPage() {
   return (
     <main className="min-h-screen overflow-hidden bg-white text-[#15121C]">

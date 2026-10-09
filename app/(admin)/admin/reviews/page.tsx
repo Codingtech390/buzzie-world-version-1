@@ -719,21 +719,9 @@ useEffect(() => {
         {/* HEADER */}
         <div className="mb-6 flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#9A90A1]">
-              <span>
-                Storefront
-              </span>
 
-              <span>
-                /
-              </span>
 
-              <span className="text-[#7D4FA5]">
-                Reviews
-              </span>
-            </div>
-
-            <h1 className="text-2xl font-black tracking-[-0.035em] text-[#27344A] sm:text-3xl">
+            <h1 className="font-playpen text-2xl font-black tracking-[-0.035em] text-[#27344A] sm:text-3xl">
               Customer Reviews
             </h1>
 
@@ -1048,7 +1036,7 @@ useEffect(() => {
         <section className="overflow-hidden rounded-[20px] border border-[#E9E1EE] bg-white shadow-[0_6px_24px_rgba(58,38,78,0.04)]">
           <div className="flex items-center justify-between border-b border-[#F0EAF2] px-4 py-4 sm:px-5">
             <div>
-              <h2 className="text-sm font-black text-[#27344A]">
+              <h2 className="font-playpen text-sm font-black text-[#27344A]">
                 Reviews
               </h2>
 
@@ -1093,7 +1081,7 @@ useEffect(() => {
                 />
               </div>
 
-              <h3 className="text-base font-black text-[#27344A]">
+              <h3 className="font-playpen text-base font-black text-[#27344A]">
                 No reviews found
               </h3>
 

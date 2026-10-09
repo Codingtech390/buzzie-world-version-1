@@ -34,8 +34,15 @@ function assertAddress(address: ShippingAddress) {
   }
 }
 
-export async function createOrderFromCart(sessionId: string, shippingAddress: ShippingAddress) {
+export async function createOrderFromCart(
+  sessionId: string,
+  shippingAddress: ShippingAddress,
+  userId?: string,
+) {
   await connectToDatabase();
+  if (userId && !Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid customer.");
+  }
 
   assertAddress(shippingAddress);
 
@@ -116,6 +123,11 @@ export async function createOrderFromCart(sessionId: string, shippingAddress: Sh
 
   const order = await Order.create({
     orderNumber,
+    ...(userId
+      ? {
+          user: new Types.ObjectId(userId),
+        }
+      : {}),
     items: orderItems,
     shippingAddress,
     subtotal,
@@ -127,7 +139,6 @@ export async function createOrderFromCart(sessionId: string, shippingAddress: Sh
     paymentStatus: "pending",
     razorpayOrderId: razorpayOrder.id,
   });
-
   return {
     order,
     razorpayOrder,
@@ -139,6 +150,7 @@ export async function verifyPayment(
   razorpayPaymentId: string,
   razorpayOrderId: string,
   razorpaySignature: string,
+  userId?: string,
 ) {
   await connectToDatabase();
 
@@ -146,10 +158,20 @@ export async function verifyPayment(
     throw new Error("Invalid order");
   }
 
+  if (userId && !Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid customer.");
+  }
+
   const order = await Order.findById(orderId);
 
   if (!order) {
     throw new Error("Order not found");
+  }
+
+  if (userId) {
+    if (!order.user || order.user.toString() !== userId) {
+      throw new Error("You are not authorized to verify this order.");
+    }
   }
 
   if (!order.razorpayOrderId) {

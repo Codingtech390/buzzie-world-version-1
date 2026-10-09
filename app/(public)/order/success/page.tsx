@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
+import { createPageMetadata } from "@/lib/seo";
 
+export const metadata = createPageMetadata({
+  title: "Order Confirmed",
+  description: "Your BuzzieWorld order has been successfully placed.",
+  path: "/order/success",
+  noIndex: true,
+});
 interface OrderSuccessPageProps {
   searchParams: Promise<{
     order?: string;

@@ -1,16 +1,13 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.buzzieworld.com";
+import { getProducts } from "@/services/product.service";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.buzzieworld.com";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  return [
-    // =========================================================
-    // CORE PAGES
-    // =========================================================
-
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/`,
       lastModified: now,
@@ -53,10 +50,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
 
-    // =========================================================
-    // SHOP BY AGE
-    // =========================================================
-
     {
       url: `${SITE_URL}/shop/age/1-3-years`,
       lastModified: now,
@@ -84,10 +77,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.85,
     },
-
-    // =========================================================
-    // LEGAL / POLICY PAGES
-    // =========================================================
 
     {
       url: `${SITE_URL}/privacy-policy`,
@@ -131,4 +120,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
+
+  const result = await getProducts({
+    published: true,
+    status: "active",
+    page: 1,
+    limit: 10000,
+    sort: "newest",
+  });
+
+  const productPages: MetadataRoute.Sitemap = result.products.map((product) => ({
+    url: `${SITE_URL}/products/${product.slug}`,
+    lastModified: product.updatedAt,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...productPages];
 }

@@ -12,6 +12,7 @@ import {
   Mail,
   Menu,
   RotateCcw,
+  LogOut,
   Search,
   ShieldCheck,
   ShoppingBag,
@@ -19,15 +20,17 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { durations, easings } from "@/config/animations";
 import { siteConfig } from "@/config/site";
 import { useCart } from "@/hooks/useCart";
+
+import { notify } from "@/lib/notifications";
 
 /* -------------------------------------------------------------------------- */
 /* TYPES                                                                      */
@@ -288,6 +291,7 @@ function normalizeCategoryValue(value: string): string {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const { data: session, status: sessionStatus } = useSession();
 
@@ -300,6 +304,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isContactMenuOpen, setIsContactMenuOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [categoryLinks, setCategoryLinks] = useState<StorefrontCategory[]>([]);
 
   /* ------------------------------------------------------------------------ */
@@ -309,11 +314,24 @@ export default function Navbar() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const categoryMenuRef = useRef<HTMLDivElement>(null);
   const contactMenuRef = useRef<HTMLDivElement>(null);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
 
   const categoryCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const contactCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+
+  async function handleLogout() {
+    try {
+      await signOut({ redirect: false });
+
+      notify.success("You have been signed out.");
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      notify.error(error, "Unable to sign out. Please try again.");
+    }
+  }
   /* ------------------------------------------------------------------------ */
   /* MOBILE MENU                                                              */
   /* ------------------------------------------------------------------------ */
@@ -355,15 +373,18 @@ export default function Navbar() {
   /* ------------------------------------------------------------------------ */
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsMobileMenuOpen(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  setIsMobileMenuOpen(false);
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsCategoryMenuOpen(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  setIsCategoryMenuOpen(false);
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsContactMenuOpen(false);
-  }, [pathname]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  setIsContactMenuOpen(false);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  setIsAccountMenuOpen(false);
+}, [pathname]);
 
   /* ------------------------------------------------------------------------ */
   /* LOAD CATEGORIES                                                          */
@@ -410,45 +431,49 @@ export default function Navbar() {
   /* DESKTOP DROPDOWNS                                                        */
   /* ------------------------------------------------------------------------ */
 
-  useEffect(() => {
-    if (!isCategoryMenuOpen && !isContactMenuOpen) {
+useEffect(() => {
+  if (!isCategoryMenuOpen && !isContactMenuOpen && !isAccountMenuOpen) {
+    return;
+  }
+
+  const handlePointerDown = (event: MouseEvent) => {
+    const target = event.target;
+
+    if (!(target instanceof Node)) {
       return;
     }
 
-    const handlePointerDown = (event: MouseEvent) => {
-      const target = event.target;
+    const clickedCategoryMenu = categoryMenuRef.current?.contains(target) ?? false;
 
-      if (!(target instanceof Node)) {
-        return;
-      }
+    const clickedContactMenu = contactMenuRef.current?.contains(target) ?? false;
 
-      const clickedCategoryMenu = categoryMenuRef.current?.contains(target) ?? false;
+    const clickedAccountMenu = accountMenuRef.current?.contains(target) ?? false;
 
-      const clickedContactMenu = contactMenuRef.current?.contains(target) ?? false;
+    if (clickedCategoryMenu || clickedContactMenu || clickedAccountMenu) {
+      return;
+    }
 
-      if (clickedCategoryMenu || clickedContactMenu) {
-        return;
-      }
+    setIsCategoryMenuOpen(false);
+    setIsContactMenuOpen(false);
+    setIsAccountMenuOpen(false);
+  };
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
       setIsCategoryMenuOpen(false);
       setIsContactMenuOpen(false);
-    };
+      setIsAccountMenuOpen(false);
+    }
+  };
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsCategoryMenuOpen(false);
-        setIsContactMenuOpen(false);
-      }
-    };
+  document.addEventListener("mousedown", handlePointerDown);
+  document.addEventListener("keydown", handleKeyDown);
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isCategoryMenuOpen, isContactMenuOpen]);
+  return () => {
+    document.removeEventListener("mousedown", handlePointerDown);
+    document.removeEventListener("keydown", handleKeyDown);
+  };
+}, [isCategoryMenuOpen, isContactMenuOpen, isAccountMenuOpen]);
 
   /* ------------------------------------------------------------------------ */
   /* CATEGORY URL RESOLUTION                                                  */
@@ -482,15 +507,25 @@ export default function Navbar() {
   /* ACCOUNT / CART                                                           */
   /* ------------------------------------------------------------------------ */
 
-  const cartItemCount = cart.itemCount ?? 0;
+const cartItemCount = cart.itemCount ?? 0;
 
-  const isAuthenticated = sessionStatus === "authenticated";
+const isAuthenticated = sessionStatus === "authenticated";
 
-  const accountHref = isAuthenticated ? "/account" : "/login";
+const userRole = session?.user?.role;
 
-  const accountLabel = isAuthenticated ? session?.user?.name || "Account" : "Account";
+const accountHref = !isAuthenticated ? "/login" : userRole === "admin" ? "/admin" : "/account";
 
-  const isAccountArea = pathname.startsWith("/account") || pathname === "/login";
+const accountLabel = !isAuthenticated
+  ? "Account"
+  : userRole === "admin"
+    ? "Admin"
+    : session?.user?.name || "Account";
+
+const isAdmin = isAuthenticated && userRole === "admin";
+const isCustomer = isAuthenticated && userRole === "customer";
+
+const isAccountArea =
+  pathname.startsWith("/account") || pathname.startsWith("/admin") || pathname === "/login";
 
   /* ------------------------------------------------------------------------ */
   /* ACTIVE STATES                                                            */
@@ -1311,7 +1346,7 @@ export default function Navbar() {
                     {/* WISHLIST */}
 
                     <Link
-                      href="/account/wishlist"
+                      href={!isAuthenticated ? "/login" : isAdmin ? "/admin" : "/account/wishlist"}
                       aria-label="Wishlist"
                       aria-current={pathname.startsWith("/account/wishlist") ? "page" : undefined}
                       className={[
@@ -1383,29 +1418,443 @@ export default function Navbar() {
                     {/* ACCOUNT — EXTRA LEFT SPACE FROM CART                  */}
                     {/* ====================================================== */}
 
-                    <Link
-                      href={accountHref}
-                      aria-label={accountLabel}
-                      className={[
-                        "inline-flex h-10 max-w-[9.75rem] items-center gap-2 rounded-full border px-3 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none !normal-case outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
-                        isAccountArea
-                          ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
-                          : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
-                      ].join(" ")}
-                    >
-                      <span
-                        className={[
-                          "flex size-7 shrink-0 items-center justify-center rounded-full",
-                          isAccountArea ? "bg-[#E72D5A] text-white" : "bg-[#FFF0F3] text-[#E72D5A]",
-                        ].join(" ")}
-                      >
-                        <UserRound className="size-3.5" strokeWidth={2.1} />
-                      </span>
+                    <div ref={accountMenuRef} className="relative shrink-0">
+                      {isAuthenticated ? (
+                        <>
+                          <button
+                            type="button"
+                            aria-haspopup="menu"
+                            aria-expanded={isAccountMenuOpen}
+                            aria-label="Open account menu"
+                            onClick={() => {
+                              setIsAccountMenuOpen((current) => !current);
+                              setIsCategoryMenuOpen(false);
+                              setIsContactMenuOpen(false);
+                            }}
+                            className={[
+                              "inline-flex h-10 max-w-[11rem] items-center gap-2 rounded-full border px-3 font-[var(--font-playpen-sans)] !text-[13px] font-semibold leading-none !normal-case outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#E72D5A] focus-visible:ring-offset-2",
+                              isAccountArea || isAccountMenuOpen
+                                ? "border-[#E72D5A]/20 bg-[#FFF0F3] text-[#263451] shadow-[0_3px_12px_rgba(231,45,90,0.06)]"
+                                : "border-[#EDE2D6] bg-white/75 text-[#657086] hover:border-[#E72D5A]/25 hover:bg-[#FFF8EE] hover:text-[#263451]",
+                            ].join(" ")}
+                          >
+                            <span
+                              className={[
+                                "flex size-7 shrink-0 items-center justify-center rounded-full",
+                                isAccountArea || isAccountMenuOpen
+                                  ? "bg-[#E72D5A] text-white"
+                                  : "bg-[#FFF0F3] text-[#E72D5A]",
+                              ].join(" ")}
+                            >
+                              <UserRound className="size-3.5" strokeWidth={2.1} />
+                            </span>
 
-                      <span className="truncate font-[var(--font-playpen-sans)] font-bold">
-                        {sessionStatus === "loading" ? "Account" : accountLabel}
-                      </span>
-                    </Link>
+                            <span className="max-w-[7rem] truncate font-[var(--font-playpen-sans)] font-bold">
+                              {accountLabel}
+                            </span>
+
+                            <ChevronDown
+                              className={[
+                                "size-3.5 shrink-0 opacity-60 transition-transform duration-200",
+                                isAccountMenuOpen ? "rotate-180" : "",
+                              ].join(" ")}
+                              strokeWidth={2.2}
+                            />
+                          </button>
+
+                          <AnimatePresence>
+                            {isAccountMenuOpen ? (
+                              <motion.div
+                                role="menu"
+                                aria-label="Account menu"
+                                initial={{
+                                  opacity: 0,
+                                  y: 7,
+                                  scale: 0.98,
+                                }}
+                                animate={{
+                                  opacity: 1,
+                                  y: 0,
+                                  scale: 1,
+                                }}
+                                exit={{
+                                  opacity: 0,
+                                  y: 7,
+                                  scale: 0.98,
+                                }}
+                                transition={{
+                                  duration: durations.fast,
+                                  ease: easings.smooth,
+                                }}
+                                className="
+              absolute
+              right-0
+              top-[calc(100%+10px)]
+              z-[100]
+              w-[280px]
+              overflow-hidden
+              rounded-[24px]
+              border
+              border-[#EDE2D6]
+              bg-[#FFFDF9]/98
+              p-2
+              shadow-[0_24px_70px_rgba(42,35,28,0.16)]
+              backdrop-blur-xl
+            "
+                              >
+                                <div
+                                  className="
+                border-b
+                border-[#EDE2D6]
+                px-4
+                py-4
+              "
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div
+                                      className="
+                    flex
+                    size-11
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-2xl
+                    bg-[#E72D5A]
+                    text-white
+                    shadow-[0_8px_18px_rgba(231,45,90,0.18)]
+                  "
+                                    >
+                                      <UserRound className="size-5" strokeWidth={2} />
+                                    </div>
+
+                                    <div className="min-w-0">
+                                      <p className="truncate font-[var(--font-playpen-sans)] text-[14px] font-bold text-[#263451]">
+                                        {session?.user?.name || "Account"}
+                                      </p>
+
+                                      <p className="mt-0.5 font-[var(--font-playpen-sans)] text-[11px] font-semibold uppercase tracking-[0.08em] text-[#7B8495]">
+                                        {isAdmin ? "Administrator" : "Customer Account"}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-1 p-2">
+                                  {isAdmin ? (
+                                    <>
+                                      <Link
+                                        href="/admin"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <ShieldCheck className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>Admin Dashboard</span>
+                                      </Link>
+
+                                      <Link
+                                        href="/admin/products"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <ShoppingBag className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>Manage Products</span>
+                                      </Link>
+
+                                      <Link
+                                        href="/admin/orders"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <FileText className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>Orders</span>
+                                      </Link>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Link
+                                        href="/account"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <UserRound className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>My Account</span>
+                                      </Link>
+
+                                      <Link
+                                        href="/account/orders"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <FileText className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>My Orders</span>
+                                      </Link>
+
+                                      <Link
+                                        href="/account/addresses"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <Truck className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>My Addresses</span>
+                                      </Link>
+
+                                      <Link
+                                        href="/account/wishlist"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <Heart className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>Wishlist</span>
+                                      </Link>
+
+                                      <Link
+                                        href="/account/settings"
+                                        role="menuitem"
+                                        onClick={() => setIsAccountMenuOpen(false)}
+                                        className="
+                      flex
+                      min-h-11
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      font-[var(--font-playpen-sans)]
+                      text-[13px]
+                      font-semibold
+                      text-[#263451]
+                      transition-colors
+                      hover:bg-[#FFF0F3]
+                    "
+                                      >
+                                        <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#E72D5A]">
+                                          <ShieldCheck className="size-4" strokeWidth={2} />
+                                        </span>
+
+                                        <span>Settings</span>
+                                      </Link>
+                                    </>
+                                  )}
+
+                                  <Link
+                                    href="/cart"
+                                    role="menuitem"
+                                    onClick={() => setIsAccountMenuOpen(false)}
+                                    className="
+                  flex
+                  min-h-11
+                  items-center
+                  gap-3
+                  rounded-xl
+                  px-3
+                  font-[var(--font-playpen-sans)]
+                  text-[13px]
+                  font-semibold
+                  text-[#263451]
+                  transition-colors
+                  hover:bg-[#FFF8EE]
+                "
+                                  >
+                                    <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF8EE] text-[#E72D5A]">
+                                      <ShoppingBag className="size-4" strokeWidth={2} />
+                                    </span>
+
+                                    <span>Cart</span>
+                                  </Link>
+                                </div>
+
+                                <div className="border-t border-[#EDE2D6] p-2">
+                                  <button
+                                    type="button"
+                                    role="menuitem"
+
+onClick={() => {
+  setIsAccountMenuOpen(false);
+  void handleLogout();
+}}
+
+                                    className="
+                  flex
+                  min-h-11
+                  w-full
+                  items-center
+                  gap-3
+                  rounded-xl
+                  px-3
+                  font-[var(--font-playpen-sans)]
+                  text-[13px]
+                  font-semibold
+                  text-[#D5224E]
+                  transition-colors
+                  hover:bg-[#FFF0F3]
+                "
+                                  >
+                                    <span className="flex size-8 items-center justify-center rounded-lg bg-[#FFF0F3] text-[#D5224E]">
+                                      <LogOut className="size-4" strokeWidth={2} />
+                                    </span>
+
+                                    <span>Logout</span>
+                                  </button>
+                                </div>
+                              </motion.div>
+                            ) : null}
+                          </AnimatePresence>
+                        </>
+                      ) : (
+                        <Link
+                          href="/login"
+                          aria-label="Account"
+                          className="
+        inline-flex
+        h-10
+        items-center
+        gap-2
+        rounded-full
+        border
+        border-[#EDE2D6]
+        bg-white/75
+        px-3
+        font-[var(--font-playpen-sans)]
+        text-[13px]
+        font-semibold
+        text-[#657086]
+        outline-none
+        transition-all
+        duration-200
+        hover:border-[#E72D5A]/25
+        hover:bg-[#FFF8EE]
+        hover:text-[#263451]
+        focus-visible:ring-2
+        focus-visible:ring-[#E72D5A]
+        focus-visible:ring-offset-2
+      "
+                        >
+                          <span className="flex size-7 items-center justify-center rounded-full bg-[#FFF0F3] text-[#E72D5A]">
+                            <UserRound className="size-3.5" strokeWidth={2.1} />
+                          </span>
+
+                          <span className="font-[var(--font-playpen-sans)] font-bold">Account</span>
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </nav>
@@ -2250,39 +2699,113 @@ export default function Navbar() {
                   backdrop-blur-xl
                 "
               >
-                <Link
-                  href={accountHref}
-                  onClick={closeMobileMenu}
-                  className="
-                    flex
-                    min-h-12
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-2xl
-                    bg-[#E72D5A]
-                    px-4
-                    font-[var(--font-playpen-sans)]
-                    text-sm
-                    font-bold
-                    !text-white
-                    shadow-[0_12px_26px_rgba(231,45,90,0.20)]
-                    outline-none
-                    transition-all
-                    duration-200
-                    hover:-translate-y-0.5
-                    hover:bg-[#D5224E]
-                    focus-visible:ring-2
-                    focus-visible:ring-[#E72D5A]
-                    focus-visible:ring-offset-2
-                  "
-                >
-                  <UserRound className="size-4" strokeWidth={2} />
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <Link
+                      href={accountHref}
+                      onClick={closeMobileMenu}
+                      className="
+        flex
+        min-h-12
+        items-center
+        justify-center
+        gap-2
+        rounded-2xl
+        bg-[#E72D5A]
+        px-4
+        font-[var(--font-playpen-sans)]
+        text-sm
+        font-bold
+        !text-white
+        shadow-[0_12px_26px_rgba(231,45,90,0.20)]
+        outline-none
+        transition-all
+        duration-200
+        hover:-translate-y-0.5
+        hover:bg-[#D5224E]
+        focus-visible:ring-2
+        focus-visible:ring-[#E72D5A]
+        focus-visible:ring-offset-2
+      "
+                    >
+                      <UserRound className="size-4" strokeWidth={2} />
 
-                  <span className="font-[var(--font-playpen-sans)]">
-                    {isAuthenticated ? "My Account" : "Sign In"}
-                  </span>
-                </Link>
+                      <span className="font-[var(--font-playpen-sans)]">
+                        {isAdmin ? "Admin Dashboard" : "My Account"}
+                      </span>
+                    </Link>
+
+                    <button
+                      type="button"
+
+onClick={() => {
+  closeMobileMenu();
+  void handleLogout();
+}}
+
+                      className="
+        flex
+        min-h-12
+        w-full
+        items-center
+        justify-center
+        gap-2
+        rounded-2xl
+        border
+        border-[#EDE2D6]
+        bg-white
+        px-4
+        font-[var(--font-playpen-sans)]
+        text-sm
+        font-bold
+        text-[#D5224E]
+        outline-none
+        transition-all
+        duration-200
+        hover:bg-[#FFF0F3]
+        focus-visible:ring-2
+        focus-visible:ring-[#E72D5A]
+        focus-visible:ring-offset-2
+      "
+                    >
+                      <LogOut className="size-4" strokeWidth={2} />
+
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={closeMobileMenu}
+                    className="
+      flex
+      min-h-12
+      items-center
+      justify-center
+      gap-2
+      rounded-2xl
+      bg-[#E72D5A]
+      px-4
+      font-[var(--font-playpen-sans)]
+      text-sm
+      font-bold
+      !text-white
+      shadow-[0_12px_26px_rgba(231,45,90,0.20)]
+      outline-none
+      transition-all
+      duration-200
+      hover:-translate-y-0.5
+      hover:bg-[#D5224E]
+      focus-visible:ring-2
+      focus-visible:ring-[#E72D5A]
+      focus-visible:ring-offset-2
+    "
+                  >
+                    <UserRound className="size-4" strokeWidth={2} />
+
+                    <span>Sign In</span>
+                  </Link>
+                )}
 
                 <p className="mt-3 text-center font-[var(--font-playpen-sans)] text-[0.66rem] font-medium leading-5 text-[#7A8495]">
                   {siteConfig.description}

@@ -1,7 +1,7 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 
+import { firebaseAdminAuth } from "@/lib/firebase/admin";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 
 import { authenticateCredentials, findOrCreateGoogleUser } from "@/services/auth.service";
 
@@ -54,74 +54,63 @@ export const authOptions: NextAuthOptions = {
       },
     }),
 
-    /*
-     * Google OAuth is optional.
-     *
-     * If credentials are not configured, the provider
-     * is simply not registered.
-     */
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
-      ? [
-          GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-          }),
-        ]
-      : []),
-  ],
+    CredentialsProvider({
+      id: "firebase-google",
+      name: "Firebase Google",
 
-  callbacks: {
-    async signIn({ user, account, profile }) {
-      /*
-       * Credentials authentication is already handled.
-       */
-      if (account?.provider === "credentials") {
-        return true;
-      }
+      credentials: {
+        idToken: {
+          label: "Firebase ID Token",
+          type: "text",
+        },
+      },
 
-      /*
-       * Google authentication.
-       */
-      if (account?.provider === "google") {
-        if (!user.email) {
-          return false;
-        }
+      async authorize(credentials) {
+        const idToken = typeof credentials?.idToken === "string" ? credentials.idToken : "";
 
-        /*
-         * Google must provide a verified email.
-         */
-        const googleProfile = profile as
-          | {
-              email_verified?: boolean;
-            }
-          | undefined;
-
-        if (googleProfile?.email_verified === false) {
-          return false;
+        if (!idToken) {
+          return null;
         }
 
         try {
-          const googleUser = await findOrCreateGoogleUser({
-            googleId: account.providerAccountId,
-            email: user.email,
-            name: user.name,
-            image: user.image,
-          });
+          const decodedToken = await firebaseAdminAuth.verifyIdToken(idToken);
+
+          const email = decodedToken.email;
+
+          if (!email) {
+            return null;
+          }
 
           /*
-           * Attach our MongoDB identity to NextAuth's user.
+           * Firebase has already authenticated the Google identity.
+           * Create/find the corresponding MongoDB user.
            */
-          user.id = googleUser.id;
-          user.role = googleUser.role;
-          user.name = googleUser.name;
-          user.email = googleUser.email;
-          user.image = googleUser.image;
+          const googleUser = await findOrCreateGoogleUser({
+            googleId: decodedToken.uid,
+            email,
+            name: decodedToken.name ?? null,
+            image: decodedToken.picture ?? null,
+          });
+
+          return {
+            id: googleUser.id,
+            name: googleUser.name,
+            email: googleUser.email,
+            image: googleUser.image,
+            role: googleUser.role,
+          };
         } catch (error) {
-          console.error("Google sign-in error:", error);
+          console.error("Firebase Google authentication error:", error);
 
-          return false;
+          return null;
         }
+      },
+    }),
+  ],
 
+  callbacks: {
+    async signIn({ account }) {
+      if (account?.provider === "credentials" || account?.provider === "firebase-google") {
         return true;
       }
 

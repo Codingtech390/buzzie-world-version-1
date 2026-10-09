@@ -521,7 +521,7 @@ export default function ProductList() {
       </div>
 
       {/* Header */}
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+      <div className="mt-4 flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <div className="min-w-0">
           <div className="mb-2 flex items-center gap-2">
             <span className="h-1.5 w-8 rounded-full bg-[#E83D59]" />
@@ -529,7 +529,7 @@ export default function ProductList() {
               Catalog management
             </span>
           </div>
-          <h1 className="font-[var(--font-roboto)] text-[2rem] font-black tracking-[-0.055em] text-[#27344A] sm:text-[2.35rem]">
+          <h1 className="font-playpen text-[2rem] font-black tracking-[-0.055em] text-[#27344A] sm:text-[2.35rem]">
             Products
           </h1>
           <p className="mt-1.5 max-w-xl text-sm leading-6 text-[#687489]">
@@ -608,7 +608,7 @@ export default function ProductList() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="font-[var(--font-roboto)] text-base font-black tracking-[-0.025em] text-[#27344A]">
+                <h2 className="font-playpen text-base font-black tracking-[-0.025em] text-[#27344A]">
                   Catalog filters
                 </h2>
                 {(hasActiveFilters || hasSearch) && (
@@ -773,7 +773,7 @@ export default function ProductList() {
       <section className="overflow-hidden rounded-[22px] border border-[#E5DDEA] bg-white/95 shadow-[0_18px_55px_rgba(39,52,74,0.055)]">
         <div className="flex items-center justify-between border-b border-[#EEE8F3] bg-white px-5 py-4 sm:px-6">
           <div>
-            <h2 className="font-[var(--font-roboto)] text-base font-black tracking-[-0.025em] text-[#27344A]">
+            <h2 className="font-playpen text-base font-black tracking-[-0.025em] text-[#27344A]">
               Product catalog
             </h2>
             {!isLoading && !error && products.length > 0 && (
@@ -808,7 +808,7 @@ export default function ProductList() {
               <div className="mx-auto flex size-14 items-center justify-center rounded-[18px] bg-[#FFF0F3] text-[#E83D59]">
                 !
               </div>
-              <h2 className="mt-5 font-[var(--font-roboto)] text-xl font-black tracking-[-0.03em] text-[#27344A]">
+              <h2 className="mt-5 font-playpen text-xl font-black tracking-[-0.03em] text-[#27344A]">
                 Failed to load products
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#7C8798]">{error}</p>
@@ -827,7 +827,7 @@ export default function ProductList() {
               <div className="mx-auto flex size-14 items-center justify-center rounded-[18px] bg-[#F4E9FF] text-[#C391EE]">
                 ✦
               </div>
-              <h2 className="mt-5 font-[var(--font-roboto)] text-xl font-black tracking-[-0.03em] text-[#27344A]">
+              <h2 className="mt-5 font-playpen text-xl font-black tracking-[-0.03em] text-[#27344A]">
                 {hasSearch || hasActiveFilters ? "No matching products" : "No products found"}
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#7C8798]">

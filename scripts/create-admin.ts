@@ -34,6 +34,10 @@ const ADMIN_NAME = "BuzzieWorld Admin";
 const ADMIN_EMAIL = "admin@buzieworld.com";
 const ADMIN_PASSWORD = "Abhijeet@12345";
 
+// const CUSTOMER_NAME = "BuzzieWorld Customer";
+// const ADMIN_EMAIL = "customer@buzieworld.com";
+// const ADMIN_PASSWORD = "customer@12345";
+
 // --------------------------------------------------
 // 3. CREATE ADMIN
 // --------------------------------------------------

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAdminApiSession } from "@/lib/auth";
+
 import { connectToDatabase } from "@/lib/mongoose";
 import { User } from "@/models/User";
 import { Product } from "@/models/Product";
@@ -58,8 +60,19 @@ function serializeOrder(order: DashboardOrder) {
 
 export async function GET(request: NextRequest) {
   try {
-    await connectToDatabase();
+    const session = await getAdminApiSession();
 
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
+    await connectToDatabase();
     const { searchParams } = new URL(request.url);
 
     const requestedDays = Number(searchParams.get("days") || "30");

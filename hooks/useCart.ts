@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import type { CartResponse } from "@/types/cart";
+import { notify } from "@/lib/notifications";
 
 const emptyCart: CartResponse = {
   success: true,
@@ -65,6 +66,7 @@ useEffect(() => {
     }
 
     setCart(data);
+    notify.success("Added to cart.");
 
     return data;
   }, []);
@@ -88,6 +90,7 @@ useEffect(() => {
     }
 
     setCart(data);
+    notify.success("Cart updated.");
 
     return data;
   }, []);
@@ -104,6 +107,7 @@ useEffect(() => {
     }
 
     setCart(data);
+    notify.success("Item removed from cart.");
 
     return data;
   }, []);
@@ -120,6 +124,7 @@ useEffect(() => {
     }
 
     setCart(data);
+    notify.success("Cart cleared.");
   }, []);
 
   return {

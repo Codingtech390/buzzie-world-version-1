@@ -249,19 +249,9 @@ export default function OrdersPage() {
         {/* Header */}
         <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="mb-3 flex items-center gap-2 text-sm font-medium text-violet-600">
-              <ClipboardList className="h-4 w-4" />
 
-              <span>Sales</span>
 
-              <span className="text-slate-300">/</span>
-
-              <span className="text-slate-500">
-                Orders
-              </span>
-            </div>
-
-            <h1 className="font-[Poppins] text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="font-playpen text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
               Orders
             </h1>
 
@@ -473,7 +463,7 @@ export default function OrdersPage() {
                   )}
                 </div>
 
-                <h2 className="font-[Poppins] text-base font-semibold text-slate-900">
+                <h2 className="font-playpen text-base font-semibold text-slate-900">
                   {search ||
                   statusFilter !== "all" ||
                   paymentFilter !== "all"

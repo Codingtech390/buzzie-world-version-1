@@ -2,8 +2,8 @@ import { getServerSession, type Session } from "next-auth";
 import { redirect } from "next/navigation";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { User, type IUser, type UserRole } from "@/models/User";
 import { connectToDatabase } from "@/lib/mongoose";
+import { User, type IUser, type UserRole } from "@/models/User";
 
 export async function getCurrentSession(): Promise<Session | null> {
   return getServerSession(authOptions);
@@ -78,13 +78,35 @@ export async function getAuthenticatedApiSession() {
     return null;
   }
 
+  await connectToDatabase();
+
+  const user = await User.findById(session.user.id).select("_id role isActive").lean();
+
+  if (!user || !user.isActive) {
+    return null;
+  }
+
+  /*
+   * Prevent stale sessions from retaining an old role.
+   *
+   * Example:
+   * customer -> admin
+   * admin -> customer
+   * customer -> deactivated
+   *
+   * The database remains the source of truth.
+   */
+  if (user.role !== session.user.role) {
+    return null;
+  }
+
   return session;
 }
 
 export async function getAdminApiSession() {
-  const session = await getCurrentSession();
+  const session = await getAuthenticatedApiSession();
 
-  if (!session?.user?.id) {
+  if (!session) {
     return null;
   }
 

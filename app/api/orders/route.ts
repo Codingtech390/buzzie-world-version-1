@@ -3,10 +3,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { createOrderFromCart, getAdminOrders } from "@/services/order.service";
 import { getRazorpayKeyId } from "@/lib/razorpay";
 
+import { getAdminApiSession, getAuthenticatedApiSession } from "@/lib/auth";
+
 const CART_COOKIE = "buzzie_cart_id";
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     const { searchParams } = new URL(request.url);
 
     const page = Number(searchParams.get("page") || "1");
@@ -73,7 +87,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { order, razorpayOrder } = await createOrderFromCart(sessionId, body.shippingAddress);
+    const session = await getAuthenticatedApiSession();
+
+    const customerId = session?.user?.role === "customer" ? session.user.id : undefined;
+
+    const { order, razorpayOrder } = await createOrderFromCart(
+      sessionId,
+      body.shippingAddress,
+      customerId,
+    );
 
     return NextResponse.json({
       success: true,

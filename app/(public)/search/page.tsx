@@ -1,12 +1,16 @@
-import type { Metadata } from "next";
+
 import { Suspense } from "react";
 
 import SearchClient from "@/components/search/SearchClient";
 
-export const metadata: Metadata = {
-  title: "Search | BuzzieWorld",
-  description: "Find toys, games, learning kits, books and more at BuzzieWorld.",
-};
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Search",
+  description: "Search BuzzieWorld for toys, games, books and learning products.",
+  path: "/search",
+  noIndex: true,
+});
 
 function SearchPageFallback() {
   return (

@@ -234,7 +234,7 @@ export default function AdminDashboardPage() {
               <span>Overview</span>
             </div>
 
-            <h1 className="font-[Poppins] text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="font-playpen text-2xl font-semibold text-slate-900 sm:text-3xl">
               Dashboard
             </h1>
 
@@ -299,7 +299,7 @@ export default function AdminDashboardPage() {
         ) : data ? (
           <>
             {/* Primary metrics */}
-            <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="font-playpen grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <MetricCard
                 title="Revenue"
                 value={formatCurrency(data.overview.totalRevenue, true)}
@@ -376,7 +376,7 @@ export default function AdminDashboardPage() {
             {/* Quick actions */}
             <section className="mt-6">
               <div className="mb-4">
-                <h2 className="font-[Poppins] text-lg font-semibold text-slate-900">
+                <h2 className="font-playpen text-lg font-semibold text-slate-900">
                   Quick Actions
                 </h2>
 
@@ -540,7 +540,7 @@ function RevenueChart({
     <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.035)]">
       <div className="flex flex-col gap-3 border-b border-slate-100 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="font-[Poppins] text-base font-semibold text-slate-900">
+          <h2 className="font-playpen text-base font-semibold text-slate-900">
             Revenue Overview
           </h2>
 
@@ -685,7 +685,7 @@ function OrderOverview({
     <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.035)]">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-[Poppins] text-base font-semibold text-slate-900">Order Overview</h2>
+          <h2 className="font-playpen text-base font-semibold text-slate-900">Order Overview</h2>
 
           <p className="mt-1 text-xs text-slate-400">Current order pipeline</p>
         </div>
@@ -779,7 +779,7 @@ function RecentOrders({ orders }: { orders: DashboardData["recentOrders"] }) {
     <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.035)]">
       <div className="flex items-center justify-between border-b border-slate-100 px-5 py-5">
         <div>
-          <h2 className="font-[Poppins] text-base font-semibold text-slate-900">Recent Orders</h2>
+          <h2 className="font-playpen text-base font-semibold text-slate-900">Recent Orders</h2>
 
           <p className="mt-1 text-xs text-slate-400">Latest activity from your store</p>
         </div>
@@ -937,7 +937,7 @@ function LowStockProducts({ products }: { products: DashboardData["lowStockProdu
     <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.035)]">
       <div className="flex items-center justify-between border-b border-slate-100 px-5 py-5">
         <div>
-          <h2 className="font-[Poppins] text-base font-semibold text-slate-900">Low Stock</h2>
+          <h2 className="font-playpen text-base font-semibold text-slate-900">Low Stock</h2>
 
           <p className="mt-1 text-xs text-slate-400">Products that need attention</p>
         </div>

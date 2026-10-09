@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAdminApiSession } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/mongoose";
 import { Collection } from "@/models/Collection";
 import { createSlug } from "@/lib/slug";
@@ -35,6 +36,18 @@ function serializeCollection(collection: any) {
  */
 export async function GET(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);
@@ -114,6 +127,18 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const body = await request.json();
@@ -194,6 +219,18 @@ export async function POST(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const body = await request.json();
@@ -303,6 +340,18 @@ export async function PATCH(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);

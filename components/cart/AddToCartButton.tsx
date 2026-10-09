@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ShoppingCart, Check } from "lucide-react";
 
 import { useCart } from "@/hooks/useCart";
+import { notify } from "@/lib/notifications";
 
 interface AddToCartButtonProps {
   productId: string;
@@ -21,26 +22,24 @@ export default function AddToCartButton({
   const { addItem } = useCart();
 
   const [loading, setLoading] = useState(false);
-
   const [added, setAdded] = useState(false);
 
   async function handleAdd() {
-    if (loading || disabled) {
-      return;
-    }
+    if (loading || disabled) return;
 
     try {
       setLoading(true);
 
       await addItem(productId, quantity);
 
+      // The shared useCart hook displays the success toast.
       setAdded(true);
 
       window.setTimeout(() => {
         setAdded(false);
       }, 1800);
     } catch (error) {
-      window.alert(error instanceof Error ? error.message : "Failed to add product to cart");
+      notify.error(error, "Failed to add product to cart.");
     } finally {
       setLoading(false);
     }

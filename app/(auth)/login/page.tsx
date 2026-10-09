@@ -3,8 +3,15 @@
 import { ArrowRight, Eye, EyeOff, LockKeyhole, LogIn, Mail } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
+
+import { firebaseAuth } from "@/lib/firebase/client";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
+
+import { notify } from "@/lib/notifications";
+import { useRouter } from "next/navigation";
 
 // const LOGIN_ENDPOINT = "/api/auth/login";
 
@@ -16,73 +23,114 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
+  const router = useRouter();
 
-  setError("");
+  async function handleGoogleSignIn() {
+    setError("");
+    setIsSubmitting(true);
 
-  const normalizedEmail = email.trim().toLowerCase();
+    try {
+      const provider = new GoogleAuthProvider();
 
-  if (!normalizedEmail) {
-    setError("Please enter your email address.");
-    return;
+      provider.setCustomParameters({
+        prompt: "select_account",
+      });
+
+      const result = await signInWithPopup(firebaseAuth, provider);
+
+      const idToken = await result.user.getIdToken();
+
+      const nextAuthResult = await signIn("firebase-google", {
+        idToken,
+        redirect: false,
+      });
+
+      if (!nextAuthResult || nextAuthResult.error) {
+        throw new Error(nextAuthResult?.error || "Google authentication failed.");
+      }
+
+      notify.success("Signed in successfully.");
+      router.replace("/account");
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+
+      setError(error instanceof Error ? error.message : "Unable to sign in with Google.");
+      notify.error(error, "Unable to sign in with Google.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
-  if (!password) {
-    setError("Please enter your password.");
-    return;
-  }
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  setIsSubmitting(true);
+    setError("");
 
-  try {
-    const result = await signIn("credentials", {
-      email: normalizedEmail,
-      password,
-      redirect: false,
-    });
+    const normalizedEmail = email.trim().toLowerCase();
 
-    if (!result) {
-      throw new Error("We couldn't sign you in. Please try again.");
-    }
-
-    if (result.error) {
-      throw new Error("Invalid email or password. Please try again.");
-    }
-
-    /*
-     * NextAuth has successfully authenticated the user.
-     *
-     * Fetch the current session so we can determine whether
-     * this is an admin or customer account.
-     */
-    const sessionResponse = await fetch("/api/auth/session", {
-      method: "GET",
-      cache: "no-store",
-    });
-
-    const session = await sessionResponse.json();
-
-    if (!session?.user) {
-      throw new Error("Your account was authenticated, but we couldn't load your session.");
-    }
-
-    if (session.user.role === "admin") {
-      window.location.href = "/admin";
+    if (!normalizedEmail) {
+      setError("Please enter your email address.");
       return;
     }
 
-    window.location.href = "/account";
-  } catch (submitError) {
-    setError(
-      submitError instanceof Error
-        ? submitError.message
-        : "Something went wrong. Please try again.",
-    );
-  } finally {
-    setIsSubmitting(false);
+    if (!password) {
+      setError("Please enter your password.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await signIn("credentials", {
+        email: normalizedEmail,
+        password,
+        redirect: false,
+      });
+
+      if (!result) {
+        throw new Error("We couldn't sign you in. Please try again.");
+      }
+
+      if (result.error) {
+        throw new Error("Invalid email or password. Please try again.");
+      }
+
+      /*
+       * NextAuth has successfully authenticated the user.
+       *
+       * Fetch the current session so we can determine whether
+       * this is an admin or customer account.
+       */
+      const sessionResponse = await fetch("/api/auth/session", {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      const session = await sessionResponse.json();
+
+      if (!session?.user) {
+        throw new Error("Your account was authenticated, but we couldn't load your session.");
+      }
+
+      notify.success("Signed in successfully.");
+
+      if (session.user.role === "admin") {
+        router.replace("/admin");
+        return;
+      }
+
+      router.replace("/account");
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : "Something went wrong. Please try again.",
+      );
+      notify.error(submitError, "Unable to sign in. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
-}
 
   return (
     <main
@@ -407,7 +455,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                         }}
                         disabled={isSubmitting}
                         className="
-                        
+
                           h-[50px]
                           w-full
                           rounded-[14px]
@@ -466,7 +514,6 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                       />
 
                       <input
-
                         id="login-password"
                         name="password"
                         type={showPassword ? "text" : "password"}
@@ -678,12 +725,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
                     disabled:pointer-events-none
                     disabled:opacity-60
                   "
-                  onClick={() => {
-                    /*
-                     * Google OAuth will be connected when the
-                     * authentication system is implemented.
-                     */
-                  }}
+                  onClick={handleGoogleSignIn}
                 >
                   <span aria-hidden="true" className="text-[18px] font-bold">
                     G

@@ -1,27 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAdminApiSession } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/mongoose";
 import { Banner, type IBanner } from "@/models/Banner";
 
-
 function serializeBanner(banner: IBanner) {
- return {
-   id: banner._id?.toString() ?? "",
-   name: banner.name ?? "",
-   headline: banner.headline ?? "",
-   subheadline: banner.subheadline ?? "",
-   image: banner.image ?? "",
-   mobileImage: banner.mobileImage ?? "",
-   ctaText: banner.ctaText ?? "",
-   ctaLink: banner.ctaLink ?? "",
-   position: Number(banner.position ?? 0),
-   isActive: Boolean(banner.isActive),
-   featured: Boolean(banner.featured),
-   startDate: banner.startDate ? banner.startDate.toISOString() : null,
-   endDate: banner.endDate ? banner.endDate.toISOString() : null,
-   createdAt: banner.createdAt ? banner.createdAt.toISOString() : null,
-   updatedAt: banner.updatedAt ? banner.updatedAt.toISOString() : null,
- };
+  return {
+    id: banner._id?.toString() ?? "",
+    name: banner.name ?? "",
+    headline: banner.headline ?? "",
+    subheadline: banner.subheadline ?? "",
+    image: banner.image ?? "",
+    mobileImage: banner.mobileImage ?? "",
+    ctaText: banner.ctaText ?? "",
+    ctaLink: banner.ctaLink ?? "",
+    position: Number(banner.position ?? 0),
+    isActive: Boolean(banner.isActive),
+    featured: Boolean(banner.featured),
+    startDate: banner.startDate ? banner.startDate.toISOString() : null,
+    endDate: banner.endDate ? banner.endDate.toISOString() : null,
+    createdAt: banner.createdAt ? banner.createdAt.toISOString() : null,
+    updatedAt: banner.updatedAt ? banner.updatedAt.toISOString() : null,
+  };
 }
 
 /*
@@ -39,6 +39,18 @@ function serializeBanner(banner: IBanner) {
  */
 export async function GET(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);
@@ -49,7 +61,7 @@ export async function GET(request: NextRequest) {
 
     const featured = searchParams.get("featured")?.trim() || "all";
 
-  const filter: Record<string, unknown> = {};
+    const filter: Record<string, unknown> = {};
 
     if (status === "active") {
       filter.isActive = true;
@@ -118,6 +130,18 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const body = await request.json();
@@ -227,6 +251,18 @@ export async function POST(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const body = await request.json();
@@ -245,7 +281,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-const update: Record<string, unknown> = {};
+    const update: Record<string, unknown> = {};
 
     if (typeof body.name === "string") {
       if (!body.name.trim()) {
@@ -354,6 +390,18 @@ const update: Record<string, unknown> = {};
  */
 export async function DELETE(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const { searchParams } = new URL(request.url);

@@ -15,19 +15,23 @@ import { useEffect, useState } from "react";
 
 import type { StorefrontProductImage } from "@/types/storefront";
 
+import { useWishlist } from "@/hooks/useWishlist";
 interface ProductGalleryProps {
   images: StorefrontProductImage[];
   productName: string;
+  productId: string;
 }
 
 export default function ProductGallery({
   images,
   productName,
+  productId,
 }: ProductGalleryProps) {
   const validImages = images.filter((image) => Boolean(image.url));
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
+  const { toggle, isWishlisted } = useWishlist();
 
 useEffect(() => {
   if (selectedIndex >= validImages.length) {
@@ -261,10 +265,7 @@ useEffect(() => {
             min-w-0
             overflow-hidden
             rounded-[26px]
-            border
-            border-[#EEDDBB]/70
-            bg-[#F8F0E3]
-            shadow-[0_10px_30px_rgba(39,52,74,0.055)]
+
           "
         >
           {/* Soft center glow */}
@@ -305,39 +306,56 @@ useEffect(() => {
           </div>
 
           {/* Wishlist */}
-
           <button
             type="button"
-            aria-label="Add product to wishlist"
+            aria-label={
+              isWishlisted(productId) ? "Remove product from wishlist" : "Add product to wishlist"
+            }
+            aria-pressed={isWishlisted(productId)}
+            onClick={async (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+
+              try {
+                await toggle(productId);
+              } catch {
+                // useWishlist handles the error notification.
+              }
+            }}
             className="
-              absolute
-              right-4
-              top-4
-              z-20
-              flex
-              size-9
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/80
-              bg-white/90
-              text-[#526075]
-              shadow-[0_7px_18px_rgba(39,52,74,0.10)]
-              backdrop-blur-md
-              transition
-              hover:scale-105
-              hover:text-[#D55C61]
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#3F7DFF]
-              focus-visible:ring-offset-2
-              sm:right-5
-              sm:top-5
-              sm:size-10
-            "
+    absolute
+    right-4
+    top-4
+    z-20
+    flex
+    size-9
+    items-center
+    justify-center
+    rounded-full
+    border
+    border-white/80
+    bg-white/90
+    text-[#526075]
+    shadow-[0_7px_18px_rgba(39,52,74,0.10)]
+    backdrop-blur-md
+    transition
+    hover:scale-105
+    hover:text-[#D55C61]
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-[#3F7DFF]
+    focus-visible:ring-offset-2
+    sm:right-5
+    sm:top-5
+    sm:size-10
+  "
           >
-            <Heart className="size-4" strokeWidth={1.8} />
+            <Heart
+              className={`size-4 transition-colors ${
+                isWishlisted(productId) ? "fill-[#D55C61] text-[#D55C61]" : ""
+              }`}
+              strokeWidth={1.8}
+            />
           </button>
 
           {/* Expand */}
@@ -571,6 +589,7 @@ useEffect(() => {
               shadow-sm
               backdrop-blur-md
             "
+            
           >
             <Heart className="size-4" />
           </button>
@@ -741,26 +760,10 @@ useEffect(() => {
       ================================================================= */}
 
       <div className="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
-        <TrustBadge
-          icon="✦"
-          text="Laminated"
-          className="bg-[#FFF8E4] text-[#B98500]"
-        />
-        <TrustBadge
-          icon="✓"
-          text="Water Proof"
-          className="bg-[#EEF7E7] text-[#5D8D3F]"
-        />
-        <TrustBadge
-          icon="✓"
-          text="Reusable"
-          className="bg-[#EEF5FF] text-[#4276B9]"
-        />
-        <TrustBadge
-          icon="♢"
-          text="Family Fun"
-          className="bg-[#F4EEFB] text-[#7655A3]"
-        />
+        <TrustBadge icon="✦" text="Laminated" className="bg-[#FFF8E4] text-[#B98500]" />
+        <TrustBadge icon="✓" text="Water Proof" className="bg-[#EEF7E7] text-[#5D8D3F]" />
+        <TrustBadge icon="✓" text="Reusable" className="bg-[#EEF5FF] text-[#4276B9]" />
+        <TrustBadge icon="♢" text="Family Fun" className="bg-[#F4EEFB] text-[#7655A3]" />
       </div>
 
       {/* ================================================================

@@ -44,10 +44,11 @@ const diaryTabs: Array<{
 
 function getDescriptionPoints(description: string): string[] {
   return description
-    .split(/\n\s*\n/)
+    .split(/\n\s*\n|\n\s*\*\s*\n/)
     .map((part) => part.trim())
     .filter(Boolean);
 }
+
 
 const staticBenefits = [
   {
@@ -420,7 +421,6 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               {/* ------------------------------------------------------------
           HEADER
       ------------------------------------------------------------- */}
-
               <div className="flex items-start gap-4">
                 {/* Icon */}
                 <motion.div
@@ -490,41 +490,66 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   </h3>
                 </div>
               </div>
-
               {/* ------------------------------------------------------------
           DESCRIPTION
       ------------------------------------------------------------- */}
 
-              <div
-                className="
-          mt-7
-          max-w-3xl
-          space-y-4
-          font-[var(--font-poppins)]
-          text-[12px]
-          font-normal
-          leading-[1.8]
-          tracking-[-0.005em]
-          text-[#5D6172]
-          sm:mt-8
-          sm:space-y-4
-          sm:text-[13px]
-          sm:leading-[1.85]
-          lg:text-[14px]
-          lg:leading-[1.9]
-        "
-              >
-                {(Array.isArray(content.body) ? content.body : [content.body]).map(
-                  (paragraph, index) => (
-                    <p key={`${activeTab}-body-${index}`}>{paragraph}</p>
-                  ),
+              <div className="mt-7 max-w-3xl sm:mt-8">
+                {activeTab === "overview" ? (
+                  <div className="space-y-6 sm:space-y-7">
+                    {(() => {
+                      const paragraphs = Array.isArray(content.body)
+                        ? content.body
+                        : [content.body];
+
+                      const sections = [];
+
+                      for (let i = 0; i < paragraphs.length; i += 2) {
+                        sections.push({
+                          heading: paragraphs[i],
+                          description: paragraphs[i + 1] ?? "",
+                        });
+                      }
+
+                      return sections.map((section, index) => (
+                        <motion.div
+                          key={`overview-section-${index}`}
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: index * 0.04,
+                            duration: 0.25,
+                            ease: "easeOut",
+                          }}
+                          className="max-w-3xl"
+                        >
+                          <h4 className="font-playpen text-[13px] font-bold leading-[1.6] tracking-[-0.01em] text-[#292447] sm:text-[14px] lg:text-[15px]">
+                            {section.heading}
+                          </h4>
+
+                          {section.description && (
+                            <p className="mt-1.5 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
+                              {section.description}
+                            </p>
+                          )}
+                        </motion.div>
+                      ));
+                    })()}
+                  </div>
+                ) : (
+                  <div className=" space-y-4 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.8] tracking-[-0.005em] text-[#5D6172] sm:text-[13px] sm:leading-[1.85] lg:text-[14px] lg:leading-[1.9]">
+                    {(Array.isArray(content.body) ? content.body : [content.body]).map(
+                      (paragraph, index) => (
+                        <p key={`${activeTab}-body-${index}`}>{paragraph}</p>
+                      ),
+                    )}
+                  </div>
                 )}
               </div>
 
               {/* ------------------------------------------------------------
           PRODUCT PACKAGING DETAILS — SPECS
       ------------------------------------------------------------- */}
-
               {activeTab === "specs" ? (
                 <div className="mt-7 grid gap-3 sm:grid-cols-3 sm:gap-3">
                   {[
@@ -534,19 +559,18 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   ].map((item) => {
                     const ItemIcon = item.icon;
                     return (
-                      <div
-                        key={item.label}
-                        className="rounded-[16px] border border-[#ECE7F2] bg-white/75 px-3.5 py-3 shadow-[0_3px_12px_rgba(38,24,67,0.025)]"
-                      >
-                        <div className="flex items-center gap-2">
+                      <div key={item.label} className=" bg-transparent px-3.5 py-3 ">
+                        <div className="flex flex-col items-center gap-2 text-center">
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F0E7FF] text-[#7044B8]">
                             <ItemIcon className="size-4" strokeWidth={1.8} />
                           </span>
+
                           <span className="font-[var(--font-poppins)] text-[12px] font-bold text-[#30344A]">
                             {item.label}
                           </span>
                         </div>
-                        <p className="mt-2 font-[var(--font-poppins)] text-[12px] font-medium leading-5 text-[#6A6E7E]">
+
+                        <p className="mt-2 text-center font-[var(--font-poppins)] text-[12px] font-medium leading-5 text-[#6A6E7E]">
                           {item.value}
                         </p>
                       </div>
@@ -554,11 +578,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   })}
                 </div>
               ) : null}
-
               {/* ------------------------------------------------------------
           INFORMATION POINTS
       ------------------------------------------------------------- */}
-
               {content.points.length > 0 ? (
                 activeTab === "benefits" ? (
                   <ul className="mt-7 space-y-4 sm:mt-8">
@@ -588,7 +610,7 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.06, duration: 0.25, ease: "easeOut" }}
                         whileHover={{ y: -2 }}
-                        className={`group flex items-start gap-2.5 rounded-[16px] border border-[#ECE7F2] bg-[#FCFAFF] px-3.5 py-3 shadow-[0_3px_12px_rgba(38,24,67,0.025)] transition-all duration-200 hover:border-[#DCCCF2] hover:bg-[#F9F5FF] hover:shadow-[0_7px_20px_rgba(112,68,184,0.07)] sm:px-3.5 ${activeTab === "keyFeatures" ? "min-h-0" : "min-h-[72px] sm:py-3.5"}`}
+                        className={`group flex items-start gap-2.5 px-1 py-2 transition-colors duration-200 ${activeTab === "keyFeatures" ? "min-h-0" : "min-h-[72px] sm:py-3.5"}`}
                       >
                         <span className="mt-0.5 flex size-[21px] shrink-0 items-center justify-center rounded-full bg-[#FDE9EF] text-[#E72D5A] transition-transform duration-200 group-hover:scale-105">
                           <Check className="size-[11px]" strokeWidth={2.7} />
@@ -601,11 +623,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   </div>
                 )
               ) : null}
-
               {/* ------------------------------------------------------------
           FOOTER
       ------------------------------------------------------------- */}
-
               <div
                 className="
           mt-7

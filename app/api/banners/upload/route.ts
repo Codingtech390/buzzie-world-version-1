@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
+import { getAdminApiSession } from "@/lib/auth";
+
 function getSignature(params: Record<string, string>, apiSecret: string) {
   const sortedParams = Object.keys(params)
     .sort()
@@ -12,6 +14,18 @@ function getSignature(params: Record<string, string>, apiSecret: string) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
 
     const apiKey = process.env.CLOUDINARY_API_KEY;

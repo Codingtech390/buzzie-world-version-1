@@ -1,17 +1,17 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowRight,
-  Check,
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  Mail,
-  UserRound,
-} from "lucide-react";
+import { ArrowRight, Check, Eye, EyeOff, LockKeyhole, Mail, UserRound } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
+
+import { firebaseAuth } from "@/lib/firebase/client";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import { signIn } from "next-auth/react";
+
+import { useRouter } from "next/navigation";
+import { notify } from "@/lib/notifications";
 
 const REGISTER_ENDPOINT = "/api/auth/register";
 
@@ -144,7 +144,41 @@ export default function RegisterPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
+  async function handleGoogleSignUp() {
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      const provider = new GoogleAuthProvider();
+
+      provider.setCustomParameters({
+        prompt: "select_account",
+      });
+
+      const result = await signInWithPopup(firebaseAuth, provider);
+
+      const idToken = await result.user.getIdToken();
+
+      const nextAuthResult = await signIn("firebase-google", {
+        idToken,
+        redirect: false,
+      });
+
+      if (!nextAuthResult || nextAuthResult.error) {
+        throw new Error(nextAuthResult?.error || "Google authentication failed.");
+      }
+
+      window.location.href = "/account";
+    } catch (error) {
+      console.error("Google sign-up error:", error);
+
+      setError(error instanceof Error ? error.message : "Unable to continue with Google.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
   /* ==========================================================================
      PASSWORD STRENGTH
      ========================================================================== */
@@ -161,17 +195,13 @@ export default function RegisterPage() {
      PASSWORD MATCH
      ========================================================================== */
 
-  const passwordsMatch =
-    confirmPassword.length > 0 &&
-    password === confirmPassword;
+  const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
 
   /* ==========================================================================
      REGISTER SUBMIT
      ========================================================================== */
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
-  ) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setError("");
@@ -254,9 +284,7 @@ export default function RegisterPage() {
 
       if (!response.ok) {
         throw new Error(
-          data?.message ||
-            data?.error ||
-            "We couldn't create your account. Please try again.",
+          data?.message || data?.error || "We couldn't create your account. Please try again.",
         );
       }
 
@@ -266,24 +294,21 @@ export default function RegisterPage() {
          If the API supplies a redirect URL, use it.
          ====================================================================== */
 
+      notify.success("Your account has been created successfully.");
+
       if (data?.redirectUrl) {
         window.location.href = data.redirectUrl;
         return;
       }
 
-      /* ======================================================================
-         DEFAULT SUCCESS DESTINATION
-
-         Preserved from the existing registration flow.
-         ====================================================================== */
-
-      window.location.href = "/account";
+      router.replace("/account");
     } catch (submitError) {
       setError(
         submitError instanceof Error
           ? submitError.message
           : "Something went wrong. Please try again.",
       );
+      notify.error(submitError, "We couldn't create your account. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -493,10 +518,7 @@ export default function RegisterPage() {
                     BEE ICON
                 ============================================================ */}
 
-                <motion.div
-                  variants={itemVariants}
-                  className="flex justify-center"
-                >
+                <motion.div variants={itemVariants} className="flex justify-center">
                   <motion.div
                     aria-hidden="true"
                     className="
@@ -527,10 +549,7 @@ export default function RegisterPage() {
                     HEADING
                 ============================================================ */}
 
-                <motion.div
-                  variants={itemVariants}
-                  className="mt-4 text-center"
-                >
+                <motion.div variants={itemVariants} className="mt-4 text-center">
                   <h1
                     className="
                       text-[1.8rem]
@@ -610,11 +629,7 @@ export default function RegisterPage() {
                     REGISTER FORM
                 ============================================================ */}
 
-                <form
-                  onSubmit={handleSubmit}
-                  className="mt-6"
-                  noValidate
-                >
+                <form onSubmit={handleSubmit} className="mt-6" noValidate>
                   {/* ==========================================================
                       FULL NAME
                   ========================================================== */}
@@ -694,10 +709,7 @@ export default function RegisterPage() {
                       EMAIL
                   ========================================================== */}
 
-                  <motion.div
-                    variants={itemVariants}
-                    className="mt-5"
-                  >
+                  <motion.div variants={itemVariants} className="mt-5">
                     <label
                       htmlFor="register-email"
                       className="
@@ -773,10 +785,7 @@ export default function RegisterPage() {
                       PASSWORD
                   ========================================================== */}
 
-                  <motion.div
-                    variants={itemVariants}
-                    className="mt-5"
-                  >
+                  <motion.div variants={itemVariants} className="mt-5">
                     <div className="flex items-center justify-between gap-3">
                       <label
                         htmlFor="register-password"
@@ -830,9 +839,7 @@ export default function RegisterPage() {
                       <input
                         id="register-password"
                         name="password"
-                        type={
-                          showPassword ? "text" : "password"
-                        }
+                        type={showPassword ? "text" : "password"}
                         autoComplete="new-password"
                         placeholder="Create a password"
                         value={password}
@@ -872,17 +879,9 @@ export default function RegisterPage() {
 
                       <button
                         type="button"
-                        onClick={() =>
-                          setShowPassword(
-                            (current) => !current,
-                          )
-                        }
+                        onClick={() => setShowPassword((current) => !current)}
                         disabled={isSubmitting}
-                        aria-label={
-                          showPassword
-                            ? "Hide password"
-                            : "Show password"
-                        }
+                        aria-label={showPassword ? "Hide password" : "Show password"}
                         className="
                           absolute
                           right-2.5
@@ -904,15 +903,9 @@ export default function RegisterPage() {
                         "
                       >
                         {showPassword ? (
-                          <EyeOff
-                            className="size-[18px]"
-                            strokeWidth={1.8}
-                          />
+                          <EyeOff className="size-[18px]" strokeWidth={1.8} />
                         ) : (
-                          <Eye
-                            className="size-[18px]"
-                            strokeWidth={1.8}
-                          />
+                          <Eye className="size-[18px]" strokeWidth={1.8} />
                         )}
                       </button>
                     </div>
@@ -957,9 +950,7 @@ export default function RegisterPage() {
                                   width: 0,
                                 }}
                                 animate={{
-                                  width:
-                                    passwordStrength?.width ??
-                                    "0%",
+                                  width: passwordStrength?.width ?? "0%",
                                 }}
                                 transition={{
                                   duration: 0.3,
@@ -976,9 +967,7 @@ export default function RegisterPage() {
                                 text-[#8790A0]
                               "
                             >
-                              Use at least 8 characters with a
-                              mix of letters, numbers and
-                              symbols.
+                              Use at least 8 characters with a mix of letters, numbers and symbols.
                             </p>
                           </div>
                         </motion.div>
@@ -990,10 +979,7 @@ export default function RegisterPage() {
                       CONFIRM PASSWORD
                   ========================================================== */}
 
-                  <motion.div
-                    variants={itemVariants}
-                    className="mt-5"
-                  >
+                  <motion.div variants={itemVariants} className="mt-5">
                     <label
                       htmlFor="register-confirm-password"
                       className="
@@ -1024,18 +1010,12 @@ export default function RegisterPage() {
                       <input
                         id="register-confirm-password"
                         name="confirmPassword"
-                        type={
-                          showConfirmPassword
-                            ? "text"
-                            : "password"
-                        }
+                        type={showConfirmPassword ? "text" : "password"}
                         autoComplete="new-password"
                         placeholder="Re-enter your password"
                         value={confirmPassword}
                         onChange={(event) => {
-                          setConfirmPassword(
-                            event.target.value,
-                          );
+                          setConfirmPassword(event.target.value);
 
                           if (error) {
                             setError("");
@@ -1064,8 +1044,7 @@ export default function RegisterPage() {
                             sm:h-[52px]
                             sm:text-[15px]
                           `,
-                          confirmPassword &&
-                          passwordsMatch
+                          confirmPassword && passwordsMatch
                             ? `
                               border-[#78B47D]
                               focus:border-[#5C9B63]
@@ -1081,17 +1060,9 @@ export default function RegisterPage() {
 
                       <button
                         type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(
-                            (current) => !current,
-                          )
-                        }
+                        onClick={() => setShowConfirmPassword((current) => !current)}
                         disabled={isSubmitting}
-                        aria-label={
-                          showConfirmPassword
-                            ? "Hide password"
-                            : "Show password"
-                        }
+                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                         className="
                           absolute
                           right-2.5
@@ -1113,15 +1084,9 @@ export default function RegisterPage() {
                         "
                       >
                         {showConfirmPassword ? (
-                          <EyeOff
-                            className="size-[18px]"
-                            strokeWidth={1.8}
-                          />
+                          <EyeOff className="size-[18px]" strokeWidth={1.8} />
                         ) : (
-                          <Eye
-                            className="size-[18px]"
-                            strokeWidth={1.8}
-                          />
+                          <Eye className="size-[18px]" strokeWidth={1.8} />
                         )}
                       </button>
 
@@ -1159,10 +1124,7 @@ export default function RegisterPage() {
                             "
                             aria-label="Passwords match"
                           >
-                            <Check
-                              className="size-3.5"
-                              strokeWidth={2.5}
-                            />
+                            <Check className="size-3.5" strokeWidth={2.5} />
                           </motion.span>
                         ) : null}
                       </AnimatePresence>
@@ -1267,17 +1229,12 @@ export default function RegisterPage() {
                           "
                           aria-hidden="true"
                         />
-
                         Creating account...
                       </>
                     ) : (
                       <>
                         Create Account
-
-                        <ArrowRight
-                          className="size-[18px]"
-                          strokeWidth={2}
-                        />
+                        <ArrowRight className="size-[18px]" strokeWidth={2} />
                       </>
                     )}
                   </motion.button>
@@ -1287,10 +1244,7 @@ export default function RegisterPage() {
                     SOCIAL DIVIDER
                 ============================================================ */}
 
-                <motion.div
-                  variants={itemVariants}
-                  className="my-6 flex items-center gap-3"
-                >
+                <motion.div variants={itemVariants} className="my-6 flex items-center gap-3">
                   <div className="h-px flex-1 bg-[#dfe1e5]" />
 
                   <span
@@ -1311,10 +1265,7 @@ export default function RegisterPage() {
                     GOOGLE SIGN UP
                 ============================================================ */}
 
-                <motion.div
-                  variants={itemVariants}
-                  className="grid grid-cols-1 gap-2.5"
-                >
+                <motion.div variants={itemVariants} className="grid grid-cols-1 gap-2.5">
                   <button
                     type="button"
                     disabled={isSubmitting}
@@ -1341,17 +1292,9 @@ export default function RegisterPage() {
                       disabled:pointer-events-none
                       disabled:opacity-60
                     "
-                    onClick={() => {
-                      /*
-                       * Google OAuth will be connected when the
-                       * production authentication system is implemented.
-                       */
-                    }}
+                    onClick={handleGoogleSignUp}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="text-[17px] font-bold"
-                    >
+                    <span aria-hidden="true" className="text-[17px] font-bold">
                       G
                     </span>
 
@@ -1406,11 +1349,7 @@ export default function RegisterPage() {
                       "
                     >
                       Sign in
-
-                      <ArrowRight
-                        className="size-4"
-                        strokeWidth={2.3}
-                      />
+                      <ArrowRight className="size-4" strokeWidth={2.3} />
                     </Link>
                   </div>
 

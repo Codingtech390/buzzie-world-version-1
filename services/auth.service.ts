@@ -248,6 +248,52 @@ export async function updateUserPassword(userId: string, password: string) {
   return sanitizeUser(user);
 }
 
+export async function changeUserPassword(
+  userId: string,
+  currentPassword: string,
+  newPassword: string,
+) {
+  await connectToDatabase();
+
+  if (!currentPassword) {
+    throw new Error("Current password is required.");
+  }
+
+  if (!newPassword || newPassword.length < 8) {
+    throw new Error("New password must be at least 8 characters.");
+  }
+
+  if (currentPassword === newPassword) {
+    throw new Error("New password must be different from your current password.");
+  }
+
+  const user = await User.findById(userId).select("+password");
+
+  if (!user || !user.isActive) {
+    throw new Error("Account not found.");
+  }
+
+  if (!user.password) {
+    throw new Error(
+      "This account does not have a password. Use the password reset flow to create one.",
+    );
+  }
+
+  const passwordMatches = await bcrypt.compare(currentPassword, user.password);
+
+  if (!passwordMatches) {
+    throw new Error("Current password is incorrect.");
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, PASSWORD_SALT_ROUNDS);
+
+  user.password = passwordHash;
+
+  await user.save();
+
+  return true;
+}
+
 export async function createPasswordResetToken(email: string) {
   await connectToDatabase();
 

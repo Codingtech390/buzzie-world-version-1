@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
 export type UserRole = "customer" | "admin";
 
@@ -8,6 +8,7 @@ export interface IUserAddress {
   phone: string;
   addressLine1: string;
   addressLine2?: string;
+
   city: string;
   state: string;
   postalCode: string;
@@ -15,15 +16,23 @@ export interface IUserAddress {
   isDefault: boolean;
 }
 
+export interface IUserPreferences {
+  emailNotifications: boolean;
+  marketingEmails: boolean;
+  wishlistReminders: boolean;
+}
+
 export interface IUser {
   _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   password?: string;
+  googleId?: string;
   phone?: string;
   role: UserRole;
   image?: string;
   addresses: IUserAddress[];
+  preferences: IUserPreferences;
   isActive: boolean;
   emailVerified?: Date | null;
   createdAt?: Date;
@@ -89,6 +98,28 @@ const AddressSchema = new Schema<IUserAddress>(
   },
 );
 
+const UserPreferencesSchema = new Schema<IUserPreferences>(
+  {
+    emailNotifications: {
+      type: Boolean,
+      default: true,
+    },
+
+    marketingEmails: {
+      type: Boolean,
+      default: false,
+    },
+
+    wishlistReminders: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
 const UserSchema = new Schema<IUser>(
   {
     name: {
@@ -111,6 +142,13 @@ const UserSchema = new Schema<IUser>(
       select: false,
     },
 
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
+
     phone: {
       type: String,
       trim: true,
@@ -130,6 +168,14 @@ const UserSchema = new Schema<IUser>(
     addresses: {
       type: [AddressSchema],
       default: [],
+    },
+    preferences: {
+      type: UserPreferencesSchema,
+      default: () => ({
+        emailNotifications: true,
+        marketingEmails: false,
+        wishlistReminders: false,
+      }),
     },
 
     isActive: {

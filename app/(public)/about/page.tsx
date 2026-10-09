@@ -1,5 +1,12 @@
 import Image from "next/image";
+import { createPageMetadata } from "@/lib/seo";
 
+export const metadata = createPageMetadata({
+  title: "About Us",
+  description:
+    "Learn more about BuzzieWorld and our mission to make learning and play more meaningful for children.",
+  path: "/about",
+});
 export default function AboutPage() {
   return (
     <main className="min-h-screen w-full overflow-hidden bg-white">

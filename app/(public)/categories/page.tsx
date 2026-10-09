@@ -12,7 +12,14 @@ import {
 } from "lucide-react";
 
 import type { CSSProperties, ElementType } from "react";
+import { createPageMetadata } from "@/lib/seo";
 
+export const metadata = createPageMetadata({
+  title: "Kids Categories",
+  description:
+    "Explore BuzzieWorld categories for toys, games, learning activities, books and more.",
+  path: "/categories",
+});
 /* ============================================================================
    TYPES
 ============================================================================ */

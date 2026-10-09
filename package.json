@@ -11,9 +11,6 @@
     "catalog:check": "tsx scripts/check-catalog.ts",
     "catalog:publish": "tsx scripts/publish-all-products.ts",
     "catalog:media-scan": "tsx scripts/scan-product-media.ts",
-
-
-
     "create-admin": "tsx scripts/create-admin.ts",
     "import:client-products": "tsx scripts/import-client-products.ts"
   },
@@ -35,6 +32,8 @@
     "dotenv": "^17.4.2",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "firebase": "^12.19.0",
+    "firebase-admin": "^14.5.0",
     "framer-motion": "^13.0.0",
     "gsap": "^3.15.0",
     "howler": "^2.2.4",

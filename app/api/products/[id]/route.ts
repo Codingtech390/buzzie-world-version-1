@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAdminApiSession } from "@/lib/auth";
 import { deleteProduct, getProductById, updateProduct } from "@/services/product.service";
 
 interface RouteContext {
@@ -43,7 +44,20 @@ export async function GET(_request: NextRequest, context: RouteContext) {
 
 export async function PATCH(request: NextRequest, context: RouteContext) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     const { id } = await context.params;
+
     const body = await request.json();
 
     if (!body || typeof body !== "object" || Array.isArray(body)) {
@@ -230,6 +244,18 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 
 export async function DELETE(_request: NextRequest, context: RouteContext) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     const { id } = await context.params;
 
     const product = await deleteProduct(id);

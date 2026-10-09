@@ -33,6 +33,15 @@ export interface IOrderItem {
   lineTotal: number;
 }
 
+export interface IShipment {
+  courier: string;
+  trackingNumber: string;
+  trackingUrl?: string;
+  status: "pending" | "shipped" | "in_transit" | "delivered";
+  shippedAt?: Date;
+  deliveredAt?: Date;
+}
+
 export interface IOrder {
   orderNumber: string;
   user?: Types.ObjectId;
@@ -49,6 +58,8 @@ export interface IOrder {
 
   status: OrderStatus;
   paymentStatus: PaymentStatus;
+
+  shipment?: IShipment;
 
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
@@ -169,6 +180,46 @@ const OrderItemSchema = new Schema<IOrderItem>(
   },
 );
 
+const ShipmentSchema = new Schema<IShipment>(
+  {
+    courier: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    trackingNumber: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+    },
+
+    trackingUrl: {
+      type: String,
+      trim: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "shipped", "in_transit", "delivered"],
+      default: "pending",
+    },
+
+    shippedAt: {
+      type: Date,
+    },
+
+    deliveredAt: {
+      type: Date,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+
 const OrderSchema = new Schema<IOrder>(
   {
     orderNumber: {
@@ -242,6 +293,11 @@ const OrderSchema = new Schema<IOrder>(
       enum: ["pending", "paid", "failed", "refunded"],
       default: "pending",
       index: true,
+    },
+
+    shipment: {
+      type: ShipmentSchema,
+      default: undefined,
     },
 
     razorpayOrderId: {

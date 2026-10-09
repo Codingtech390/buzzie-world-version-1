@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getAdminApiSession } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/mongoose";
 import { Category } from "@/models/Category";
 import { createSlug } from "@/lib/slug";
@@ -33,6 +34,18 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getAdminApiSession();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Admin authentication required.",
+        },
+        { status: 401 },
+      );
+    }
+
     await connectToDatabase();
 
     const body = await request.json();

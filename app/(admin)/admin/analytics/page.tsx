@@ -285,12 +285,9 @@ export default function AnalyticsPage() {
         {/* HEADER */}
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-sm font-medium text-violet-600">
-              <BarChart3 className="h-4 w-4" />
-              Analytics
-            </div>
 
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+
+            <h1 className="font-playpen text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
               Store performance
             </h1>
 
@@ -412,7 +409,7 @@ export default function AnalyticsPage() {
               <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">Revenue overview</h2>
+                    <h2 className="font-playpen text-base font-semibold text-slate-900">Revenue overview</h2>
 
                     <p className="mt-1 text-sm text-slate-500">Daily revenue and order activity.</p>
                   </div>
@@ -476,7 +473,7 @@ export default function AnalyticsPage() {
               <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">Order status</h2>
+                    <h2 className="font-playpen text-base font-semibold text-slate-900">Order status</h2>
 
                     <p className="mt-1 text-sm text-slate-500">Current period breakdown.</p>
                   </div>
@@ -530,7 +527,7 @@ export default function AnalyticsPage() {
               <section className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">Top products</h2>
+                    <h2 className="font-playpen text-base font-semibold text-slate-900">Top products</h2>
 
                     <p className="mt-1 text-sm text-slate-500">Best performers by revenue.</p>
                   </div>
@@ -575,7 +572,7 @@ export default function AnalyticsPage() {
               <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
                 <div className="flex items-start justify-between gap-4 p-5 sm:p-6">
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">Recent orders</h2>
+                    <h2 className="font-playpen text-base font-semibold text-slate-900">Recent orders</h2>
 
                     <p className="mt-1 text-sm text-slate-500">Latest activity from your store.</p>
                   </div>

@@ -1,9 +1,13 @@
 import CrazyDealsProducts from "@/components/crazy-deals/CrazyDealsProducts";
 
-export const metadata = {
-  title: "Crazy Deals | BuzzieWorld",
-  description: "Discover amazing deals on games, learning activities and products at BuzzieWorld.",
-};
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Crazy Deals",
+  description:
+    "Discover exciting offers and special deals on kids toys, games and learning products at BuzzieWorld.",
+  path: "/crazy-deals",
+});
 
 export default function CrazyDealsPage() {
   return (

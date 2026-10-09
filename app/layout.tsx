@@ -10,6 +10,9 @@ import { SessionProvider } from "@/providers/SessionProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 
+import JsonLd from "@/components/seo/JsonLd";
+import { createOrganizationJsonLd, createWebSiteJsonLd, SITE_URL } from "@/lib/seo";
+
 const leagueGothic = League_Gothic({
   variable: "--font-league-gothic",
   subsets: ["latin"],
@@ -61,7 +64,34 @@ export const metadata: Metadata = {
   creator: "BuzzieWorld",
   publisher: "BuzzieWorld",
 
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(SITE_URL),
+
+  alternates: {
+    canonical: SITE_URL,
+  },
+
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "BuzzieWorld",
+    title: "BuzzieWorld",
+    description: "Discover toys, books, STEM products, games and more at BuzzieWorld.",
+    images: [
+      {
+        url: `${SITE_URL}/opengraph-image`,
+        width: 1200,
+        height: 630,
+        alt: "BuzzieWorld",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "BuzzieWorld",
+    description: "Discover toys, books, STEM products, games and more at BuzzieWorld.",
+    images: [`${SITE_URL}/opengraph-image`],
+  },
 
   robots: {
     index: true,
@@ -87,6 +117,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        <JsonLd data={createOrganizationJsonLd()} />
+        <JsonLd data={createWebSiteJsonLd()} />
         <SessionProvider>
           <QueryProvider>
             <ThemeProvider>

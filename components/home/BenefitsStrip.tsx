@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
 
@@ -273,77 +273,41 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
 
         <div
           className="
-            relative
-            aspect-[1.08/1]
-            w-full
-            overflow-hidden
-            rounded-[50%_50%_0_0]
-            bg-[#EEEAF7]
-          "
+    relative
+    mx-auto
+    aspect-[0.88/1]
+    w-[100%]
+    overflow-hidden
+    rounded-t-[50%]
+    bg-transparent
+  "
         >
-          {/* Purple arc background */}
-
-          <div
-            aria-hidden="true"
-            className="
-              absolute
-              inset-0
-            "
-          />
-
-          {/* Soft image background */}
-
-          <div
-            aria-hidden="true"
-            className="
-              absolute
-              inset-x-0
-              bottom-0
-              top-[8%]
-              rounded-[50%_50%_0_0]
-            "
-          />
-
           {/* Product image */}
-
           {image ? (
             <Image
               src={image}
               alt={imageAlt}
               fill
               sizes="
-                (max-width: 639px) 44vw,
-                (max-width: 1023px) 44vw,
-                (max-width: 1279px) 23vw,
-                22vw
-              "
+        (max-width: 639px) 34vw,
+        (max-width: 1023px) 34vw,
+        (max-width: 1279px) 18vw,
+        18vw
+      "
               className="
-                relative
-                z-10
-                object-contain
-                p-3
-                transition-transform
-                duration-700
-                ease-[cubic-bezier(0.22,1,0.36,1)]
-                group-hover:scale-[1.045]
-                sm:p-4
-              "
+        relative
+        z-10
+        object-contain
+        p-3
+        transition-transform
+        duration-700
+        ease-[cubic-bezier(0.22,1,0.36,1)]
+        group-hover:scale-[1.045]
+        sm:p-4
+      "
             />
           ) : (
-            <div
-              className="
-                absolute
-                inset-0
-                z-10
-                flex
-                items-center
-                justify-center
-                font-[var(--font-poppins-brand)]
-                text-xs
-                font-bold
-                text-[#7A6A91]
-              "
-            >
+            <div className="absolute inset-0 z-10 flex items-center justify-center font-[var(--font-poppins-brand)] text-xs font-bold text-[#7A6A91]">
               Buzzie Product
             </div>
           )}
