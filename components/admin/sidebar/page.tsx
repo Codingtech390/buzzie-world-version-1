@@ -6,6 +6,7 @@ import {
   ChevronRight,
   ClipboardList,
   FolderTree,
+  ImageIcon,
   LayoutDashboard,
   LogOut,
   Package,
@@ -84,6 +85,16 @@ const navigation: NavGroup[] = [
   {
     label: "Storefront",
     items: [
+      {
+        label: "Hero Carousel",
+        href: "/admin/storefront/hero-carousel",
+        icon: ImageIcon,
+      },
+      {
+        label: "Highlights",
+        href: "/admin/storefront/highlights",
+        icon: Sparkles,
+      },
       {
         label: "Reviews",
         href: "/admin/reviews",

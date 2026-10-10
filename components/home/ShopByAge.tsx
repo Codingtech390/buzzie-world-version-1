@@ -9,6 +9,7 @@ import Reveal from "./Reveal";
 
 interface ShopByAgeProps {
   products: StorefrontProduct[];
+  favoriteProducts: StorefrontProduct[];
 }
 
 /* ============================================================================
@@ -18,7 +19,7 @@ interface ShopByAgeProps {
 function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const favorites = products.slice(0, 3);
+  const favorites = products;
 
   /* --------------------------------------------------------------------------
      AUTO ROTATE
@@ -36,8 +37,21 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
   if (!favorites.length) return null;
 
-  const product = favorites[activeIndex % favorites.length];
-  const productImage = product.images?.[0]?.url;
+const product = favorites[activeIndex % favorites.length];
+const productImage = product.images?.[0]?.url;
+
+// Temporary display prices until the client confirms final pricing.
+// These are UI fallbacks only; real database prices take priority.
+const temporaryPrices = [499, 699, 999] as const;
+
+const favoriteIndex = favorites.findIndex((item) => item._id === product._id);
+
+const fallbackPrice = temporaryPrices[Math.max(0, favoriteIndex) % temporaryPrices.length];
+
+const displayPrice =
+  typeof product.price === "number" && Number.isFinite(product.price) && product.price > 0
+    ? product.price
+    : fallbackPrice;
 
   /* ============================================================================
      PRODUCT DATA
@@ -175,50 +189,6 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
           >
             Buzzie <span className="text-[#E83D59]">Favorite</span>
           </h2>
-
-          {/* HEADING ACCENT */}
-
-          <div
-            className="
-              mx-auto
-              mt-5
-              flex
-              items-center
-              justify-center
-              gap-1.5
-              sm:mt-6
-            "
-          >
-            <span
-              aria-hidden="true"
-              className="
-                h-[2px]
-                w-8
-                rounded-full
-                bg-[#C391EE]
-              "
-            />
-
-            <span
-              aria-hidden="true"
-              className="
-                h-[2px]
-                w-2.5
-                rounded-full
-                bg-[#E72D5A]
-              "
-            />
-
-            <span
-              aria-hidden="true"
-              className="
-                h-[2px]
-                w-1.5
-                rounded-full
-                bg-[#F5B5C5]
-              "
-            />
-          </div>
         </div>
       </Reveal>
 
@@ -691,302 +661,146 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
             <div
               className="
-                absolute
-                right-[3%]
-                top-1/2
-                z-50
-                flex
-                -translate-y-1/2
-                flex-col
-                items-center
-                -space-y-[76px]
-                gap-8
-                max-sm:right-2
-                max-sm:w-[clamp(120px,30vw,150px)]
-                max-sm:-space-y-[70px]
-                max-sm:mt-10
-                max-sm:p-1
-                max-sm:-mr-4
-
-                sm:right-[3%]
-                sm:w-[clamp(130px,22vw,155px)]
-                sm:-space-y-[72px]
-
-                md:right-[4%]
-                md:w-[clamp(140px,20vw,165px)]
-                md:-space-y-[74px]
-
-                lg:right-[3%]
-                lg:w-[clamp(145px,12vw,170px)]
-                lg:-space-y-[76px]
-
-                xl:right-[20%]
-                xl:w-[clamp(150px,10vw,175px)]
-                xl:-space-y-[78px]
-
-
-                2xl:right-[20.5%]
-                2xl:w-[clamp(155px,9vw,180px)]
-                2xl:-space-y-[80px]
-              "
+    absolute
+    right-[3%]
+    top-1/2
+    z-50
+    flex
+    -translate-y-1/2
+    flex-col
+    items-center
+    gap-8
+    -space-y-[76px]
+    max-sm:right-2
+    max-sm:w-[clamp(120px,30vw,150px)]
+    max-sm:-space-y-[70px]
+    max-sm:mt-10
+    max-sm:p-1
+    max-sm:-mr-4
+    sm:right-[3%]
+    sm:w-[clamp(130px,22vw,155px)]
+    sm:-space-y-[72px]
+    md:right-[4%]
+    md:w-[clamp(140px,20vw,165px)]
+    md:-space-y-[74px]
+    lg:right-[3%]
+    lg:w-[clamp(145px,12vw,170px)]
+    lg:-space-y-[76px]
+    xl:right-[20%]
+    xl:w-[clamp(150px,10vw,175px)]
+    xl:-space-y-[78px]
+    2xl:right-[20.5%]
+    2xl:w-[clamp(155px,9vw,180px)]
+    2xl:-space-y-[80px]
+  "
             >
-              {/* ==============================================================
-                  AGE
-              ============================================================== */}
-
+              {/* PRICE */}
               <Link
                 href={`/products/${product.slug}`}
-                aria-label={`View ${product.name} — ${ageLabel ?? "Age details coming soon"}`}
+                aria-label={`View ${product.name} — Price ₹${displayPrice.toLocaleString("en-IN")}`}
                 className="
-                  group
-                  relative
-                  z-40
-                  block
-                  aspect-square
-                  w-full
-                  shrink-0
-                  origin-center
-                  transition-transform
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.04]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group relative z-40 block aspect-square w-full shrink-0
+      origin-center transition-transform duration-300
+      hover:-translate-y-1 hover:scale-[1.04]
+      focus-visible:outline-none focus-visible:ring-2
+      focus-visible:ring-[#E83D59] focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/side-pastel-yellow.png"
                   alt=""
                   aria-hidden="true"
-                  className="
-                    absolute
-                    inset-0
-                    block
-                    h-full
-                    w-full
-                    select-none
-                    object-contain
-                  "
                   draggable={false}
+                  className="absolute inset-0 block h-full w-full select-none object-contain"
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-[12%]
-                    left-[21%]
-                    right-[7%]
-                    flex
-                    items-center
-                    justify-center
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.68rem,0.95vw,0.9rem)]
-                    font-black
-                    leading-[0.9]
-                    tracking-[-0.025em]
-                    text-[#17365F]
-                    max-sm:mb-10
-                    xl:mb-12
-                  "
+        pointer-events-none absolute inset-y-[12%] left-[21%] right-[7%]
+        flex items-center justify-center text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.68rem,0.95vw,0.9rem)]
+        font-black leading-[0.9] tracking-[-0.025em]
+        text-[#17365F] max-sm:mb-10 xl:mb-12
+      "
                 >
-                  <span
-                    className="
-                      flex
-                      w-[78%]
-                      max-w-[78%]
-                      flex-col
-                      items-center
-                      justify-center
-                      text-center
-                    "
-                  >
-                    {ageLabel ? (
-                      <>
-                        <span>Ages</span>
-                        <span>{ageLabel.replace(/^Ages\s*/i, "")}</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Age</span>
-                        <span>Details Soon</span>
-                      </>
-                    )}
+                  <span className="flex w-[78%] max-w-[78%] flex-col items-center justify-center text-center">
+                    <span>Price</span>
+                    <span className="mt-1">₹{displayPrice.toLocaleString("en-IN")}</span>
                   </span>
                 </span>
               </Link>
 
-              {/* ==============================================================
-                  STOCK
-              ============================================================== */}
-
+              {/* AGE */}
               <Link
                 href={`/products/${product.slug}`}
-                aria-label={`View ${product.name} — ${stockLabel ?? "Stock details coming soon"}`}
+                aria-label={`View ${product.name} — ${ageLabel ?? "Age not set"}`}
                 className="
-                  group
-                  relative
-                  z-30
-                  block
-                  aspect-square
-                  w-full
-                  shrink-0
-                  origin-center
-                  transition-transform
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.04]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group relative z-30 block aspect-square w-full shrink-0
+      origin-center transition-transform duration-300
+      hover:-translate-y-1 hover:scale-[1.04]
+      focus-visible:outline-none focus-visible:ring-2
+      focus-visible:ring-[#E83D59] focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/side-pastel-green.png"
                   alt=""
                   aria-hidden="true"
-                  className="
-                    absolute
-                    inset-0
-                    block
-                    h-full
-                    w-full
-                    select-none
-                    object-contain
-                  "
                   draggable={false}
+                  className="absolute inset-0 block h-full w-full select-none object-contain"
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-[12%]
-                    left-[21%]
-                    right-[7%]
-                    flex
-                    items-center
-                    justify-center
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.68rem,0.95vw,0.9rem)]
-                    font-black
-                    leading-[0.9]
-                    tracking-[-0.025em]
-                    text-[#125C2A]
-                    max-sm:mb-10
-                    xl:mb-12
-                  "
+        pointer-events-none absolute inset-y-[12%] left-[21%] right-[7%]
+        flex items-center justify-center text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.68rem,0.95vw,0.9rem)]
+        font-black leading-[0.9] tracking-[-0.025em]
+        text-[#125C2A] max-sm:mb-10 xl:mb-12
+      "
                 >
-                  <span
-                    className="
-                      flex
-                      w-[78%]
-                      max-w-[78%]
-                      flex-col
-                      items-center
-                      justify-center
-                      text-center
-                    "
-                  >
-                    {stock === undefined ? (
-                      <>
-                        <span>Stock</span>
-                        <span>Details Soon</span>
-                      </>
-                    ) : stock > 0 ? (
-                      <>
-                        <span>{stock.toLocaleString("en-IN")}</span>
-                        <span>Pieces</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Out of</span>
-                        <span>Stock</span>
-                      </>
-                    )}
+                  <span className="flex w-[78%] max-w-[78%] flex-col items-center justify-center text-center">
+                    <span>Age</span>
+                    <span className="mt-1">
+                      {ageLabel ? ageLabel.replace(/^Ages\s*/i, "") : "Not Set"}
+                    </span>
                   </span>
                 </span>
               </Link>
 
-              {/* ==============================================================
-                  FEATURED
-              ============================================================== */}
-
+              {/* FEATURED */}
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`View ${product.name} — ${featuredLabel}`}
                 className="
-                  group
-                  relative
-                  z-20
-                  block
-                  aspect-square
-                  w-full
-                  shrink-0
-                  origin-center
-                  transition-transform
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.04]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group relative z-20 block aspect-square w-full shrink-0
+      origin-center transition-transform duration-300
+      hover:-translate-y-1 hover:scale-[1.04]
+      focus-visible:outline-none focus-visible:ring-2
+      focus-visible:ring-[#E83D59] focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/side-pastel-pink.png"
                   alt=""
                   aria-hidden="true"
-                  className="
-                    absolute
-                    inset-0
-                    block
-                    h-full
-                    w-full
-                    select-none
-                    object-contain
-                  "
                   draggable={false}
+                  className="absolute inset-0 block h-full w-full select-none object-contain"
                 />
 
                 <span
                   className="
-                    pointer-events-none
-                    absolute
-                    inset-y-[12%]
-                    left-[21%]
-                    right-[5%]
-                    flex
-                    items-center
-                    justify-center
-                    text-center
-                    font-[var(--font-playpen-sans)]
-                    text-[clamp(0.68rem,0.95vw,0.75rem)]
-                    font-black
-                    leading-[0.8]
-                    tracking-[-0.025em]
-                    text-[#B90D45]
-                    max-sm:mb-10
-                    xl:mb-12
-                  "
+        pointer-events-none absolute inset-y-[12%] left-[21%] right-[5%]
+        flex items-center justify-center text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.68rem,0.95vw,0.75rem)]
+        font-black leading-[0.8] tracking-[-0.025em]
+        text-[#B90D45] max-sm:mb-10 xl:mb-12
+      "
                 >
-                  <span
-                    className="
-                      flex
-                      w-[78%]
-                      max-w-[78%]
-                      flex-col
-                      items-center
-                      justify-center
-                      text-center
-                    "
-                  >
+                  <span className="flex w-[78%] max-w-[78%] flex-col items-center justify-center text-center">
                     {featuredLabel === "Our Pick" ? (
                       <>
                         <span>Our</span>
@@ -999,80 +813,37 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
                 </span>
               </Link>
 
-              {/* ==============================================================
-                  WATCH DEMO
-              ============================================================== */}
-
+              {/* WATCH DEMO */}
               <Link
                 href={`/products/${product.slug}`}
                 aria-label={`Watch demo for ${product.name}`}
                 className="
-                  group
-                  relative
-                  z-10
-                  block
-                  aspect-square
-                  w-full
-                  shrink-0
-                  origin-center
-                  transition-transform
-                  duration-300
-                  hover:-translate-y-1
-                  hover:scale-[1.04]
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#E83D59]
-                  focus-visible:ring-offset-2
-                "
+      group relative z-10 block aspect-square w-full shrink-0
+      origin-center transition-transform duration-300
+      hover:-translate-y-1 hover:scale-[1.04]
+      focus-visible:outline-none focus-visible:ring-2
+      focus-visible:ring-[#E83D59] focus-visible:ring-offset-2
+    "
               >
                 <img
                   src="/images/buttons/side-pastel-purple.png"
                   alt=""
                   aria-hidden="true"
-                  className="
-                    absolute
-                    inset-0
-                    block
-                    h-full
-                    w-full
-                    select-none
-                    object-contain
-                  "
                   draggable={false}
+                  className="absolute inset-0 block h-full w-full select-none object-contain"
                 />
 
                 <span
                   className="
-    pointer-events-none
-    absolute
-    inset-y-[12%]
-    left-[21%]
-    right-[7%]
-    flex
-    items-center
-    justify-center
-    text-center
-    font-[var(--font-playpen-sans)]
-    text-[clamp(0.68rem,0.95vw,0.9rem)]
-    font-black
-    leading-[0.9]
-    tracking-[-0.025em]
-    text-[#2E2188]
-    max-sm:mb-10
-                    xl:mb-12
-  "
+        pointer-events-none absolute inset-y-[12%] left-[21%] right-[7%]
+        flex items-center justify-center text-center
+        font-[var(--font-playpen-sans)]
+        text-[clamp(0.68rem,0.95vw,0.9rem)]
+        font-black leading-[0.9] tracking-[-0.025em]
+        text-[#2E2188] max-sm:mb-10 xl:mb-12
+      "
                 >
-                  <span
-                    className="
-      flex
-      w-[78%]
-      max-w-[78%]
-      flex-col
-      items-center
-      justify-center
-      text-center
-    "
-                  >
+                  <span className="flex w-[78%] max-w-[78%] flex-col items-center justify-center text-center">
                     <span>Watch</span>
                     <span>Demo</span>
                   </span>
@@ -1670,7 +1441,7 @@ function GeographySection() {
    MAIN COMPONENT
    ============================================================================ */
 
-export default function ShopByAge({ products }: ShopByAgeProps) {
+export default function ShopByAge({ products, favoriteProducts }: ShopByAgeProps) {
   return (
     <section
       className="
@@ -1682,7 +1453,7 @@ export default function ShopByAge({ products }: ShopByAgeProps) {
         py-0
       "
     >
-      <BuzzieFavorites products={products} />
+      <BuzzieFavorites products={favoriteProducts} />
 
       <div className="container relative w-full">
         {/* =========================================================
@@ -1700,4 +1471,3 @@ export default function ShopByAge({ products }: ShopByAgeProps) {
     </section>
   );
 }
-

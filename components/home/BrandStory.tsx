@@ -1,15 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Compass,
-  Crown,
-  Layers3,
-  Sparkles,
-  Users,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Compass, Crown, Layers3, Sparkles, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -120,13 +112,7 @@ function StoryProductImage({
   );
 }
 
-function MobileStoryImage({
-  url,
-  alt,
-}: {
-  url?: string;
-  alt: string;
-}) {
+function MobileStoryImage({ url, alt }: { url?: string; alt: string }) {
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[20px] bg-[#D9D1F0]">
       {url ? (
@@ -146,9 +132,7 @@ function MobileStoryImage({
   );
 }
 
-export default function BrandStory({
-  products: _products,
-}: BrandStoryProps) {
+export default function BrandStory({ products: _products }: BrandStoryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   /*
@@ -409,7 +393,7 @@ export default function BrandStory({
       m-0
       w-full
       max-w-[300px]
-      font-[var(--font-poppins-brand)]
+      font-playpen
       text-[clamp(2rem,8.5vw,3.2rem)]
       font-bold
       leading-[1.02]
@@ -427,6 +411,8 @@ export default function BrandStory({
       lg:max-w-[405px]
       lg:text-[clamp(2.5rem,3.4vw,3.35rem)]
       lg:leading-[0.94]
+      xl:font-playpen
+      xl:text-[30px]
     "
                         >
                           {activeSlide.question}

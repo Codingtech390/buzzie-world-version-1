@@ -229,15 +229,12 @@ export default function CartClient() {
     return (
       <PageShell>
         <div className="mx-auto flex min-h-[calc(100svh-5rem)] w-full max-w-7xl items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
+          <div
             className="
-              relative w-full max-w-[560px] overflow-hidden rounded-[32px]
-              border border-[#E8DDF2] bg-white text-center
-              shadow-[0_24px_75px_rgba(39,52,74,0.075)]
-            "
+    relative w-full max-w-[560px] overflow-hidden rounded-[32px]
+    border border-[#E8DDF2] bg-white text-center
+    shadow-[0_24px_75px_rgba(39,52,74,0.075)]
+  "
           >
             <div
               aria-hidden="true"
@@ -283,48 +280,43 @@ export default function CartClient() {
 
                 <h1
                   className="
-                    mt-3 font-[var(--font-roboto)] text-[2.1rem] font-black
+                    mt-3 font-playpen text-[2.1rem] font-black
                     leading-[1.02] tracking-[-0.05em] text-[#27344A]
                     sm:text-[2.65rem]
                   "
                 >
                   Your cart is empty
                 </h1>
-
-                <p
-                  className="
-                    mx-auto mt-4 max-w-[430px] font-[var(--font-poppins)]
-                    text-sm leading-7 text-[#687489]
-                  "
-                >
-                  Looks like you haven't added anything yet. Let's find something fun for your next
-                  adventure.
-                </p>
               </motion.div>
 
               <motion.div variants={itemVariants} className="relative mt-8">
                 <Link
                   href="/shop"
                   className="
-                    group inline-flex min-h-12 items-center justify-center gap-2
-                    rounded-full bg-[#C391EE] px-7 py-3
-                    font-[var(--font-poppins)] text-sm font-bold text-white
-                    shadow-[0_12px_28px_rgba(195,145,238,0.25)]
-                    transition-all duration-300
-                    hover:-translate-y-0.5 hover:bg-[#E83D59]
-                    focus-visible:outline-none focus-visible:ring-4
-                    focus-visible:ring-[#C391EE]/25
-                  "
+    group inline-flex min-h-12 items-center justify-center gap-2
+    rounded-full bg-[#C391EE] px-7 py-3
+    font-[var(--font-poppins)] text-sm font-bold
+    shadow-[0_12px_28px_rgba(195,145,238,0.25)]
+    transition-all duration-300
+    hover:-translate-y-0.5 hover:bg-[#E83D59]
+    focus-visible:outline-none focus-visible:ring-4
+    focus-visible:ring-[#C391EE]/25
+  "
+                  style={{ color: "#FFFFFF" }}
                 >
-                  Explore Products
+                  <span style={{ color: "#FFFFFF", WebkitTextFillColor: "#FFFFFF" }}>
+                    Explore Products
+                  </span>
+
                   <ArrowRight
                     className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                     strokeWidth={2.2}
+                    style={{ color: "#FFFFFF", stroke: "#FFFFFF" }}
                   />
                 </Link>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </PageShell>
     );
@@ -365,24 +357,14 @@ export default function CartClient() {
             className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
           >
             <div>
-              <motion.div variants={itemVariants} className="flex items-center gap-2">
-                <span className="h-1.5 w-7 rounded-full bg-[#E83D59]" />
-                <p
-                  className="
-                    font-[var(--font-poppins)] text-[10px] font-black
-                    uppercase tracking-[0.18em] text-[#8B62B4]
-                  "
-                >
-                  Your BuzzieWorld cart
-                </p>
-              </motion.div>
+             
 
               <motion.h1
                 variants={itemVariants}
                 className="
-                  mt-3 font-[var(--font-roboto)] text-[2.35rem] font-black
+                  mt-3 font-playpen text-[2.35rem] font-black
                   leading-[0.98] tracking-[-0.055em] text-[#27344A]
-                  sm:text-[3rem] lg:text-[3.45rem]
+                  sm:text-[3rem] lg:text-[3rem]
                 "
               >
                 Your little treasures.
@@ -450,7 +432,7 @@ export default function CartClient() {
                   <span className="size-2 rounded-full bg-[#C391EE]" />
                   <h2
                     className="
-                      font-[var(--font-roboto)] text-xl font-black
+                      font-playpen text-xl font-black
                       tracking-[-0.035em] text-[#27344A] sm:text-2xl
                     "
                   >
@@ -567,7 +549,7 @@ export default function CartClient() {
                     <div>
                       <h2
                         className="
-                          font-[var(--font-roboto)] text-xl font-black
+                          font-playpen text-xl font-black
                           tracking-[-0.035em] text-[#27344A]
                         "
                       >
@@ -642,11 +624,8 @@ export default function CartClient() {
                     </span>
                   </div>
                 </div>
-
                 <div className="my-5 h-px bg-[#E7DCEB]" />
-
                 {/* Total */}
-
                 <div className="flex items-end justify-between gap-5">
                   <div>
                     <p
@@ -678,35 +657,34 @@ export default function CartClient() {
                     ₹{cart.subtotal.toFixed(2)}
                   </strong>
                 </div>
-
                 {/* Checkout */}
 
                 <Link
                   href="/checkout"
                   className="
-                    group mt-6 flex min-h-[54px] w-full items-center
-                    justify-center gap-2 rounded-[16px] bg-[#C391EE]
-                    px-5 py-3.5 font-[var(--font-poppins)] text-sm
-                    font-bold text-white
-                    shadow-[0_12px_26px_rgba(195,145,238,0.25)]
-                    transition-all duration-300
-                    hover:-translate-y-0.5 hover:bg-[#E83D59]
-                    hover:shadow-[0_16px_34px_rgba(232,61,89,0.20)]
-                    focus-visible:outline-none focus-visible:ring-4
-                    focus-visible:ring-[#C391EE]/25
-                    focus-visible:ring-offset-2
-                    focus-visible:ring-offset-[#FBF7FF]
-                  "
+    group mt-6 flex min-h-[54px] w-full items-center
+    justify-center gap-2 rounded-[16px] bg-[#C391EE]
+    px-5 py-3.5 font-[var(--font-poppins)] text-sm
+    font-bold !text-white
+    shadow-[0_12px_26px_rgba(195,145,238,0.25)]
+    transition-all duration-300
+    hover:-translate-y-0.5 hover:bg-[#E83D59]
+    hover:!text-white
+    hover:shadow-[0_16px_34px_rgba(232,61,89,0.20)]
+    focus-visible:outline-none focus-visible:ring-4
+    focus-visible:ring-[#C391EE]/25
+    focus-visible:ring-offset-2
+    focus-visible:ring-offset-[#FBF7FF]
+  "
                 >
-                  Proceed to Checkout
+                  <span className="!text-white">Proceed to Checkout</span>
                   <ArrowRight
-                    className="size-[18px] transition-transform duration-300 group-hover:translate-x-1"
+                    className="size-[18px] !text-white transition-transform duration-300 group-hover:translate-x-1"
                     strokeWidth={2.2}
                   />
                 </Link>
 
                 {/* Trust message */}
-
                 <div
                   className="
                     mt-4 flex items-start gap-2.5 rounded-[14px]
@@ -739,4 +717,3 @@ export default function CartClient() {
     </PageShell>
   );
 }
-

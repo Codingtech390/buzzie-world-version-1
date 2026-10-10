@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  ArrowUpDown,
-  ChevronDown,
-  Filter,
-  Search,
-  SlidersHorizontal,
-  Sparkles,
-  Star,
-  X,
-} from "lucide-react";
+import { ArrowUpDown, ChevronDown, Filter, Search, SlidersHorizontal, Star, X } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
@@ -1113,4 +1104,3 @@ function Benefit({ title, text, image }: { title: string; text: string; image: s
     </div>
   );
 }
-

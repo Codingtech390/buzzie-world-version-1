@@ -5,33 +5,12 @@ import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-interface LandingSlide {
-  id: string;
-  image: string;
-  alt: string;
-  href: string;
-}
 
-const LANDING_SLIDES: LandingSlide[] = [
-  {
-    id: "slide-1",
-    image: "/images/home/landing/hero-image-1.png",
-    alt: "BuzzieWorld special offer",
-    href: "/crazy-deals",
-  },
-  {
-    id: "slide-2",
-    image: "/images/home/landing/hero-image-2.png",
-    alt: "BuzzieWorld celebration and gifting",
-    href: "/crazy-deals",
-  },
-  {
-    id: "slide-3",
-    image: "/images/home/landing/hero-image-3.png",
-    alt: "BuzzieWorld learning through play",
-    href: "/crazy-deals",
-  },
-];
+import { DEFAULT_HERO_SLIDES, type HeroCarouselSlide } from "@/types/homepage";
+
+interface HeroProps {
+  slides?: HeroCarouselSlide[];
+}
 
 const AUTOPLAY_DELAY = 6500;
 
@@ -40,7 +19,10 @@ const slideTransition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-export default function Hero() {
+export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
+
+  const LANDING_SLIDES = slides.length === 3 ? slides : DEFAULT_HERO_SLIDES;
+
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [direction, setDirection] = useState(1);
@@ -51,7 +33,7 @@ export default function Hero() {
     setActiveSlide((current) => {
       return (current + 1) % LANDING_SLIDES.length;
     });
-  }, []);
+  }, [LANDING_SLIDES.length]);
 
   const previousSlide = useCallback(() => {
     setDirection(-1);
@@ -59,7 +41,7 @@ export default function Hero() {
     setActiveSlide((current) => {
       return (current - 1 + LANDING_SLIDES.length) % LANDING_SLIDES.length;
     });
-  }, []);
+  }, [LANDING_SLIDES.length]);
 
   const goToSlide = useCallback(
     (index: number) => {

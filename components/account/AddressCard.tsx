@@ -37,12 +37,12 @@ export default function AddressCard({
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="font-[var(--font-poppins-brand)] text-sm font-bold text-[#303746]">
+              <h3 className="font-playpen text-sm font-bold text-[#303746]">
                 {address.fullName}
               </h3>
 
               {address.isDefault && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#F2EDF9] px-2.5 py-1 font-[var(--font-poppins-brand)] text-[9px] font-semibold uppercase tracking-[0.1em] text-[#6B5A97]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#F2EDF9] px-2.5 py-1 font-playpen text-[9px] font-semibold uppercase tracking-[0.1em] text-[#6B5A97]">
                   <Star className="size-3 fill-current" />
                   Default
                 </span>

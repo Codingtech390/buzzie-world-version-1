@@ -15,18 +15,31 @@ import ReviewsShowcase from "@/components/home/ReviewsShowcase";
 import ShopByAge from "@/components/home/ShopByAge";
 // import FollowUsSection from "@/components/home/FollowUsSection";
 
+
+import { DEFAULT_HERO_SLIDES, type HeroCarouselSlide } from "@/types/homepage";
+
+interface HomepageFavoritesResponse {
+  success: boolean;
+  products?: StorefrontProduct[];
+  message?: string;
+}
+
 interface HomepageData {
   featuredProducts: StorefrontProduct[];
   latestProducts: StorefrontProduct[];
+  favoriteProducts: StorefrontProduct[];
   categories: StorefrontSelector[];
   collections: StorefrontSelector[];
+  heroSlides: HeroCarouselSlide[];
 }
 
 const EMPTY_DATA: HomepageData = {
   featuredProducts: [],
   latestProducts: [],
+  favoriteProducts: [],
   categories: [],
   collections: [],
+  heroSlides: DEFAULT_HERO_SLIDES,
 };
 
 function getApiBaseUrl(): string {
@@ -52,43 +65,57 @@ async function fetchJson<T>(path: string): Promise<T | null> {
 }
 
 async function getHomepageData(): Promise<HomepageData> {
-  const [featuredResponse, latestResponse, categoriesResponse, collectionsResponse] =
-    await Promise.all([
-      fetchJson<StorefrontProductsResponse>(
-        "/api/products?published=true&featured=true&sort=newest&page=1&limit=8",
-      ),
+  const [
+    featuredResponse,
+    latestResponse,
+    favoritesResponse,
+    categoriesResponse,
+    collectionsResponse,
+    heroSlidesResponse,
+  ] = await Promise.all([
+    fetchJson<StorefrontProductsResponse>(
+      "/api/products?published=true&featured=true&sort=newest&page=1&limit=8",
+    ),
 
-      fetchJson<StorefrontProductsResponse>(
-        "/api/products?published=true&sort=newest&page=1&limit=8",
-      ),
+    fetchJson<StorefrontProductsResponse>(
+      "/api/products?published=true&sort=newest&page=1&limit=8",
+    ),
 
-      fetchJson<{
-        success: boolean;
-        categories?: StorefrontSelector[];
-      }>("/api/categories"),
+    fetchJson<HomepageFavoritesResponse>("/api/homepage/favorites"),
 
-      fetchJson<{
-        success: boolean;
-        collections?: StorefrontSelector[];
-      }>("/api/collections"),
-    ]);
+    fetchJson<{
+      success: boolean;
+      categories?: StorefrontSelector[];
+    }>("/api/categories"),
+
+    fetchJson<{
+      success: boolean;
+      collections?: StorefrontSelector[];
+    }>("/api/collections"),
+
+    fetchJson<{
+      success: boolean;
+      slides?: HeroCarouselSlide[];
+    }>("/api/homepage/hero-carousel"),
+  ]);
 
   return {
-    featuredProducts:
-      featuredResponse?.success && featuredResponse.products ? featuredResponse.products : [],
+    featuredProducts: featuredResponse?.success ? (featuredResponse.products ?? []) : [],
 
-    latestProducts:
-      latestResponse?.success && latestResponse.products ? latestResponse.products : [],
+    latestProducts: latestResponse?.success ? (latestResponse.products ?? []) : [],
 
-    categories:
-      categoriesResponse?.success && categoriesResponse.categories
-        ? categoriesResponse.categories
-        : [],
+    favoriteProducts: favoritesResponse?.success ? (favoritesResponse.products ?? []) : [],
 
-    collections:
-      collectionsResponse?.success && collectionsResponse.collections
-        ? collectionsResponse.collections
-        : [],
+    categories: categoriesResponse?.success ? (categoriesResponse.categories ?? []) : [],
+
+    collections: collectionsResponse?.success ? (collectionsResponse.collections ?? []) : [],
+
+    heroSlides:
+      heroSlidesResponse?.success &&
+      Array.isArray(heroSlidesResponse.slides) &&
+      heroSlidesResponse.slides.length === 3
+        ? heroSlidesResponse.slides
+        : DEFAULT_HERO_SLIDES,
   };
 }
 
@@ -109,7 +136,7 @@ export default async function HomePage() {
           HERO
          ================================================================ */}
 
-      <Hero />
+      <Hero slides={homepageData.heroSlides} />
 
       {/* ================================================================
           BENEFITS
@@ -121,7 +148,10 @@ export default async function HomePage() {
           SHOP BY AGE
          ================================================================ */}
 
-      <ShopByAge products={homepageData.latestProducts} />
+      <ShopByAge
+        products={homepageData.latestProducts}
+        favoriteProducts={homepageData.favoriteProducts}
+      />
 
       {/* ================================================================
           CATEGORIES

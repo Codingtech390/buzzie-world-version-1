@@ -1,8 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Script from "next/script";
-import { FormEvent, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -13,6 +10,9 @@ import {
   ShoppingBag,
   Sparkles,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
+import { FormEvent, useState } from "react";
 
 import { useCart } from "@/hooks/useCart";
 import type { ShippingAddress } from "@/types/order";
@@ -369,26 +369,13 @@ export default function CheckoutClient() {
               ================================================================== */}
 
           <header className="mb-7 sm:mb-9">
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-8 rounded-full bg-[#E83D59]" />
 
-              <p
-                className="
-                  font-[var(--font-poppins)] text-[10px] font-black
-                  uppercase tracking-[0.18em] text-[#8B62B4]
-                "
-              >
-                BuzzieWorld checkout
-              </p>
-
-              <Sparkles className="size-3.5 text-[#C391EE]" />
-            </div>
 
             <h1
               className="
-                mt-3 font-[var(--font-roboto)] text-[2.35rem] font-black
+                mt-3 font-playpen text-[2.35rem] font-black
                 leading-[0.98] tracking-[-0.055em] text-[#27344A]
-                sm:text-[3rem] lg:text-[3.45rem]
+                sm:text-[3rem] lg:text-[3rem]
               "
             >
               Almost yours.
@@ -444,7 +431,7 @@ export default function CheckoutClient() {
                   <div>
                     <h2
                       className="
-                        font-[var(--font-roboto)] text-xl font-black
+                        font-playpen text-xl font-black
                         tracking-[-0.035em] text-[#27344A] sm:text-2xl
                       "
                     >
@@ -636,22 +623,14 @@ export default function CheckoutClient() {
                       <div className="flex items-center gap-2">
                         <h2
                           className="
-                            font-[var(--font-roboto)] text-xl font-black
+                            font-playpen text-xl font-black
                             tracking-[-0.035em] text-[#27344A]
                           "
                         >
                           Order Summary
                         </h2>
 
-                        <span
-                          className="
-                            rounded-full bg-white px-2 py-0.5
-                            font-[var(--font-poppins)] text-[9px] font-black
-                            uppercase tracking-[0.1em] text-[#8B62B4]
-                          "
-                        >
-                          {cart.items.length}
-                        </span>
+
                       </div>
 
                       <p
@@ -876,4 +855,3 @@ function Field({ label, value, onChange, type = "text", inputMode, required = fa
     </label>
   );
 }
-

@@ -95,10 +95,10 @@ export default function AccountSidebar({ user }: AccountSidebarProps) {
                   </span>
 
                   <span className="min-w-0">
-                    <span className="block font-[var(--font-poppins-brand)] text-[13px] font-semibold">
+                    <span className="block font-[var(--font-playpen)] text-[13px] font-semibold">
                       {item.label}
                     </span>
-                    <span className="mt-0.5 block truncate font-[var(--font-poppins-brand)] text-[10px] text-current/60">
+                    <span className="mt-0.5 block truncate font-[var(--font-poppins-brand)] text-[12px] text-current/60">
                       {item.description}
                     </span>
                   </span>

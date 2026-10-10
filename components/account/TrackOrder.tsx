@@ -59,7 +59,7 @@ export default function TrackOrder() {
             Shipment tracking
           </p>
 
-          <h2 className="mt-1 font-[var(--font-poppins-brand)] text-xl font-bold text-[#303746]">
+          <h2 className="mt-1 font-playpen text-xl font-bold text-[#303746]">
             Track your order
           </h2>
 

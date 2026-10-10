@@ -41,11 +41,11 @@ const DISCOVERY_CATEGORIES = [
 ];
 
 const POPULAR_SEARCHES = [
-  "Dinosaurs",
+  "Binder",
   "Mind Games",
   "Mythology",
   "Geography",
-  "Learning Games",
+  "Card Games",
   "Travel Games",
 ];
 
@@ -312,14 +312,9 @@ export default function SearchClient() {
                 <span className="h-px w-10 bg-[#E83D59]/50 sm:w-16" />
               </div>
 
-              <h1 className="font-[var(--font-poppins)] text-[38px] font-black leading-[0.98] tracking-[-0.045em] text-[#251D2A] sm:text-[52px] lg:text-[66px]">
+              <h1 className="font-playpen text-[38px] font-black leading-[0.98] tracking-[-0.045em] text-[#251D2A] sm:text-[52px] lg:text-[66px]">
                 Search <span className="text-[#E83D59]">BuzzieWorld</span>
               </h1>
-
-              <p className="mx-auto mt-5 max-w-xl text-[14px] leading-7 text-[#756C72] sm:text-[16px]">
-                Discover toys, games, learning kits, books and little things made for curious young
-                minds.
-              </p>
 
               {/* Main search */}
               <form onSubmit={handleSubmit} className="mx-auto mt-9 max-w-2xl">
@@ -365,21 +360,10 @@ export default function SearchClient() {
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap justify-center gap-2.5 sm:gap-3">
-                {DISCOVERY_CATEGORIES.map((category) => (
-                  <button
-                    key={category.label}
-                    type="button"
-                    onClick={() => handleDiscoverySearch(category.query)}
-                    className={`rounded-full px-4 py-2.5 text-[12px] font-bold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm sm:px-5 sm:text-[13px] ${category.tone}`}
-                  >
-                    {category.label}
-                  </button>
-                ))}
-              </div>
+
 
               <div className="mt-12 text-center">
-                <p className="font-[var(--font-poppins)] text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#9B918B]">
+                <p className="font-playpen text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#9B918B]">
                   Popular searches
                 </p>
 

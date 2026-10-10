@@ -65,21 +65,16 @@ function EmptyWishlist() {
           <span className="h-px w-8 bg-[#E83D59]/40 sm:w-12" />
         </div>
 
-        <h2 className="mt-4 font-[var(--font-poppins)] text-[32px] font-black leading-tight tracking-[-0.035em] text-[#28212A] sm:text-[42px]">
+        <h2 className="mt-4 font-playpen text-[32px] font-black leading-tight tracking-[-0.035em] text-[#28212A] sm:text-[42px]">
           Your wishlist is waiting
         </h2>
 
-        <p className="mx-auto mt-4 max-w-lg text-[13px] leading-7 text-[#7D7379] sm:text-[14px]">
-          Save the things they love, come back whenever you like, and keep all their next favourites
-          in one happy place.
-        </p>
-
         <Link
           href="/shop"
-          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#E83D59] px-7 text-[12px] font-bold text-white shadow-[0_10px_25px_rgba(232,61,89,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#D8324E]"
+          className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#6F32F5] px-7 text-[12px] font-bold !text-white shadow-[0_10px_25px_rgba(111,50,245,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#6024E5]"
         >
-          Explore BuzzieWorld
-          <ArrowRight className="h-4 w-4" />
+          <span className="!text-white">Explore BuzzieWorld</span>
+          <ArrowRight className="h-4 w-4 !text-white" />
         </Link>
 
         <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[11px] font-semibold text-[#978D87]">
@@ -244,23 +239,6 @@ export default function WishlistClient() {
   if (products.length === 0) {
     return (
       <main className="min-h-[calc(100vh-160px)] bg-[#FFFCF8]">
-        <section className="border-b border-[#EEE5DB] bg-[#FFFCF8]">
-          <div className="mx-auto max-w-7xl px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-14 lg:px-8">
-            <div className="flex items-center gap-3">
-              <Heart className="h-5 w-5 text-[#E83D59]" fill="currentColor" />
-
-              <p className="font-[var(--font-poppins)] text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#E83D59]">
-                My account
-              </p>
-            </div>
-
-            <h1 className="mt-3 font-[var(--font-poppins)] text-[34px] font-black tracking-[-0.035em] text-[#28212A] sm:text-[44px]">
-              My Wishlist
-            </h1>
-
-            <p className="mt-2 text-[13px] text-[#837980]">Keep the products you love close.</p>
-          </div>
-        </section>
 
         <EmptyWishlist />
       </main>

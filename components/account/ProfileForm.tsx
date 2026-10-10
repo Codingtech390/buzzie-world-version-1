@@ -78,11 +78,11 @@ export default function ProfileForm({ initialProfile }: ProfileFormProps) {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="rounded-[26px] border border-[#E9E4F1] bg-white p-5 shadow-[0_12px_40px_rgba(82,68,112,0.05)] sm:p-7">
         <div className="border-b border-[#EEEAF4] pb-5">
-          <p className="font-[var(--font-poppins-brand)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#9A91AC]">
+          <p className="font-playpen text-[10px] font-semibold uppercase tracking-[0.14em] text-[#9A91AC]">
             Personal information
           </p>
 
-          <h2 className="mt-1 font-[var(--font-poppins-brand)] text-lg font-bold text-[#303746]">
+          <h2 className="mt-1 font-playpen text-lg font-bold text-[#303746]">
             Keep your details up to date
           </h2>
 

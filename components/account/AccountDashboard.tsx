@@ -34,12 +34,12 @@ export default function AccountDashboard({ user }: AccountDashboardProps) {
 
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3EEF9] px-3 py-1.5 font-[var(--font-poppins-brand)] text-[10px] font-semibold text-[#6B5A97]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3EEF9] px-3 py-1.5 font-playpen text-[10px] font-semibold text-[#6B5A97]">
                 <CheckCircle2 className="size-3.5" strokeWidth={2} />
                 Customer account ready
               </span>
 
-              <h2 className="mt-4 font-[var(--font-poppins-brand)] text-xl font-bold tracking-[-0.02em] text-[#303746] sm:text-2xl">
+              <h2 className="mt-4 font-playpen text-xl font-bold tracking-[-0.02em] text-[#303746] sm:text-2xl">
                 Everything you need, in one little corner of the kingdom.
               </h2>
 
@@ -51,10 +51,10 @@ export default function AccountDashboard({ user }: AccountDashboardProps) {
 
             <Link
               href="/account/profile"
-              className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-[#A092CD] px-5 py-3 font-[var(--font-poppins-brand)] text-[11px] font-semibold text-white shadow-[0_12px_28px_rgba(160,146,205,0.28)] transition-transform hover:-translate-y-0.5"
+              className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-[#A092CD] px-5 py-3 font-[var(--font-poppins-brand)] text-[11px] font-semibold !text-white shadow-[0_12px_28px_rgba(160,146,205,0.28)] transition-transform hover:-translate-y-0.5"
             >
-              Manage profile
-              <ArrowRight className="size-3.5" strokeWidth={2} />
+              <span className="!text-white">Manage profile</span>
+              <ArrowRight className="size-3.5 !text-white" strokeWidth={2} />
             </Link>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function AccountDashboard({ user }: AccountDashboardProps) {
               Quick actions
             </p>
 
-            <h3 className="mt-1 font-[var(--font-poppins-brand)] text-base font-bold text-[#303746]">
+            <h3 className="mt-1 font-playpen text-base font-bold text-[#303746]">
               Keep your account ready
             </h3>
           </div>
@@ -149,7 +149,7 @@ export default function AccountDashboard({ user }: AccountDashboardProps) {
             Account roadmap
           </p>
 
-          <h3 className="mt-1 font-[var(--font-poppins-brand)] text-base font-bold text-[#303746]">
+          <h3 className="mt-1 font-playpen text-base font-bold text-[#303746]">
             Your account will grow from this foundation.
           </h3>
 

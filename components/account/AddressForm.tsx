@@ -178,7 +178,7 @@ export default function AddressForm({
           </div>
 
           <div>
-            <h3 className="font-[var(--font-poppins-brand)] text-base font-bold text-[#303746]">
+            <h3 className="font-playpen text-base font-bold text-[#303746]">
               {editing ? "Edit address" : "Add a new address"}
             </h3>
 

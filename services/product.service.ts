@@ -1,9 +1,9 @@
 import { connectToDatabase } from "@/lib/mongoose";
 
-import { Product } from "@/models/Product";
-import { Category } from "@/models/Category";
 import { Brand } from "@/models/Brand";
+import { Category } from "@/models/Category";
 import { Collection } from "@/models/Collection";
+import { Product } from "@/models/Product";
 
 import { createSlug } from "@/lib/slug";
 
@@ -29,34 +29,40 @@ function getProductSort(sort: ProductSort = "newest"): Record<string, SortOrder>
     case "oldest":
       return {
         createdAt: 1,
+        _id: 1,
       };
 
     case "price-low":
       return {
         price: 1,
         createdAt: -1,
+        _id: 1,
       };
 
     case "price-high":
       return {
         price: -1,
         createdAt: -1,
+        _id: 1,
       };
 
     case "name-az":
       return {
         name: 1,
+        _id: 1,
       };
 
     case "name-za":
       return {
         name: -1,
+        _id: 1,
       };
 
     case "newest":
     default:
       return {
         createdAt: -1,
+        _id: 1,
       };
   }
 }
@@ -206,12 +212,12 @@ function normalizeProductInput(data: ProductInput) {
     shortDescription: cleanOptionalString(data.shortDescription),
 
     keyFeatures: Array.isArray(data.keyFeatures)
-    ? data.keyFeatures
-        .filter((feature): feature is string => typeof feature === "string")
-        .map((feature) => feature.trim())
-        .filter(Boolean)
+      ? data.keyFeatures
+          .filter((feature): feature is string => typeof feature === "string")
+          .map((feature) => feature.trim())
+          .filter(Boolean)
       : [],
-    
+
     price,
 
     compareAtPrice,
@@ -375,6 +381,8 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
   await connectToDatabase();
 
   const existing = await Product.findById(id);
+  console.log("[updateProduct] Incoming ageRange:", data.ageRange);
+  console.log("[updateProduct] Existing ageRange:", existing?.ageRange);
 
   if (!existing) {
     return null;
@@ -387,7 +395,10 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
 
     description: data.description ?? existing.description,
 
-    shortDescription: data.shortDescription ?? existing.shortDescription,
+    shortDescription:
+      data.shortDescription !== undefined ? data.shortDescription : existing.shortDescription,
+
+    keyFeatures: data.keyFeatures !== undefined ? data.keyFeatures : existing.keyFeatures,
 
     price: data.price !== undefined ? data.price : existing.price,
 
@@ -416,6 +427,8 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
 
     ageRange: data.ageRange !== undefined ? data.ageRange : existing.ageRange,
   });
+
+  console.log("[updateProduct] Normalized ageRange:", normalized.ageRange);
 
   return Product.findByIdAndUpdate(
     id,

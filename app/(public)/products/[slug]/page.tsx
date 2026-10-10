@@ -1,17 +1,16 @@
-import { ArrowRight, Heart, Play, Sparkles, Star, Users, Zap } from "lucide-react";
+import { ArrowRight, Heart, Play, Star, Users, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import type { Metadata } from "next";
 import JsonLd from "@/components/seo/JsonLd";
 import { absoluteUrl, createBreadcrumbJsonLd, createProductJsonLd } from "@/lib/seo";
+import type { Metadata } from "next";
 
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInfoArtwork from "@/components/product/ProductInfoArtwork";
 import ProductInfoDiary from "@/components/product/ProductInfoDiary";
 import ProductPurchaseCard from "@/components/product/ProductPurchaseCard";
-import RelatedProducts from "@/components/product/RelatedProducts";
 
 import Reveal from "@/components/home/Reveal";
 import type { StorefrontProduct, StorefrontProductResponse } from "@/types/storefront";
@@ -1089,8 +1088,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
               className="
                 mt-4
                 max-w-[800px]
-                font-[var(--font-roboto)]
-                text-[clamp(2rem,4vw,3.6rem)]
+                font-playpen
+                text-[clamp(2rem,4vw,3rem)]
                 font-black
                 leading-[0.94]
                 tracking-[-0.055em]
@@ -1180,104 +1179,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 object-contain
               "
             />
-          </div>
-
-          {/* ================================================================
-              A+ FOOTER ACCENT
-          ================================================================= */}
-
-          <div
-            aria-hidden="true"
-            className="
-              flex
-              items-center
-              justify-center
-              gap-1.5
-              border-t
-              border-[#F4E6E9]
-              bg-[#FFFDFD]
-              py-4
-            "
-          >
-            <span className="h-[2px] w-8 rounded-full bg-[#C391EE]" />
-            <span className="h-[2px] w-2.5 rounded-full bg-[#E72D5A]" />
-            <span className="h-[2px] w-1.5 rounded-full bg-[#F5B5C5]" />
-          </div>
-        </section>
-
-        {/* ===================================================================
-            RELATED PRODUCTS
-        ==================================================================== */}
-
-        <section className="mt-16 sm:mt-20 lg:mt-24">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Eyebrow */}
-
-            <div
-              className="
-                inline-flex
-                items-center
-                gap-2
-                rounded-full
-                bg-[#FFF0F4]
-                px-4
-                py-2
-              "
-            >
-              <Sparkles className="size-3 text-[#E72D5A]" />
-
-              <span
-                className="
-                  font-[var(--font-poppins)]
-                  text-[9px]
-                  font-extrabold
-                  uppercase
-                  tracking-[0.18em]
-                  text-[#E72D5A]
-                "
-              >
-                Keep exploring
-              </span>
-            </div>
-
-            {/* Heading */}
-
-            <h2
-              className="
-                mt-4
-                font-[var(--font-roboto)]
-                text-3xl
-                font-black
-                tracking-[-0.045em]
-                text-[#17131F]
-                sm:text-4xl
-                lg:text-5xl
-              "
-            >
-              More to discover.
-            </h2>
-
-            {/* Description */}
-
-            <p
-              className="
-                mx-auto
-                mt-4
-                max-w-xl
-                font-[var(--font-poppins)]
-                text-[12px]
-                leading-6
-                text-[#687489]
-                sm:text-[13px]
-                sm:leading-7
-              "
-            >
-              Find another BuzzieWorld favourite to add to their next adventure.
-            </p>
-          </div>
-
-          <div className="mt-8 sm:mt-10 lg:mt-12">
-            <RelatedProducts currentProductId={product._id} />
           </div>
         </section>
       </div>

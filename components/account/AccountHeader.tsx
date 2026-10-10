@@ -15,7 +15,7 @@ export default function AccountHeader({ user }: AccountHeaderProps) {
           BuzzieWorld Account
         </p>
 
-        <h1 className="mt-1 font-[var(--font-poppins-brand)] text-2xl font-bold tracking-[-0.02em] text-[#303746] sm:text-[28px]">
+        <h1 className="mt-1 font-playpen text-xl font-bold tracking-[-0.02em] text-[#303746] sm:text-[28px]">
           Welcome back, {user.name.split(" ")[0] || "there"}.
         </h1>
 
@@ -27,11 +27,11 @@ export default function AccountHeader({ user }: AccountHeaderProps) {
 
       <Link
         href="/products"
-        className="inline-flex w-fit items-center gap-2 rounded-full bg-[#A092CD] px-4 py-2.5 font-[var(--font-poppins-brand)] text-[11px] font-semibold text-white shadow-[0_10px_24px_rgba(160,146,205,0.28)] transition-transform hover:-translate-y-0.5"
+        className="inline-flex w-fit items-center gap-2 rounded-full bg-[#A092CD] px-4 py-2.5 font-[var(--font-poppins-brand)] text-[11px] font-semibold !text-white shadow-[0_10px_24px_rgba(160,146,205,0.28)] transition-transform hover:-translate-y-0.5"
       >
-        <ShoppingBag className="size-4" strokeWidth={1.9} />
-        Continue shopping
-        <ArrowUpRight className="size-3.5" strokeWidth={2} />
+        <ShoppingBag className="size-4 !text-white" strokeWidth={1.9} />
+        <span className="!text-white">Continue shopping</span>
+        <ArrowUpRight className="size-3.5 !text-white" strokeWidth={2} />
       </Link>
     </header>
   );

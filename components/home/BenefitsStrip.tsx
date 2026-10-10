@@ -256,7 +256,7 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
           block
           w-full
           overflow-hidden
-          rounded-[28px]
+          rounded-[58px]
           transition-all
           duration-300
           hover:-translate-y-1
@@ -271,46 +271,28 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
         {/* PRODUCT IMAGE                                                      */}
         {/* ------------------------------------------------------------------ */}
 
-        <div
-          className="
-    relative
-    mx-auto
-    aspect-[0.88/1]
-    w-[100%]
-    overflow-hidden
-    rounded-t-[50%]
-    bg-transparent
-  "
-        >
-          {/* Product image */}
-          {image ? (
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              sizes="
-        (max-width: 639px) 34vw,
-        (max-width: 1023px) 34vw,
-        (max-width: 1279px) 18vw,
-        18vw
-      "
-              className="
-        relative
-        z-10
-        object-contain
-        p-3
-        transition-transform
-        duration-700
-        ease-[cubic-bezier(0.22,1,0.36,1)]
-        group-hover:scale-[1.045]
-        sm:p-4
-      "
-            />
-          ) : (
-            <div className="absolute inset-0 z-10 flex items-center justify-center font-[var(--font-poppins-brand)] text-xs font-bold text-[#7A6A91]">
-              Buzzie Product
-            </div>
-          )}
+        {/* PRODUCT IMAGE — INDEPENDENT ARCH SHAPE */}
+        <div className="relative mx-auto w-full" style={{ height: "clamp(220px, 22vw, 285px)" }}>
+          <div
+            className="absolute inset-x-0 bottom-0 mx-auto h-[92%] w-[88%] overflow-hidden bg-transparent"
+            style={{
+              borderRadius: "50% 50% 0 0 / 44% 44% 0 0",
+            }}
+          >
+            {image ? (
+              <Image
+                src={image}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 639px) 40vw, (max-width: 1023px) 40vw, 20vw"
+                className="object-contain p-3 scale-110 transition-transform duration-700 group-hover:scale-[1.15]"
+              />
+            ) : (
+              <div className="absolute inset-0 z-10 flex items-center justify-center text-xs font-bold text-[#7A6A91]">
+                Buzzie Product
+              </div>
+            )}
+          </div>
         </div>
 
         {/* ------------------------------------------------------------------ */}

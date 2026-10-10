@@ -19,7 +19,7 @@ const homepageSections = [
     description:
       "Manage the main hero content, promotional messaging, imagery, and primary call-to-action.",
     icon: ImageIcon,
-    href: "/admin/storefront/homepage/hero",
+    href: "/admin/storefront/hero-carousel",
     status: "Manage",
   },
   {

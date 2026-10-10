@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import { Pencil, Star, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 import ReviewForm from "@/components/account/ReviewForm";
 
@@ -195,22 +195,16 @@ export default function ReviewList() {
             Your reviews
           </p>
 
-          <h3 className="mt-1 font-[var(--font-poppins-brand)] text-lg font-bold text-[#302831]">
-            Review history
-          </h3>
+          <h3 className="mt-1 font-playpen text-lg font-bold text-[#302831]">Review history</h3>
         </div>
 
         {reviews.length === 0 ? (
           <div className="rounded-3xl border border-[#EEE5DB] bg-white px-6 py-12 text-center">
             <Star className="mx-auto h-7 w-7 text-[#D9D1CA]" />
 
-            <h3 className="mt-4 font-[var(--font-poppins-brand)] text-base font-bold text-[#302831]">
-              No reviews yet
-            </h3>
+            <h3 className="mt-4 font-playpen text-base font-bold text-[#302831]">No reviews yet</h3>
 
-            <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-[#837980]">
-              Once you purchase a product, you can share your experience here.
-            </p>
+
           </div>
         ) : (
           <div className="space-y-4">

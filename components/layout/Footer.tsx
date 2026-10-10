@@ -168,8 +168,8 @@ export default function Footer() {
 
             pt-8
             sm:pt-10
-            md:pt-12
-            lg:pt-14
+            md:pt-6
+            lg:pt-6
 
 
           "

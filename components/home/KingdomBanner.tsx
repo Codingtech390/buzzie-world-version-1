@@ -529,7 +529,7 @@ export default function KingdomBanner() {
               h-[2px]
               w-8
               rounded-full
-              bg-[#C391EE]
+              bg-[#5b4fa3]
 
               sm:w-10
             "
@@ -556,7 +556,7 @@ export default function KingdomBanner() {
               h-2
               w-2
               rounded-full
-              bg-[#C391EE]
+              bg-[#5b4fa3]
             "
                 />
               </div>
@@ -578,7 +578,7 @@ export default function KingdomBanner() {
           "
               >
                 See it.
-                <span className="text-[#C391EE]"> Love it.</span>
+                <span className="text-[#5b4fa3]"> Love it.</span>
                 <span className="text-[#E83D59]"> Take it home.</span>
               </h2>
             </header>

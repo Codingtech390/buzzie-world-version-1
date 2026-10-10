@@ -177,21 +177,9 @@ export default async function AgeShopPage({ params }: PageProps) {
       <section className="mx-auto w-full max-w-[1320px] px-5 pb-16 pt-14 sm:px-8 sm:pt-16 lg:px-10 lg:pt-20">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <span
-                className="h-[2px] w-8 rounded-full"
-                style={{ backgroundColor: ageGroup.accent }}
-              />
+            
 
-              <span
-                className="font-[var(--font-poppins)] text-[9px] font-black uppercase tracking-[0.18em]"
-                style={{ color: ageGroup.accent }}
-              >
-                Handpicked for them
-              </span>
-            </div>
-
-            <h2 className="mt-4 font-[var(--font-roboto)] text-[clamp(2rem,4vw,3.35rem)] font-black leading-[0.95] tracking-[-0.055em] text-[#111111]">
+            <h2 className="mt-4 font-playpen text-[clamp(2rem,4vw,3rem)] font-black leading-[0.95] tracking-[-0.055em] text-[#111111]">
               Made for{" "}
               <span style={{ color: ageGroup.accent }}>{ageGroup.title.toLowerCase()}.</span>
             </h2>

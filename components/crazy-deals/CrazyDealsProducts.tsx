@@ -244,10 +244,10 @@ export default function CrazyDealsProducts() {
           <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-[#F3ECFF] text-[#6F32F5]">
             <Sparkles className="size-6" />
           </div>
-
           <p
             className="
               mt-5
+              mb-5
               font-[var(--font-poppins)]
               text-[10px]
               font-black
@@ -258,70 +258,56 @@ export default function CrazyDealsProducts() {
           >
             BuzzieWorld offers
           </p>
-
           <h2
             className="
               mt-3
-              font-[var(--font-roboto)]
-              text-[clamp(2rem,5vw,3.2rem)]
+              font-playpen
+              text-[clamp(2rem,3vw,3.2rem)]
               font-black
               leading-[0.95]
               tracking-[-0.055em]
               text-[#111111]
+              xl:text-[28px]
             "
           >
             No deals right now.
           </h2>
 
-          <p
-            className="
-              mx-auto
-              mt-5
-              max-w-[450px]
-              font-[var(--font-poppins)]
-              text-[13px]
-              leading-6
-              text-[#687489]
-              sm:text-[14px]
-            "
-          >
-            But there&apos;s still plenty to discover. Explore the full BuzzieWorld collection and
-            find something worth bringing home.
-          </p>
 
           <Link
             href="/shop"
             className="
-              group
-              mt-7
-              inline-flex
-              min-h-[48px]
-              items-center
-              justify-center
-              gap-3
-              rounded-full
-              bg-[#6F32F5]
-              px-7
-              font-[var(--font-poppins)]
-              text-[11px]
-              font-black
-              uppercase
-              tracking-[0.08em]
-              text-white
-              shadow-[0_14px_30px_rgba(111,50,245,0.20)]
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:bg-[#6024E5]
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#6F32F5]
-              focus-visible:ring-offset-2
-            "
+    group
+    mt-7
+    inline-flex
+    min-h-[48px]
+    items-center
+    justify-center
+    gap-3
+    rounded-full
+    bg-[#6F32F5]
+    px-7
+    font-[var(--font-poppins)]
+    text-[11px]
+    font-black
+    uppercase
+    tracking-[0.08em]
+    !text-white
+    shadow-[0_14px_30px_rgba(111,50,245,0.20)]
+    transition-all
+    duration-300
+    hover:-translate-y-0.5
+    hover:bg-[#6024E5]
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-[#6F32F5]
+    focus-visible:ring-offset-2
+  "
           >
-            Explore all products
-            <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            <span className="!text-white">Explore all products</span>
+            <ArrowRight className="size-4 !text-white transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
+
         </div>
       </section>
     );

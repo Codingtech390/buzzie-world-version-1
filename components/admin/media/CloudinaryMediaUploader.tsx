@@ -37,6 +37,10 @@ export default function CloudinaryMediaUploader({
   onSuccess,
   onError,
 }: CloudinaryMediaUploaderProps) {
+  console.log(
+    "Cloudinary cloud name available:",
+    Boolean(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME),
+  );
   return (
     <CldUploadWidget
       signatureEndpoint="/api/media/signature"
@@ -85,7 +89,7 @@ export default function CloudinaryMediaUploader({
             hover:bg-[#E83D59]
           "
         >
-          Upload Video
+          {resourceType === "image" ? "Upload Image" : "Upload Video"}
         </button>
       )}
     </CldUploadWidget>

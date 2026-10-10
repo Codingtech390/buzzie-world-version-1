@@ -115,14 +115,11 @@ export default function OrderList({
           <ClipboardList className="size-6" strokeWidth={1.7} />
         </div>
 
-        <h3 className="mt-5 font-[var(--font-poppins-brand)] text-base font-bold text-[#303746]">
+        <h3 className="mt-5 font-playpen text-base font-bold text-[#303746]">
           No orders yet
         </h3>
 
-        <p className="mx-auto mt-2 max-w-md font-[var(--font-roboto)] text-xs leading-5 text-[#8A92A0]">
-          Your completed purchases will appear here once you place your first
-          order.
-        </p>
+
 
         <Link
           href="/shop"

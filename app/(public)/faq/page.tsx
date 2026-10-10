@@ -44,17 +44,64 @@ const faqs = [
 function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  /*
-   * Do NOT filter by product.howToPlay here.
-   *
-   * The current StorefrontProduct data does not guarantee
-   * that field is true for your catalog.
-   *
-   * We only need products that have a usable image.
-   */
-  const howToPlayProducts = products.filter((product) =>
-    product.images?.some((image) => image?.url),
-  );
+const HOW_TO_PLAY_CATEGORIES = new Set([
+  "mind games",
+  "mind-games",
+  "mind_games",
+  "card games",
+  "card-games",
+  "card_games",
+  "strategy game",
+  "strategy games",
+  "strategy-game",
+  "strategy-games",
+  "strategy_game",
+  "strategy_games",
+  "phonics",
+]);
+
+const howToPlayProducts = products.filter((product) => {
+  const categoryName = product.category?.name?.trim().toLowerCase() ?? "";
+  const categorySlug = product.category?.slug?.trim().toLowerCase() ?? "";
+
+  const isIncludedCategory =
+    HOW_TO_PLAY_CATEGORIES.has(categoryName) || HOW_TO_PLAY_CATEGORIES.has(categorySlug);
+
+  const hasImage = product.images?.some((image) => Boolean(image?.url));
+
+  return isIncludedCategory && hasImage;
+});
+
+  useEffect(() => {
+    if (howToPlayProducts.length <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      const container = carouselRef.current;
+      if (!container) return;
+
+      const firstCard = container.querySelector<HTMLElement>("[data-how-to-play-card]");
+
+      if (!firstCard) return;
+
+      const cardWidth = firstCard.offsetWidth;
+      const gap = 20;
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+      if (container.scrollLeft >= maxScrollLeft - 5) {
+        container.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      } else {
+        container.scrollBy({
+          left: cardWidth + gap,
+          behavior: "smooth",
+        });
+      }
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [howToPlayProducts.length]);
 
   const scrollCarousel = (direction: "left" | "right") => {
     const container = carouselRef.current;
@@ -89,13 +136,13 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
       >
         <p
           className="
-            font-[var(--font-poppins)]
+            font-playpen
             text-[12px]
             font-semibold
             text-[#77727F]
           "
         >
-          No games are currently available.
+          No games are currently available. Please check back soon!
         </p>
       </div>
     );
@@ -181,21 +228,14 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
                   PRODUCT IMAGE
                  ========================================= */}
               <div
-                className="
-                  relative
-                  overflow-hidden
-                  rounded-t-[50%]
-                  bg-[#EEE9F7]
-                "
+                className="relative mx-auto w-full"
+                style={{ height: "clamp(220px, 22vw, 285px)" }}
               >
                 <div
-                  className="
-                    relative
-                    aspect-[1/0.88]
-                    overflow-hidden
-                    rounded-t-[50%]
-                    bg-[#EEE9F7]
-                  "
+                  className="absolute inset-x-0 bottom-0 mx-auto h-[92%] w-[88%] overflow-hidden bg-transparent"
+                  style={{
+                    borderRadius: "50% 50% 0 0 / 44% 44% 0 0",
+                  }}
                 >
                   <Image
                     src={image}
@@ -203,15 +243,16 @@ function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
                     fill
                     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 42vw, 82vw"
                     className="
-                      object-contain
-                      px-4
-                      pb-3
-                      pt-4
-                      transition-transform
-                      duration-500
-                      ease-out
-                      group-hover:scale-[1.035]
-                    "
+  object-contain
+  px-2
+  pb-2
+  pt-2
+  scale-[1.15]
+  transition-transform
+  duration-500
+  ease-out
+  group-hover:scale-[1.25]
+"
                   />
                 </div>
               </div>
@@ -373,21 +414,47 @@ export default function FAQPage() {
         setProductsLoading(true);
         setProductsError(null);
 
-        const response = await fetch("/api/products?status=active&limit=20&sort=newest", {
-          signal: controller.signal,
-        });
+
+const response = await fetch("/api/products?published=true&limit=100&sort=newest", {
+  signal: controller.signal,
+});
+
+
+        console.log("FAQ products API status:", response.status);
+        console.log("FAQ products API URL:", response.url);
 
         if (!response.ok) {
           throw new Error("Unable to load products.");
         }
 
         const data = await response.json();
+        console.log("FAQ products API response:", data);
+        console.log("FAQ products API keys:", Object.keys(data ?? {}));
 
         if (!data.success) {
           throw new Error(data.message ?? "Unable to load products.");
         }
 
-        setProducts(data.products ?? []);
+
+
+
+const loadedProducts: StorefrontProduct[] = data.products ?? [];
+
+console.table(
+  loadedProducts.map((product: StorefrontProduct) => ({
+    name: product.name,
+    categoryName: product.category?.name ?? "No category returned",
+    categorySlug: product.category?.slug ?? "No slug returned",
+    hasImage: Boolean(product.images?.some((image) => Boolean(image?.url))),
+    status: product.status,
+  })),
+);
+
+        setProducts(loadedProducts);
+        console.log("FAQ API product count:", loadedProducts.length);
+        console.log("FAQ API first product:", loadedProducts[0]);
+
+
       } catch (error) {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;

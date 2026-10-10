@@ -173,12 +173,13 @@ export default function StatusState({
               className="
                 relative
                 mt-3
-                font-[var(--font-roboto)]
+                font-playpen
                 text-2xl
                 font-black
                 tracking-[-0.035em]
                 text-[#27344A]
                 sm:text-3xl
+                xl:text-[30px]
               "
             >
               {resolvedTitle}
