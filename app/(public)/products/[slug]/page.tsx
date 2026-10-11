@@ -1167,7 +1167,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             "
           >
             <Image
-              src="/images/products/a-plus/a+combined.png"
+              src="/images/products/a-plus/image-spell-master.png"
               alt={`${product.name} — product features, what's included, learning benefits and product experience`}
               width={1600}
               height={2400}

@@ -215,7 +215,7 @@ export default function LoginPage() {
               "
             >
               <motion.img
-                src="/images/login/login-1.png"
+                src="/images/login/login-2.png"
                 alt="A world awaits at BuzzieWorld"
                 draggable={false}
                 initial={{
@@ -352,6 +352,7 @@ export default function LoginPage() {
                 <div className="mt-4 text-center">
                   <h1
                     className="
+                    font-playpen
                       text-[1.8rem]
                       font-black
                       leading-tight

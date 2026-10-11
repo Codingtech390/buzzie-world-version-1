@@ -858,7 +858,7 @@ const isAccountArea =
                     </div>
 
                     {/* VIEW ALL */}
-                    <div
+                    {/* <div
                       className="
                         mt-4
                         flex
@@ -916,7 +916,7 @@ const isAccountArea =
                           "
                         />
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* ======================================================== */}
@@ -2348,7 +2348,7 @@ onClick={() => {
                                     </Link>
                                   ))}
 
-                                  <Link
+                                  {/* <Link
                                     href="/categories"
                                     onClick={closeMobileMenu}
                                     className="
@@ -2374,7 +2374,7 @@ onClick={() => {
                                     "
                                   >
                                     View all categories
-                                  </Link>
+                                  </Link> */}
                                 </div>
                               </motion.div>
                             ) : null}

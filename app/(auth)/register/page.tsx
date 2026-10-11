@@ -419,7 +419,7 @@ export default function RegisterPage() {
               "
             >
               <motion.img
-                src="/images/login/register-1.png"
+                src="/images/login/register-2.png"
                 alt="Join the BuzzieWorld adventure"
                 draggable={false}
                 initial={{
@@ -552,6 +552,7 @@ export default function RegisterPage() {
                 <motion.div variants={itemVariants} className="mt-4 text-center">
                   <h1
                     className="
+                    font-playpen
                       text-[1.8rem]
                       font-black
                       leading-tight

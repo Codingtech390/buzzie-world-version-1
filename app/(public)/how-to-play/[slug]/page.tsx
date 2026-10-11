@@ -116,110 +116,44 @@ export default async function HowToPlayPage({ params }: HowToPlayPageProps) {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F0ECF8] text-[#24104F]">
-      {/* Hero */}
-      <section className="relative px-4 pb-10 pt-10 sm:px-6 sm:pb-14 sm:pt-14 lg:px-8 lg:pt-16">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -left-20 top-12 h-56 w-56 rounded-full bg-[#D9CBF5]/60 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#FFD9E7]/60 blur-3xl"
-        />
 
-        <div className="relative mx-auto max-w-6xl">
-          <Link
-            href={`/products/${product.slug}`}
-            className="inline-flex items-center gap-2 rounded-full border border-[#D9CEE9] bg-white/80 px-4 py-2 text-sm font-semibold text-[#5E4B83] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A77BE8]"
-          >
-            <ArrowLeft size={16} />
-            Back to {product.name}
-          </Link>
-        </div>
-      </section>
 
-      {/* Ordered instructional artwork */}
+      {/* Full-width instructional artwork */}
       {instructions.length > 0 ? (
         <section
           aria-label={`How to play ${product.name}, step by step`}
-          className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
+          className="w-full overflow-hidden"
         >
-          <div className="mx-auto max-w-6xl">
-            <div className="space-y-8 sm:space-y-12">
-              {instructions.map((instruction, index) => (
-                <article
-                  key={instruction.src}
-                  className="overflow-hidden  p-3 sm:rounded-[32px] sm:p-5 lg:p-7"
-                >
-                  <div className="overflow-hidden rounded-[10px] bg-[#D5CEE5] sm:rounded-[10px]">
-                    <Image
-                      src={instruction.src}
-                      alt={instruction.alt}
-                      width={1650}
-                      height={900}
-                      sizes="(max-width: 640px) calc(100vw - 56px), (max-width: 1200px) calc(100vw - 100px), 1100px"
-                      className="block h-auto w-full object-contain"
-                    />
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 text-center sm:mt-14">
-              <p className="font-[var(--font-poppins)] text-xl font-extrabold text-[#24104F] sm:text-2xl">
-                Ready to start playing?
-              </p>
-              <p className="max-w-xl text-sm leading-6 text-[#6F647F] sm:text-base">
-                Get your game ready, follow the instructions, and enjoy learning together.
-              </p>
-
-              <Link
-                href={`/products/${product.slug}`}
-                className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#8957C8] px-7 py-3 text-sm font-bold shadow-[0_8px_22px_rgba(137,87,200,0.25)] transition hover:bg-[#7543B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8957C8] focus-visible:ring-offset-2"
-                style={{ color: "#FFFFFF" }}
-              >
-                <span style={{ color: "#FFFFFF", WebkitTextFillColor: "#FFFFFF" }}>
-                  View Product
-                </span>
-                <ArrowRight size={17} style={{ color: "#FFFFFF", stroke: "#FFFFFF" }} />
-              </Link>
-            </div>
-          </div>
+          {instructions.map((instruction) => (
+            <Image
+              key={instruction.src}
+              src={instruction.src}
+              alt={instruction.alt}
+              width={1650}
+              height={900}
+              sizes="100vw"
+              className="block h-auto w-full"
+              priority={instruction.src === instructions[0]?.src}
+            />
+          ))}
         </section>
       ) : (
-        <section className="px-4 pb-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl rounded-[28px] border border-white bg-white/85 px-6 py-12 text-center shadow-sm sm:px-12">
+        <section className="px-4 py-16 text-center sm:py-20">
+          <div className="mx-auto max-w-3xl">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F0E5FF] text-[#8957C8]">
               <BookOpen size={26} />
             </div>
 
-            <h2 className="mt-5 font-[var(--font-poppins)] text-xl font-extrabold text-[#24104F] sm:text-2xl">
+            <h2 className="mt-5 font-playpen text-xl font-extrabold text-[#24104F] sm:text-2xl">
               Instructions are coming soon
             </h2>
 
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-7 text-[#6F647F] sm:text-base">
-              We are preparing the illustrated How to Play guide for this game. In the meantime,
-              visit the product page to learn more.
-            </p>
-
             <Link
               href={`/products/${product.slug}`}
-              className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#8957C8] px-7 py-3 text-sm font-bold shadow-[0_8px_22px_rgba(137,87,200,0.25)] transition hover:bg-[#7543B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8957C8] focus-visible:ring-offset-2"
-              style={{ color: "#FFFFFF" }}
+              className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#8957C8] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#7543B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8957C8] focus-visible:ring-offset-2"
             >
-              <span
-                style={{
-                  color: "#FFFFFF",
-                  WebkitTextFillColor: "#FFFFFF",
-                }}
-              >
-                View Product
-              </span>
-              <ArrowRight
-                size={17}
-                color="#FFFFFF"
-                style={{ color: "#FFFFFF", stroke: "#FFFFFF" }}
-              />
+              View Product
+              <ArrowRight size={17} />
             </Link>
           </div>
         </section>

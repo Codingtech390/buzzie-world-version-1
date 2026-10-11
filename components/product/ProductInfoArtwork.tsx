@@ -377,25 +377,27 @@ export default function ProductInfoArtwork({
 
       <div
         className="
-          mt-4
-          w-full
-          overflow-hidden
-          sm:mt-5
-          xl:-mt-5
+         mt-4
+    w-[75%]
+    overflow-hidden
+    sm:mt-5
+    xl:mt-5
         "
       >
         <Image
-          src="/images/benefits-vectors/info-artwork.png"
+          src="/images/benefits-vectors/trust-badge.png"
           alt="Product benefits and safety features"
           width={1200}
           height={200}
-          sizes="100%"
+          sizes="75vw"
           className="
             block
             h-auto
             w-full
             object-contain
             object-left
+
+            
           "
         />
       </div>
