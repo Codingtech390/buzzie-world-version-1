@@ -295,7 +295,18 @@ export default function Navbar() {
 
   const { data: session, status: sessionStatus } = useSession();
 
-  const { cart } = useCart();
+  const { cart, refreshCart } = useCart();
+  useEffect(() => {
+    const handleCartUpdated = () => {
+      void refreshCart();
+    };
+
+    window.addEventListener("buzzieworld:cart-updated", handleCartUpdated);
+
+    return () => {
+      window.removeEventListener("buzzieworld:cart-updated", handleCartUpdated);
+    };
+  }, [refreshCart]);
 
   /* ------------------------------------------------------------------------ */
   /* STATE                                                                    */

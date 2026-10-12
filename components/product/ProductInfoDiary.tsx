@@ -1,20 +1,15 @@
 "use client";
-
 import { Check, Info, PackageCheck, Sparkles, Tag, Ruler, Scale } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-
 import type { StorefrontProduct } from "@/types/storefront";
-
 interface ProductInfoDiaryProps {
   product: StorefrontProduct;
   ageLabel: string | null;
   hasDiscount: boolean;
   discount: number;
 }
-
 type DiaryTab = "overview" | "keyFeatures" | "specs" | "benefits";
-
 const diaryTabs: Array<{
   id: DiaryTab;
   label: string;
@@ -42,14 +37,61 @@ const diaryTabs: Array<{
   },
 ];
 
+const diaryTabColors: Record<
+  DiaryTab,
+  { accent: string; soft: string; border: string; iconBg: string }
+> = {
+  overview: {
+    accent: "#F9BF3B",
+    soft: "linear-gradient(135deg, #FFF3C9 0%, #FFFCF2 55%, #FFFFFF 100%)",
+    border: "#F2D27A",
+    iconBg: "#FFF0BD",
+  },
+  keyFeatures: {
+    accent: "#7BAA5B",
+    soft: "linear-gradient(135deg, #E7F2DE 0%, #F5F9F0 55%, #FFFFFF 100%)",
+    border: "#B5D29E",
+    iconBg: "#DDECCF",
+  },
+  specs: {
+    accent: "#ED8B53",
+    soft: "linear-gradient(135deg, #FCE8D9 0%, #FFF5EE 55%, #FFFFFF 100%)",
+    border: "#F0B58E",
+    iconBg: "#FBE0CC",
+  },
+  benefits: {
+    accent: "#60D3EC",
+    soft: "linear-gradient(135deg, #DDF7FC 0%, #F0FCFE 55%, #FFFFFF 100%)",
+    border: "#9BE5F2",
+    iconBg: "#D5F4FA",
+  },
+};
+
 function getDescriptionPoints(description: string): string[] {
-  return description
-    .split(/\n\s*\n|\n\s*\*\s*\n/)
-    .map((part) => part.trim())
-    .filter(Boolean);
+  if (!description?.trim()) {
+    return [];
+  }
+
+  return (
+    description
+      // Convert common HTML line-break/paragraph separators to real newlines.
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p\s*>\s*<p[^>]*>/gi, "\n")
+      .replace(/<\/?p[^>]*>/gi, "")
+      // Split on actual line breaks, including Windows CRLF and blank lines.
+      .split(/\r?\n+/)
+      // Remove simple Markdown emphasis/heading markers without changing the text.
+      .map((part) =>
+        part
+          .trim()
+          .replace(/^#{1,6}\s*/, "")
+          .replace(/^\*{1,3}|\*{1,3}$/g, "")
+          .replace(/^_{1,3}|_{1,3}$/g, "")
+          .trim(),
+      )
+      .filter(Boolean)
+  );
 }
-
-
 const staticBenefits = [
   {
     title: "Skill Building & Learning",
@@ -57,10 +99,8 @@ const staticBenefits = [
       "Boosts general knowledge, visual-spatial skills, memory, critical thinking and social play. An educational toy that combines learning with laughter.",
   },
 ];
-
 function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: string | null) {
   const descriptionPoints = getDescriptionPoints(product.description);
-
   switch (tab) {
     case "keyFeatures":
       return {
@@ -73,7 +113,6 @@ function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: st
             : ["Key features will be available soon."],
         icon: PackageCheck,
       };
-
     case "specs":
       return {
         eyebrow: "PRODUCT DETAILS",
@@ -92,7 +131,6 @@ function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: st
         ],
         icon: Tag,
       };
-
     case "benefits":
       return {
         eyebrow: "BENEFITS",
@@ -101,7 +139,6 @@ function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: st
         points: staticBenefits.map((benefit) => `${benefit.title} — ${benefit.description}`),
         icon: Sparkles,
       };
-
     default:
       return {
         eyebrow: "QUICK OVERVIEW",
@@ -118,21 +155,17 @@ function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: st
       };
   }
 }
-
 export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiaryProps) {
   const [activeTab, setActiveTab] = useState<DiaryTab>("overview");
-
   const content = getDiaryContent(activeTab, product, ageLabel);
-
   const ContentIcon = content.icon;
-
+  const activeColors = diaryTabColors[activeTab];
   return (
     <section
       aria-labelledby="product-diary-heading"
       className="
         relative
         w-full
-
         overflow-hidden
         rounded-[28px]
         border
@@ -142,10 +175,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
         sm:rounded-[32px]
       "
     >
-      {/* ================================================================
-          DECORATIVE ATMOSPHERE
-      ================================================================= */}
-
+      {/* ================================================================*
+       *          DECORATIVE ATMOSPHERE*
+       *      ================================================================= */}
       <div
         aria-hidden="true"
         className="
@@ -159,7 +191,6 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
           blur-3xl
         "
       />
-
       <div
         aria-hidden="true"
         className="
@@ -173,7 +204,6 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
           blur-3xl
         "
       />
-
       <div
         aria-hidden="true"
         className="
@@ -196,17 +226,13 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
             strokeLinecap="round"
             strokeDasharray="4 5"
           />
-
           <circle cx="78" cy="15" r="3" fill="#E72D5A" />
-
           <circle cx="63" cy="26" r="2.5" fill="#F1A348" />
         </svg>
       </div>
-
-      {/* ================================================================
-          DIARY LAYOUT
-      ================================================================= */}
-
+      {/* ================================================================*
+       *          DIARY LAYOUT*
+       *      ================================================================= */}
       <div
         className="
           relative
@@ -216,10 +242,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
           xl:grid-cols-[225px_minmax(0,1fr)]
         "
       >
-        {/* ================================================================
-            LEFT — DIARY INDEX
-        ================================================================= */}
-
+        {/* ================================================================*
+         *            LEFT — DIARY INDEX*
+         *        ================================================================= */}
         <aside
           className="
             border-b
@@ -242,12 +267,10 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                 text-[#E72D5A]
                 sm:text-[12px]
                 lg:text-[12px]
-
               "
             >
               Product diary
             </p>
-
             <h2
               id="product-diary-heading"
               className="
@@ -264,9 +287,7 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               Inside the story
             </h2>
           </div>
-
           {/* Mobile horizontal / desktop vertical nav */}
-
           <div
             className="
               w-full
@@ -301,7 +322,6 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               {diaryTabs.map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
-
                 return (
                   <button
                     key={tab.id}
@@ -309,6 +329,17 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                     role="tab"
                     aria-selected={active}
                     onClick={() => setActiveTab(tab.id)}
+                    style={{
+                      backgroundColor: active
+                        ? diaryTabColors[tab.id].soft
+                        : `${diaryTabColors[tab.id].accent}0A`,
+                      borderColor: active
+                        ? diaryTabColors[tab.id].border
+                        : `${diaryTabColors[tab.id].accent}55`,
+                      color: diaryTabColors[tab.id].accent,
+                      boxShadow: active ? `0 8px 22px ${diaryTabColors[tab.id].accent}18` : "none",
+                      outlineColor: diaryTabColors[tab.id].accent,
+                    }}
                     className={`
                     group
                     relative
@@ -325,40 +356,25 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                     text-left
                     transition-all
                     duration-300
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-[#E72D5A]/40
+                    focus-visible:outline-2
+                    focus-visible:outline-offset-2
                     lg:w-full
                     lg:rounded-[16px]
                     lg:px-3
                     lg:py-3
-                    ${
-                      active
-                        ? "border-[#C391EE]/30 bg-white text-[#7044B8] shadow-[0_8px_22px_rgba(112,68,184,0.10)]"
-                        : "border-transparent bg-transparent text-[#737686] hover:border-[#ECE5F4] hover:bg-white/70"
-                    }
                   `}
                   >
                     <span
-                      className={`
-                      flex
-                      size-8
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-full
-                      transition-all
-
-                      ${
-                        active
-                          ? "bg-[#F0E7FF] text-[#7044B8]"
-                          : "bg-white text-[#8B8E9A] group-hover:text-[#7044B8]"
-                      }
-                    `}
+                      style={{
+                        backgroundColor: active
+                          ? diaryTabColors[tab.id].iconBg
+                          : `${diaryTabColors[tab.id].accent}18`,
+                        color: diaryTabColors[tab.id].accent,
+                      }}
+                      className="flex size-8 shrink-0 items-center justify-center rounded-full transition-all"
                     >
                       <Icon className="size-4" strokeWidth={1.9} />
                     </span>
-
                     <span
                       className="
                       font-[var(--font-poppins)]
@@ -370,19 +386,11 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                     >
                       {tab.label}
                     </span>
-
                     {active ? (
                       <span
                         aria-hidden="true"
-                        className="
-                        absolute
-                        right-2
-                        hidden
-                        size-1.5
-                        rounded-full
-                        bg-[#E72D5A]
-                        lg:block
-                      "
+                        className="absolute right-2 hidden size-1.5 rounded-full lg:block"
+                        style={{ backgroundColor: diaryTabColors[tab.id].accent }}
                       />
                     ) : null}
                   </button>
@@ -391,12 +399,15 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
             </div>
           </div>
         </aside>
-
-        {/* ================================================================
-    RIGHT — DIARY CONTENT
-================================================================= */}
-
-        <div className="min-w-0 w-full px-5 py-7 sm:px-7 sm:py-8 lg:px-10 lg:py-10 xl:px-11 xl:py-11">
+        {/* ================================================================*
+         *    RIGHT — DIARY CONTENT*
+         *================================================================= */}
+        <div
+          className="min-w-0 w-full px-5 py-7 transition-colors duration-300 sm:px-7 sm:py-8 lg:px-10 lg:py-10 xl:px-11 xl:py-11"
+          style={{
+            background: activeColors.soft,
+          }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -418,9 +429,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               }}
               className="w-full min-w-0"
             >
-              {/* ------------------------------------------------------------
-          HEADER
-      ------------------------------------------------------------- */}
+              {/* ------------------------------------------------------------*
+               *          HEADER*
+               *      ------------------------------------------------------------- */}
               <div className="flex items-start gap-4">
                 {/* Icon */}
                 <motion.div
@@ -444,19 +455,18 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
             justify-center
             rounded-[15px]
             border
-            border-[#C391EE]/20
-            bg-gradient-to-br
-            from-[#F6F0FF]
-            to-[#EDE2FF]
-            text-[#7044B8]
-            shadow-[0_6px_18px_rgba(112,68,184,0.10)]
+            shadow-[0_6px_18px_rgba(39,30,70,0.07)]
             sm:size-12
             sm:rounded-[16px]
           "
+                  style={{
+                    backgroundColor: activeColors.iconBg,
+                    borderColor: activeColors.border,
+                    color: activeColors.accent,
+                  }}
                 >
                   <ContentIcon className="size-[19px] sm:size-5" strokeWidth={1.9} />
                 </motion.div>
-
                 {/* Heading */}
                 <div className="min-w-0 flex-1 pt-0.5">
                   <p
@@ -466,13 +476,13 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               font-bold
               uppercase
               tracking-[0.18em]
-              text-[#E72D5A]
+              text-current
               sm:text-[12px]
-            "
+              "
+                    style={{ color: activeColors.accent }}
                   >
                     {content.eyebrow}
                   </p>
-
                   <h3
                     className="
               mt-1.5
@@ -490,10 +500,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   </h3>
                 </div>
               </div>
-              {/* ------------------------------------------------------------
-          DESCRIPTION
-      ------------------------------------------------------------- */}
-
+              {/* ------------------------------------------------------------*
+               *          DESCRIPTION*
+               *      ------------------------------------------------------------- */}
               <div className="mt-7 max-w-3xl sm:mt-8">
                 {activeTab === "overview" ? (
                   <div className="space-y-6 sm:space-y-7">
@@ -501,13 +510,12 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                       const paragraphs = Array.isArray(content.body)
                         ? content.body
                         : [content.body];
-
                       const sections = [];
-
                       for (let i = 0; i < paragraphs.length; i += 2) {
                         sections.push({
                           heading: paragraphs[i],
                           description: paragraphs[i + 1] ?? "",
+                          isUnpaired: i + 1 >= paragraphs.length,
                         });
                       }
 
@@ -523,14 +531,21 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                           }}
                           className="max-w-3xl"
                         >
-                          <h4 className="font-playpen text-[13px] font-bold leading-[1.6] tracking-[-0.01em] text-[#292447] sm:text-[14px] lg:text-[15px]">
-                            {section.heading}
-                          </h4>
-
-                          {section.description && (
-                            <p className="mt-1.5 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
-                              {section.description}
+                          {section.isUnpaired ? (
+                            <p className="font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
+                              {section.heading}
                             </p>
+                          ) : (
+                            <>
+                              <h4 className="font-playpen text-[13px] font-bold leading-[1.6] tracking-[-0.01em] text-[#292447] sm:text-[14px] lg:text-[15px]">
+                                {section.heading}
+                              </h4>
+                              {section.description && (
+                                <p className="mt-1.5 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
+                                  {section.description}
+                                </p>
+                              )}
+                            </>
                           )}
                         </motion.div>
                       ));
@@ -546,30 +561,55 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   </div>
                 )}
               </div>
-
-              {/* ------------------------------------------------------------
-          PRODUCT PACKAGING DETAILS — SPECS
-      ------------------------------------------------------------- */}
+              {/* ------------------------------------------------------------*
+               *          PRODUCT PACKAGING DETAILS — SPECS*
+               *      ------------------------------------------------------------- */}
               {activeTab === "specs" ? (
                 <div className="mt-7 grid gap-3 sm:grid-cols-3 sm:gap-3">
                   {[
-                    { label: "What's Inside", value: "Product contents", icon: PackageCheck },
-                    { label: "Box Dimension", value: "Details coming soon", icon: Ruler },
-                    { label: "Box Weight", value: "Details coming soon", icon: Scale },
+                    {
+                      label: "What's Inside",
+                      value: "Product contents",
+                      icon: PackageCheck,
+                      accent: "#7BAA5B",
+                      soft: "#E4F0D9",
+                      border: "#C8DDB7",
+                    },
+                    {
+                      label: "Box Dimension",
+                      value: "Details coming soon",
+                      icon: Ruler,
+                      accent: "#7362C6",
+                      soft: "#EAE5FF",
+                      border: "#D8D0F4",
+                    },
+                    {
+                      label: "Box Weight",
+                      value: "Details coming soon",
+                      icon: Scale,
+                      accent: "#ED5A78",
+                      soft: "#FFE3EA",
+                      border: "#F5CAD4",
+                    },
                   ].map((item) => {
                     const ItemIcon = item.icon;
                     return (
-                      <div key={item.label} className=" bg-transparent px-3.5 py-3 ">
+                      <div
+                        key={item.label}
+                        className="rounded-2xl px-3.5 py-4 transition-transform duration-200 hover:-translate-y-0.5"
+                        // style={{ backgroundColor: item.soft, borderColor: item.border }}
+                      >
                         <div className="flex flex-col items-center gap-2 text-center">
-                          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F0E7FF] text-[#7044B8]">
+                          <span
+                            className="flex size-9 shrink-0 items-center justify-center rounded-full"
+                            style={{ backgroundColor: "#FFFFFFB8", color: item.accent }}
+                          >
                             <ItemIcon className="size-4" strokeWidth={1.8} />
                           </span>
-
                           <span className="font-[var(--font-poppins)] text-[12px] font-bold text-[#30344A]">
                             {item.label}
                           </span>
                         </div>
-
                         <p className="mt-2 text-center font-[var(--font-poppins)] text-[12px] font-medium leading-5 text-[#6A6E7E]">
                           {item.value}
                         </p>
@@ -578,9 +618,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   })}
                 </div>
               ) : null}
-              {/* ------------------------------------------------------------
-          INFORMATION POINTS
-      ------------------------------------------------------------- */}
+              {/* ------------------------------------------------------------*
+               *          INFORMATION POINTS*
+               *      ------------------------------------------------------------- */}
               {content.points.length > 0 ? (
                 activeTab === "benefits" ? (
                   <ul className="mt-7 space-y-4 sm:mt-8">
@@ -592,7 +632,10 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                         transition={{ delay: index * 0.06, duration: 0.25, ease: "easeOut" }}
                         className="flex items-start gap-3"
                       >
-                        <span className="mt-[0.45rem] size-2 shrink-0 rounded-full bg-[#E72D5A]" />
+                        <span
+                          className="mt-[0.45rem] size-2 shrink-0 rounded-full"
+                          style={{ backgroundColor: activeColors.accent }}
+                        />
                         <span className="font-[var(--font-poppins)] text-[12px] font-medium leading-[1.7] tracking-[-0.005em] text-[#505467] sm:text-[13px] lg:text-[14px]">
                           {point}
                         </span>
@@ -612,7 +655,13 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                         whileHover={{ y: -2 }}
                         className={`group flex items-start gap-2.5 px-1 py-2 transition-colors duration-200 ${activeTab === "keyFeatures" ? "min-h-0" : "min-h-[72px] sm:py-3.5"}`}
                       >
-                        <span className="mt-0.5 flex size-[21px] shrink-0 items-center justify-center rounded-full bg-[#FDE9EF] text-[#E72D5A] transition-transform duration-200 group-hover:scale-105">
+                        <span
+                          className="mt-0.5 flex size-[21px] shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-105"
+                          style={{
+                            backgroundColor: activeColors.iconBg,
+                            color: activeColors.accent,
+                          }}
+                        >
                           <Check className="size-[11px]" strokeWidth={2.7} />
                         </span>
                         <span className="pt-px font-[var(--font-poppins)] text-[12px] font-medium leading-[1.55] tracking-[-0.005em] text-[#505467] sm:text-[12px]">
@@ -623,9 +672,9 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   </div>
                 )
               ) : null}
-              {/* ------------------------------------------------------------
-          FOOTER
-      ------------------------------------------------------------- */}
+              {/* ------------------------------------------------------------*
+               *          FOOTER*
+               *      ------------------------------------------------------------- */}
               <div
                 className="
           mt-7
@@ -633,7 +682,6 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
           flex-col
           gap-2
           border-t
-          border-[#ECE7F2]
           pt-4
           sm:mt-8
           sm:flex-row
@@ -641,6 +689,7 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
           sm:justify-between
           sm:gap-4
         "
+                style={{ borderColor: activeColors.border }}
               >
                 <span
                   className="
@@ -655,7 +704,6 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                 >
                   BuzzieWorld product notes
                 </span>
-
                 <span
                   className="
             min-w-0
@@ -663,10 +711,10 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
             font-[var(--font-poppins)]
             text-[12px]
             font-medium
-            text-[#A27BCF]
             sm:max-w-[55%]
             sm:text-right
           "
+                  style={{ color: activeColors.accent }}
                 >
                   {product.name}
                 </span>

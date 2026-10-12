@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import { useState } from "react";
-
+import { Minus, Plus } from "lucide-react";
+import { useCart } from "@/hooks/useCart";
 import type { StorefrontProduct } from "@/types/storefront";
+import AddToCartButton from "@/components/cart/AddToCartButton";
+import ProceedToCheckoutButton from "@/components/cart/ProceedToCheckoutButton";
+import { useRouter } from "next/navigation";
 
 interface ProductInfoArtworkProps {
   product: StorefrontProduct;
@@ -28,6 +32,9 @@ export default function ProductInfoArtwork({
   ageLabel,
   hasDiscount,
   discount,
+  isOutOfStock,
+
+
 }: ProductInfoArtworkProps) {
   const [wishlistActive, setWishlistActive] = useState(false);
 
@@ -35,11 +42,27 @@ export default function ProductInfoArtwork({
     ? product.keyFeatures
     : [];
 
-  /*
-   * Storefront products can legitimately have no price yet.
-   * Narrow the optional values into concrete local values so
-   * TypeScript knows exactly what is being passed to formatPrice().
-   */
+  const [quantity, setQuantity] = useState(1);
+  const [isBuyingNow, setIsBuyingNow] = useState(false);
+
+  const router = useRouter();
+  const { addItem } = useCart();
+
+  const handleBuyNow = async () => {
+    if (isOutOfStock || !price || isBuyingNow) return;
+
+    try {
+      setIsBuyingNow(true);
+
+      await addItem(String(product._id), quantity);
+
+      router.push("/checkout");
+    } catch (error) {
+      console.error("Failed to proceed to checkout:", error);
+    } finally {
+      setIsBuyingNow(false);
+    }
+  };
   const price = typeof product.price === "number" ? product.price : null;
 
   const compareAtPrice = typeof product.compareAtPrice === "number" ? product.compareAtPrice : null;
@@ -50,7 +73,6 @@ export default function ProductInfoArtwork({
       {/* ================================================================
           BADGES + WISHLIST
       ================================================================= */}
-
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           {product.featured ? (
@@ -127,11 +149,9 @@ export default function ProductInfoArtwork({
           />
         </button>
       </div>
-
       {/* ================================================================
           CATEGORY
       ================================================================= */}
-
       {product.category?.name ? (
         <p
           className="
@@ -148,11 +168,9 @@ export default function ProductInfoArtwork({
           {product.category.name}
         </p>
       ) : null}
-
       {/* ================================================================
           PRODUCT NAME
       ================================================================= */}
-
       <h1
         className="
           mt-2
@@ -166,114 +184,36 @@ export default function ProductInfoArtwork({
       >
         {product.name}
       </h1>
-
       {/* ================================================================
           SHORT DESCRIPTION
       ================================================================= */}
-
       {product.shortDescription ? (
         <p
           className="
-      mt-4
+      relative
+      top-5
       max-w-xl
-      font-[var(--font-poppins)]
+      font-playpen
       text-[14px]
       font-medium
       leading-6
       text-[#20243D]
       sm:text-[13px]
       sm:leading-6
-      xl:text-[13px]
+      xl:text-[15px]
     "
         >
           {product.shortDescription}
         </p>
       ) : null}
-
-      {/* ================================================================
-    KEY FEATURES
-================================================================ */}
-
-      {keyFeatures.length > 0 ? (
-        <div
-          className="
-      mt-6
-      max-w-2xl
-      rounded-2xl
-      border
-      border-[#C391EE]/20
-      bg-[#F9F6FF]
-      px-4
-      py-4
-      sm:mt-7
-      sm:px-5
-      sm:py-5
-    "
-        >
-          <h2
-            className="
-        font-playpen
-        text-[13px]
-        font-extrabold
-        uppercase
-        tracking-[0.08em]
-        text-[#7044B8]
-      "
-          >
-            Key Features
-          </h2>
-
-          <ul className="mt-3 space-y-2.5">
-            {keyFeatures.map((feature, index) => (
-              <li
-                key={`${product._id}-feature-${index}`}
-                className="
-            flex
-            items-start
-            gap-3
-            font-[var(--font-poppins)]
-            text-[12px]
-            font-medium
-            leading-[1.7]
-            text-[#34384D]
-            sm:text-[13px]
-            sm:leading-6
-            lg:text-[13px]
-          "
-              >
-                <span
-                  aria-hidden="true"
-                  className="
-              mt-[6px]
-              flex
-              size-4
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-              bg-[#C391EE]/90
-              text-[9px]
-              font-black
-              text-black
-            "
-                >
-                  ✓
-                </span>
-
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-
       {/* ================================================================
           RATING / META
       ================================================================= */}
-
       <div
         className="
+        relative
           mt-4
+          top-3
           flex
           flex-wrap
           items-center
@@ -299,11 +239,9 @@ export default function ProductInfoArtwork({
           </>
         ) : null}
       </div>
-
       {/* ================================================================
           PRICE
       ================================================================= */}
-
       <div className="mt-5 flex flex-wrap items-end gap-3">
         {price !== null ? (
           <span
@@ -371,10 +309,69 @@ export default function ProductInfoArtwork({
         ) : null}
       </div>
 
+      {/* FULL-WIDTH PURCHASE SECTION */}
+      <section className="min-w-0 w-full lg:col-span-2">
+        <div className="flex w-full flex-col gap-3">
+          {/* QUANTITY COUNTER */}
+          <div className="flex items-center justify-between">
+            <span className="font-[var(--font-poppins)] text-sm font-semibold text-[#27344A]">
+              Quantity
+            </span>
+
+            <div className="flex items-center gap-4 rounded-full border border-[#E8DDF4] bg-white px-2 py-1.5">
+              <button
+                type="button"
+                aria-label="Decrease quantity"
+                disabled={quantity <= 1 || isOutOfStock}
+                onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                className="flex size-8 items-center justify-center rounded-full text-[#7655A3] transition hover:bg-[#F4EEFB] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Minus className="size-4" />
+              </button>
+
+              <span
+                aria-live="polite"
+                className="min-w-5 text-center text-sm font-bold text-[#27344A]"
+              >
+                {quantity}
+              </span>
+
+              <button
+                type="button"
+                aria-label="Increase quantity"
+                disabled={isOutOfStock}
+                onClick={() => setQuantity((current) => current + 1)}
+                className="flex size-8 items-center justify-center rounded-full text-[#7655A3] transition hover:bg-[#F4EEFB] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Plus className="size-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* HALF-WIDTH PURCHASE BUTTONS */}
+          <div className="flex w-full gap-3">
+            <AddToCartButton
+              productId={String(product._id)}
+              quantity={quantity}
+              disabled={isOutOfStock || !price}
+              className="relative top-5 min-h-12 min-w-0 flex-1 rounded-full bg-[#C391EE] px-3 py-3 font-[var(--font-poppins)] text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#E83D59] disabled:cursor-not-allowed disabled:opacity-50 sm:px-6"
+            />
+
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              disabled={isOutOfStock || !price || isBuyingNow}
+              className="relative top-5 flex min-h-12 min-w-0 flex-1 items-center justify-center rounded-full bg-[#E83D59] px-3 py-3 font-[var(--font-poppins)] text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#C92D49] disabled:cursor-not-allowed disabled:opacity-50 sm:px-6"
+            >
+              {isBuyingNow ? "Please wait..." : "Buy Now"}
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* ================================================================
           PRODUCT BENEFITS / TRUST VECTORS
       ================================================================= */}
-
       <div
         className="
          mt-4
@@ -397,7 +394,7 @@ export default function ProductInfoArtwork({
             object-contain
             object-left
 
-            
+
           "
         />
       </div>

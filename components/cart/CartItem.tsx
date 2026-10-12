@@ -35,7 +35,7 @@ export default function CartItem({ item, onUpdate, onRemove }: CartItemProps) {
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="font-semibold">{item.product.name}</h3>
+            <h3 className="font-playpen font-semibold">{item.product.name}</h3>
 
             <p className="mt-1 text-sm text-black/55">₹{item.product.price.toFixed(2)}</p>
           </div>

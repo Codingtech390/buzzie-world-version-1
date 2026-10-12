@@ -66,7 +66,12 @@ useEffect(() => {
     }
 
     setCart(data);
-    notify.success("Added to cart.");
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("buzzieworld:cart-updated"));
+    }
+
+    notify.success("Product added to cart.");
 
     return data;
   }, []);

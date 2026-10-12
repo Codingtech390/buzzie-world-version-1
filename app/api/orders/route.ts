@@ -91,11 +91,12 @@ export async function POST(request: NextRequest) {
 
     const customerId = session?.user?.role === "customer" ? session.user.id : undefined;
 
-    const { order, razorpayOrder } = await createOrderFromCart(
+    const { order, razorpayOrder, discountLabel } = await createOrderFromCart(
       sessionId,
       body.shippingAddress,
       customerId,
     );
+
 
     return NextResponse.json({
       success: true,
@@ -103,6 +104,10 @@ export async function POST(request: NextRequest) {
       order: {
         id: order._id.toString(),
         orderNumber: order.orderNumber,
+        subtotal: order.subtotal,
+        shipping: order.shipping,
+        discount: order.discount,
+        discountLabel,
         total: order.total,
         currency: order.currency,
       },
@@ -114,6 +119,7 @@ export async function POST(request: NextRequest) {
         currency: razorpayOrder.currency,
       },
     });
+
   } catch (error) {
     console.error("POST /api/orders error:", error);
 

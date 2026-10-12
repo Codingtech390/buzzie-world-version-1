@@ -31,7 +31,7 @@ export default function AddToCartButton({
       setLoading(true);
 
       await addItem(productId, quantity);
-
+      window.dispatchEvent(new Event("buzzieworld:cart-updated"));
       // The shared useCart hook displays the success toast.
       setAdded(true);
 

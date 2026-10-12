@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, SlidersHorizontal } from "lucide-react";
-
-import ProductCard from "@/components/product/ProductCard";
 import type { Metadata } from "next";
 
+import ProductCard from "@/components/product/ProductCard";
 import { createPageMetadata } from "@/lib/seo";
 
 interface AgePageProps {
@@ -13,18 +12,11 @@ interface AgePageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: AgePageProps): Promise<Metadata> {
-  const { slug } = await params;
-
-  const ageLabel = slug.replace(/-/g, " ").replace(/\b\w/g, (character) => character.toUpperCase());
-
-  return createPageMetadata({
-    title: `Toys for ${ageLabel}`,
-    description: `Explore age-appropriate toys, games and learning products for ${ageLabel} at BuzzieWorld.`,
-    path: `/shop/age/${slug}`,
-  });
-}
-
+type ShopCategory = {
+  _id: string;
+  name: string;
+  slug: string;
+};
 
 type AgeGroup = {
   age: string;
@@ -32,8 +24,16 @@ type AgeGroup = {
   description: string;
   slug: string;
   image: string;
+  banner: string;
   tone: string;
   accent: string;
+};
+
+type ShopProduct = {
+  _id?: string;
+  id?: string;
+  slug?: string;
+  [key: string]: unknown;
 };
 
 const ageGroups = [
@@ -47,7 +47,6 @@ const ageGroups = [
     tone: "#F8D8E5",
     accent: "#E72D5A",
   },
-
   {
     age: "3–6 YEARS",
     title: "Play & Discover",
@@ -58,7 +57,6 @@ const ageGroups = [
     tone: "#F8E5B7",
     accent: "#E99A25",
   },
-
   {
     age: "6–9 YEARS",
     title: "Learn & Grow",
@@ -69,7 +67,6 @@ const ageGroups = [
     tone: "#D9E9B8",
     accent: "#6CA83A",
   },
-
   {
     age: "9–15 YEARS",
     title: "Think & Master",
@@ -80,23 +77,88 @@ const ageGroups = [
     tone: "#DCD2F3",
     accent: "#7550A5",
   },
-] as const;
+] as const satisfies readonly AgeGroup[];
 
-export async function generateStaticParams() {
-  return ageGroups.map((group) => ({
-    slug: group.slug,
-  }));
+function getSiteBaseUrl(): string {
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (configuredUrl) return configuredUrl.replace(/\/$/, "");
+
+  const vercelUrl = process.env.VERCEL_URL?.trim();
+  if (vercelUrl) return `https://${vercelUrl}`;
+
+  return "http://localhost:3000";
 }
 
-type PageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
+function extractCategories(payload: unknown): ShopCategory[] {
+  const value = payload as {
+    categories?: unknown;
+    data?: { categories?: unknown } | unknown;
+  } | null;
 
-export default async function AgeShopPage({ params }: PageProps) {
+  let items: unknown;
+  if (Array.isArray(payload)) {
+    items = payload;
+  } else if (value && Array.isArray(value.categories)) {
+    items = value.categories;
+  } else if (
+    value?.data &&
+    typeof value.data === "object" &&
+    "categories" in value.data &&
+    Array.isArray(value.data.categories)
+  ) {
+    items = value.data.categories;
+  } else if (value && Array.isArray(value.data)) {
+    items = value.data;
+  } else {
+    items = [];
+  }
+
+  return (items as unknown[]).filter((item): item is ShopCategory => {
+    if (!item || typeof item !== "object") return false;
+    const category = item as Partial<ShopCategory>;
+    return (
+      typeof category._id === "string" &&
+      typeof category.name === "string" &&
+      typeof category.slug === "string"
+    );
+  });
+}
+
+async function getShopCategories(): Promise<ShopCategory[]> {
+  try {
+    const response = await fetch(`${getSiteBaseUrl()}/api/categories`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to load categories: ${response.status} ${response.statusText}`);
+      return [];
+    }
+
+    return extractCategories(await response.json());
+  } catch (error) {
+    console.error("Unable to fetch shop categories:", error);
+    return [];
+  }
+}
+
+export async function generateMetadata({ params }: AgePageProps): Promise<Metadata> {
   const { slug } = await params;
+  const ageLabel = slug.replace(/-/g, " ").replace(/\b\w/g, (character) => character.toUpperCase());
 
+  return createPageMetadata({
+    title: `Toys for ${ageLabel}`,
+    description: `Explore age-appropriate toys, games and learning products for ${ageLabel} at BuzzieWorld.`,
+    path: `/shop/age/${slug}`,
+  });
+}
+
+export async function generateStaticParams() {
+  return ageGroups.map((group) => ({ slug: group.slug }));
+}
+
+export default async function AgeShopPage({ params }: AgePageProps) {
+  const { slug } = await params;
   const ageGroup = ageGroups.find((group) => group.slug === slug);
 
   if (!ageGroup) {
@@ -106,11 +168,9 @@ export default async function AgeShopPage({ params }: PageProps) {
           <p className="font-[var(--font-poppins)] text-xs font-black uppercase tracking-[0.18em] text-[#E72D5A]">
             BuzzieWorld
           </p>
-
           <h1 className="mt-4 font-[var(--font-roboto)] text-4xl font-black tracking-[-0.045em] text-[#111111] sm:text-6xl">
             Age group not found.
           </h1>
-
           <Link
             href="/shop"
             className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#C391EE] px-6 font-[var(--font-poppins)] text-sm font-black text-white transition hover:bg-[#A96FDB]"
@@ -123,11 +183,11 @@ export default async function AgeShopPage({ params }: PageProps) {
     );
   }
 
+  const categories = await getShopCategories();
+
   return (
     <main className="min-h-screen overflow-hidden bg-white">
-      {/* =========================================================
-          BREADCRUMB
-      ========================================================= */}
+      {/* Breadcrumb */}
       <div className="mx-auto w-full max-w-[1320px] px-5 pt-6 sm:px-8 lg:px-10">
         <nav
           aria-label="Breadcrumb"
@@ -136,22 +196,16 @@ export default async function AgeShopPage({ params }: PageProps) {
           <Link href="/" className="transition-colors hover:text-[#111111]">
             Home
           </Link>
-
           <span>/</span>
-
           <Link href="/shop" className="transition-colors hover:text-[#111111]">
             Shop
           </Link>
-
           <span>/</span>
-
           <span className="text-[#111111]">{ageGroup.title}</span>
         </nav>
       </div>
 
-      {/* =========================================================
-          AGE HERO
-      ========================================================= */}
+      {/* Age hero */}
       <section className="mx-auto mt-2 w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
         <div className="relative w-full overflow-hidden rounded-[24px] sm:rounded-[30px] lg:rounded-[38px]">
           <Image
@@ -161,44 +215,29 @@ export default async function AgeShopPage({ params }: PageProps) {
             height={720}
             priority
             sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 48px), calc(100vw - 64px)"
-            className="
-        block
-        h-auto
-        w-full
-        object-cover
-      "
+            className="block h-auto w-full object-cover"
           />
         </div>
       </section>
 
-      {/* =========================================================
-          PRODUCTS HEADER
-      ========================================================= */}
+      {/* Products header */}
       <section className="mx-auto w-full max-w-[1320px] px-5 pb-16 pt-14 sm:px-8 sm:pt-16 lg:px-10 lg:pt-20">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            
-
-            <h2 className="mt-4 font-playpen text-[clamp(2rem,4vw,3rem)] font-black leading-[0.95] tracking-[-0.055em] text-[#111111]">
+            <h2 className="mt-4 font-playpen text-[clamp(2rem,3vw,3rem)] font-black leading-[0.95] tracking-[-0.055em] text-[#111111]">
               Made for{" "}
               <span style={{ color: ageGroup.accent }}>{ageGroup.title.toLowerCase()}.</span>
             </h2>
-
-            <p className="mt-4 max-w-[550px] font-[var(--font-poppins)] text-[13px] leading-6 text-[#737987] sm:text-[14px]">
-              Discover games, activities and learning experiences selected especially for children
-              aged {ageGroup.age.toLowerCase()}.
-            </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="inline-flex h-11 items-center gap-2 rounded-full border border-[#E7E3EA] bg-white px-5 font-[var(--font-poppins)] text-[11px] font-bold text-[#343847] shadow-sm transition hover:border-[#C391EE]"
+              className="inline-flex h-11 items-center gap-2 rounded-full border border-[#E7E3EA] bg-white px-5 font-playpen text-[13px] font-bold text-[#343847] shadow-sm transition hover:border-[#C391EE]"
             >
               <SlidersHorizontal className="size-4" />
               Filters
             </button>
-
             <button
               type="button"
               className="inline-flex h-11 items-center gap-3 rounded-full border border-[#E7E3EA] bg-white px-5 font-[var(--font-poppins)] text-[11px] font-bold text-[#343847] shadow-sm transition hover:border-[#C391EE]"
@@ -209,41 +248,34 @@ export default async function AgeShopPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* =======================================================
-            PRODUCT AREA
-        ======================================================= */}
+        {/* Product area */}
         <div className="mt-10 grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
-          {/* Desktop filter */}
+          {/* Desktop filters */}
           <aside className="hidden rounded-[24px] border border-[#ECE8EF] bg-white p-5 shadow-[0_10px_35px_rgba(31,25,45,0.04)] lg:block">
             <div className="flex items-center justify-between">
-              <h3 className="font-[var(--font-roboto)] text-lg font-black text-[#111111]">
-                Filters
-              </h3>
-
+              <h3 className="font-playpen text-lg font-black text-[#111111]">Filters</h3>
               <SlidersHorizontal className="size-4 text-[#7B7184]" />
             </div>
 
             <div className="my-5 h-px bg-[#EEEAF0]" />
 
+            {/* Age filter */}
             <div>
-              <p className="font-[var(--font-poppins)] text-[11px] font-black uppercase tracking-[0.12em] text-[#55515B]">
+              <p className="font-playpen text-[14px] font-black uppercase tracking-[0.12em] text-[#55515B]">
                 Age
               </p>
-
               <div className="mt-4 space-y-3">
                 {ageGroups.map((group) => {
                   const active = group.slug === ageGroup.slug;
-
                   return (
                     <Link
                       key={group.slug}
                       href={`/shop/age/${group.slug}`}
-                      className={`flex items-center justify-between rounded-xl px-3 py-2 font-[var(--font-poppins)] text-[11px] font-semibold transition ${
+                      className={`flex items-center justify-between rounded-xl px-3 py-2 font-playpen text-[11px] font-semibold transition ${
                         active ? "bg-[#F5EEFA] text-[#111111]" : "text-[#70707A] hover:bg-[#FAF8FB]"
                       }`}
                     >
                       <span>{group.age}</span>
-
                       {active && (
                         <span
                           className="size-2 rounded-full"
@@ -258,48 +290,55 @@ export default async function AgeShopPage({ params }: PageProps) {
 
             <div className="my-5 h-px bg-[#EEEAF0]" />
 
+            {/* Dynamic categories */}
             <div>
-              <p className="font-[var(--font-poppins)] text-[11px] font-black uppercase tracking-[0.12em] text-[#55515B]">
+              <p className="font-playpen text-[14px] font-black uppercase tracking-[0.12em] text-[#55515B]">
                 Categories
               </p>
-
               <div className="mt-4 space-y-3 font-[var(--font-poppins)] text-[11px] text-[#70707A]">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" defaultChecked className="accent-[#C391EE]" />
-                  All products
+                <label className="flex cursor-pointer items-center gap-2">
+                  <input
+                    type="checkbox"
+                    defaultChecked
+                    className="accent-[#C391EE]"
+                    aria-label="All products"
+                  />
+                  <span>All products</span>
                 </label>
 
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-[#C391EE]" />
-                  Games
-                </label>
-
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-[#C391EE]" />
-                  Learning
-                </label>
-
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-[#C391EE]" />
-                  Activity kits
-                </label>
+                {categories.length > 0 ? (
+                  categories.map((category) => (
+                    <label key={category._id} className="flex cursor-pointer items-center gap-2">
+                      <input
+                        type="checkbox"
+                        className="accent-[#C391EE]"
+                        value={category.slug}
+                        aria-label={category.name}
+                      />
+                      <span>{category.name}</span>
+                    </label>
+                  ))
+                ) : (
+                  <p className="text-[11px] text-[#85808B]">
+                    Categories are currently unavailable.
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="my-5 h-px bg-[#EEEAF0]" />
 
+            {/* Price range (existing visual placeholder) */}
             <div>
               <p className="font-[var(--font-poppins)] text-[11px] font-black uppercase tracking-[0.12em] text-[#55515B]">
                 Price range
               </p>
-
               <div className="mt-4 h-1 rounded-full bg-[#E9DDF2]">
                 <div className="relative h-full w-[70%] rounded-full bg-[#C391EE]">
                   <span className="absolute -right-1.5 -top-1.5 size-4 rounded-full border-2 border-[#C391EE] bg-white" />
                   <span className="absolute -left-1.5 -top-1.5 size-4 rounded-full border-2 border-[#C391EE] bg-white" />
                 </div>
               </div>
-
               <div className="mt-3 flex justify-between font-[var(--font-poppins)] text-[10px] text-[#77717D]">
                 <span>₹0</span>
                 <span>₹5,000+</span>
@@ -309,13 +348,6 @@ export default async function AgeShopPage({ params }: PageProps) {
 
           {/* Products */}
           <div className="min-w-0">
-            {/* IMPORTANT:
-                Replace this fetch section with the same backend product
-                retrieval/filtering already used by your existing Shop page.
-
-                The UI below intentionally uses your existing ProductCard.
-            */}
-
             <AgeProducts slug={ageGroup.slug} ageLabel={ageGroup.age} />
           </div>
         </div>
@@ -324,44 +356,50 @@ export default async function AgeShopPage({ params }: PageProps) {
   );
 }
 
-/* ===============================================================
-   PRODUCTS
-
-   This keeps the age page independent while using your existing
-   ProductCard. It expects your existing API to accept the age slug.
-
-   If your existing shop API uses a different parameter name,
-   change ONLY the URL below.
-=============================================================== */
-
 async function AgeProducts({ slug, ageLabel }: { slug: string; ageLabel: string }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-  let products: any[] = [];
+  let products: ShopProduct[] = [];
 
   try {
-    const response = await fetch(`${baseUrl}/api/products?age=${encodeURIComponent(slug)}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${getSiteBaseUrl()}/api/products?age=${encodeURIComponent(slug)}`,
+      { cache: "no-store" },
+    );
 
     if (response.ok) {
-      const data = await response.json();
+      const data: unknown = await response.json();
+      const payload = data as {
+        products?: unknown;
+        data?: { products?: unknown } | unknown;
+      } | null;
 
-      products = data?.products ?? data?.data?.products ?? data?.data ?? [];
+      const candidate =
+        payload && Array.isArray(payload.products)
+          ? payload.products
+          : payload?.data &&
+              typeof payload.data === "object" &&
+              "products" in payload.data &&
+              Array.isArray(payload.data.products)
+            ? payload.data.products
+            : payload && Array.isArray(payload.data)
+              ? payload.data
+              : [];
+
+      products = candidate as ShopProduct[];
+    } else {
+      console.error(`Failed to load age products: ${response.status} ${response.statusText}`);
     }
-  } catch {
-    products = [];
+  } catch (error) {
+    console.error("Unable to fetch age products:", error);
   }
 
   return (
     <>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <p className="font-[var(--font-poppins)] text-[11px] text-[#85808B]">
+          <p className="font-[var(--font-poppins)] text-[13px] text-[#85808B]">
             {products.length} products
           </p>
-
-          <h3 className="mt-1 font-[var(--font-roboto)] text-xl font-black tracking-[-0.035em] text-[#111111]">
+          <h3 className="mt-1 font-playpen text-xl font-black tracking-[-0.035em] text-[#111111]">
             Products for {ageLabel.toLowerCase()}
           </h3>
         </div>
@@ -369,8 +407,11 @@ async function AgeProducts({ slug, ageLabel }: { slug: string; ageLabel: string 
 
       {products.length > 0 ? (
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product._id ?? product.id ?? product.slug} product={product} />
+          {products.map((product, index) => (
+            <ProductCard
+              key={product._id ?? product.id ?? product.slug ?? `${slug}-${index}`}
+              product={product as never}
+            />
           ))}
         </div>
       ) : (
@@ -378,16 +419,12 @@ async function AgeProducts({ slug, ageLabel }: { slug: string; ageLabel: string 
           <p className="font-[var(--font-poppins)] text-[11px] font-black uppercase tracking-[0.15em] text-[#C391EE]">
             Coming soon
           </p>
-
           <h3 className="mt-3 font-[var(--font-roboto)] text-2xl font-black tracking-[-0.04em] text-[#111111]">
             More products are on the way.
           </h3>
-
           <p className="mx-auto mt-3 max-w-md font-[var(--font-poppins)] text-[13px] leading-6 text-[#77717D]">
-            We&apos;re preparing more products specially selected for
-            {` ${ageLabel.toLowerCase()}`}.
+            We&apos;re preparing more products specially selected for {ageLabel.toLowerCase()}.
           </p>
-
           <Link
             href="/shop"
             className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#C391EE] px-5 font-[var(--font-poppins)] text-[11px] font-black text-white shadow-[0_10px_25px_rgba(195,145,238,0.2)] transition hover:-translate-y-0.5 hover:bg-[#A96FDB]"
