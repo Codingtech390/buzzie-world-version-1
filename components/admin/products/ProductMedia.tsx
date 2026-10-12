@@ -20,6 +20,9 @@ import type { ProductImage } from "@/types/product";
 interface ProductMediaProps {
   images: ProductImage[];
   onChange: (images: ProductImage[]) => void;
+
+  listingImage: string;
+  onListingImageChange: (url: string) => void;
   /**
    * Used to create a product-specific Cloudinary folder.
    *
@@ -110,10 +113,17 @@ function buildPublicId(file: File): string {
 export default function ProductMedia({
   images,
   onChange,
+  listingImage,
+  onListingImageChange,
   productSlug,
   disabled = false,
 }: ProductMediaProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const listingImageInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [listingImageUploading, setListingImageUploading] = useState(false);
+  const [listingImageError, setListingImageError] = useState<string | null>(null);
 
   const [alt, setAlt] = useState("");
 
@@ -474,6 +484,50 @@ export default function ProductMedia({
     event.target.value = "";
   }
 
+
+async function handleListingImageFile(file: File) {
+  if (disabled || listingImageUploading) {
+    return;
+  }
+
+  const validationError = validateFile(file);
+
+  if (validationError) {
+    setListingImageError(validationError);
+    return;
+  }
+
+  try {
+    setListingImageUploading(true);
+    setListingImageError(null);
+
+    const uploadedImage = await uploadToCloudinary(file, "Product listing image");
+
+    onListingImageChange(uploadedImage.url);
+  } catch (error) {
+    console.error("Product listing image upload failed:", error);
+
+    setListingImageError(
+      error instanceof Error ? error.message : "Listing image upload failed. Please try again.",
+    );
+  } finally {
+    setListingImageUploading(false);
+
+    if (listingImageInputRef.current) {
+      listingImageInputRef.current.value = "";
+    }
+  }
+}
+
+function removeListingImage() {
+  if (disabled || listingImageUploading) {
+    return;
+  }
+
+  onListingImageChange("");
+  setListingImageError(null);
+}
+
   /*
    * ------------------------------------------------------------
    * Remove
@@ -674,6 +728,102 @@ export default function ProductMedia({
       {/* ======================================================
           UPLOAD CARD
       ======================================================= */}
+
+      {/* PRODUCT LISTING IMAGE */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_8px_28px_rgba(15,23,42,0.045)] sm:p-5">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-sm font-semibold text-slate-800">Product listing image</h3>
+
+          <p className="text-xs leading-5 text-slate-500">
+            Upload the background-containing image used on regular product cards. This image is
+            separate from the transparent product gallery.
+          </p>
+        </div>
+
+        <input
+          ref={listingImageInputRef}
+          type="file"
+          accept={ACCEPTED_EXTENSIONS}
+          disabled={disabled || listingImageUploading}
+          className="hidden"
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+
+            if (file) {
+              void handleListingImageFile(file);
+            } else {
+              event.target.value = "";
+            }
+          }}
+        />
+
+        {listingImage ? (
+          <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="relative aspect-square w-full max-w-[220px] overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+              <img
+                src={listingImage}
+                alt="Product listing image preview"
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => listingImageInputRef.current?.click()}
+                disabled={disabled || listingImageUploading}
+                className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#C391EE] px-4 text-xs font-semibold text-white transition hover:bg-[#E83D59] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <ImagePlus className="h-4 w-4" />
+                {listingImageUploading ? "Uploading..." : "Replace image"}
+              </button>
+
+              <button
+                type="button"
+                onClick={removeListingImage}
+                disabled={disabled || listingImageUploading}
+                className="inline-flex h-10 items-center gap-2 rounded-xl border border-rose-200 px-4 text-xs font-semibold text-rose-600 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Trash2 className="h-4 w-4" />
+                Remove image
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => listingImageInputRef.current?.click()}
+            disabled={disabled || listingImageUploading}
+            className="mt-4 flex min-h-[140px] w-full flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-gradient-to-br from-slate-50 via-white to-[#C391EE]/[0.06] px-4 py-6 text-center transition hover:border-[#C391EE]/60 hover:bg-[#C391EE]/[0.035] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {listingImageUploading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-[#8C55C7]" />
+            ) : (
+              <CloudUpload className="h-6 w-6 text-[#8C55C7]" />
+            )}
+
+            <span className="mt-3 text-sm font-semibold text-slate-800">
+              {listingImageUploading
+                ? "Uploading listing image..."
+                : "Upload product listing image"}
+            </span>
+
+            <span className="mt-1 text-xs text-slate-500">
+              JPG, PNG, WEBP or AVIF · Maximum 10 MB
+            </span>
+          </button>
+        )}
+
+        {listingImageError && (
+          <div
+            role="alert"
+            className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs leading-5 text-rose-700"
+          >
+            {listingImageError}
+          </div>
+        )}
+      </div>
 
       <div
         className={[
@@ -1067,4 +1217,3 @@ export default function ProductMedia({
     </section>
   );
 }
-

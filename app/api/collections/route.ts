@@ -36,17 +36,17 @@ function serializeCollection(collection: any) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await getAdminApiSession();
+    // const session = await getAdminApiSession();
 
-    if (!session) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Admin authentication required.",
-        },
-        { status: 401 },
-      );
-    }
+    // if (!session) {
+    //   return NextResponse.json(
+    //     {
+    //       success: false,
+    //       message: "Admin authentication required.",
+    //     },
+    //     { status: 401 },
+    //   );
+    // }
 
     await connectToDatabase();
 

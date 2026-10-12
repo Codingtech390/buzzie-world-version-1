@@ -314,37 +314,39 @@ export default function ProductInfoArtwork({
         <div className="flex w-full flex-col gap-3">
           {/* QUANTITY COUNTER */}
           <div className="flex items-center justify-between">
-            <span className="font-[var(--font-poppins)] text-sm font-semibold text-[#27344A]">
-              Quantity
-            </span>
-
-            <div className="flex items-center gap-4 rounded-full border border-[#E8DDF4] bg-white px-2 py-1.5">
-              <button
-                type="button"
-                aria-label="Decrease quantity"
-                disabled={quantity <= 1 || isOutOfStock}
-                onClick={() => setQuantity((current) => Math.max(1, current - 1))}
-                className="flex size-8 items-center justify-center rounded-full text-[#7655A3] transition hover:bg-[#F4EEFB] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Minus className="size-4" />
-              </button>
-
-              <span
-                aria-live="polite"
-                className="min-w-5 text-center text-sm font-bold text-[#27344A]"
-              >
-                {quantity}
+            <div className="flex flex-col items-start gap-2 mt-4">
+              <span className="font-[var(--font-poppins)] text-sm font-semibold text-[#27344A]">
+                Quantity
               </span>
 
-              <button
-                type="button"
-                aria-label="Increase quantity"
-                disabled={isOutOfStock}
-                onClick={() => setQuantity((current) => current + 1)}
-                className="flex size-8 items-center justify-center rounded-full text-[#7655A3] transition hover:bg-[#F4EEFB] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Plus className="size-4" />
-              </button>
+              <div className="flex items-center gap-4 rounded-full border border-[#E8DDF4] bg-white px-2 py-1.5">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  disabled={quantity <= 1 || isOutOfStock}
+                  onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                  className="flex size-8 items-center justify-center rounded-full text-[#7655A3] transition hover:bg-[#F4EEFB] disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Minus className="size-4" />
+                </button>
+
+                <span
+                  aria-live="polite"
+                  className="min-w-5 text-center text-sm font-bold text-[#27344A]"
+                >
+                  {quantity}
+                </span>
+
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  disabled={isOutOfStock}
+                  onClick={() => setQuantity((current) => current + 1)}
+                  className="flex size-8 items-center justify-center rounded-full text-[#7655A3] transition hover:bg-[#F4EEFB] disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Plus className="size-4" />
+                </button>
+              </div>
             </div>
           </div>
 

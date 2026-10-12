@@ -40,6 +40,7 @@ export interface IProduct {
   sku?: string;
 
   images: IProductImage[];
+  listingImage?: string;
 
   category?: Types.ObjectId;
   brand?: Types.ObjectId;
@@ -202,6 +203,11 @@ const ProductSchema = new Schema<IProduct>(
     images: {
       type: [ProductImageSchema],
       default: [],
+    },
+
+    listingImage: {
+      type: String,
+      default: "",
     },
 
     category: {

@@ -95,6 +95,8 @@ export interface ProductInput {
 
   images?: ProductImageInput[];
 
+  listingImage?: string;
+
   category?: string;
   brand?: string;
   collection?: string;
@@ -225,6 +227,8 @@ function normalizeProductInput(data: ProductInput) {
     sku: cleanOptionalString(data.sku),
 
     images: cleanImages(data.images),
+
+    listingImage: cleanOptionalString(data.listingImage) ?? "",
 
     category: cleanOptionalString(data.category),
 
@@ -408,6 +412,8 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
     sku: data.sku !== undefined ? data.sku : existing.sku,
 
     images: data.images !== undefined ? data.images : existing.images,
+
+    listingImage: data.listingImage !== undefined ? data.listingImage : existing.listingImage,
 
     category: data.category !== undefined ? data.category : existing.category?.toString(),
 

@@ -215,16 +215,25 @@ function BrandMarquee() {
 function ProductArcCard({ product }: { product: StorefrontProduct }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  const image = product.images?.[0]?.url;
+  const specialListingImages: Record<string, string> = {
+    indialogy: "/images/products/listed-images/Indialogy.png",
+    "flag it": "/images/products/listed-images/Flag-It.png",
+    "wordlogy - emoji edition": "/images/products/listed-images/Worldlogy-Emoji-Edition.png",
+  };
 
-  const imageAlt = product.images?.[0]?.alt || product.name || "BuzzieWorld product";
+  const normalizedProductName = product.name.trim().toLowerCase();
 
-  /*
-   * StorefrontProduct.price and compareAtPrice are optional.
-   *
-   * Keep narrowed local values so TypeScript never has to infer
-   * the relationship between product.price and product.compareAtPrice.
-   */
+  const image =
+    specialListingImages[normalizedProductName] ||
+    product.listingImage?.trim() ||
+    product.images?.[0]?.url ||
+    null;
+
+  const imageAlt =
+    normalizedProductName in specialListingImages
+      ? product.name
+      : product.images?.[0]?.alt || product.name || "BuzzieWorld product";
+
   const price = typeof product.price === "number" ? product.price : undefined;
 
   const compareAtPrice =

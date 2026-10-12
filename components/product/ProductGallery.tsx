@@ -461,20 +461,13 @@ export default function ProductGallery({
 
           <div
             className="
-
               relative
-
               flex
-
-              min-h-[380px]
-
+              min-h-[460px]
               items-center
-
               justify-center
-
-              sm:min-h-[440px]
-
-              xl:min-h-[520px]
+              sm:min-h-[550px]
+              xl:min-h-[650px]
 
             "
           >
@@ -697,46 +690,6 @@ export default function ProductGallery({
 
           <button
             type="button"
-            aria-label="Add product to wishlist"
-            className="
-
-              absolute
-
-              right-4
-
-              top-4
-
-              z-20
-
-              flex
-
-              size-9
-
-              items-center
-
-              justify-center
-
-              rounded-full
-
-              border
-
-              border-white/80
-
-              bg-white/90
-
-              text-[#526075]
-
-              shadow-sm
-
-              backdrop-blur-md
-
-            "
-          >
-            <Heart className="size-4" />
-          </button>
-
-          <button
-            type="button"
             onClick={() => setIsFullscreenOpen(true)}
             aria-label="View product image in fullscreen"
             className="
@@ -797,13 +750,13 @@ export default function ProductGallery({
 
               flex
 
-              min-h-[420px]
+              min-h-[480px]
 
               items-center
 
               justify-center
 
-              sm:min-h-[520px]
+              sm:min-h-[600px]
 
             "
           >

@@ -61,6 +61,7 @@ export interface StorefrontProduct {
   sku?: string;
 
   images: StorefrontProductImage[];
+  listingImage?: string;
 
   category?: StorefrontReference;
   brand?: StorefrontReference;

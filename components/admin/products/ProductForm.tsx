@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import type {
-  ProductImage,
-  ProductStatus,
-  ProductVariant,
-} from "@/types/product";
+import type { ProductImage, ProductStatus, ProductVariant } from "@/types/product";
 
 import ProductMedia from "./ProductMedia";
 
@@ -47,6 +43,7 @@ interface FormState {
   ageMin: string;
   ageMax: string;
   images: ProductImage[];
+  listingImage: string;
   variants: ProductVariant[];
 }
 
@@ -68,14 +65,12 @@ const initialForm: FormState = {
   ageMin: "",
   ageMax: "",
   images: [],
+  listingImage: "",
   variants: [],
 };
 
 function isAbortError(error: unknown) {
-  return (
-    error instanceof DOMException &&
-    error.name === "AbortError"
-  );
+  return error instanceof DOMException && error.name === "AbortError";
 }
 
 function optionalNumber(value: string): number | undefined {
@@ -161,9 +156,7 @@ function FieldLabel({
   return (
     <label className="mb-2.5 block text-[12px] font-semibold uppercase tracking-[0.045em] text-foreground/80">
       {children}
-      {required && (
-        <span className="ml-1 text-[#E83D59]">*</span>
-      )}
+      {required && <span className="ml-1 text-[#E83D59]">*</span>}
     </label>
   );
 }
@@ -177,23 +170,15 @@ const textareaClass =
 const selectClass =
   "h-12 w-full rounded-xl border bg-background/90 px-4 text-sm text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.03)] outline-none transition-all hover:border-[#C391EE]/45 focus:border-[#C391EE] focus:ring-4 focus:ring-[#C391EE]/12 disabled:cursor-not-allowed disabled:opacity-60";
 
-export default function ProductForm({
-  mode,
-  productId,
-}: ProductFormProps) {
+export default function ProductForm({ mode, productId }: ProductFormProps) {
   const [form, setForm] = useState<FormState>(initialForm);
 
-  const [categories, setCategories] = useState<SelectorItem[]>(
-    [],
-  );
+  const [categories, setCategories] = useState<SelectorItem[]>([]);
   const [brands, setBrands] = useState<SelectorItem[]>([]);
-  const [collections, setCollections] = useState<SelectorItem[]>(
-    [],
-  );
+  const [collections, setCollections] = useState<SelectorItem[]>([]);
 
   const [isLoading, setIsLoading] = useState(mode === "edit");
-  const [isLoadingSelectors, setIsLoadingSelectors] =
-    useState(true);
+  const [isLoadingSelectors, setIsLoadingSelectors] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
@@ -206,11 +191,7 @@ export default function ProductForm({
       try {
         setIsLoadingSelectors(true);
 
-        const [
-          categoriesResponse,
-          brandsResponse,
-          collectionsResponse,
-        ] = await Promise.all([
+        const [categoriesResponse, brandsResponse, collectionsResponse] = await Promise.all([
           fetch("/api/categories", {
             signal: controller.signal,
           }),
@@ -222,34 +203,16 @@ export default function ProductForm({
           }),
         ]);
 
-        if (
-          !categoriesResponse.ok ||
-          !brandsResponse.ok ||
-          !collectionsResponse.ok
-        ) {
-          throw new Error(
-            "Failed to load product selectors",
-          );
+        if (!categoriesResponse.ok || !brandsResponse.ok || !collectionsResponse.ok) {
+          throw new Error("Failed to load product selectors");
         }
 
-        const [
-          categoriesData,
-          brandsData,
-          collectionsData,
-        ]: SelectorResponse[] = await Promise.all([
-          categoriesResponse.json(),
-          brandsResponse.json(),
-          collectionsResponse.json(),
-        ]);
+        const [categoriesData, brandsData, collectionsData]: SelectorResponse[] = await Promise.all(
+          [categoriesResponse.json(), brandsResponse.json(), collectionsResponse.json()],
+        );
 
-        if (
-          !categoriesData.success ||
-          !brandsData.success ||
-          !collectionsData.success
-        ) {
-          throw new Error(
-            "Failed to load product selectors",
-          );
+        if (!categoriesData.success || !brandsData.success || !collectionsData.success) {
+          throw new Error("Failed to load product selectors");
         }
 
         setCategories(normalizeSelectorItems(categoriesData.categories));
@@ -260,11 +223,7 @@ export default function ProductForm({
           return;
         }
 
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load selectors",
-        );
+        setError(err instanceof Error ? err.message : "Failed to load selectors");
       } finally {
         if (!controller.signal.aborted) {
           setIsLoadingSelectors(false);
@@ -289,19 +248,14 @@ export default function ProductForm({
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(
-          `/api/products/${productId}`,
-          {
-            signal: controller.signal,
-          },
-        );
+        const response = await fetch(`/api/products/${productId}`, {
+          signal: controller.signal,
+        });
 
         const data = await response.json();
 
         if (!response.ok || !data.success || !data.product) {
-          throw new Error(
-            data.message || "Failed to load product",
-          );
+          throw new Error(data.message || "Failed to load product");
         }
 
         const product = data.product;
@@ -352,6 +306,7 @@ export default function ProductForm({
               : "",
 
           images: product.images ?? [],
+          listingImage: product.listingImage ?? "",
 
           variants: (product.variants ?? []).map((variant: ProductVariant) => ({
             _id: variant._id,
@@ -375,11 +330,7 @@ export default function ProductForm({
           return;
         }
 
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load product",
-        );
+        setError(err instanceof Error ? err.message : "Failed to load product");
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -392,10 +343,7 @@ export default function ProductForm({
     return () => controller.abort();
   }, [mode, productId]);
 
-  function updateField<K extends keyof FormState>(
-    field: K,
-    value: FormState[K],
-  ) {
+  function updateField<K extends keyof FormState>(field: K, value: FormState[K]) {
     setForm((current) => ({
       ...current,
       [field]: value,
@@ -429,14 +377,13 @@ export default function ProductForm({
   ) {
     setForm((current) => ({
       ...current,
-      variants: current.variants.map(
-        (variant, variantIndex) =>
-          variantIndex === index
-            ? {
-                ...variant,
-                [field]: value,
-              }
-            : variant,
+      variants: current.variants.map((variant, variantIndex) =>
+        variantIndex === index
+          ? {
+              ...variant,
+              [field]: value,
+            }
+          : variant,
       ),
     }));
 
@@ -448,9 +395,7 @@ export default function ProductForm({
   function removeVariant(index: number) {
     setForm((current) => ({
       ...current,
-      variants: current.variants.filter(
-        (_, variantIndex) => variantIndex !== index,
-      ),
+      variants: current.variants.filter((_, variantIndex) => variantIndex !== index),
     }));
   }
 
@@ -470,10 +415,7 @@ export default function ProductForm({
      * Price is optional for drafts, but if supplied it must
      * always be valid.
      */
-    if (
-      price !== undefined &&
-      (!Number.isFinite(price) || price < 0)
-    ) {
+    if (price !== undefined && (!Number.isFinite(price) || price < 0)) {
       return "Enter a valid product price.";
     }
 
@@ -481,10 +423,7 @@ export default function ProductForm({
      * Stock is optional for drafts, but if supplied it must
      * always be a non-negative integer.
      */
-    if (
-      stock !== undefined &&
-      (!Number.isInteger(stock) || stock < 0)
-    ) {
+    if (stock !== undefined && (!Number.isInteger(stock) || stock < 0)) {
       return "Stock must be a non-negative integer.";
     }
 
@@ -502,69 +441,44 @@ export default function ProductForm({
     }
 
     if (form.compareAtPrice.trim()) {
-      const compareAtPrice = Number(
-        form.compareAtPrice,
-      );
+      const compareAtPrice = Number(form.compareAtPrice);
 
-      if (
-        !Number.isFinite(compareAtPrice) ||
-        compareAtPrice < 0
-      ) {
+      if (!Number.isFinite(compareAtPrice) || compareAtPrice < 0) {
         return "Compare-at price must be valid.";
       }
 
-      if (
-        price !== undefined &&
-        compareAtPrice < price
-      ) {
+      if (price !== undefined && compareAtPrice < price) {
         return "Compare-at price should be greater than or equal to the selling price.";
       }
     }
 
-    if (
-      form.ageMin &&
-      (!Number.isInteger(Number(form.ageMin)) ||
-        Number(form.ageMin) < 0)
-    ) {
+    if (form.ageMin && (!Number.isInteger(Number(form.ageMin)) || Number(form.ageMin) < 0)) {
       return "Minimum age must be a non-negative integer.";
     }
 
-    if (
-      form.ageMax &&
-      (!Number.isInteger(Number(form.ageMax)) ||
-        Number(form.ageMax) < 0)
-    ) {
+    if (form.ageMax && (!Number.isInteger(Number(form.ageMax)) || Number(form.ageMax) < 0)) {
       return "Maximum age must be a non-negative integer.";
     }
 
-    if (
-      form.ageMin &&
-      form.ageMax &&
-      Number(form.ageMin) > Number(form.ageMax)
-    ) {
+    if (form.ageMin && form.ageMax && Number(form.ageMin) > Number(form.ageMax)) {
       return "Minimum age cannot be greater than maximum age.";
     }
 
     for (const variant of form.variants) {
-      if (
-        !variant.name.trim() ||
-        !variant.value.trim()
-      ) {
+      if (!variant.name.trim() || !variant.value.trim()) {
         return "Every variant must have a name and value.";
       }
 
       if (
         variant.price !== undefined &&
-        (!Number.isFinite(Number(variant.price)) ||
-          Number(variant.price) < 0)
+        (!Number.isFinite(Number(variant.price)) || Number(variant.price) < 0)
       ) {
         return "Variant price must be valid.";
       }
 
       if (
         variant.stock !== undefined &&
-        (!Number.isInteger(Number(variant.stock)) ||
-          Number(variant.stock) < 0)
+        (!Number.isInteger(Number(variant.stock)) || Number(variant.stock) < 0)
       ) {
         return "Variant stock must be a non-negative integer.";
       }
@@ -573,9 +487,7 @@ export default function ProductForm({
     return null;
   }
 
-  async function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>,
-  ) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setError(null);
@@ -610,6 +522,7 @@ export default function ProductForm({
         sku: form.sku.trim() || undefined,
 
         images: form.images,
+        listingImage: form.listingImage.trim(),
 
         category: form.category || undefined,
 
@@ -654,12 +567,9 @@ export default function ProductForm({
       };
 
       const response = await fetch(
-        mode === "create"
-          ? "/api/products"
-          : `/api/products/${productId}`,
+        mode === "create" ? "/api/products" : `/api/products/${productId}`,
         {
-          method:
-            mode === "create" ? "POST" : "PATCH",
+          method: mode === "create" ? "POST" : "PATCH",
 
           headers: {
             "Content-Type": "application/json",
@@ -672,15 +582,11 @@ export default function ProductForm({
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(
-          data.message || "Failed to save product",
-        );
+        throw new Error(data.message || "Failed to save product");
       }
 
       setSuccess(
-        mode === "create"
-          ? "Product created successfully."
-          : "Product updated successfully.",
+        mode === "create" ? "Product created successfully." : "Product updated successfully.",
       );
 
       if (mode === "create") {
@@ -691,11 +597,7 @@ export default function ProductForm({
         }, 700);
       }
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to save product",
-      );
+      setError(err instanceof Error ? err.message : "Failed to save product");
     } finally {
       setIsSaving(false);
     }
@@ -707,13 +609,9 @@ export default function ProductForm({
         <div className="text-center">
           <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-muted border-t-[#C391EE]" />
 
-          <p className="mt-4 text-sm font-medium text-foreground">
-            Loading product...
-          </p>
+          <p className="mt-4 text-sm font-medium text-foreground">Loading product...</p>
 
-          <p className="mt-1 text-xs text-muted-foreground">
-            Preparing your product details
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">Preparing your product details</p>
         </div>
       </div>
     );
@@ -1158,6 +1056,8 @@ export default function ProductForm({
           <ProductMedia
             images={form.images}
             onChange={(images) => updateField("images", images)}
+            listingImage={form.listingImage}
+            onListingImageChange={(url) => updateField("listingImage", url)}
             disabled={isSaving}
           />
         </div>

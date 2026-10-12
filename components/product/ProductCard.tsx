@@ -94,7 +94,20 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
-  const primaryImage = product.images?.find((image) => Boolean(image.url))?.url || null;
+
+const specialListingImages: Record<string, string> = {
+  indialogy: "/images/products/listed-images/Indialogy.png",
+  "flag it": "/images/products/listed-images/Flag-It.png",
+  "wordlogy - emoji edition": "/images/products/listed-images/Worldlogy-Emoji-Edition.png",
+};
+
+const normalizedProductName = product.name.trim().toLowerCase();
+
+const primaryImage =
+  specialListingImages[normalizedProductName] ||
+  product.listingImage?.trim() ||
+  product.images?.find((image) => image.url)?.url ||
+  null;
 
   const imageAlt = product.images?.find((image) => Boolean(image.alt))?.alt || product.name;
 
