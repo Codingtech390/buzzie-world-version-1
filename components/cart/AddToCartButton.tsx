@@ -30,6 +30,25 @@ export default function AddToCartButton({
     try {
       setLoading(true);
 
+      // Verify that a signed-in customer is attempting to add the item.
+      const sessionResponse = await fetch("/api/auth/session", {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      if (!sessionResponse.ok) {
+        throw new Error("Unable to verify your login. Please try again.");
+      }
+
+      const session = await sessionResponse.json();
+
+      if (!session?.user || session.user.role !== "customer") {
+        const currentPath = window.location.pathname + window.location.search;
+
+        window.location.href = `/login?callbackUrl=${encodeURIComponent(currentPath)}`;
+        return;
+      }
+
       await addItem(productId, quantity);
       window.dispatchEvent(new Event("buzzieworld:cart-updated"));
       // The shared useCart hook displays the success toast.

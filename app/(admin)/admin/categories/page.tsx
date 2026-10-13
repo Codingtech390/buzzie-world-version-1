@@ -136,18 +136,17 @@ export default function CategoriesPage() {
             </h1>
 
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-[15px]">
-              Organize your BuzzieWorld products into clear, easy-to-browse
-              categories.
+              Organize your BuzzieWorld products into clear, easy-to-browse categories.
             </p>
           </div>
-
           <Link
             href="/admin/categories/new"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white shadow-[0_6px_18px_rgba(124,58,237,0.18)] transition-all hover:bg-violet-700 hover:shadow-[0_8px_22px_rgba(124,58,237,0.24)]"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-[14px] bg-[#C391EE] px-5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(195,145,238,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E83D59] hover:shadow-[0_12px_28px_rgba(232,61,89,0.18)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#C391EE]/20"
           >
             <Plus className="h-4 w-4 text-white" />
-            Add Category
+            <span className="text-white">Add Category</span>
           </Link>
+
         </div>
 
         {/* Summary */}
@@ -209,9 +208,7 @@ export default function CategoriesPage() {
                 <div className="relative">
                   <select
                     value={statusFilter}
-                    onChange={(event) =>
-                      setStatusFilter(event.target.value as FilterStatus)
-                    }
+                    onChange={(event) => setStatusFilter(event.target.value as FilterStatus)}
                     className="h-10 appearance-none rounded-xl border border-slate-200 bg-white pl-3.5 pr-9 text-sm font-medium text-slate-600 outline-none transition-all hover:border-slate-300 focus:border-violet-300 focus:ring-4 focus:ring-violet-500/10"
                   >
                     <option value="all">All statuses</option>
@@ -228,9 +225,7 @@ export default function CategoriesPage() {
                   disabled={loading}
                   className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-600 transition-all hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <RefreshCw
-                    className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
-                  />
+                  <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
                   <span className="hidden sm:inline">Refresh</span>
                 </button>
               </div>
@@ -246,13 +241,9 @@ export default function CategoriesPage() {
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-red-800">
-                    Unable to load categories
-                  </p>
+                  <p className="text-sm font-semibold text-red-800">Unable to load categories</p>
 
-                  <p className="mt-1 text-xs leading-5 text-red-600">
-                    {error}
-                  </p>
+                  <p className="mt-1 text-xs leading-5 text-red-600">{error}</p>
 
                   <button
                     type="button"
@@ -280,17 +271,11 @@ export default function CategoriesPage() {
           {!loading && !error && filteredCategories.length === 0 && (
             <div className="flex min-h-[360px] flex-col items-center justify-center px-6 py-12 text-center">
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50 text-violet-500">
-                {search ? (
-                  <Search className="h-6 w-6" />
-                ) : (
-                  <FolderTree className="h-6 w-6" />
-                )}
+                {search ? <Search className="h-6 w-6" /> : <FolderTree className="h-6 w-6" />}
               </div>
 
               <h2 className="font-playpen text-base font-semibold text-slate-900">
-                {search || statusFilter !== "all"
-                  ? "No categories found"
-                  : "No categories yet"}
+                {search || statusFilter !== "all" ? "No categories found" : "No categories yet"}
               </h2>
 
               <p className="mt-1.5 max-w-sm text-sm leading-6 text-slate-500">
@@ -349,9 +334,7 @@ export default function CategoriesPage() {
                         <CategoryIdentity category={category} />
 
                         <div>
-                          <span className="text-sm font-medium text-slate-600">
-                            {productCount}
-                          </span>
+                          <span className="text-sm font-medium text-slate-600">{productCount}</span>
 
                           <span className="ml-1 text-xs text-slate-400">
                             {productCount === 1 ? "product" : "products"}
@@ -387,8 +370,7 @@ export default function CategoriesPage() {
                         <StatusBadge active={active} />
 
                         <span className="text-xs text-slate-400">
-                          {productCount}{" "}
-                          {productCount === 1 ? "product" : "products"}
+                          {productCount} {productCount === 1 ? "product" : "products"}
                         </span>
                       </div>
                     </div>
@@ -400,22 +382,14 @@ export default function CategoriesPage() {
               <div className="flex flex-col gap-2 border-t border-slate-100 bg-slate-50/30 px-4 py-3.5 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-5 lg:px-6">
                 <span>
                   Showing{" "}
-                  <span className="font-semibold text-slate-600">
-                    {filteredCategories.length}
-                  </span>{" "}
-                  of{" "}
-                  <span className="font-semibold text-slate-600">
-                    {categories.length}
-                  </span>{" "}
+                  <span className="font-semibold text-slate-600">{filteredCategories.length}</span>{" "}
+                  of <span className="font-semibold text-slate-600">{categories.length}</span>{" "}
                   categories
                 </span>
 
                 {search && (
                   <span>
-                    Filtered by{" "}
-                    <span className="font-medium text-slate-600">
-                      "{search}"
-                    </span>
+                    Filtered by <span className="font-medium text-slate-600">"{search}"</span>
                   </span>
                 )}
               </div>

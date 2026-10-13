@@ -440,15 +440,13 @@ export default function CollectionsPage() {
         {/* Header */}
         <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-
             <h1 className="font-playpen text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
               Collections
             </h1>
 
             <p className="mt-1.5 max-w-2xl text-sm leading-6 text-slate-500">
-              Organize products into curated
-              collections and control which ones
-              appear across your storefront.
+              Organize products into curated collections and control which ones appear across your
+              storefront.
             </p>
           </div>
 
@@ -459,30 +457,18 @@ export default function CollectionsPage() {
                 event.stopPropagation();
                 fetchCollections(true);
               }}
-              disabled={
-                loading || refreshing
-              }
+              disabled={loading || refreshing}
               className="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <RefreshCw
-                className={`h-4 w-4 ${
-                  refreshing
-                    ? "animate-spin"
-                    : ""
-                }`}
-              />
+              <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
 
-              <span className="hidden sm:inline">
-                Refresh
-              </span>
+              <span className="hidden sm:inline">Refresh</span>
             </button>
 
             <Link
               href="/admin/collections/new"
-              onClick={(event) =>
-                event.stopPropagation()
-              }
-              className="inline-flex h-10 items-center gap-2 rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700"
+              onClick={(event) => event.stopPropagation()}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-[14px] bg-[#C391EE] px-5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(195,145,238,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E83D59] hover:shadow-[0_12px_28px_rgba(232,61,89,0.18)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#C391EE]/20"
             >
               <Plus className="h-4 w-4" />
               New Collection
@@ -493,33 +479,21 @@ export default function CollectionsPage() {
         {/* Statistics */}
         <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           <StatCard
-            icon={
-              <FolderOpen className="h-5 w-5" />
-            }
+            icon={<FolderOpen className="h-5 w-5" />}
             label="Total"
             value={statistics.total}
           />
 
-          <StatCard
-            icon={
-              <Check className="h-5 w-5" />
-            }
-            label="Active"
-            value={statistics.active}
-          />
+          <StatCard icon={<Check className="h-5 w-5" />} label="Active" value={statistics.active} />
 
           <StatCard
-            icon={
-              <Star className="h-5 w-5" />
-            }
+            icon={<Star className="h-5 w-5" />}
             label="Featured"
             value={statistics.featured}
           />
 
           <StatCard
-            icon={
-              <Eye className="h-5 w-5" />
-            }
+            icon={<Eye className="h-5 w-5" />}
             label="Inactive"
             value={statistics.inactive}
           />
@@ -537,14 +511,8 @@ export default function CollectionsPage() {
                 <input
                   type="text"
                   value={search}
-                  onChange={(event) =>
-                    setSearch(
-                      event.target.value,
-                    )
-                  }
-                  onClick={(event) =>
-                    event.stopPropagation()
-                  }
+                  onChange={(event) => setSearch(event.target.value)}
+                  onClick={(event) => event.stopPropagation()}
                   placeholder="Search collections..."
                   className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50/70 pl-10 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-violet-300 focus:bg-white focus:ring-4 focus:ring-violet-500/10"
                 />
@@ -553,15 +521,11 @@ export default function CollectionsPage() {
               {/* Filters */}
               <div
                 className="flex flex-wrap items-center gap-2"
-                onClick={(event) =>
-                  event.stopPropagation()
-                }
+                onClick={(event) => event.stopPropagation()}
               >
                 <FilterSelect
                   value={status}
-                  onChange={(value) =>
-                    setStatus(value)
-                  }
+                  onChange={(value) => setStatus(value)}
                   options={[
                     {
                       value: "all",
@@ -580,9 +544,7 @@ export default function CollectionsPage() {
 
                 <FilterSelect
                   value={featured}
-                  onChange={(value) =>
-                    setFeatured(value)
-                  }
+                  onChange={(value) => setFeatured(value)}
                   options={[
                     {
                       value: "all",
@@ -608,19 +570,13 @@ export default function CollectionsPage() {
               <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
               <div className="min-w-0 flex-1">
-                <p className="font-semibold">
-                  Unable to load collections
-                </p>
+                <p className="font-semibold">Unable to load collections</p>
 
-                <p className="mt-1 text-red-600">
-                  {error}
-                </p>
+                <p className="mt-1 text-red-600">{error}</p>
 
                 <button
                   type="button"
-                  onClick={() =>
-                    fetchCollections()
-                  }
+                  onClick={() => fetchCollections()}
                   className="mt-3 font-semibold underline underline-offset-2"
                 >
                   Try again
@@ -632,14 +588,9 @@ export default function CollectionsPage() {
           {/* Loading */}
           {loading && !error ? (
             <CollectionsSkeleton />
-          ) : !error &&
-            collections.length === 0 ? (
+          ) : !error && collections.length === 0 ? (
             <EmptyState
-              hasFilters={
-                Boolean(search.trim()) ||
-                status !== "all" ||
-                featured !== "all"
-              }
+              hasFilters={Boolean(search.trim()) || status !== "all" || featured !== "all"}
               onClear={() => {
                 setSearch("");
                 setStatus("all");
@@ -684,187 +635,94 @@ export default function CollectionsPage() {
                   </thead>
 
                   <tbody className="divide-y divide-slate-100">
-                    {collections.map(
-                      (collection) => (
-                        <CollectionRow
-                          key={collection.id}
-                          collection={
-                            collection
-                          }
-                          updating={
-                            updatingId ===
-                            collection.id
-                          }
-                          deleting={
-                            deletingId ===
-                            collection.id
-                          }
-                          menuOpen={
-                            menuId ===
-                            collection.id
-                          }
-                          onMenu={() =>
-                            setMenuId(
-                              menuId ===
-                                collection.id
-                                ? null
-                                : collection.id,
-                            )
-                          }
-                          onView={() =>
-                            setSelectedCollection(
-                              collection,
-                            )
-                          }
-                          onToggleActive={() =>
-                            updateCollection(
-                              collection.id,
-                              {
-                                isActive:
-                                  !collection.isActive,
-                              },
-                            )
-                          }
-                          onToggleFeatured={() =>
-                            updateCollection(
-                              collection.id,
-                              {
-                                featured:
-                                  !collection.featured,
-                              },
-                            )
-                          }
-                          onDelete={() =>
-                            deleteCollection(
-                              collection,
-                            )
-                          }
-                        />
-                      ),
-                    )}
+                    {collections.map((collection) => (
+                      <CollectionRow
+                        key={collection.id}
+                        collection={collection}
+                        updating={updatingId === collection.id}
+                        deleting={deletingId === collection.id}
+                        menuOpen={menuId === collection.id}
+                        onMenu={() => setMenuId(menuId === collection.id ? null : collection.id)}
+                        onView={() => setSelectedCollection(collection)}
+                        onToggleActive={() =>
+                          updateCollection(collection.id, {
+                            isActive: !collection.isActive,
+                          })
+                        }
+                        onToggleFeatured={() =>
+                          updateCollection(collection.id, {
+                            featured: !collection.featured,
+                          })
+                        }
+                        onDelete={() => deleteCollection(collection)}
+                      />
+                    ))}
                   </tbody>
                 </table>
               </div>
 
               {/* Mobile/tablet */}
               <div className="divide-y divide-slate-100 lg:hidden">
-                {collections.map(
-                  (collection) => (
-                    <CollectionMobileCard
-                      key={collection.id}
-                      collection={
-                        collection
-                      }
-                      updating={
-                        updatingId ===
-                        collection.id
-                      }
-                      deleting={
-                        deletingId ===
-                        collection.id
-                      }
-                      onView={() =>
-                        setSelectedCollection(
-                          collection,
-                        )
-                      }
-                      onToggleActive={() =>
-                        updateCollection(
-                          collection.id,
-                          {
-                            isActive:
-                              !collection.isActive,
-                          },
-                        )
-                      }
-                      onToggleFeatured={() =>
-                        updateCollection(
-                          collection.id,
-                          {
-                            featured:
-                              !collection.featured,
-                          },
-                        )
-                      }
-                      onDelete={() =>
-                        deleteCollection(
-                          collection,
-                        )
-                      }
-                    />
-                  ),
-                )}
+                {collections.map((collection) => (
+                  <CollectionMobileCard
+                    key={collection.id}
+                    collection={collection}
+                    updating={updatingId === collection.id}
+                    deleting={deletingId === collection.id}
+                    onView={() => setSelectedCollection(collection)}
+                    onToggleActive={() =>
+                      updateCollection(collection.id, {
+                        isActive: !collection.isActive,
+                      })
+                    }
+                    onToggleFeatured={() =>
+                      updateCollection(collection.id, {
+                        featured: !collection.featured,
+                      })
+                    }
+                    onDelete={() => deleteCollection(collection)}
+                  />
+                ))}
               </div>
             </>
-
           ) : null}
 
           {/* Footer */}
-          {!loading &&
-            !error &&
-            collections.length > 0 && (
-              <div className="flex flex-col gap-2 border-t border-slate-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-                <p className="text-xs text-slate-400 sm:text-sm">
-                  Showing{" "}
-                  <span className="font-medium text-slate-700">
-                    {collections.length}
-                  </span>{" "}
-                  collection
-                  {collections.length ===
-                  1
-                    ? ""
-                    : "s"}
-                </p>
+          {!loading && !error && collections.length > 0 && (
+            <div className="flex flex-col gap-2 border-t border-slate-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+              <p className="text-xs text-slate-400 sm:text-sm">
+                Showing <span className="font-medium text-slate-700">{collections.length}</span>{" "}
+                collection
+                {collections.length === 1 ? "" : "s"}
+              </p>
 
-                <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                  <ArrowUpDown className="h-3.5 w-3.5" />
-                  Sorted by position
-                </div>
+              <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                <ArrowUpDown className="h-3.5 w-3.5" />
+                Sorted by position
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Details drawer */}
       {selectedCollection && (
         <CollectionDrawer
-          collection={
-            selectedCollection
-          }
-          updating={
-            updatingId ===
-            selectedCollection.id
-          }
-          deleting={
-            deletingId ===
-            selectedCollection.id
-          }
-          onClose={() =>
-            setSelectedCollection(null)
-          }
+          collection={selectedCollection}
+          updating={updatingId === selectedCollection.id}
+          deleting={deletingId === selectedCollection.id}
+          onClose={() => setSelectedCollection(null)}
           onToggleActive={() =>
-            updateCollection(
-              selectedCollection.id,
-              {
-                isActive:
-                  !selectedCollection.isActive,
-              },
-            )
+            updateCollection(selectedCollection.id, {
+              isActive: !selectedCollection.isActive,
+            })
           }
           onToggleFeatured={() =>
-            updateCollection(
-              selectedCollection.id,
-              {
-                featured:
-                  !selectedCollection.featured,
-              },
-            )
+            updateCollection(selectedCollection.id, {
+              featured: !selectedCollection.featured,
+            })
           }
-          onDelete={() =>
-            deleteCollection(
-              selectedCollection,
-            )
-          }
+          onDelete={() => deleteCollection(selectedCollection)}
         />
       )}
     </div>

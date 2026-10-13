@@ -43,7 +43,7 @@ interface FormState {
   ageMin: string;
   ageMax: string;
   images: ProductImage[];
-  listingImage: string;
+
   variants: ProductVariant[];
 }
 
@@ -65,7 +65,7 @@ const initialForm: FormState = {
   ageMin: "",
   ageMax: "",
   images: [],
-  listingImage: "",
+
   variants: [],
 };
 
@@ -132,7 +132,7 @@ function SectionHeader({
       )}
 
       <div className="min-w-0">
-        <h2 className="text-[17px] font-bold tracking-[-0.025em] text-foreground sm:text-lg">
+        <h2 className="font-playpen text-[17px] font-bold tracking-[-0.025em] text-foreground sm:text-lg">
           {title}
         </h2>
 
@@ -306,7 +306,6 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
               : "",
 
           images: product.images ?? [],
-          listingImage: product.listingImage ?? "",
 
           variants: (product.variants ?? []).map((variant: ProductVariant) => ({
             _id: variant._id,
@@ -522,7 +521,7 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
         sku: form.sku.trim() || undefined,
 
         images: form.images,
-        listingImage: form.listingImage.trim(),
+
 
         category: form.category || undefined,
 
@@ -645,7 +644,7 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
                 </span>
               </div>
 
-              <h1 className="text-2xl font-bold tracking-[-0.035em] text-foreground sm:text-[30px]">
+              <h1 className="font-playpen text-xl font-bold tracking-[-0.035em] text-foreground sm:text-[30px]">
                 {mode === "create" ? "Create Product" : "Edit Product"}
               </h1>
 
@@ -727,7 +726,7 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
         />
 
         <div className="mt-7 grid gap-5">
-          <div>
+          <div className="font-playpen">
             <FieldLabel required>Product Name</FieldLabel>
 
             <input
@@ -1056,8 +1055,6 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
           <ProductMedia
             images={form.images}
             onChange={(images) => updateField("images", images)}
-            listingImage={form.listingImage}
-            onListingImageChange={(url) => updateField("listingImage", url)}
             disabled={isSaving}
           />
         </div>

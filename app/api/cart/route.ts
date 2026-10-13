@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 
+import { getAuthenticatedApiSession } from "@/lib/auth";
+
 import {
   addToCart,
   clearCart,
@@ -57,6 +59,18 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getAuthenticatedApiSession();
+
+    if (!session || session.user.role !== "customer") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please log in as a customer to add items to your cart.",
+        },
+        { status: 401 },
+      );
+    }
+
     const body = await request.json();
 
     const sessionId = getSessionId(request);
@@ -94,6 +108,18 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const session = await getAuthenticatedApiSession();
+
+    if (!session || session.user.role !== "customer") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please log in as a customer to update your cart.",
+        },
+        { status: 401 },
+      );
+    }
+
     const body = await request.json();
 
     const sessionId = getSessionId(request);
@@ -126,6 +152,18 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const session = await getAuthenticatedApiSession();
+
+    if (!session || session.user.role !== "customer") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please log in as a customer to modify your cart.",
+        },
+        { status: 401 },
+      );
+    }
+
     const sessionId = getSessionId(request);
 
     const productId = new URL(request.url).searchParams.get("productId");

@@ -22,17 +22,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = await getAuthenticatedApiSession();
+        const session = await getAuthenticatedApiSession();
 
-    const customerId = session?.user?.role === "customer" ? session.user.id : undefined;
+        if (!session || session.user.role !== "customer") {
+          return NextResponse.json(
+            {
+              success: false,
+              message: "Please log in as a customer to verify payment.",
+            },
+            { status: 401 },
+          );
+        }
 
-    const order = await verifyPayment(
-      body.orderId,
-      body.razorpay_payment_id,
-      body.razorpay_order_id,
-      body.razorpay_signature,
-      customerId,
-    );
+        const customerId = session.user.id;
+
+        const order = await verifyPayment(
+          body.orderId,
+          body.razorpay_payment_id,
+          body.razorpay_order_id,
+          body.razorpay_signature,
+          customerId,
+        );
 
     return NextResponse.json({
       success: true,

@@ -25,6 +25,26 @@ export default function LoginPage() {
 
   const router = useRouter();
 
+  function getCustomerRedirectUrl() {
+    const callbackUrl = new URLSearchParams(window.location.search).get("callbackUrl");
+
+    if (!callbackUrl || !callbackUrl.startsWith("/") || callbackUrl.startsWith("//")) {
+      return "/account";
+    }
+
+    try {
+      const destination = new URL(callbackUrl, window.location.origin);
+
+      if (destination.origin !== window.location.origin) {
+        return "/account";
+      }
+
+      return `${destination.pathname}${destination.search}${destination.hash}`;
+    } catch {
+      return "/account";
+    }
+  }
+
   async function handleGoogleSignIn() {
     setError("");
     setIsSubmitting(true);
@@ -49,8 +69,33 @@ export default function LoginPage() {
         throw new Error(nextAuthResult?.error || "Google authentication failed.");
       }
 
+      const sessionResponse = await fetch("/api/auth/session", {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      if (!sessionResponse.ok) {
+        throw new Error("Unable to load your login session. Please try again.");
+      }
+
+      const session = await sessionResponse.json();
+
+      if (!session?.user) {
+        throw new Error("Your account was authenticated, but we couldn't load your session.");
+      }
+
       notify.success("Signed in successfully.");
-      router.replace("/account");
+
+      if (session.user.role === "admin") {
+        router.replace("/admin");
+        return;
+      }
+
+      if (session.user.role !== "customer") {
+        throw new Error("This account does not have permission to access the store.");
+      }
+
+      router.replace(getCustomerRedirectUrl());
     } catch (error) {
       console.error("Google sign-in error:", error);
 
@@ -119,7 +164,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.replace("/account");
+            router.replace(getCustomerRedirectUrl());
     } catch (submitError) {
       setError(
         submitError instanceof Error

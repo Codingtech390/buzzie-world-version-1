@@ -18,7 +18,17 @@ export async function GET(request: NextRequest) {
 
     const session = await getAuthenticatedApiSession();
 
-    const customerId = session?.user?.role === "customer" ? session.user.id : undefined;
+    if (!session || session.user.role !== "customer") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please log in as a customer to access checkout.",
+        },
+        { status: 401 },
+      );
+    }
+
+    const customerId = session.user.id;
 
     const pricing = await getCheckoutPricing(sessionId, customerId);
 
