@@ -958,7 +958,6 @@ function VideoPreview({ card }: { card: VideoCardData }) {
                     xl:gap-6
                   "
                 >
-
                   {videoCards.map((card, index) => (
                     <VideoCard key={card.id} card={card} index={index} />
                   ))}
@@ -968,16 +967,47 @@ function VideoPreview({ card }: { card: VideoCardData }) {
           </section>
         </div>
 
-        <div className="w-full overflow-hidden bg-white">
-          <Image
-            src="/images/products/a-plus/image-spell-master.png"
-            alt={`${product.name} — product features, what's included, learning benefits and product experience`}
-            width={1600}
-            height={2400}
-            sizes="100vw"
-            className="block h-auto w-full object-contain"
-          />
-        </div>
+        {/* A+ CONTENT — ADMIN UPLOADS WITH EXISTING FALLBACK */}
+        <section
+          aria-label={`${product.name} product details`}
+          className="w-full overflow-hidden bg-white"
+        >
+          {product.aPlusContent?.length ? (
+            <div className="flex w-full flex-col">
+              {product.aPlusContent.map((item, index) => (
+                <div key={`${item.url}-${index}`} className="w-full overflow-hidden">
+                  <Image
+                    src={item.url}
+                    alt={
+                      item.alt?.trim() ||
+                      item.caption?.trim() ||
+                      `${product.name} product details image ${index + 1}`
+                    }
+                    width={1600}
+                    height={2400}
+                    sizes="100vw"
+                    className="block h-auto w-full object-contain"
+                    unoptimized={item.url.startsWith("/api/media/files/")}
+                  />
+                  {item.caption?.trim() ? (
+                    <p className="mx-auto max-w-5xl px-4 py-3 text-center text-sm text-slate-600">
+                      {item.caption}
+                    </p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Image
+              src="/images/products/a-plus/image-spell-master.png"
+              alt={`${product.name} — product features, what's included, learning benefits and product experience`}
+              width={1600}
+              height={2400}
+              sizes="100vw"
+              className="block h-auto w-full object-contain"
+            />
+          )}
+        </section>
       </main>
     );
   }

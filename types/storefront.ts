@@ -19,6 +19,16 @@ export interface StorefrontProductImage {
 }
 
 /**
+ * A+ content image exposed to the storefront.
+ */
+export interface StorefrontProductContentImage {
+  url: string;
+  publicId?: string;
+  alt?: string;
+  caption?: string;
+}
+
+/**
  * Product variant exposed to the storefront.
  */
 export interface StorefrontProductVariant {
@@ -63,6 +73,15 @@ export interface StorefrontProduct {
   images: StorefrontProductImage[];
   listingImage?: string;
 
+  /**
+   * Admin-managed A+ content images.
+   */
+  aPlusContent?: StorefrontProductContentImage[];
+
+  /**
+   * Admin-managed How-to-Play instruction images.
+   */
+  howToPlay?: StorefrontProductContentImage[];
   category?: StorefrontReference;
   brand?: StorefrontReference;
   collection?: StorefrontReference;

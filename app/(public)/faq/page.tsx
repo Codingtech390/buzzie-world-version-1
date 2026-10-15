@@ -5,18 +5,12 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Clock3,
-  CreditCard,
-  HelpCircle,
   PackageCheck,
-  RefreshCcw,
-  ShieldCheck,
   Truck,
-  UserRound,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { StorefrontProduct } from "@/types/storefront";
 
@@ -44,33 +38,38 @@ const faqs = [
 function HowToPlayCarousel({ products }: { products: StorefrontProduct[] }) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
-const HOW_TO_PLAY_CATEGORIES = new Set([
-  "mind games",
-  "mind-games",
-  "mind_games",
-  "card games",
-  "card-games",
-  "card_games",
-  "strategy game",
-  "strategy games",
-  "strategy-game",
-  "strategy-games",
-  "strategy_game",
-  "strategy_games",
-  "phonics",
-]);
+  const HOW_TO_PLAY_CATEGORIES = new Set([
+    "mind games",
+    "mind-games",
+    "mind_games",
+    "card games",
+    "card-games",
+    "card_games",
+    "strategy game",
+    "strategy games",
+    "strategy-game",
+    "strategy-games",
+    "strategy_game",
+    "strategy_games",
+    "phonics",
+  ]);
 
-const howToPlayProducts = products.filter((product) => {
-  const categoryName = product.category?.name?.trim().toLowerCase() ?? "";
-  const categorySlug = product.category?.slug?.trim().toLowerCase() ?? "";
+  const howToPlayProducts = products.filter((product) => {
+    const categoryName = product.category?.name?.trim().toLowerCase() ?? "";
+    const categorySlug = product.category?.slug?.trim().toLowerCase() ?? "";
 
-  const isIncludedCategory =
-    HOW_TO_PLAY_CATEGORIES.has(categoryName) || HOW_TO_PLAY_CATEGORIES.has(categorySlug);
+    const isIncludedCategory =
+      HOW_TO_PLAY_CATEGORIES.has(categoryName) || HOW_TO_PLAY_CATEGORIES.has(categorySlug);
 
-  const hasImage = product.images?.some((image) => Boolean(image?.url));
+    const hasProductImage = Boolean(
+      product.listingImage || product.images?.some((image) => Boolean(image?.url)),
+    );
 
-  return isIncludedCategory && hasImage;
-});
+    // const hasInstructions = Boolean(product.howToPlay?.some((image) => Boolean(image?.url)));
+
+    // return isIncludedCategory && hasProductImage && hasInstructions;
+    return isIncludedCategory && hasProductImage;
+  });
 
   useEffect(() => {
     if (howToPlayProducts.length <= 1) return;
@@ -203,7 +202,8 @@ const howToPlayProducts = products.filter((product) => {
         "
       >
         {howToPlayProducts.map((product) => {
-          const image = product.images?.find((item) => item?.url)?.url;
+          const image =
+            product.listingImage || product.images?.find((item) => Boolean(item?.url))?.url;
 
           if (!image) return null;
 
@@ -398,7 +398,6 @@ const howToPlayProducts = products.filter((product) => {
   );
 }
 
-
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -414,11 +413,9 @@ export default function FAQPage() {
         setProductsLoading(true);
         setProductsError(null);
 
-
-const response = await fetch("/api/products?published=true&limit=100&sort=newest", {
-  signal: controller.signal,
-});
-
+        const response = await fetch("/api/products?published=true&limit=100&sort=newest", {
+          signal: controller.signal,
+        });
 
         console.log("FAQ products API status:", response.status);
         console.log("FAQ products API URL:", response.url);
@@ -435,26 +432,21 @@ const response = await fetch("/api/products?published=true&limit=100&sort=newest
           throw new Error(data.message ?? "Unable to load products.");
         }
 
+        const loadedProducts: StorefrontProduct[] = data.products ?? [];
 
-
-
-const loadedProducts: StorefrontProduct[] = data.products ?? [];
-
-console.table(
-  loadedProducts.map((product: StorefrontProduct) => ({
-    name: product.name,
-    categoryName: product.category?.name ?? "No category returned",
-    categorySlug: product.category?.slug ?? "No slug returned",
-    hasImage: Boolean(product.images?.some((image) => Boolean(image?.url))),
-    status: product.status,
-  })),
-);
+        console.table(
+          loadedProducts.map((product: StorefrontProduct) => ({
+            name: product.name,
+            categoryName: product.category?.name ?? "No category returned",
+            categorySlug: product.category?.slug ?? "No slug returned",
+            hasImage: Boolean(product.images?.some((image) => Boolean(image?.url))),
+            status: product.status,
+          })),
+        );
 
         setProducts(loadedProducts);
         console.log("FAQ API product count:", loadedProducts.length);
         console.log("FAQ API first product:", loadedProducts[0]);
-
-
       } catch (error) {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;

@@ -7,7 +7,16 @@ export interface IProductImage {
   url: string;
   publicId?: string;
   alt?: string;
+  caption?: string;
 }
+
+export interface IProductContentImage {
+  url: string;
+  publicId?: string;
+  alt?: string;
+  caption?: string;
+}
+
 
 /**
  * Product variant
@@ -41,6 +50,9 @@ export interface IProduct {
 
   images: IProductImage[];
   listingImage?: string;
+
+  aPlusContent: IProductContentImage[];
+  howToPlay: IProductContentImage[];
 
   category?: Types.ObjectId;
   brand?: Types.ObjectId;
@@ -105,6 +117,10 @@ const ProductImageSchema = new Schema<IProductImage>(
     },
 
     alt: {
+      type: String,
+      trim: true,
+    },
+    caption: {
       type: String,
       trim: true,
     },
@@ -208,6 +224,16 @@ const ProductSchema = new Schema<IProduct>(
     listingImage: {
       type: String,
       default: "",
+    },
+
+    aPlusContent: {
+      type: [ProductImageSchema],
+      default: [],
+    },
+
+    howToPlay: {
+      type: [ProductImageSchema],
+      default: [],
     },
 
     category: {

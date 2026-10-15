@@ -50,30 +50,6 @@ interface UploadState {
   error: string | null;
 }
 
-interface SignatureResponse {
-  success: boolean;
-  signature: string;
-  timestamp: number;
-  apiKey: string;
-  cloudName: string;
-  folder: string;
-  resourceType: "image" | "video";
-  publicId: string | null;
-  message?: string;
-}
-
-interface CloudinaryUploadResponse {
-  secure_url?: string;
-  url?: string;
-  public_id?: string;
-  original_filename?: string;
-  format?: string;
-  resource_type?: string;
-  error?: {
-    message?: string;
-  };
-}
-
 function slugify(value: string): string {
   return value
     .trim()
@@ -83,15 +59,17 @@ function slugify(value: string): string {
     .slice(0, 80);
 }
 
-function buildCloudinaryFolder(productSlug?: string): string {
+
+function buildProductMediaFolder(productSlug?: string): string {
   const safeSlug = productSlug ? slugify(productSlug) : "";
 
-  if (safeSlug) {
-    return `buzzie-world/products/${safeSlug}`;
+  if (!safeSlug) {
+    throw new Error("Save the product and ensure it has a valid slug before uploading images.");
   }
 
-  return "buzzie-world/products";
+  return `buzzie-world/products/${safeSlug}/gallery`;
 }
+
 
 function getFileExtension(file: File): string {
   const extension = file.name.split(".").pop()?.toLowerCase();
@@ -176,120 +154,59 @@ export default function ProductMedia({
    * The browser asks our authenticated server for a signature.
    */
 
-  async function getCloudinarySignature(): Promise<SignatureResponse> {
-    const folder = buildCloudinaryFolder(productSlug);
+async function uploadImage(file: File, imageAlt: string): Promise<ProductImage> {
+  const folder = buildProductMediaFolder(productSlug);
 
-    const response = await fetch("/api/media/signature", {
+  const formData = new FormData();
+
+  formData.append("file", file);
+  formData.append("folder", folder);
+  formData.append("alt", imageAlt.trim());
+
+  let response: Response;
+
+  try {
+    response = await fetch("/api/media/upload", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       credentials: "include",
-      body: JSON.stringify({
-        paramsToSign: {
-          folder,
-          resource_type: "image",
-        },
-      }),
+      body: formData,
     });
+  } catch (error) {
+    console.error("Media upload network error:", error);
 
-    let data: Partial<SignatureResponse> | null = null;
-
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error("The media server returned an invalid response.");
-    }
-
-    if (!response.ok || !data?.success) {
-      throw new Error(data?.message || `Unable to prepare the image upload. (${response.status})`);
-    }
-
-    if (!data.signature || !data.timestamp || !data.apiKey || !data.cloudName || !data.folder) {
-      throw new Error("The media server returned incomplete Cloudinary upload credentials.");
-    }
-
-    return data as SignatureResponse;
+    throw new Error("Unable to connect to the media server. Check your connection and try again.");
   }
 
-  /*
-   * ------------------------------------------------------------
-   * Upload one image directly to Cloudinary
-   * ------------------------------------------------------------
-   */
+  let data: {
+    success?: boolean;
+    url?: string;
+    secureUrl?: string;
+    publicId?: string;
+    message?: string;
+  } | null = null;
 
-  async function uploadToCloudinary(file: File, imageAlt: string): Promise<ProductImage> {
-    const signatureData = await getCloudinarySignature();
-
-    const publicId = buildPublicId(file);
-
-    /*
-     * The signature route signs:
-     *   folder
-     *   timestamp
-     *
-     * Do not add arbitrary signed parameters here that weren't
-     * included in the server-side signature.
-     */
-
-    const uploadEndpoint =
-      `https://api.cloudinary.com/v1_1/` +
-      `${encodeURIComponent(signatureData.cloudName)}/` +
-      `${signatureData.resourceType}/upload`;
-
-    const formData = new FormData();
-
-    formData.append("file", file);
-    formData.append("api_key", signatureData.apiKey);
-    formData.append("timestamp", String(signatureData.timestamp));
-    formData.append("signature", signatureData.signature);
-    formData.append("folder", signatureData.folder);
-
-    /*
-     * public_id is intentionally NOT sent.
-     *
-     * The server signs only folder + timestamp, so sending an
-     * unsigned public_id would not be correct.
-     *
-     * Cloudinary will generate a unique public ID automatically.
-     */
-
-    let response: Response;
-
-    try {
-      response = await fetch(uploadEndpoint, {
-        method: "POST",
-        body: formData,
-      });
-    } catch (error) {
-      console.error("Cloudinary network error:", error);
-
-      throw new Error(
-        "Unable to connect to Cloudinary. Please check your internet connection and try again.",
-      );
-    }
-
-    let data: CloudinaryUploadResponse | null = null;
-
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error("Cloudinary returned an invalid upload response.");
-    }
-
-    if (!response.ok || !data?.secure_url || !data?.public_id) {
-      const cloudinaryMessage = data?.error?.message?.trim();
-
-      throw new Error(cloudinaryMessage || `Cloudinary could not upload "${file.name}".`);
-    }
-
-    return {
-      url: data.secure_url,
-      publicId: data.public_id,
-      alt: imageAlt.trim() || undefined,
-    };
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error("The media server returned an invalid response.");
   }
 
+  if (!response.ok || !data?.success) {
+    throw new Error(data?.message || `Unable to upload "${file.name}". (HTTP ${response.status})`);
+  }
+
+  const url = data.url || data.secureUrl;
+
+  if (!url || !data.publicId) {
+    throw new Error("The media server returned incomplete image information.");
+  }
+
+  return {
+    url,
+    publicId: data.publicId,
+    alt: imageAlt.trim() || undefined,
+  };
+}
   /*
    * ------------------------------------------------------------
    * Upload multiple images
@@ -410,7 +327,7 @@ export default function ProductMedia({
           error: null,
         });
 
-        const uploadedImage = await uploadToCloudinary(file, alt);
+        const uploadedImage = await uploadImage(file, alt);
 
         nextImages = [...nextImages, uploadedImage];
 

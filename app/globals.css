@@ -774,3 +774,52 @@ body[data-scroll-locked] {
 .stroke-\[\#C391EE\] {
   stroke: var(--buzzie-purple) !important;
 }
+
+
+
+.price-range-input {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.price-range-input::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #17213d;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+  cursor: grab;
+}
+
+.price-range-input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #17213d;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+  cursor: grab;
+}
+
+.price-range-input:focus-visible {
+  outline: none;
+}
+
+.price-range-input:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid #c391ee;
+  outline-offset: 2px;
+}
+
+.price-range-input:focus-visible::-moz-range-thumb {
+  outline: 2px solid #c391ee;
+  outline-offset: 2px;
+}

@@ -9,6 +9,8 @@ import { createSlug } from "@/lib/slug";
 
 import type { SortOrder } from "mongoose";
 
+import type { IProductContentImage } from "@/models/Product";
+
 export type ProductSort = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
 
 export interface ProductFilters {
@@ -97,6 +99,9 @@ export interface ProductInput {
 
   listingImage?: string;
 
+  aPlusContent?: IProductContentImage[];
+  howToPlay?: IProductContentImage[];
+
   category?: string;
   brand?: string;
   collection?: string;
@@ -147,6 +152,7 @@ function cleanImages(value: unknown): ProductImageInput[] {
       url: String(image.url ?? "").trim(),
       publicId: cleanOptionalString(image.publicId),
       alt: cleanOptionalString(image.alt),
+      caption: cleanOptionalString(image.caption),
     }))
     .filter((image) => Boolean(image.url));
 }
@@ -229,6 +235,9 @@ function normalizeProductInput(data: ProductInput) {
     images: cleanImages(data.images),
 
     listingImage: cleanOptionalString(data.listingImage) ?? "",
+
+    aPlusContent: cleanImages(data.aPlusContent),
+    howToPlay: cleanImages(data.howToPlay),
 
     category: cleanOptionalString(data.category),
 
@@ -385,8 +394,7 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
   await connectToDatabase();
 
   const existing = await Product.findById(id);
-  console.log("[updateProduct] Incoming ageRange:", data.ageRange);
-  console.log("[updateProduct] Existing ageRange:", existing?.ageRange);
+
 
   if (!existing) {
     return null;
@@ -414,6 +422,10 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
     images: data.images !== undefined ? data.images : existing.images,
 
     listingImage: data.listingImage !== undefined ? data.listingImage : existing.listingImage,
+
+    aPlusContent: data.aPlusContent !== undefined ? data.aPlusContent : existing.aPlusContent,
+
+    howToPlay: data.howToPlay !== undefined ? data.howToPlay : existing.howToPlay,
 
     category: data.category !== undefined ? data.category : existing.category?.toString(),
 

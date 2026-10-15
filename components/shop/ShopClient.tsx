@@ -223,6 +223,12 @@ export default function ShopClient() {
 
   const [filterError, setFilterError] = useState<string | null>(null);
 
+  const MIN_PRICE = 199;
+  const MAX_PRICE = 4999;
+
+  const [minPrice, setMinPrice] = useState(MIN_PRICE);
+  const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
+
   useEffect(() => {
     const urlPage = Number(searchParams.get("page"));
 
@@ -334,6 +340,9 @@ export default function ShopClient() {
 
         params.set("sort", sort);
 
+        params.set("minPrice", String(minPrice));
+        params.set("maxPrice", String(maxPrice));
+
         if (search.trim()) {
           params.set("search", search.trim());
         }
@@ -416,7 +425,7 @@ export default function ShopClient() {
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [page, search, category, collection, sort]);
+  }, [page, search, category, collection, sort, minPrice, maxPrice]);
 
   const updateSearch = useCallback((value: string) => {
     setSearch(value);
@@ -622,18 +631,70 @@ export default function ShopClient() {
               {/* PRICE RANGE */}
               <FilterBlock title="Price Range">
                 <div className="px-1 font-playpen">
-                  <div className="relative h-1.5 rounded-full bg-[#E8E1D8]">
-                    <div className="absolute inset-y-0 left-0 w-[80%] rounded-full bg-[#17213D]" />
+                  <div className="relative h-7">
+                    {/* Track */}
+                    <div className="absolute left-0 right-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-[#E8E1D8]" />
 
-                    <span className="absolute left-0 top-1/2 size-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-[#17213D] shadow-md" />
+                    {/* Selected range */}
+                    <div
+                      className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-[#17213D]"
+                      style={{
+                        left: `${((minPrice - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%`,
+                        right: `${100 - ((maxPrice - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%`,
+                      }}
+                    />
 
-                    <span className="absolute left-[80%] top-1/2 size-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-[#17213D] shadow-md" />
+                    {/* Minimum price */}
+                    <input
+                      type="range"
+                      aria-label="Minimum product price"
+                      min={MIN_PRICE}
+                      max={MAX_PRICE}
+                      step={50}
+                      value={minPrice}
+                      onChange={(event) => {
+                        const value = Number(event.target.value);
+                        setMinPrice(Math.min(value, maxPrice - 50));
+                        setPage(1);
+                      }}
+                      className="price-range-input absolute inset-0 z-20 h-7 w-full"
+                    />
+
+                    {/* Maximum price */}
+                    <input
+                      type="range"
+                      aria-label="Maximum product price"
+                      min={MIN_PRICE}
+                      max={MAX_PRICE}
+                      step={50}
+                      value={maxPrice}
+                      onChange={(event) => {
+                        const value = Number(event.target.value);
+                        setMaxPrice(Math.max(value, minPrice + 50));
+                        setPage(1);
+                      }}
+                      className="price-range-input absolute inset-0 z-30 h-7 w-full"
+                    />
                   </div>
 
-                  <div className="mt-2 flex justify-between text-[13px] font-medium text-[#747987]">
-                    <span>₹199</span>
-                    <span>₹4,999+</span>
+                  <div className="mt-2 flex items-center justify-between gap-3 text-[12px] font-medium text-[#747987]">
+                    <span>₹{minPrice.toLocaleString("en-IN")}</span>
+                    <span>
+                      {maxPrice >= MAX_PRICE ? "₹4,999+" : `₹${maxPrice.toLocaleString("en-IN")}`}
+                    </span>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMinPrice(MIN_PRICE);
+                      setMaxPrice(MAX_PRICE);
+                      setPage(1);
+                    }}
+                    className="mt-2 text-[11px] font-semibold text-[#8E7BBE] hover:text-[#E83D59]"
+                  >
+                    Reset price
+                  </button>
                 </div>
               </FilterBlock>
 

@@ -1,6 +1,24 @@
+export type MediaStorageProvider = "cloudinary" | "local";
+
+function getMediaStorageProvider(): MediaStorageProvider {
+  const provider = process.env.MEDIA_STORAGE_PROVIDER?.trim().toLowerCase();
+
+  if (!provider) {
+    return "cloudinary";
+  }
+
+  if (provider === "cloudinary" || provider === "local") {
+    return provider;
+  }
+
+  throw new Error(`Invalid MEDIA_STORAGE_PROVIDER "${provider}". Use "cloudinary" or "local".`);
+}
+
 export const MEDIA_CONFIG = {
   cloudinaryRootFolder: "buzzie-world",
-
+  get storageProvider(): MediaStorageProvider {
+    return getMediaStorageProvider();
+  },
   folders: {
     products: "buzzie-world/products",
     productVideos: "buzzie-world/products/videos",

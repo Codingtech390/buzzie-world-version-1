@@ -6,6 +6,8 @@ import type { ProductImage, ProductStatus, ProductVariant } from "@/types/produc
 
 import ProductMedia from "./ProductMedia";
 
+import ProductContentImages, { type ProductContentImage } from "./ProductContentImages";
+
 interface SelectorItem {
   _id: string;
   name: string;
@@ -43,7 +45,8 @@ interface FormState {
   ageMin: string;
   ageMax: string;
   images: ProductImage[];
-
+  aPlusContent: ProductContentImage[];
+  howToPlay: ProductContentImage[];
   variants: ProductVariant[];
 }
 
@@ -65,6 +68,8 @@ const initialForm: FormState = {
   ageMin: "",
   ageMax: "",
   images: [],
+  aPlusContent: [],
+  howToPlay: [],
 
   variants: [],
 };
@@ -307,6 +312,9 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
 
           images: product.images ?? [],
 
+          aPlusContent: product.aPlusContent ?? [],
+          howToPlay: product.howToPlay ?? [],
+
           variants: (product.variants ?? []).map((variant: ProductVariant) => ({
             _id: variant._id,
             name: variant.name ?? "",
@@ -521,7 +529,10 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
         sku: form.sku.trim() || undefined,
 
         images: form.images,
+        listingImage: form.images[0]?.url ?? "",
 
+        aPlusContent: form.aPlusContent,
+        howToPlay: form.howToPlay,
 
         category: form.category || undefined,
 
@@ -1055,6 +1066,49 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
           <ProductMedia
             images={form.images}
             onChange={(images) => updateField("images", images)}
+            productSlug={form.slug}
+            disabled={isSaving}
+          />
+        </div>
+      </section>
+
+      {/* A+ Content */}
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
+        <SectionHeader
+          eyebrow="06"
+          title="A+ Content"
+          description="Manage the rich product images shown in the product detail page's A+ content section."
+        />
+
+        <div className="mt-6">
+          <ProductContentImages
+            title="A+ Images"
+            description="Upload product feature graphics, detailed product images, and promotional content in the order you want customers to see them."
+            folderType="a-plus"
+            productSlug={form.slug}
+            images={form.aPlusContent}
+            onChange={(images) => updateField("aPlusContent", images)}
+            disabled={isSaving}
+          />
+        </div>
+      </section>
+
+      {/* How to Play */}
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
+        <SectionHeader
+          eyebrow="07"
+          title="How to Play"
+          description="Manage step-by-step instructions and gameplay images for this product."
+        />
+
+        <div className="mt-6">
+          <ProductContentImages
+            title="How-to-Play Images"
+            description="Upload setup instructions, gameplay steps, and visual guides in the order customers should follow."
+            folderType="how-to-play"
+            productSlug={form.slug}
+            images={form.howToPlay}
+            onChange={(images) => updateField("howToPlay", images)}
             disabled={isSaving}
           />
         </div>

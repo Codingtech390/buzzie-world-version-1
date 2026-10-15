@@ -37,21 +37,21 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
   if (!favorites.length) return null;
 
-const product = favorites[activeIndex % favorites.length];
-const productImage = product.images?.[0]?.url;
+  const product = favorites[activeIndex % favorites.length];
+  const productImage = product.images?.[0]?.url;
 
-// Temporary display prices until the client confirms final pricing.
-// These are UI fallbacks only; real database prices take priority.
-const temporaryPrices = [499, 699, 999] as const;
+  // Temporary display prices until the client confirms final pricing.
+  // These are UI fallbacks only; real database prices take priority.
+  const temporaryPrices = [499, 699, 999] as const;
 
-const favoriteIndex = favorites.findIndex((item) => item._id === product._id);
+  const favoriteIndex = favorites.findIndex((item) => item._id === product._id);
 
-const fallbackPrice = temporaryPrices[Math.max(0, favoriteIndex) % temporaryPrices.length];
+  const fallbackPrice = temporaryPrices[Math.max(0, favoriteIndex) % temporaryPrices.length];
 
-const displayPrice =
-  typeof product.price === "number" && Number.isFinite(product.price) && product.price > 0
-    ? product.price
-    : fallbackPrice;
+  const displayPrice =
+    typeof product.price === "number" && Number.isFinite(product.price) && product.price > 0
+      ? product.price
+      : fallbackPrice;
 
   /* ============================================================================
      PRODUCT DATA
@@ -1096,7 +1096,7 @@ export function MythologySeriesSection({ products: _products }: { products: Stor
         "
       >
         <Link
-          href="/shop/mythology"
+          href="/shop?category=6aad56e095e848be739d8b4b"
           className="
             group
             inline-flex
@@ -1302,7 +1302,7 @@ function GeographySection() {
             ============================================================== */}
 
         <Link
-          href="/shop/geography"
+          href="/shop?category=6aad56e095e848be739d8b50"
           aria-label="Explore Buzzie Geography Edition products"
           className="
             group
@@ -1369,7 +1369,7 @@ function GeographySection() {
         "
       >
         <Link
-          href="/shop/geography"
+          href="shop?category=6aad56e095e848be739d8b50"
           className="
             group
             inline-flex

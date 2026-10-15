@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# Locally uploaded media — do not commit user uploads
+/media-storage/
+
+
 # production
 /build
 
