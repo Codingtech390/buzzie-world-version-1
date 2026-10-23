@@ -5,11 +5,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { MEDIA_CONFIG } from "@/config/media";
 import { getAdminApiSession } from "@/lib/auth";
 import { cloudinary } from "@/lib/cloudinary";
-import { saveLocalImage } from "@/lib/media-storage";
+import {
+  saveLocalImage,
+  saveLocalVideo,
+} from "@/lib/media-storage";
 
 export const runtime = "nodejs";
 
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024;
+
+const ALLOWED_VIDEO_TYPES = new Map([
+  ["video/mp4", "mp4"],
+  ["video/webm", "webm"],
+  ["video/quicktime", "mov"],
+  ["video/x-m4v", "m4v"],
+]);
 
 const ALLOWED_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
 
@@ -20,10 +31,12 @@ function getAllowedFolder(value: unknown): string | null {
     return null;
   }
 
-  const folder = value.replace(/\\/g, "/").replace(/^\/+|\/+$/g, "");
+  const folder = value
+    .replace(/\\/g, "/")
+    .replace(/^\/+|\/+$/g, "");
 
   const allowed =
-    /^buzzie-world\/(?:products(?:\/[a-z0-9][a-z0-9-]{0,79}(?:\/(?:gallery|a-plus|how-to-play))?)?|banners|categories|brands|homepage)$/.test(
+    /^buzzie-world\/(?:products(?:\/[a-z0-9][a-z0-9-]{0,79}(?:\/(?:gallery|carousel|a-plus|how-to-play|video))?)?|banners|categories|brands|homepage|playdates)$/.test(
       folder,
     );
 
@@ -66,10 +79,96 @@ export async function POST(request: NextRequest) {
     const requestedFolder = formData.get("folder");
     const altValue = formData.get("alt");
 
+
+    const folder = getAllowedFolder(requestedFolder);
+
+    if (!folder) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "The requested media folder is not allowed.",
+        },
+        { status: 400 },
+      );
+    }
+
+    const isVideoFolder =
+      /^buzzie-world\/products\/[a-z0-9][a-z0-9-]{0,79}\/video$/.test(
+        folder,
+      );
+
     if (!(file instanceof File)) {
       return NextResponse.json(
-        { success: false, message: "An image file is required." },
+        {
+          success: false,
+          message: isVideoFolder
+            ? "A video file is required."
+            : "An image file is required.",
+        },
         { status: 400 },
+      );
+    }
+
+    if (isVideoFolder) {
+      if (MEDIA_CONFIG.storageProvider !== "local") {
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Product videos must be stored locally. Set MEDIA_CONFIG.storageProvider to local.",
+          },
+          { status: 500 },
+        );
+      }
+
+      if (file.size <= 0) {
+        return NextResponse.json(
+          { success: false, message: "The selected video is empty." },
+          { status: 400 },
+        );
+      }
+
+      if (file.size > MAX_VIDEO_BYTES) {
+        return NextResponse.json(
+          { success: false, message: "Video size must be 100 MB or smaller." },
+          { status: 413 },
+        );
+      }
+
+      const extension = file.name
+        .slice(file.name.lastIndexOf(".") + 1)
+        .toLowerCase();
+
+      const allowedExtensions = new Set(["mp4", "webm", "mov", "m4v"]);
+
+      if (
+        !allowedExtensions.has(extension) ||
+        !ALLOWED_VIDEO_TYPES.has(file.type)
+      ) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Only MP4, WebM, MOV, and M4V videos are supported.",
+          },
+          { status: 400 },
+        );
+      }
+
+      const saved = await saveLocalVideo(file, folder);
+
+      return NextResponse.json(
+        {
+          success: true,
+          provider: "local",
+          url: saved.url,
+          secureUrl: saved.url,
+          publicId: saved.publicId,
+          folder: saved.folder,
+          format: saved.format,
+          mimeType: saved.mimeType,
+          bytes: saved.bytes,
+        },
+        { status: 201 },
       );
     }
 
@@ -97,16 +196,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const folder = getAllowedFolder(requestedFolder);
+    const alt =
+      typeof altValue === "string" ? altValue.trim().slice(0, 500) : "";
 
-    if (!folder) {
-      return NextResponse.json(
-        { success: false, message: "The requested media folder is not allowed." },
-        { status: 400 },
-      );
-    }
-
-    const alt = typeof altValue === "string" ? altValue.trim().slice(0, 500) : "";
 
     if (MEDIA_CONFIG.storageProvider === "local") {
       const saved = await saveLocalImage(file, folder);

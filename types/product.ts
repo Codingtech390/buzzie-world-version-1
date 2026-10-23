@@ -15,6 +15,40 @@ export interface ProductVariant {
   stock?: number;
 }
 
+
+export interface ProductDiaryEntry {
+  title: string;
+  description: string;
+}
+
+export interface ProductDiarySpecification {
+  label: string;
+  value: string;
+}
+
+export interface ProductDiaryTextSection {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  entries: ProductDiaryEntry[];
+}
+
+export interface ProductDiarySpecificationSection {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  entries: ProductDiarySpecification[];
+}
+
+export interface ProductDiaryData {
+  overview: ProductDiaryTextSection;
+  keyFeatures: ProductDiaryTextSection;
+  productDiary?: ProductDiaryData;
+  specifications: ProductDiarySpecificationSection;
+  benefits: ProductDiaryTextSection;
+}
+
+
 export interface ProductAgeRange {
   min?: number;
   max?: number;
@@ -36,7 +70,10 @@ export interface Product {
 
   images: ProductImage[];
 
+  carouselImages?: ProductImage[];
+
   category?: string;
+
   brand?: string;
   collection?: string;
 

@@ -30,7 +30,6 @@ export default function AddToCartButton({
     try {
       setLoading(true);
 
-      // Verify that a signed-in customer is attempting to add the item.
       const sessionResponse = await fetch("/api/auth/session", {
         method: "GET",
         cache: "no-store",
@@ -50,8 +49,8 @@ export default function AddToCartButton({
       }
 
       await addItem(productId, quantity);
+
       window.dispatchEvent(new Event("buzzieworld:cart-updated"));
-      // The shared useCart hook displays the success toast.
       setAdded(true);
 
       window.setTimeout(() => {
@@ -64,24 +63,63 @@ export default function AddToCartButton({
     }
   }
 
-  return (
-    <button
-      type="button"
-      onClick={handleAdd}
-      disabled={disabled || loading}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#3F7DFF] px-5 py-3 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
-    >
-      {added ? (
-        <>
-          <Check className="h-5 w-5" />
-          Added to Cart
-        </>
-      ) : (
-        <>
-          <ShoppingCart className="h-5 w-5" />
+
+return (
+  <button
+    type="button"
+    onClick={handleAdd}
+    disabled={disabled || loading}
+    className={`
+      box-border
+      inline-flex
+      min-w-0
+      items-center
+      justify-center
+      gap-1
+      rounded-full
+      bg-[#C391EE]
+      px-1.5
+      py-2.5
+      font-[var(--font-poppins-brand)]
+      text-[8px]
+      font-extrabold
+      uppercase
+      leading-none
+      whitespace-nowrap
+      text-white
+      shadow-[0_6px_16px_rgba(169,154,210,0.28)]
+      transition-all
+      duration-300
+      hover:-translate-y-0.5
+      hover:bg-[#927FC5]
+      hover:shadow-[0_8px_20px_rgba(169,154,210,0.35)]
+      active:translate-y-0
+      disabled:cursor-not-allowed
+      disabled:opacity-50
+      sm:gap-1.5
+      sm:px-3
+      sm:py-3
+      sm:text-[11px]
+      ${className}
+    `}
+  >
+    {added ? (
+      <>
+        <Check aria-hidden="true" className="size-3.5 shrink-0 sm:size-4" strokeWidth={2.4} />
+        <span className="min-w-0 whitespace-nowrap">Added to Cart</span>
+      </>
+    ) : (
+      <>
+        <ShoppingCart
+          aria-hidden="true"
+          className="size-4 shrink-0 sm:size-[18px]"
+          strokeWidth={2.2}
+        />
+        <span className="min-w-0 whitespace-nowrap text-[8px] font-extrabold leading-none sm:text-[11px]">
           {loading ? "Adding..." : "Add to Cart"}
-        </>
-      )}
-    </button>
-  );
+        </span>
+      </>
+    )}
+  </button>
+);
 }

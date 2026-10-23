@@ -1,15 +1,36 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, RefreshCw, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import ProductCard from "@/components/product/ProductCard";
 
-import type { StorefrontProduct, StorefrontProductsResponse } from "@/types/storefront";
+import type { StorefrontProduct } from "@/types/storefront";
+
+interface PublicDealItem {
+  productId: string;
+  offerType: "buy_x_get_y" | "percentage";
+  buyQuantity?: number;
+  freeQuantity?: number;
+  discountPercent?: number;
+  isEnabled: boolean;
+  product: StorefrontProduct;
+}
+
+interface PublicDealsResponse {
+  success: boolean;
+  settings?: {
+    title: string;
+    description: string;
+    isPublished: boolean;
+    items: PublicDealItem[];
+  };
+  message?: string;
+}
 
 export default function CrazyDealsProducts() {
-  const [products, setProducts] = useState<StorefrontProduct[]>([]);
+  const [dealItems, setDealItems] = useState<PublicDealItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,27 +46,22 @@ export default function CrazyDealsProducts() {
         setIsLoading(true);
         setError(null);
 
-        const params = new URLSearchParams();
-
-        params.set("status", "active");
-        params.set("limit", "100");
-        params.set("sort", "newest");
-
-        const response = await fetch(`/api/products?${params.toString()}`, {
+        const response = await fetch("/api/homepage/deals", {
+          cache: "no-store",
           signal: controller.signal,
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to load deal products.");
+        const data: PublicDealsResponse = await response.json();
+
+        if (!response.ok || !data.success || !data.settings) {
+          throw new Error(data.message || "Failed to load Crazy Deals.");
         }
 
-        const data: StorefrontProductsResponse = await response.json();
+        const visibleDealItems = data.settings.isPublished
+          ? data.settings.items.filter((item) => item.isEnabled && item.product)
+          : [];
 
-        if (!data.success) {
-          throw new Error(data.message || "Failed to load deal products.");
-        }
-
-        setProducts(data.products ?? []);
+        setDealItems(visibleDealItems);
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") {
           return;
@@ -70,38 +86,7 @@ export default function CrazyDealsProducts() {
      DEAL FILTERING
   ================================================================= */
 
-  const dealProducts = useMemo(() => {
-    /*
-     * Filter first so only products with both a real price and
-     * compare-at price can enter the deal list.
-     *
-     * We then create a narrowed type for the sorting operation.
-     * This prevents TypeScript from treating price as possibly
-     * undefined inside Array.prototype.sort().
-     */
-
-    const eligibleProducts = products.filter(
-      (
-        product,
-      ): product is StorefrontProduct & {
-        price: number;
-        compareAtPrice: number;
-      } =>
-        typeof product.price === "number" &&
-        typeof product.compareAtPrice === "number" &&
-        product.compareAtPrice > product.price,
-    );
-
-    return eligibleProducts.sort((a, b) => {
-      const aDiscount =
-        a.compareAtPrice > 0 ? ((a.compareAtPrice - a.price) / a.compareAtPrice) * 100 : 0;
-
-      const bDiscount =
-        b.compareAtPrice > 0 ? ((b.compareAtPrice - b.price) / b.compareAtPrice) * 100 : 0;
-
-      return bDiscount - aDiscount;
-    });
-  }, [products]);
+  // const dealProducts = useMemo(() => products, [products]);
 
   /* ================================================================
      LOADING
@@ -237,7 +222,7 @@ export default function CrazyDealsProducts() {
      EMPTY
   ================================================================= */
 
-  if (dealProducts.length === 0) {
+  if (dealItems.length === 0) {
     return (
       <section className="bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-[620px] px-5 text-center">
@@ -273,7 +258,6 @@ export default function CrazyDealsProducts() {
             No deals right now.
           </h2>
 
-
           <Link
             href="/shop"
             className="
@@ -307,7 +291,6 @@ export default function CrazyDealsProducts() {
             <span className="!text-white">Explore all products</span>
             <ArrowRight className="size-4 !text-white transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
-
         </div>
       </section>
     );
@@ -385,9 +368,16 @@ export default function CrazyDealsProducts() {
             xl:grid-cols-4
           "
         >
-          {dealProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          {dealItems.map((item) => {
+            const offerLabel =
+              item.offerType === "percentage"
+                ? `${item.discountPercent}% OFF`
+                : `BUY ${item.buyQuantity}, GET ${item.freeQuantity} FREE`;
+
+            return (
+              <ProductCard key={item.productId} product={item.product} offerLabel={offerLabel} />
+            );
+          })}
         </div>
 
         {/* ============================================================

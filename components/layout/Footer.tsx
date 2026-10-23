@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
 
 import { siteConfig } from "@/config/site";
+import FooterWave from "@/components/layout/FooterWave";
 
 const FOOTER_LOGO = "/images/hero/buzzie-logo-1.png";
 
@@ -95,8 +96,12 @@ export default function Footer() {
     overflow-hidden
     bg-[#1D1B22]
     text-white
+
   "
       >
+
+        <FooterWave />
+
         {/* ================================================================
             FOOTER BACKGROUND IMAGE
         ================================================================ */}
@@ -128,6 +133,7 @@ export default function Footer() {
         <div
           aria-hidden="true"
           className="
+
             pointer-events-none
             absolute
             -right-40
@@ -211,6 +217,7 @@ export default function Footer() {
                 w-full
                 max-w-md
                 lg:pr-4
+                mt-8
               "
             >
               <Link

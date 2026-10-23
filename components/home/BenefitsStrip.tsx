@@ -28,8 +28,11 @@ const THEMED_STAR = "/images/hero/themed-icons/themed-star-red.png";
 /*                               MARQUEE                                      */
 /* -------------------------------------------------------------------------- */
 
-const MARQUEE_TEXT =
-  "BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun. BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun.";
+// const MARQUEE_TEXT =
+//   "BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun. BuzzieWorld - Your Daily Dose of Vitamin L. BuzzieWorld - Where Learning Meets Fun.";
+
+  const MARQUEE_TEXT =
+  "BuzzieWorld - Your Daily Dose of Vitamin L  •  BuzzieWorld - Where Learning Meets Fun";
 
 /* -------------------------------------------------------------------------- */
 /*                               SHOP BY AGE                                   */
@@ -132,6 +135,7 @@ function DecorativeStar({ className = "", size = 20 }: { className?: string; siz
 /*                                  MARQUEE                                   */
 /* -------------------------------------------------------------------------- */
 
+
 function BrandMarquee() {
   return (
     <div
@@ -149,64 +153,79 @@ function BrandMarquee() {
       aria-label={MARQUEE_TEXT}
     >
       <div className="buzzieworld-marquee flex w-max">
-        <div className="flex shrink-0 items-center">
-          <span
+        {[0, 1, 2, 3].map((item) => (
+          <div
+            key={item}
+            aria-hidden={item !== 0}
             className="
+              flex
+              shrink-0
+              items-center
               whitespace-nowrap
-              px-5
-              font-[var(--font-poppins-brand)]
-              text-[15px]
-              font-bold
-              tracking-[0.12em]
-              text-white
             "
           >
-            {MARQUEE_TEXT}
-          </span>
+            <span
+              className="
+                whitespace-nowrap
+                px-3
+                font-playpen
+                text-[15px]
+                font-bold
+                tracking-[0.08em]
+                text-white
+                sm:px-4
+              "
+            >
+              BuzzieWorld - Your Daily Dose of Vitamin L
+            </span>
 
-          <span
-            aria-hidden="true"
-            className="
-              px-5
-              text-[10px]
-              font-black
-              text-white/70
-            "
-          >
-            •
-          </span>
-        </div>
+            <span
+              aria-hidden="true"
+              className="
+                shrink-0
+                px-2
+                text-[10px]
+                font-black
+                text-white/80
+              "
+            >
+              •
+            </span>
 
-        <div className="flex shrink-0 items-center" aria-hidden="true">
-          <span
-            className="
-              whitespace-nowrap
-              px-5
-              font-[var(--font-poppins-brand)]
-              text-[15px]
-              font-bold
-              tracking-[0.12em]
-              text-white
-            "
-          >
-            {MARQUEE_TEXT}
-          </span>
+            <span
+              className="
+                whitespace-nowrap
+                px-3
+                font-playpen
+                text-[15px]
+                font-bold
+                tracking-[0.08em]
+                text-white
+                sm:px-4
+              "
+            >
+              BuzzieWorld - Where Learning Meets Fun
+            </span>
 
-          <span
-            className="
-              px-5
-              text-[10px]
-              font-black
-              text-white/70
-            "
-          >
-            •
-          </span>
-        </div>
+            <span
+              aria-hidden="true"
+              className="
+                shrink-0
+                px-2
+                text-[10px]
+                font-black
+                text-white/80
+              "
+            >
+              •
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
 
 /* -------------------------------------------------------------------------- */
 /*                            PRODUCT CAROUSEL CARD                            */
@@ -276,14 +295,20 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
           sm:rounded-[30px]
         "
       >
-        {/* ------------------------------------------------------------------ */}
-        {/* PRODUCT IMAGE                                                      */}
-        {/* ------------------------------------------------------------------ */}
-
-        {/* PRODUCT IMAGE — INDEPENDENT ARCH SHAPE */}
-        <div className="relative mx-auto w-full" style={{ height: "clamp(220px, 22vw, 285px)" }}>
+        {/* PRODUCT IMAGE — RESPONSIVE ARCH */}
+        <div
+          className="
+    relative mx-auto w-full
+    h-[clamp(170px,48vw,220px)]
+    sm:h-[clamp(220px,22vw,285px)]
+  "
+        >
           <div
-            className="absolute inset-x-0 bottom-0 mx-auto h-[92%] w-[88%] overflow-hidden bg-transparent"
+            className="
+      absolute inset-x-0 bottom-0 mx-auto
+      h-[92%] w-[88%]
+      overflow-hidden
+    "
             style={{
               borderRadius: "50% 50% 0 0 / 44% 44% 0 0",
             }}
@@ -294,7 +319,12 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
                 alt={imageAlt}
                 fill
                 sizes="(max-width: 639px) 40vw, (max-width: 1023px) 40vw, 20vw"
-                className="object-contain p-3 scale-110 transition-transform duration-700 group-hover:scale-[1.15]"
+                className="
+          object-contain p-0
+          scale-110
+          transition-transform duration-700
+          group-hover:scale-[1.15]
+        "
               />
             ) : (
               <div className="absolute inset-0 z-10 flex items-center justify-center text-xs font-bold text-[#7A6A91]">
@@ -527,7 +557,6 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
                   px-3
                   py-2.5
                   font-[var(--font-poppins-brand)]
-                  text-[10px]
                   font-extrabold
                   uppercase
                   leading-none
@@ -536,13 +565,16 @@ function ProductArcCard({ product }: { product: StorefrontProduct }) {
                   transition-all
                   duration-300
                   group-hover:bg-[#927FC5]
+                  text-[8px]
+                  whitespace-nowrap
+
                   sm:py-3
                   sm:text-[11px]
                 "
               >
                 <ShoppingCart aria-hidden="true" className="size-4 shrink-0" strokeWidth={2.2} />
 
-                <span className="truncate">Add to Cart</span>
+                <span className="whitespace-nowrap">Add to Cart</span>
               </span>
             ) : (
               <span
@@ -1096,7 +1128,12 @@ function ProductCarousel({ products }: { products: StorefrontProduct[] }) {
 /* -------------------------------------------------------------------------- */
 
 export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStripProps) {
-  const products = bestsellingProducts.slice(0, 12);
+  const products = bestsellingProducts;
+  console.log(
+    "[Buzzie Products] Products received:",
+    bestsellingProducts.length,
+    bestsellingProducts.map((product) => product.name),
+  );
 
   return (
     <section
@@ -1139,6 +1176,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               pt-8
               sm:pt-10
               lg:pt-12
+              
             "
           >
             {/* Decorative stars */}
@@ -1336,6 +1374,8 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
               px-0
               pt-8
               pb-0
+
+
             "
           >
             {/* ------------------------------------------------------------ */}
@@ -1350,6 +1390,7 @@ export default function BenefitsStrip({ bestsellingProducts = [] }: BenefitsStri
                 flex-col
                 items-center
                 text-center
+
               "
             >
               <div

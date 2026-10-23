@@ -1249,7 +1249,7 @@ const isAccountArea =
                 "
               >
                 <Image
-                  src="/images/hero/buzzieLogo.png"
+                  src="/images/hero/buzzie-logo-1.png"
                   alt="BuzzieWorld"
                   width={190}
                   height={58}
@@ -1264,8 +1264,8 @@ const isAccountArea =
                     group-hover:-translate-y-0.5
                     sm:w-[104px]
                     md:w-[116px]
-                    lg:w-[124px]
-                    xl:w-[212px]
+                    lg:w-[120px]
+
                   "
                 />
               </Link>

@@ -2,11 +2,15 @@
 
 import { ArrowUpDown, ChevronDown, Filter, Search, SlidersHorizontal, Star, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import ProductCard from "@/components/product/ProductCard";
 import ShopPagination from "@/components/shop/ShopPagination";
+import CategoryBanner from "@/components/categories/CategoryBanner";
+
+
 
 import type {
   StorefrontProduct,
@@ -121,6 +125,7 @@ const AGE_GROUPS: {
   caption: string;
   icon: string;
   className: string;
+
 }[] = [
   {
     label: "1–3",
@@ -186,6 +191,7 @@ const SORT_OPTIONS: {
 
 export default function ShopClient() {
   const searchParams = useSearchParams();
+  const selectedCategory = searchParams.get("category");
 
   const [products, setProducts] = useState<StorefrontProduct[]>([]);
 
@@ -228,6 +234,16 @@ export default function ShopClient() {
 
   const [minPrice, setMinPrice] = useState(MIN_PRICE);
   const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
+
+  const categoryParam = searchParams.get("category");
+
+  const categoryForBanner =
+    categories.find(
+      (category) =>
+        category._id === categoryParam ||
+        category.slug === categoryParam ||
+        category.name.toLowerCase().trim() === categoryParam?.toLowerCase().trim(),
+    )?.slug ?? categoryParam;
 
   useEffect(() => {
     const urlPage = Number(searchParams.get("page"));
@@ -473,80 +489,89 @@ export default function ShopClient() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#FCFAF7] text-[#17213D] font-[var(--font-poppins)]">
       {/* HERO */}
+
       <section>
         <div className="mx-auto w-full max-w-[1500px] px-0 sm:px-4 lg:px-6">
-          <div className="relative w-full overflow-hidden rounded-none">
-            <Image
-              src="/images/banners/shop-top-1.png"
-              alt="BuzzieWorld — Shop games, books and learning toys for kids"
-              width={1920}
-              height={1080}
-              priority
-              quality={90}
-              sizes="100vw"
-              className="block h-auto w-full object-cover"
-            />
-          </div>
+          {(() => {
+            const selectedCategory = searchParams.get("category");
+
+            return selectedCategory ? (
+              <CategoryBanner category={categoryForBanner} />
+            ) : (
+              <div className="relative w-full overflow-hidden rounded-none">
+                <Image
+                  src="/images/banners/shop-top-1.png"
+                  alt="BuzzieWorld — Shop games, books and learning toys for kids"
+                  width={1920}
+                  height={1080}
+                  priority
+                  quality={90}
+                  sizes="100vw"
+                  className="block h-auto w-full object-cover"
+                />
+              </div>
+            );
+          })()}
         </div>
       </section>
 
       {/* AGE NAVIGATION */}
-      <section className="mt-10 mb-12 bg-[#FFFDFC]">
-        <div className="mx-auto w-full max-w-[1500px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <div className="mb-7 flex items-end justify-between">
-            <div>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="h-[2px] w-8 rounded-full bg-[#E72D5A]" />
+      <section className="mt-12 bg-[#F4ECFF]">
+        <div className="mx-auto w-full max-w-[1500px]  px-5 sm:px-8 lg:px-12 xl:px-16">
+          <div className="mb-7  flex w-full flex-col items-center justify-center text-center ">
+            <div className="mt-12 flex items-center justify-center gap-2">
+              <span className="h-[2px] w-8 rounded-full bg-[#E72D5A]" />
 
-                <p className="font-playpen text-[9px] font-black uppercase tracking-[0.18em] text-[#E72D5A] sm:text-[10px] lg:text-[14px]">
-                  Find their next
-                </p>
+              <p className="font-playpen text-[9px] font-black uppercase tracking-[0.18em] text-[#E72D5A] sm:text-[10px] lg:text-[12px]">
+                Find their next
+              </p>
 
-                <span className="size-1.5 rounded-full bg-[#F59A23]" />
-              </div>
-
-              <h2 className="mt-1.5 font-playpen text-[30px] font-black leading-none tracking-[-0.055em] text-[#111111] sm:text-[36px] lg:text-[40px]">
-                Shop by age
-              </h2>
+              <span className="size-1.5 rounded-full bg-[#F59A23]" />
             </div>
 
-            <p className="hidden pb-1 font-[var(--font-poppins)] text-[12px] font-medium text-[#77717B] sm:block">
-              Find the right fit for every stage
-            </p>
+            <h2 className="mt-1.5 w-full text-center uppercase font-roboto text-[30px] font-black leading-none tracking-[-0.055em] text-[#111111] sm:text-[36px] lg:text-[80px]">
+              Shop by
+              <span className="text-[#E72D5A]"> Age.</span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6 xl:gap-7">
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6 xl:gap-7">
             {[
               {
                 label: "1–3" as AgeGroup,
                 displayLabel: "1–3 YEARS",
-                image: "/images/shop-by-age/0-to-3.png",
+                href: "/shop/age/1-3-years",
+                image: "/images/shop-by-age/img-0-3.png",
                 background: "#F8D8E5",
               },
               {
                 label: "3–6" as AgeGroup,
                 displayLabel: "3–6 YEARS",
-                image: "/images/shop-by-age/3-plus.png",
+                href: "/shop/age/3-6-years",
+                image: "/images/shop-by-age/img-3+.png",
                 background: "#F8E5B7",
               },
               {
                 label: "6–9" as AgeGroup,
                 displayLabel: "6–9 YEARS",
-                image: "/images/shop-by-age/age-3-final.png",
+                href: "/shop/age/6-9-years",
+                image: "/images/shop-by-age/img-6+.png",
                 background: "#D9E9B8",
               },
               {
                 label: "9–15" as AgeGroup,
                 displayLabel: "9–15 YEARS",
-                image: "/images/shop-by-age/age-4-final.png",
+                href: "/shop/age/9-15-years",
+                image: "/images/shop-by-age/img-8+.png",
                 background: "#DCD2F3",
               },
             ].map((age) => {
               const active = selectedAge === age.label;
 
               return (
-                <button
+                <Link
                   key={age.label}
+                  href={age.href}
                   type="button"
                   onClick={() => setSelectedAge(age.label)}
                   aria-label={`Shop products for ${age.displayLabel}`}
@@ -567,7 +592,7 @@ export default function ShopClient() {
                       />
                     </div>
                   </div>
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -575,18 +600,18 @@ export default function ShopClient() {
       </section>
 
       {/* CONTENT */}
-      <section className="mx-auto w-full max-w-[1500px] px-4 pb-14 pt-7 sm:px-7 lg:px-10 lg:pt-9 xl:px-14">
+      <section className="mx-auto w-full max-w-[1500px] px-4 pb-14 pt-7 sm:px-7 lg:px-10 lg:pt-9 xl:px-14 bg-white">
         <div className="grid gap-7 lg:grid-cols-[235px_minmax(0,1fr)] xl:grid-cols-[250px_minmax(0,1fr)] xl:gap-9">
           {/* SIDEBAR */}
           <aside className="hidden lg:block">
             <div className="sticky top-5 overflow-hidden rounded-[20px] border border-[#E5DED4] bg-[#FFFDFC] shadow-[0_8px_28px_rgba(28,24,20,0.035)]">
               <div className="flex items-center justify-between border-b border-[#EEE8DF] px-5 py-4">
                 <div>
-                  <p className="text-[13px] font-black uppercase tracking-[0.15em] text-[#E72D5A]">
+                  <p className="text-[27px] font-black uppercase tracking-[0.03em] text-[#E72D5A] [font-family:var(--font-roboto)]">
                     Refine
                   </p>
 
-                  <h2 className="mt-1 font-playpen text-[20px] font-black">Filters</h2>
+                  {/* <h2 className="mt-1 font-playpen text-[20px] font-black">Filters</h2> */}
                 </div>
 
                 <button
@@ -763,7 +788,7 @@ export default function ShopClient() {
           </aside>
 
           {/* PRODUCT AREA */}
-          <section className="min-w-0">
+          <section className="min-w-0 ">
             <div className="mb-5 flex flex-wrap items-center gap-2.5">
               <div className="mr-auto">
                 <p className="text-[13px] font-medium text-[#737A87] sm:text-[10px]">

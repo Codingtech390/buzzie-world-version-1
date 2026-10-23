@@ -21,6 +21,7 @@ interface ProductMediaProps {
   images: ProductImage[];
   onChange: (images: ProductImage[]) => void;
 
+  folderName?: "gallery" | "carousel";
 
   /**
    * Used to create a product-specific Cloudinary folder.
@@ -60,14 +61,17 @@ function slugify(value: string): string {
 }
 
 
-function buildProductMediaFolder(productSlug?: string): string {
+function buildProductMediaFolder(
+  productSlug?: string,
+  folderName: "gallery" | "carousel" = "gallery",
+): string {
   const safeSlug = productSlug ? slugify(productSlug) : "";
 
   if (!safeSlug) {
     throw new Error("Save the product and ensure it has a valid slug before uploading images.");
   }
 
-  return `buzzie-world/products/${safeSlug}/gallery`;
+  return `buzzie-world/products/${safeSlug}/${folderName}`;
 }
 
 
@@ -90,7 +94,7 @@ function buildPublicId(file: File): string {
 export default function ProductMedia({
   images,
   onChange,
-
+  folderName = "gallery",
   productSlug,
   disabled = false,
 }: ProductMediaProps) {
@@ -154,59 +158,63 @@ export default function ProductMedia({
    * The browser asks our authenticated server for a signature.
    */
 
-async function uploadImage(file: File, imageAlt: string): Promise<ProductImage> {
-  const folder = buildProductMediaFolder(productSlug);
+  async function uploadImage(file: File, imageAlt: string): Promise<ProductImage> {
+    const folder = buildProductMediaFolder(productSlug, folderName);
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  formData.append("file", file);
-  formData.append("folder", folder);
-  formData.append("alt", imageAlt.trim());
+    formData.append("file", file);
+    formData.append("folder", folder);
+    formData.append("alt", imageAlt.trim());
 
-  let response: Response;
+    let response: Response;
 
-  try {
-    response = await fetch("/api/media/upload", {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    });
-  } catch (error) {
-    console.error("Media upload network error:", error);
+    try {
+      response = await fetch("/api/media/upload", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+    } catch (error) {
+      console.error("Media upload network error:", error);
 
-    throw new Error("Unable to connect to the media server. Check your connection and try again.");
+      throw new Error(
+        "Unable to connect to the media server. Check your connection and try again.",
+      );
+    }
+
+    let data: {
+      success?: boolean;
+      url?: string;
+      secureUrl?: string;
+      publicId?: string;
+      message?: string;
+    } | null = null;
+
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error("The media server returned an invalid response.");
+    }
+
+    if (!response.ok || !data?.success) {
+      throw new Error(
+        data?.message || `Unable to upload "${file.name}". (HTTP ${response.status})`,
+      );
+    }
+
+    const url = data.url || data.secureUrl;
+
+    if (!url || !data.publicId) {
+      throw new Error("The media server returned incomplete image information.");
+    }
+
+    return {
+      url,
+      publicId: data.publicId,
+      alt: imageAlt.trim() || undefined,
+    };
   }
-
-  let data: {
-    success?: boolean;
-    url?: string;
-    secureUrl?: string;
-    publicId?: string;
-    message?: string;
-  } | null = null;
-
-  try {
-    data = await response.json();
-  } catch {
-    throw new Error("The media server returned an invalid response.");
-  }
-
-  if (!response.ok || !data?.success) {
-    throw new Error(data?.message || `Unable to upload "${file.name}". (HTTP ${response.status})`);
-  }
-
-  const url = data.url || data.secureUrl;
-
-  if (!url || !data.publicId) {
-    throw new Error("The media server returned incomplete image information.");
-  }
-
-  return {
-    url,
-    publicId: data.publicId,
-    alt: imageAlt.trim() || undefined,
-  };
-}
   /*
    * ------------------------------------------------------------
    * Upload multiple images
@@ -594,7 +602,6 @@ async function uploadImage(file: File, imageAlt: string): Promise<ProductImage> 
       {/* ======================================================
           UPLOAD CARD
       ======================================================= */}
-
 
       <div
         className={[

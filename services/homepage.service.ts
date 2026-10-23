@@ -41,6 +41,47 @@ export async function getHomepageFavoriteProductIds(): Promise<string[]> {
   return (homepage?.favoriteProductIds ?? []).map((id) => String(id));
 }
 
+export async function getHomepageFavoriteSectionEnabled(): Promise<boolean> {
+  await connectToDatabase();
+
+  const homepage = await Homepage.findOne({ key: HOMEPAGE_KEY })
+    .select("isFavoriteSectionEnabled")
+    .lean();
+
+  // Fail closed: an unset value means the section is hidden.
+  return homepage?.isFavoriteSectionEnabled === true;
+}
+
+export async function saveHomepageFavoriteSectionEnabled(enabled: unknown): Promise<boolean> {
+  if (typeof enabled !== "boolean") {
+    throw new Error("Section visibility must be a boolean.");
+  }
+
+  await connectToDatabase();
+
+  await Homepage.findOneAndUpdate(
+    { key: HOMEPAGE_KEY },
+    {
+      $set: {
+        isFavoriteSectionEnabled: enabled,
+      },
+      $setOnInsert: {
+        key: HOMEPAGE_KEY,
+      },
+    },
+    {
+      upsert: true,
+      new: true,
+      runValidators: true,
+      setDefaultsOnInsert: true,
+    },
+  );
+
+  return enabled;
+}
+
+
+
 export async function saveHomepageFavoriteProductIds(productIds: unknown): Promise<string[]> {
   await connectToDatabase();
 

@@ -145,33 +145,23 @@ export default function ProductGallery({
     <div className="w-full">
       <div
         className="
-
-          hidden
-
-          grid-cols-[58px_minmax(0,1fr)]
-
-          gap-2
-
-          lg:grid
-
-          xl:grid-cols-[64px_minmax(0,1fr)]
-
-          xl:gap-2.5
-
-        "
+    hidden
+    min-w-0
+    grid-cols-[64px_minmax(0,1fr)]
+    gap-3
+    lg:grid
+    xl:grid-cols-[76px_minmax(0,1fr)]
+    xl:gap-4
+  "
       >
         <div
           className="
-
             flex
-
             flex-col
-
             gap-2
-
           "
         >
-          {validImages.slice(0, 4).map((image, index) => {
+          {validImages.map((image, index) => {
             const isSelected = selectedIndex === index;
 
             return (
@@ -461,15 +451,16 @@ export default function ProductGallery({
 
           <div
             className="
-              relative
-              flex
-              min-h-[460px]
-              items-center
-              justify-center
-              sm:min-h-[550px]
-              xl:min-h-[650px]
-
-            "
+    relative
+    flex
+    min-h-[520px]
+    items-center
+    justify-center
+    sm:min-h-[620px]
+    lg:min-h-[680px]
+    xl:min-h-[760px]
+    2xl:min-h-[820px]
+  "
           >
             <Image
               key={selectedImage.url}
@@ -477,7 +468,7 @@ export default function ProductGallery({
               alt={selectedImage.alt || `${productName} product image`}
               fill
               priority
-              sizes="(max-width: 1023px) 100vw, (max-width: 1279px) 42vw, 44vw"
+              sizes="(max-width: 1023px) 100vw, (max-width: 1279px) 65vw, 70vw"
               className="object-contain p-0"
             />
           </div>
@@ -644,17 +635,11 @@ export default function ProductGallery({
         <div
           className="
 
-            relative
-
-            overflow-hidden
-
-            border
-
-            border-[#EEDDBB]/70
-
-            bg-[#F8F0E3]
-
-           shadow-[0_10px_30px_rgba(39,52,74,0.055)]
+          relative
+              overflow-hidden
+              border border-transparent
+              bg-transparent
+              shadow-none shadow-[0_10px_30px_rgba(39,52,74,0.055)]
 
           "
         >
@@ -745,19 +730,12 @@ export default function ProductGallery({
 
           <div
             className="
-
               relative
-
               flex
-
-              min-h-[480px]
-
               items-center
-
               justify-center
-
-              sm:min-h-[600px]
-
+              min-h-[520px]
+              sm:min-h-[650px]
             "
           >
             <Image
@@ -871,7 +849,7 @@ export default function ProductGallery({
             "
             aria-label="Product image selection"
           >
-            {validImages.slice(0, 4).map((image, index) => {
+            {validImages.map((image, index) => {
               const isSelected = selectedIndex === index;
 
               return (

@@ -1,8 +1,9 @@
 "use client";
-import { Check, Info, PackageCheck, Sparkles, Tag, Ruler, Scale } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
 import type { StorefrontProduct } from "@/types/storefront";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Info, PackageCheck, Ruler, Scale, Sparkles, Tag } from "lucide-react";
+import { useState } from "react";
+import { resolveProductDiary } from "@/lib/product-diary";
 interface ProductInfoDiaryProps {
   product: StorefrontProduct;
   ageLabel: string | null;
@@ -27,7 +28,7 @@ const diaryTabs: Array<{
   },
   {
     id: "specs",
-    label: "Specs",
+    label: "Specification",
     icon: Tag,
   },
   {
@@ -37,33 +38,35 @@ const diaryTabs: Array<{
   },
 ];
 
+
+
 const diaryTabColors: Record<
   DiaryTab,
   { accent: string; soft: string; border: string; iconBg: string }
 > = {
   overview: {
-    accent: "#F9BF3B",
-    soft: "linear-gradient(135deg, #FFF3C9 0%, #FFFCF2 55%, #FFFFFF 100%)",
-    border: "#F2D27A",
-    iconBg: "#FFF0BD",
+    accent: "#F89B51",
+    soft: "#F89B511F",
+    border: "#F89B5180",
+    iconBg: "#F89B5133",
   },
   keyFeatures: {
-    accent: "#7BAA5B",
-    soft: "linear-gradient(135deg, #E7F2DE 0%, #F5F9F0 55%, #FFFFFF 100%)",
-    border: "#B5D29E",
-    iconBg: "#DDECCF",
+    accent: "#777B16",
+    soft: "#DDE22E66",
+    border: "#DDE22E",
+    iconBg: "#DDE22E66",
   },
   specs: {
-    accent: "#ED8B53",
-    soft: "linear-gradient(135deg, #FCE8D9 0%, #FFF5EE 55%, #FFFFFF 100%)",
-    border: "#F0B58E",
-    iconBg: "#FBE0CC",
+    accent: "#C45D7B",
+    soft: "#F6A3BB66",
+    border: "#F6A3BB",
+    iconBg: "#F6A3BB66",
   },
   benefits: {
-    accent: "#60D3EC",
-    soft: "linear-gradient(135deg, #DDF7FC 0%, #F0FCFE 55%, #FFFFFF 100%)",
-    border: "#9BE5F2",
-    iconBg: "#D5F4FA",
+    accent: "#4ED3F6",
+    soft: "#4ED3F61F",
+    border: "#4ED3F680",
+    iconBg: "#4ED3F633",
   },
 };
 
@@ -157,9 +160,58 @@ function getDiaryContent(tab: DiaryTab, product: StorefrontProduct, ageLabel: st
 }
 export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiaryProps) {
   const [activeTab, setActiveTab] = useState<DiaryTab>("overview");
-  const content = getDiaryContent(activeTab, product, ageLabel);
-  const ContentIcon = content.icon;
-  const activeColors = diaryTabColors[activeTab];
+
+const diary = resolveProductDiary(product);
+
+const activeColors = diaryTabColors[activeTab];
+
+
+const content = (() => {
+  switch (activeTab) {
+    case "overview":
+      return {
+        ...diary.overview,
+        intro: diary.overview.intro,
+        points: [],
+        icon: Info,
+      };
+
+    case "keyFeatures":
+      return {
+        ...diary.keyFeatures,
+        intro: diary.keyFeatures.intro,
+        points: diary.keyFeatures.entries.map((entry) =>
+          entry.description
+            ? `${entry.title} — ${entry.description}`
+            : entry.title,
+        ),
+        icon: PackageCheck,
+      };
+
+    case "specs":
+      return {
+        ...diary.specifications,
+        intro: diary.specifications.intro,
+        points: [],
+        icon: Tag,
+      };
+
+    case "benefits":
+      return {
+        ...diary.benefits,
+        intro: diary.benefits.intro,
+        points: diary.benefits.entries.map((entry) =>
+          entry.description
+            ? `${entry.title} — ${entry.description}`
+            : entry.title,
+        ),
+        icon: Sparkles,
+      };
+  }
+})();
+
+
+const ContentIcon = content.icon;
   return (
     <section
       aria-labelledby="product-diary-heading"
@@ -235,31 +287,38 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
        *      ================================================================= */}
       <div
         className="
-          relative
-          z-10
-          grid
-          lg:grid-cols-[205px_minmax(0,1fr)]
-          xl:grid-cols-[225px_minmax(0,1fr)]
-        "
+  relative
+  z-10
+  grid
+  grid-cols-1
+  w-full
+  min-w-0
+  lg:grid-cols-[205px_minmax(0,1fr)]
+  xl:grid-cols-[225px_minmax(0,1fr)]
+"
       >
         {/* ================================================================*
          *            LEFT — DIARY INDEX*
          *        ================================================================= */}
         <aside
           className="
-            border-b
-            border-[#ECE6F2]
-            bg-[#F8F4FC]/75
-            p-3
-            lg:border-b-0
-            lg:border-r
-            lg:p-4
-          "
+  w-full
+  min-w-0
+  max-w-full
+  overflow-hidden
+  border-b
+  border-[#ECE6F2]
+  bg-[#F8F4FC]/75
+  p-3
+  lg:border-b-0
+  lg:border-r
+  lg:p-4
+"
         >
           <div className="mb-3 px-2 lg:mb-5">
-            <p
+            {/* <p
               className="
-                font-[var(--font-poppins)]
+                font-[var(--font-roboto)]
                 text-[12px]
                 font-black
                 uppercase
@@ -270,39 +329,46 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               "
             >
               Product diary
-            </p>
+            </p> */}
             <h2
               id="product-diary-heading"
               className="
                 mt-1
-                font-playpen
+                font-[var(--font-roboto)]
                 text-[20px]
                 font-black
+                uppercase
                 leading-tight
                 tracking-[-0.04em]
                 text-[#10183B]
                 sm:text-[22px]
+                lg:text-[32px]
               "
             >
               Inside the story
             </h2>
           </div>
           {/* Mobile horizontal / desktop vertical nav */}
+
           <div
             className="
-              w-full
-              min-w-0
-              overflow-x-auto
-              overflow-y-hidden
-              overscroll-x-contain
-              touch-pan-x
-              pb-1
-              [-webkit-overflow-scrolling:touch]
-              [scrollbar-width:none]
-              [&::-webkit-scrollbar]:hidden
-              lg:overflow-visible
-              lg:pb-0
-            "
+    block
+    w-full
+    min-w-0
+    max-w-full
+    overflow-x-auto
+    overflow-y-hidden
+    overscroll-x-contain
+    touch-pan-x
+    pb-2
+    [-webkit-overflow-scrolling:touch]
+    lg:overflow-visible
+    lg:pb-0
+  "
+            style={{
+              WebkitOverflowScrolling: "touch",
+              touchAction: "pan-x",
+            }}
             role="tablist"
             aria-label="Product information"
           >
@@ -330,15 +396,11 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                     aria-selected={active}
                     onClick={() => setActiveTab(tab.id)}
                     style={{
-                      backgroundColor: active
-                        ? diaryTabColors[tab.id].soft
-                        : `${diaryTabColors[tab.id].accent}0A`,
-                      borderColor: active
-                        ? diaryTabColors[tab.id].border
-                        : `${diaryTabColors[tab.id].accent}55`,
-                      color: diaryTabColors[tab.id].accent,
-                      boxShadow: active ? `0 8px 22px ${diaryTabColors[tab.id].accent}18` : "none",
-                      outlineColor: diaryTabColors[tab.id].accent,
+                      backgroundColor: diaryTabColors[tab.id].soft,
+                      borderColor: diaryTabColors[tab.id].border,
+                      color: "#000000",
+                      boxShadow: active ? `0 8px 22px ${diaryTabColors[tab.id].border}33` : "none",
+                      outlineColor: diaryTabColors[tab.id].border,
                     }}
                     className={`
                     group
@@ -366,9 +428,7 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
                   >
                     <span
                       style={{
-                        backgroundColor: active
-                          ? diaryTabColors[tab.id].iconBg
-                          : `${diaryTabColors[tab.id].accent}18`,
+                        backgroundColor: diaryTabColors[tab.id].iconBg,
                         color: diaryTabColors[tab.id].accent,
                       }}
                       className="flex size-8 shrink-0 items-center justify-center rounded-full transition-all"
@@ -503,121 +563,79 @@ export default function ProductInfoDiary({ product, ageLabel }: ProductInfoDiary
               {/* ------------------------------------------------------------*
                *          DESCRIPTION*
                *      ------------------------------------------------------------- */}
-              <div className="mt-7 max-w-3xl sm:mt-8">
-                {activeTab === "overview" ? (
-                  <div className="space-y-6 sm:space-y-7">
-                    {(() => {
-                      const paragraphs = Array.isArray(content.body)
-                        ? content.body
-                        : [content.body];
-                      const sections = [];
-                      for (let i = 0; i < paragraphs.length; i += 2) {
-                        sections.push({
-                          heading: paragraphs[i],
-                          description: paragraphs[i + 1] ?? "",
-                          isUnpaired: i + 1 >= paragraphs.length,
-                        });
-                      }
 
-                      return sections.map((section, index) => (
-                        <motion.div
-                          key={`overview-section-${index}`}
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: index * 0.04,
-                            duration: 0.25,
-                            ease: "easeOut",
-                          }}
-                          className="max-w-3xl"
-                        >
-                          {section.isUnpaired ? (
-                            <p className="font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
-                              {section.heading}
-                            </p>
-                          ) : (
-                            <>
-                              <h4 className="font-playpen text-[13px] font-bold leading-[1.6] tracking-[-0.01em] text-[#292447] sm:text-[14px] lg:text-[15px]">
-                                {section.heading}
-                              </h4>
-                              {section.description && (
-                                <p className="mt-1.5 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
-                                  {section.description}
-                                </p>
-                              )}
-                            </>
-                          )}
-                        </motion.div>
-                      ));
-                    })()}
-                  </div>
-                ) : (
-                  <div className=" space-y-4 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.8] tracking-[-0.005em] text-[#5D6172] sm:text-[13px] sm:leading-[1.85] lg:text-[14px] lg:leading-[1.9]">
-                    {(Array.isArray(content.body) ? content.body : [content.body]).map(
-                      (paragraph, index) => (
-                        <p key={`${activeTab}-body-${index}`}>{paragraph}</p>
-                      ),
-                    )}
-                  </div>
-                )}
-              </div>
+              {activeTab === "overview" && (
+                <div className="space-y-6 sm:space-y-7">
+                  {diary.overview.entries.map((entry, index) => (
+                    <motion.div
+                      key={`overview-section-${index}`}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: index * 0.04,
+                        duration: 0.25,
+                        ease: "easeOut",
+                      }}
+                      className="w-full max-w-none"
+                    >
+                      {entry.title && (
+                        <h4 className="whitespace-nowrap font-playpen text-[13px] font-bold leading-[1.6] tracking-[-0.01em] text-[#292447] sm:text-[14px] lg:text-[15px]">
+                          {entry.title}
+                        </h4>
+                      )}
+
+                      {entry.description && (
+                        <p className="mt-1.5 font-[var(--font-poppins)] text-[12px] font-normal leading-[1.85] tracking-[-0.005em] text-[#65677A] sm:text-[13px] lg:text-[14px] lg:leading-[1.9]">
+                          {entry.description}
+                        </p>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
               {/* ------------------------------------------------------------*
                *          PRODUCT PACKAGING DETAILS — SPECS*
                *      ------------------------------------------------------------- */}
-              {activeTab === "specs" ? (
-                <div className="mt-7 grid gap-3 sm:grid-cols-3 sm:gap-3">
-                  {[
-                    {
-                      label: "What's Inside",
-                      value: "Product contents",
-                      icon: PackageCheck,
-                      accent: "#7BAA5B",
-                      soft: "#E4F0D9",
-                      border: "#C8DDB7",
-                    },
-                    {
-                      label: "Box Dimension",
-                      value: "Details coming soon",
-                      icon: Ruler,
-                      accent: "#7362C6",
-                      soft: "#EAE5FF",
-                      border: "#D8D0F4",
-                    },
-                    {
-                      label: "Box Weight",
-                      value: "Details coming soon",
-                      icon: Scale,
-                      accent: "#ED5A78",
-                      soft: "#FFE3EA",
-                      border: "#F5CAD4",
-                    },
-                  ].map((item) => {
-                    const ItemIcon = item.icon;
-                    return (
-                      <div
-                        key={item.label}
-                        className="rounded-2xl px-3.5 py-4 transition-transform duration-200 hover:-translate-y-0.5"
-                        // style={{ backgroundColor: item.soft, borderColor: item.border }}
-                      >
-                        <div className="flex flex-col items-center gap-2 text-center">
-                          <span
-                            className="flex size-9 shrink-0 items-center justify-center rounded-full"
-                            style={{ backgroundColor: "#FFFFFFB8", color: item.accent }}
-                          >
-                            <ItemIcon className="size-4" strokeWidth={1.8} />
-                          </span>
-                          <span className="font-[var(--font-poppins)] text-[12px] font-bold text-[#30344A]">
-                            {item.label}
-                          </span>
-                        </div>
-                        <p className="mt-2 text-center font-[var(--font-poppins)] text-[12px] font-medium leading-5 text-[#6A6E7E]">
-                          {item.value}
-                        </p>
+
+              {activeTab === "specs" && (
+                <div className="mt-6 grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  {diary.specifications.entries.map((item, index) => (
+                    <motion.div
+                      key={`${item.label}-${index}`}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: index * 0.04,
+                        duration: 0.25,
+                        ease: "easeOut",
+                      }}
+                      className="min-w-0 p-4 transition-transform duration-200 hover:-translate-y-0.5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span
+                          className="flex size-9 shrink-0 items-center justify-center rounded-full"
+                          style={{
+                            backgroundColor: "#FFFFFFB8",
+                            color: activeColors.accent,
+                          }}
+                        >
+                          <Tag className="size-4" strokeWidth={1.8} />
+                        </span>
+
+                        <span className="min-w-0 break-words font-[var(--font-poppins)] text-[12px] font-bold text-[#30344A]">
+                          {item.label}
+                        </span>
                       </div>
-                    );
-                  })}
+
+                      <p className="mt-3 break-words font-[var(--font-poppins)] text-[12px] font-medium leading-5 text-[#6A6E7E]">
+                        {item.value}
+                      </p>
+                    </motion.div>
+                  ))}
                 </div>
-              ) : null}
+              )}
+
               {/* ------------------------------------------------------------*
                *          INFORMATION POINTS*
                *      ------------------------------------------------------------- */}

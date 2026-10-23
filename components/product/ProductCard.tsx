@@ -12,11 +12,12 @@ import type { StorefrontProduct } from "@/types/storefront";
 
 interface ProductCardProps {
   product: StorefrontProduct;
+  offerLabel?: string;
 }
 
 /* ================================================================
-   PRICE FORMATTER
-================================================================ */
+    PRICE FORMATTER
+  ================================================================ */
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-IN", {
@@ -27,8 +28,8 @@ function formatPrice(price: number): string {
 }
 
 /* ================================================================
-   DISCOUNT
-================================================================ */
+    DISCOUNT
+  ================================================================ */
 
 function getDiscountPercentage(price: number, compareAtPrice?: number): number {
   if (typeof compareAtPrice !== "number" || compareAtPrice <= price || compareAtPrice <= 0) {
@@ -39,8 +40,8 @@ function getDiscountPercentage(price: number, compareAtPrice?: number): number {
 }
 
 /* ================================================================
-   SHORT PRODUCT DESCRIPTION
-================================================================ */
+    SHORT PRODUCT DESCRIPTION
+  ================================================================ */
 
 function getShortDescription(product: StorefrontProduct): string {
   const source =
@@ -60,10 +61,10 @@ function getShortDescription(product: StorefrontProduct): string {
 }
 
 /* ================================================================
-   PRODUCT CARD
-================================================================ */
+    PRODUCT CARD
+  ================================================================ */
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, offerLabel }: ProductCardProps) {
   const { toggle, isWishlisted } = useWishlist();
 
   const [wishlistBusy, setWishlistBusy] = useState(false);
@@ -94,26 +95,25 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
+  const specialListingImages: Record<string, string> = {
+    indialogy: "/images/products/listed-images/Indialogy.png",
+    "flag it": "/images/products/listed-images/Flag-It.png",
+    "wordlogy - emoji edition": "/images/products/listed-images/Worldlogy-Emoji-Edition.png",
+  };
 
-const specialListingImages: Record<string, string> = {
-  indialogy: "/images/products/listed-images/Indialogy.png",
-  "flag it": "/images/products/listed-images/Flag-It.png",
-  "wordlogy - emoji edition": "/images/products/listed-images/Worldlogy-Emoji-Edition.png",
-};
+  const normalizedProductName = product.name.trim().toLowerCase();
 
-const normalizedProductName = product.name.trim().toLowerCase();
-
-const primaryImage =
-  specialListingImages[normalizedProductName] ||
-  product.listingImage?.trim() ||
-  product.images?.find((image) => image.url)?.url ||
-  null;
+  const primaryImage =
+    specialListingImages[normalizedProductName] ||
+    product.listingImage?.trim() ||
+    product.images?.find((image) => image.url)?.url ||
+    null;
 
   const imageAlt = product.images?.find((image) => Boolean(image.alt))?.alt || product.name;
 
   /* ================================================================
-     PRICE / DISCOUNT
-  ================================================================= */
+      PRICE / DISCOUNT
+    ================================================================= */
 
   const discount =
     typeof product.price === "number"
@@ -121,101 +121,88 @@ const primaryImage =
       : 0;
 
   /* ================================================================
-     STOCK
-     Undefined stock means inventory has not been configured yet.
-  ================================================================= */
+      STOCK
+      Undefined stock means inventory has not been configured yet.
+    ================================================================= */
 
   const hasStock = typeof product.stock === "number";
 
   const isOutOfStock = product.stock === undefined || product.stock <= 0;
 
   /* ================================================================
-     PURCHASE AVAILABILITY
+      PURCHASE AVAILABILITY
 
-     A product should only be purchasable when:
-     - price exists
-     - stock exists
-     - stock is greater than zero
-  ================================================================= */
+      A product should only be purchasable when:
+      - price exists
+      - stock exists
+      - stock is greater than zero
+    ================================================================= */
 
   const canPurchase =
     typeof product.price === "number" && typeof product.stock === "number" && product.stock > 0;
 
   /* ================================================================
-     LOW STOCK
+      LOW STOCK
 
-     Explicitly narrow stock before comparing it.
-  ================================================================= */
+      Explicitly narrow stock before comparing it.
+    ================================================================= */
 
   const isLowStock = typeof product.stock === "number" && product.stock > 0 && product.stock <= 5;
 
   return (
     <article className="group relative flex h-full min-w-0 flex-col">
       {/* ==========================================================
-          CARD
-          The outer card is the visual frame. The image has its
-          own clipping layer so badges and wishlist stay inside
-          the card without being clipped by the arc.
-      =========================================================== */}
+            CARD
+            The outer card is the visual frame. The image has its
+            own clipping layer so badges and wishlist stay inside
+            the card without being clipped by the arc.
+        =========================================================== */}
 
       <div
         className="
-          flex
-          h-full
-          w-full
-          flex-col
-          overflow-hidden
-          rounded-[28px]
-          bg-transparent
-          transition-all
-          duration-300
-          ease-out
-          group-hover:-translate-y-1
-        "
+            flex
+            h-full
+            w-full
+            flex-col
+            overflow-hidden
+            rounded-[28px]
+            bg-transparent
+            transition-all
+            duration-300
+            ease-out
+            group-hover:-translate-y-1
+          "
       >
-        {/* ========================================================
-            ARC IMAGE AREA
-            A true large dome/half-circle forms the top of the card.
-            The purple shape is clipped independently so the controls
-            below never interfere with the arc.
-        ========================================================= */}
-
         <div
           className="
-            relative
-            w-full
-            overflow-hidden
-            bg-transparent
-          "
-          style={{
-            height: "clamp(215px, 23vw, 290px)",
-          }}
+
+    relative mx-auto w-full
+    h-[clamp(170px,48vw,220px)]
+    sm:h-[clamp(220px,22vw,285px)]
+  "
         >
           <div
             className="
-              absolute
-              inset-x-0
-              bottom-0
-              h-[92%]
-              overflow-hidden
-
-            "
+    absolute inset-x-0 bottom-0 mx-auto
+    h-[92%] w-[100%]
+    overflow-hidden
+  "
             style={{
-              borderRadius: "50% 50% 0 0 / 44% 44% 0 0",
+              borderRadius: "50% 50% 0 0",
             }}
           >
             <Link
               href={`/products/${product.slug}`}
               aria-label={`View ${product.name}`}
               className="
-                absolute
-                inset-0
-                block
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[#a092cd]
-                focus-visible:ring-inset
-              "
+                  absolute
+                  inset-0
+                  block
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#a092cd]
+                  focus-visible:ring-inset
+                "
             >
               {primaryImage ? (
                 <Image
@@ -223,44 +210,43 @@ const primaryImage =
                   alt={imageAlt}
                   fill
                   sizes="
-                    (max-width: 639px) 45vw,
-                    (max-width: 1023px) 29vw,
-                    (max-width: 1279px) 22vw,
-                    20vw
-                  "
+                      (max-width: 639px) 45vw,
+                      (max-width: 1023px) 29vw,
+                      (max-width: 1279px) 22vw,
+                      20vw
+                    "
                   className="
-                    object-contain
-                    p-0
-                    transition-transform
-                    duration-500
-                    ease-[cubic-bezier(0.22,1,0.36,1)]
-                    group-hover:scale-[1.08]
-                  "
+  object-contain p-0
+  scale-110
+  transition-transform duration-700
+  ease-[cubic-bezier(0.22,1,0.36,1)]
+  group-hover:scale-[1.15]
+"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
                   <div className="text-center">
                     <div
                       className="
-                        mx-auto
-                        flex
-                        size-14
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white/70
-                      "
+                          mx-auto
+                          flex
+                          size-14
+                          items-center
+                          justify-center
+                          rounded-full
+                          bg-white/70
+                        "
                     >
                       <Sparkles className="size-7 text-[#69419A]/70" />
                     </div>
 
                     <p
                       className="
-                        mt-3
-                        text-[10px]
-                        font-bold
-                        text-[#4F386B]
-                      "
+                          mt-3
+                          text-[10px]
+                          font-bold
+                          text-[#4F386B]
+                        "
                     >
                       Image coming soon
                     </p>
@@ -272,63 +258,86 @@ const primaryImage =
         </div>
 
         {/* ==========================================================
-            PRODUCT INFORMATION
-        =========================================================== */}
+              PRODUCT INFORMATION
+          =========================================================== */}
 
         <div
           className="
-            flex
-            flex-1
-            flex-col
-            bg-white
-            px-4
-            pb-4
-            pt-4
-            sm:px-5
-            sm:pb-5
-          "
+              flex
+              flex-1
+              flex-col
+              bg-white
+              px-4
+              pb-4
+              pt-4
+              sm:px-5
+              sm:pb-5
+            "
         >
           {/* ======================================================
-              BADGES
-              Moved into the information area so the large top arc
-              remains clean and the badges can never spill outside.
-          ======================================================= */}
+                BADGES
+                Moved into the information area so the large top arc
+                remains clean and the badges can never spill outside.
+            ======================================================= */}
 
           <div className="flex min-h-[18px] items-center gap-1.5">
             {product.featured ? (
               <span
                 className="
-                  rounded-full
-                  bg-[#E83D59]
-                  px-2
-                  py-1
-                  text-[12px]
-                  font-black
-                  leading-none
-                  tracking-[0.04em]
-                  text-white
-                  shadow-[0_4px_10px_rgba(232,61,89,0.16)]
-                "
+                    rounded-full
+                    bg-[#E83D59]
+                    px-2
+                    py-1
+                    text-[12px]
+                    font-black
+                    leading-none
+                    tracking-[0.04em]
+                    text-white
+                    shadow-[0_4px_10px_rgba(232,61,89,0.16)]
+                  "
               >
                 Bestseller
+              </span>
+            ) : null}
+
+            {offerLabel ? (
+              <span
+                className="
+      inline-flex
+      items-center
+      rounded-full
+      bg-[#E83D59]
+      px-2.5
+      py-1
+      text-[9px]
+      font-black
+      uppercase
+      leading-tight
+      tracking-[0.03em]
+      text-white
+      shadow-[0_4px_10px_rgba(232,61,89,0.16)]
+      sm:text-[10px]
+    "
+              >
+                {offerLabel}
               </span>
             ) : null}
 
             {discount > 0 ? (
               <span
                 className="
-                  rounded-full
-                  bg-[#17213D]
-                  px-2
-                  py-1
-                  text-[12px]
-                  font-black
-                  uppercase
-                  leading-none
-                  tracking-[0.04em]
-                  text-white
-                  shadow-[0_4px_10px_rgba(23,33,61,0.14)]
-                "
+                    rounded-full
+                    bg-[#17213D]
+                    px-2
+                    py-1
+                    text-[12px]
+                    font-black
+                    uppercase
+                    leading-none
+                    tracking-[0.04em]
+                    text-white
+                    shadow-[0_4px_10px_rgba(23,33,61,0.14)]
+                  "
               >
                 {discount}% OFF
               </span>
@@ -340,74 +349,74 @@ const primaryImage =
           <Link
             href={`/products/${product.slug}`}
             className="
-              mt-1.5
-              block
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#a092cd]
-              focus-visible:ring-offset-2
-            "
+                mt-1.5
+                block
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#a092cd]
+                focus-visible:ring-offset-2
+              "
           >
             <h3
               className="
-                text-center
-                line-clamp-2
-                min-h-[2.8rem]
-                font-playpen
-                text-[12px]
-                font-bold
-                leading-[1.4]
-                tracking-[-0.02em]
-                text-[#17213D]
-                transition-colors
-                duration-200
-                group-hover:text-[#69419A]
-                sm:text-[12px]
-                xl:text-[14px]
-              "
+                  text-center
+                  line-clamp-2
+                  min-h-[2.8rem]
+                  font-playpen
+                  text-[12px]
+                  font-bold
+                  leading-[1.4]
+                  tracking-[-0.02em]
+                  text-[#17213D]
+                  transition-colors
+                  duration-200
+                  group-hover:text-[#69419A]
+                  sm:text-[12px]
+                  xl:text-[14px]
+                "
             >
               {product.name}
             </h3>
           </Link>
 
           {/* ======================================================
-              10–15 WORD DESCRIPTION
-          ======================================================= */}
+                10–15 WORD DESCRIPTION
+            ======================================================= */}
 
           <p
             className="
-              mt-1
-              line-clamp-2
-              min-h-[2rem]
-              max-w-full
-              text-center
-              font-[var(--font-poppins)]
-              text-[12px]
-              font-medium
-              leading-4
-              text-[#7B8495]
-              sm:text-[9.5px]
-              xl:text-[14px]
-            "
+                mt-1
+                line-clamp-2
+                min-h-[2rem]
+                max-w-full
+                text-center
+                font-[var(--font-poppins)]
+                text-[12px]
+                font-medium
+                leading-4
+                text-[#7B8495]
+                sm:text-[9.5px]
+                xl:text-[14px]
+              "
           >
             {getShortDescription(product)}
           </p>
 
           {/* ======================================================
-              PRICE
-          ======================================================= */}
+                PRICE
+            ======================================================= */}
 
           <div className="mt-auto pt-3">
             <div>
               <p
                 className="
-                  font-[var(--font-poppins)]
-                  text-[18px]
-                  font-black
-                  tracking-[-0.025em]
-                  text-[#17213D]
-                  xl:text-xl
-                "
+                    font-[var(--font-poppins)]
+                    text-[18px]
+                    font-black
+                    tracking-[-0.025em]
+                    text-[#17213D]
+                    xl:text-xl
+                  "
               >
                 {typeof product.price === "number"
                   ? formatPrice(product.price)
@@ -418,24 +427,24 @@ const primaryImage =
                 <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                   <p
                     className="
-                      text-[12px]
-                      font-semibold
-                      text-[#8F929A]
-                      line-through
-                      sm:text-[11px]
-                      xl:text-[13px]
-                    "
+                        text-[12px]
+                        font-semibold
+                        text-[#8F929A]
+                        line-through
+                        sm:text-[11px]
+                        xl:text-[13px]
+                      "
                   >
                     {formatPrice(product.compareAtPrice)}
                   </p>
 
                   <span
                     className="
-                      text-[10px]
-                      font-black
-                      text-[#E83D59]
-                      sm:text-[11px]
-                    "
+                        text-[10px]
+                        font-black
+                        text-[#E83D59]
+                        sm:text-[11px]
+                      "
                   >
                     Save {discount}%
                   </span>
@@ -444,48 +453,56 @@ const primaryImage =
             </div>
 
             {/* ==================================================
-                LOW STOCK
-                Only access product.stock after narrowing it.
-            =================================================== */}
+                  LOW STOCK
+                  Only access product.stock after narrowing it.
+              =================================================== */}
 
             {isLowStock ? (
               <p
                 className="
-                  mt-2
-                  text-[8px]
-                  font-bold
-                  text-[#E83D59]
-                "
+                    mt-2
+                    text-[8px]
+                    font-bold
+                    text-[#E83D59]
+                  "
               >
                 Only {product.stock} left
               </p>
             ) : null}
 
             {/* ==================================================
-                BOTTOM ACTIONS
-                Add to Cart + Wishlist
-            =================================================== */}
+                  BOTTOM ACTIONS
+                  Add to Cart + Wishlist
+              =================================================== */}
 
-            <div className="mt-3 flex items-center gap-2">
+            <div className="mt-3 flex w-full items-center gap-1.5 sm:gap-2">
               {!canPurchase ? (
                 <button
                   type="button"
                   disabled
                   className="
-                    inline-flex
-                    min-h-9
-                    flex-1
-                    cursor-not-allowed
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#ECECEC]
-                    px-3
-                    text-[9px]
-                    font-bold
-                    text-[#999DA4]
-                    sm:text-[10px]
-                  "
+          inline-flex
+          min-h-9
+          min-w-0
+          flex-1
+          cursor-not-allowed
+          items-center
+          justify-center
+          rounded-full
+          bg-[#ECECEC]
+          px-1
+py-2
+font-playpen
+text-[9px]
+font-medium
+leading-tight
+tracking-normal
+          text-[#999DA4]
+          text-center
+          whitespace-nowrap
+          sm:px-3
+          sm:text-[10px]
+        "
                 >
                   {typeof product.price !== "number" ? "Coming Soon" : "Sold Out"}
                 </button>
@@ -494,24 +511,18 @@ const primaryImage =
                   productId={product._id}
                   quantity={1}
                   className="
-                    min-h-9
-                    flex-1
-                    rounded-full
-                    bg-[#a092cd]
-                    px-3
-                    py-2
-                    text-[9px]
-                    font-medium
-                    text-white
-                    shadow-[0_5px_12px_rgba(160,146,205,0.16)]
-                    transition-all
-                    duration-200
-                    hover:-translate-y-0.5
-                    hover:bg-[#8F7FBE]
-                    hover:shadow-[0_7px_16px_rgba(160,146,205,0.20)]
-                    active:translate-y-0
-                    sm:text-[10px]
-                  "
+  flex
+  min-w-0
+  flex-1
+  !h-10
+  !min-h-10
+  !rounded-full
+  !bg-[#a092cd]
+  px-1
+  py-0
+  hover:!bg-[#927FC5]
+  sm:px-3
+"
                 />
               )}
 
@@ -527,29 +538,30 @@ const primaryImage =
                 aria-pressed={isWishlisted(String(product._id))}
                 onClick={toggleWishlist}
                 className="
-    inline-flex
-    size-9
-    shrink-0
-    items-center
-    justify-center
-    rounded-full
-    border
-    border-[#E4DFEC]
-    bg-[#F8F6FC]
-    text-[#17213D]
-    transition-all
-    duration-200
-    hover:-translate-y-0.5
-    hover:border-[#a092cd]
-    hover:bg-[#a092cd]
-    hover:text-white
-    focus-visible:outline-none
-    focus-visible:ring-2
-    focus-visible:ring-[#a092cd]
-    focus-visible:ring-offset-2
-    disabled:pointer-events-none
-    disabled:opacity-60
-  "
+        inline-flex
+        size-9
+        max-sm:size-10
+        shrink-0
+        items-center
+        justify-center
+        rounded-full
+        border
+        border-[#E4DFEC]
+        bg-[#F8F6FC]
+        text-[#17213D]
+        transition-all
+        duration-200
+        hover:-translate-y-0.5
+        hover:border-[#a092cd]
+        hover:bg-[#a092cd]
+        hover:text-white
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-[#a092cd]
+        focus-visible:ring-offset-2
+        disabled:pointer-events-none
+        disabled:opacity-60
+      "
               >
                 <Heart
                   className="size-[15px]"

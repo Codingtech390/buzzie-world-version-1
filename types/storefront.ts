@@ -1,5 +1,9 @@
 import type { ProductStatus } from "@/types/product";
-
+import type {
+  ProductDiaryData,
+  ProductImage,
+  ProductVariant,
+} from "@/types/product";
 /**
  * Shared populated reference used by storefront products.
  */
@@ -65,6 +69,8 @@ export interface StorefrontProduct {
   shortDescription?: string;
   keyFeatures: string[];
 
+  productDiary?: ProductDiaryData;
+
   price?: number;
   compareAtPrice?: number;
 
@@ -73,6 +79,7 @@ export interface StorefrontProduct {
   images: StorefrontProductImage[];
   listingImage?: string;
 
+  carouselImages?: StorefrontProductImage[];
   /**
    * Admin-managed A+ content images.
    */
@@ -82,6 +89,15 @@ export interface StorefrontProduct {
    * Admin-managed How-to-Play instruction images.
    */
   howToPlay?: StorefrontProductContentImage[];
+
+  videos?: {
+    url: string;
+    publicId?: string;
+    title?: string;
+    format?: string;
+    duration?: number;
+  }[];
+
   category?: StorefrontReference;
   brand?: StorefrontReference;
   collection?: StorefrontReference;

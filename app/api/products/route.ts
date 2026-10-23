@@ -48,6 +48,20 @@ function parseOptionalBoolean(value: string | null): boolean | undefined {
   return undefined;
 }
 
+function parseOptionalAge(value: string | null): number | undefined {
+  if (value === null || value.trim() === "") {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+
+  if (!Number.isInteger(parsed) || parsed < 0) {
+    return undefined;
+  }
+
+  return parsed;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -58,9 +72,13 @@ export async function GET(request: NextRequest) {
 
     const limit = Math.min(requestedLimit, 100);
 
-    const featured = parseOptionalBoolean(searchParams.get("featured"));
+   const featured = parseOptionalBoolean(searchParams.get("featured"));
 
-    const published = parseOptionalBoolean(searchParams.get("published"));
+   const published = parseOptionalBoolean(searchParams.get("published"));
+
+   const ageMin = parseOptionalAge(searchParams.get("ageMin"));
+
+   const ageMax = parseOptionalAge(searchParams.get("ageMax"));
 
     const result = await getProducts({
       search: searchParams.get("search") || undefined,
@@ -74,13 +92,11 @@ export async function GET(request: NextRequest) {
       status: searchParams.get("status") || undefined,
 
       published,
-
       featured,
-
       sort: parseSort(searchParams.get("sort")),
-
+      ageMin,
+      ageMax,
       page,
-
       limit,
     });
 

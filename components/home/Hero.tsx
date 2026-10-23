@@ -5,7 +5,6 @@ import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-
 import { DEFAULT_HERO_SLIDES, type HeroCarouselSlide } from "@/types/homepage";
 
 interface HeroProps {
@@ -20,7 +19,6 @@ const slideTransition = {
 };
 
 export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
-
   const LANDING_SLIDES = slides.length === 3 ? slides : DEFAULT_HERO_SLIDES;
 
   const [activeSlide, setActiveSlide] = useState(0);
@@ -67,7 +65,7 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
     return () => {
       window.clearInterval(timer);
     };
-  }, [isPaused, nextSlide]);
+  }, [isPaused, nextSlide, LANDING_SLIDES.length]);
 
   const activeSlideData = LANDING_SLIDES[activeSlide];
 
@@ -78,35 +76,14 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
   return (
     <section
       aria-label="BuzzieWorld promotional highlights"
-      className="
-        relative
-        w-full
-        overflow-hidden
-        bg-white
-
-        lg:h-[calc(100svh-94px)]
-        xl:h-[calc(100svh-94px)]
-        2xl:h-[calc(100svh-94px)]
-      "
+      className="relative w-full bg-white"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      {/* ================================================================
-          FULLSCREEN LANDING CAROUSEL
-          ================================================================ */}
-
-      <div
-        className="
-          relative
-          w-full
-          overflow-hidden
-          lg:h-full
-          xl:h-full
-          2xl:h-full
-        "
-      >
+      {/* Full-width landing carousel */}
+      <div className="relative w-full overflow-hidden">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={activeSlideData.id}
@@ -124,7 +101,7 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
               x: direction > 0 ? "-2%" : "2%",
             }}
             transition={slideTransition}
-            className="relative w-full lg:h-full xl:h-full 2xl:h-full"
+            className="relative w-full"
           >
             <Link
               href={activeSlideData.href}
@@ -135,9 +112,6 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
                 block
                 w-full
                 overflow-hidden
-                lg:h-full
-                xl:h-full
-                2xl:h-full
                 focus-visible:outline-none
                 focus-visible:ring-4
                 focus-visible:ring-inset
@@ -155,18 +129,6 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
                   max-w-none
                   select-none
                   object-contain
-
-                  lg:h-full
-                  lg:w-full
-                  lg:object-fill
-
-                  xl:h-full
-                  xl:w-full
-                  xl:object-fill
-
-                  2xl:h-full
-                  2xl:w-full
-                  2xl:object-fill
                 "
               />
 
@@ -188,11 +150,7 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* ================================================================
-            SLIDE INDICATORS
-            MOVED SIGNIFICANTLY UPWARD
-            ================================================================ */}
-
+        {/* Slide indicators */}
         <div
           aria-hidden="true"
           className="
@@ -232,11 +190,7 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
           ))}
         </div>
 
-        {/* ================================================================
-            PREVIOUS / PLAY / NEXT CONTROLS
-            MOVED SIGNIFICANTLY UPWARD
-            ================================================================ */}
-
+        {/* Previous, play/pause and next controls */}
         <div
           className="
             absolute
@@ -347,10 +301,7 @@ export default function Hero({ slides = DEFAULT_HERO_SLIDES }: HeroProps) {
         </div>
       </div>
 
-      {/* ================================================================
-          ACCESSIBLE SLIDE NAVIGATION
-          ================================================================ */}
-
+      {/* Accessible slide navigation */}
       <div className="sr-only">
         {LANDING_SLIDES.map((slide, index) => (
           <button

@@ -823,3 +823,58 @@ body[data-scroll-locked] {
   outline: 2px solid #c391ee;
   outline-offset: 2px;
 }
+
+
+
+
+/* footer */
+
+
+/* ================================================================
+   BUZZIEWORLD — CONTINUOUS ANIMATED FOOTER WAVES
+================================================================ */
+
+.footer-wave-scene {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 150px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.footer-wave-scene__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 200%;
+  height: 150px;
+  max-width: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.footer-wave-scene__layer--back {
+  animation: footer-wave-travel 10s linear infinite;
+}
+
+.footer-wave-scene__layer--front {
+  animation: footer-wave-travel 7s linear infinite reverse;
+}
+
+@keyframes footer-wave-travel {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-wave-scene__layer {
+    animation: none;
+  }
+}

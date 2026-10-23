@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: ["*.trycloudflare.com"],
 
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion", "react-icons"],

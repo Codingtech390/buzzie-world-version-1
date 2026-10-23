@@ -1,0 +1,1270 @@
+{
+  "generatedAt": "2026-10-14T17:08:05.003Z",
+  "mode": "DRY_RUN",
+  "sourceRoot": "C:\\Users\\DELL\\Downloads\\products_2026-10-14_21_13",
+  "storageRoot": "C:\\Users\\DELL\\Desktop\\Buzzie\\Mockup-UI\\buzzie-world-version-1\\buzzie-world\\media-storage",
+  "folderCount": 29,
+  "uniqueImages": 177,
+  "sourceBytes": 403532338,
+  "products": [
+    {
+      "folder": "animal-homes-learning-game-kids",
+      "productId": "6ab42055168800b46029f38e",
+      "productName": "Animal Homes",
+      "productSlug": "animal-homes-learning-game-kids",
+      "existingImageCount": 10,
+      "replacementImageCount": 9,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-1.png",
+          "bytes": 3936427,
+          "sha256": "4a697f6a197612fecec1cfce7b4d1216e59e553bfb7e2b7b478672c2b83a2d9c"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-2.png",
+          "bytes": 3299664,
+          "sha256": "0dee521a0c8825b9e5d5b259665edbc581f4b9a0f0099156b6b89ec6fae3f11f"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-3.png",
+          "bytes": 1364705,
+          "sha256": "e843c7efbebf1f6087e7680860cc2774a3f08a4ad4e525c3e6f74494bdb2e146"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-4.png",
+          "bytes": 993834,
+          "sha256": "148ff6b527ab73aa863d9567529d68f12cf97bb5becab094e69829bca581f397"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-5.png",
+          "bytes": 3267798,
+          "sha256": "7327fc34867e079457b2528661b327cdd4e79323f768e5902c9a7aad5c741457"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-6.png",
+          "bytes": 3587604,
+          "sha256": "6bd9149eed023f86ea25015faed15dbe63212df9732ba3c17e8b29d9585b0364"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-7.png",
+          "bytes": 3679205,
+          "sha256": "e57772d131b09820155f9bb717c23f235323c0e3623479ee2033d809b2c9d7b5"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-8.png",
+          "bytes": 3448688,
+          "sha256": "4cc2c734bacfc78188ea01f01e68fe86f2e7facbcebd51494159d359548a118b"
+        },
+        {
+          "source": "animal-homes-learning-game-kids\\animal-homes-9.png",
+          "bytes": 2944373,
+          "sha256": "5a81a429735bc15d49d996cb72e35d3a9864650b7901a06a375f25b2ec21deea"
+        }
+      ]
+    },
+    {
+      "folder": "animal-world",
+      "productId": "6ab42055168800b46029f399",
+      "productName": "Animal World",
+      "productSlug": "animal-world",
+      "existingImageCount": 9,
+      "replacementImageCount": 8,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "animal-world\\animal-world-2.png",
+          "bytes": 2830107,
+          "sha256": "6c8eb10fea8564f26d9e45975aaadd5e04cfb02ede2d25a63651516bfe461d44"
+        },
+        {
+          "source": "animal-world\\animal-world-3.png",
+          "bytes": 2678706,
+          "sha256": "cd53b3ceb231ebb170e51e3b4c670c260afdc26365751650071c0efaf3e72747"
+        },
+        {
+          "source": "animal-world\\animal-world-4.png",
+          "bytes": 3350447,
+          "sha256": "a21f736d30261346999fbd7094778cac389889b64642dc53454b117e5f6b61d6"
+        },
+        {
+          "source": "animal-world\\animal-world-5.png",
+          "bytes": 2601095,
+          "sha256": "314944ccef11661f85be8338d732e7e9331d2e4f88f6ff779c8edafa2c6d06b7"
+        },
+        {
+          "source": "animal-world\\animal-world-6.png",
+          "bytes": 3631100,
+          "sha256": "c9c268741d581fc13f24f14ec256e59cd2d4c66d68c891f51787b1b3aae4f623"
+        },
+        {
+          "source": "animal-world\\animal-world-7.png",
+          "bytes": 1723680,
+          "sha256": "bb758ab59a7626283453d5b55a6cb8cbd76dcf2b16249a04c609d7125043f49b"
+        },
+        {
+          "source": "animal-world\\animal-world-8.png",
+          "bytes": 2065134,
+          "sha256": "d61ed994167518ed4118d0b2bd34ddffb0f978311c246488f2e1a540891200c2"
+        },
+        {
+          "source": "animal-world\\animal-world-kt-creative.png",
+          "bytes": 2753287,
+          "sha256": "cde29ba87ff03e4af5df8c0d3879e40f97cf6387115daa7e33618fe37487f517"
+        }
+      ]
+    },
+    {
+      "folder": "brain-binder-activity-book-kids",
+      "productId": "6ab42055168800b46029f38a",
+      "productName": "Brain Binder",
+      "productSlug": "brain-binder-activity-book-kids",
+      "existingImageCount": 7,
+      "replacementImageCount": 6,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "brain-binder-activity-book-kids\\brain-binder-copy-of-toddler-busy-book-cover-png-1.png",
+          "bytes": 1492376,
+          "sha256": "08c251349deca2ab1b891f7a8905f96d65cf1830b34a154ee82ed41c643133d5"
+        },
+        {
+          "source": "brain-binder-activity-book-kids\\brain-binder-copy-of-toddler-busy-book-cover-png-2.png",
+          "bytes": 1837177,
+          "sha256": "fe57a5affbe57972c54af61cc33ac89cefe732f55352b444f61c7360cb21fa80"
+        },
+        {
+          "source": "brain-binder-activity-book-kids\\brain-binder-copy-of-toddler-busy-book-cover-png-3.png",
+          "bytes": 1259491,
+          "sha256": "11e912d8cec3e82efb7d0820d6b7454c0436a3d6704a03949f14cc772e77c85e"
+        },
+        {
+          "source": "brain-binder-activity-book-kids\\brain-binder-copy-of-toddler-busy-book-cover-png-4.png",
+          "bytes": 1600715,
+          "sha256": "f6df8fd66d8a807d28bfb03663949dd21877421f56fbec7f8b048aca726652a6"
+        },
+        {
+          "source": "brain-binder-activity-book-kids\\brain-binder-copy-of-toddler-busy-book-cover-png-5.png",
+          "bytes": 1771812,
+          "sha256": "bc60d46279011dd297c28ac0d6830f3c9dd5142903cca39fef3a54b02d0630dd"
+        },
+        {
+          "source": "brain-binder-activity-book-kids\\brain-binder-copy-of-toddler-busy-book-cover-png.png",
+          "bytes": 2237855,
+          "sha256": "7c7482875685a8c24282da17dcada0197c3027f04045d34fce98df8b7770b22e"
+        }
+      ]
+    },
+    {
+      "folder": "buzzie-brains-part-2-activity-mats",
+      "productId": "6ab42055168800b46029f393",
+      "productName": "Buzzie Brains Part 2",
+      "productSlug": "buzzie-brains-part-2-activity-mats",
+      "existingImageCount": 8,
+      "replacementImageCount": 7,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-1.png",
+          "bytes": 3254594,
+          "sha256": "97ad83c4a560a463a9c2de6722c8bb9f2a7c969da833985d10d1f3d003b6f89a"
+        },
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-2.png",
+          "bytes": 4026466,
+          "sha256": "0c68f904850df61406cc709edd963db2f10e2be6a27687822923afe67d9f282d"
+        },
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-3.png",
+          "bytes": 2882949,
+          "sha256": "d844f867414965781896767414053f2a7d2d5a381e3e1b76c456e1cd6da04de0"
+        },
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-4.png",
+          "bytes": 3799686,
+          "sha256": "7d3141ca453a04216d83cda8a75eee94d7ea2a1301a152e917c282d800281816"
+        },
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-5.png",
+          "bytes": 3471953,
+          "sha256": "8690b0edaaa87fdd1b30c71130ef9db1e0b1de5573c66945954d97835411db15"
+        },
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-6.png",
+          "bytes": 2790895,
+          "sha256": "2e21eb4eaaeeb51350c7b3995228e6636f7be13f4b644afd1b1231223c18aa56"
+        },
+        {
+          "source": "buzzie-brains-part-2-activity-mats\\buzzie-brain-part-2-7.png",
+          "bytes": 2158390,
+          "sha256": "6c6ed09c53638f992407405d3803311463779627d72deb0d661016831bd09087"
+        }
+      ]
+    },
+    {
+      "folder": "buzzie-brains-reusable-activity-mats",
+      "productId": "6ab42055168800b46029f392",
+      "productName": "Buzzie Brains Part 1",
+      "productSlug": "buzzie-brains-reusable-activity-mats",
+      "existingImageCount": 9,
+      "replacementImageCount": 4,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "buzzie-brains-reusable-activity-mats\\buzzie-brain-part-1-1-4.png",
+          "bytes": 2118333,
+          "sha256": "b9b25f84e5a3aff80047ff23eadb1a1bf5ececd40b68673864d36cf0aa42f812"
+        },
+        {
+          "source": "buzzie-brains-reusable-activity-mats\\buzzie-brain-part-1-2-3.png",
+          "bytes": 2348827,
+          "sha256": "48e5f2aafae14c913175ae7a173c7b6a1aee56893dcfddcb6dc66c71eb366daf"
+        },
+        {
+          "source": "buzzie-brains-reusable-activity-mats\\buzzie-brain-part-1-3-1.png",
+          "bytes": 2304210,
+          "sha256": "28689a02fc3d177a0beb5a0a12dbb6c4eb30292b54d085d5cb9430d663b37686"
+        },
+        {
+          "source": "buzzie-brains-reusable-activity-mats\\buzzie-brain-part-1-4-2.png",
+          "bytes": 1963053,
+          "sha256": "878520262fd6784a89e13739e79383fa63390f6866b36eb7d7878ca07cb9c053"
+        }
+      ]
+    },
+    {
+      "folder": "car-logo-blitz",
+      "productId": "6ab42055168800b46029f39e",
+      "productName": "Car Logo Blitz",
+      "productSlug": "car-logo-blitz",
+      "existingImageCount": 2,
+      "replacementImageCount": 1,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "car-logo-blitz\\car-logo-blitz-car-logo-blitz.png",
+          "bytes": 1648394,
+          "sha256": "eeb601519451cea8d1ae904b9efd66d884650bbeb91500a0a4e629830b4ee9c3"
+        }
+      ]
+    },
+    {
+      "folder": "flag-it-world-flags-bingo",
+      "productId": "6ab42055168800b46029f3a9",
+      "productName": "Flag It",
+      "productSlug": "flag-it-world-flags-bingo",
+      "existingImageCount": 7,
+      "replacementImageCount": 6,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "flag-it-world-flags-bingo\\flag-it-20260508-125511.jpg",
+          "bytes": 2150817,
+          "sha256": "0ead63ee3e4b5b119b9b3c0ccdd01a8ad5868da9f9fc8d2c2ff44e336d2df868"
+        },
+        {
+          "source": "flag-it-world-flags-bingo\\flag-it-20260508-125701.jpg",
+          "bytes": 2458211,
+          "sha256": "53e080de003cea1a21043c3767effbf5f0353171d8d322ede4dac64f7059e9ca"
+        },
+        {
+          "source": "flag-it-world-flags-bingo\\flag-it-20260508-125705.jpg",
+          "bytes": 2756898,
+          "sha256": "d576ba9196317e3954eb978f0f0de4b0e09ff07a64d6696647362637fc392a55"
+        },
+        {
+          "source": "flag-it-world-flags-bingo\\flag-it-20260508-125729.jpg",
+          "bytes": 3268382,
+          "sha256": "7094592748ab6a4d351d2470255cfb0f85588ff6648c0003c0b9a3aba0389cc3"
+        },
+        {
+          "source": "flag-it-world-flags-bingo\\flag-it-20260508-125754.jpg",
+          "bytes": 3284901,
+          "sha256": "7d361ff8eba1d690b605080271a4e37907becaf0fda6cbf2d34f4828b43af98b"
+        },
+        {
+          "source": "flag-it-world-flags-bingo\\flag-it-20260508-125836.jpg",
+          "bytes": 3303096,
+          "sha256": "4bcaf9d857b0e5067be74abd3264066045c171dfacaed594c7942eebb218cb4e"
+        }
+      ]
+    },
+    {
+      "folder": "guess-the-city-india-card-game",
+      "productId": "6ab42055168800b46029f3ab",
+      "productName": "Guess the City - India Edition",
+      "productSlug": "guess-the-city-india-card-game",
+      "existingImageCount": 2,
+      "replacementImageCount": 1,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "guess-the-city-india-card-game\\guess-the-city-india-edition-guess-the-city.png",
+          "bytes": 2280209,
+          "sha256": "07b3b46759cc64ed0dd9892c0ed01b79c4445d7fddcc59a148a60d611c9dd6cd"
+        }
+      ]
+    },
+    {
+      "folder": "guess-who-i-am-ramayana-edition",
+      "productId": "6ab42055168800b46029f3af",
+      "productName": "Guess Who I Am - Ramayana Edition",
+      "productSlug": "guess-who-i-am-ramayana-edition",
+      "existingImageCount": 7,
+      "replacementImageCount": 6,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "guess-who-i-am-ramayana-edition\\guess-who-ramayana-20260505-090823.jpg",
+          "bytes": 4579003,
+          "sha256": "23a3ba13811690b0f141dc42ab75f5847803ffe4d460a8ae747cea73582cb054"
+        },
+        {
+          "source": "guess-who-i-am-ramayana-edition\\guess-who-ramayana-20260505-090826.jpg",
+          "bytes": 4543107,
+          "sha256": "632850aa3cc34b0435c873940fb5089b557820cca92ba0cc89fcbcbad01ef18e"
+        },
+        {
+          "source": "guess-who-i-am-ramayana-edition\\guess-who-ramayana-20260505-090842.jpg",
+          "bytes": 4816836,
+          "sha256": "6b72c7d85347cfc0e1f873b6ab3aa986bc1200a9613095d414e3d4dabb88760b"
+        },
+        {
+          "source": "guess-who-i-am-ramayana-edition\\guess-who-ramayana-20260505-090852.jpg",
+          "bytes": 6075936,
+          "sha256": "84a2a09112724134d7a87762168a5d9bf3cfd4d922067b028f40fe3aa8520cb9"
+        },
+        {
+          "source": "guess-who-i-am-ramayana-edition\\guess-who-ramayana-20260505-090914.jpg",
+          "bytes": 2070912,
+          "sha256": "6619b6821b4bce64f85bf567fdac845e747776b6903e7c3080bb07354aefb6a3"
+        },
+        {
+          "source": "guess-who-i-am-ramayana-edition\\guess-who-ramayana-20260505-090942.jpg",
+          "bytes": 2496664,
+          "sha256": "ac13e62baea142542a2622752ab00080a6c3ab6671804f52925360e5a21b1abb"
+        }
+      ]
+    },
+    {
+      "folder": "india-bingo-states-capitals-game",
+      "productId": "6ab42055168800b46029f3aa",
+      "productName": "India Bingo",
+      "productSlug": "india-bingo-states-capitals-game",
+      "existingImageCount": 7,
+      "replacementImageCount": 6,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "india-bingo-states-capitals-game\\india-bingo-20260512-101643.jpg",
+          "bytes": 2286960,
+          "sha256": "7255c9266285e142eb58ad60923563ab8c2b06db5f0e3b4d93916b3d880ab124"
+        },
+        {
+          "source": "india-bingo-states-capitals-game\\india-bingo-20260512-101739.jpg",
+          "bytes": 2179913,
+          "sha256": "d7c344e7bca4767432f0240ac0ce96b5e5acc41dadcca929c241da8c9e9a4799"
+        },
+        {
+          "source": "india-bingo-states-capitals-game\\india-bingo-20260512-101837.jpg",
+          "bytes": 2879403,
+          "sha256": "834ad0637eb2d83d95606505b7a3024e90427e03d674fe7ea7370a61c740920d"
+        },
+        {
+          "source": "india-bingo-states-capitals-game\\india-bingo-20260512-101842.jpg",
+          "bytes": 2628939,
+          "sha256": "3d654cca05b83d89c8fb3755e6b5e9a412947236fc07bceaef8ab0d0395c6865"
+        },
+        {
+          "source": "india-bingo-states-capitals-game\\india-bingo-20260512-101848.jpg",
+          "bytes": 2924707,
+          "sha256": "f07a8979aec50ede6ffec03f2705a0ca55c1077c762db136e0887bc216cf6b18"
+        },
+        {
+          "source": "india-bingo-states-capitals-game\\india-bingo-20260512-101954.jpg",
+          "bytes": 1500989,
+          "sha256": "81ed988322eea1750ada04941f2d58a4b9233000298f4e7c9d7dbc80db25086a"
+        }
+      ]
+    },
+    {
+      "folder": "indialogy-indian-city-guessing-game",
+      "productId": "6ab42055168800b46029f3a8",
+      "productName": "Indialogy",
+      "productSlug": "indialogy-indian-city-guessing-game",
+      "existingImageCount": 3,
+      "replacementImageCount": 1,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "indialogy-indian-city-guessing-game\\indialogy-chatgpt-image-sep-12-2026-03-18-04-am.png",
+          "bytes": 2776061,
+          "sha256": "bc201c0d47f5516203d9ffcd0fb322beb8f311241f28ffd5f0c743b24d985757"
+        }
+      ]
+    },
+    {
+      "folder": "knowledge-train-level-1-game",
+      "productId": "6ab42055168800b46029f395",
+      "productName": "KT 1",
+      "productSlug": "knowledge-train-level-1-game",
+      "existingImageCount": 9,
+      "replacementImageCount": 8,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-2.png",
+          "bytes": 1732379,
+          "sha256": "13fea768855d6389e630d57948a3da03f7ec8e69658316bdd7985f7e614f9ca8"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-3.png",
+          "bytes": 1554037,
+          "sha256": "0b825cbd62e9a65d40e26990de7d46fbd71d43fea5e29e8df3c9c4f0c82362b0"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-4.png",
+          "bytes": 1484121,
+          "sha256": "c87f91bbf30d96f9e56341f67703d5567488879e89c6bac7fd122cf09f58c858"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-5.png",
+          "bytes": 1678942,
+          "sha256": "e8ab533ae3b32c8f6fa9a976f19d2e714d30c3cddb02a8cd51e5e1f85e6fc2c3"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-6.png",
+          "bytes": 2735318,
+          "sha256": "9f46ed70bed08db980b584c5684ea846b226875a20675f17494b458203196b4e"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-7.png",
+          "bytes": 3238443,
+          "sha256": "dbd5726efcf159a3f401f8fe10bd77de93e1f4f58be81f0fbe586e941014b2cf"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-8.png",
+          "bytes": 3454868,
+          "sha256": "6c7f57c5255a4e084104d3e6706253a1f95d19cf975a871294a8f2e3b417813c"
+        },
+        {
+          "source": "knowledge-train-level-1-game\\kt-1-riddle.png",
+          "bytes": 2426705,
+          "sha256": "bf344d5d210e94bf834e6422f6bd88ef68026d6f3e34b334fd65add55a950b5f"
+        }
+      ]
+    },
+    {
+      "folder": "knowledge-train-level-2-combo",
+      "productId": "6ab42055168800b46029f398",
+      "productName": "KT 2 Part 1 and 2",
+      "productSlug": "knowledge-train-level-2-combo",
+      "existingImageCount": 10,
+      "replacementImageCount": 9,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-2.png",
+          "bytes": 1353273,
+          "sha256": "7a4c4f8576f7b6154a02c8f10beda7ae1c01044cccc84da8287af66e9f55c84a"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-3.png",
+          "bytes": 854391,
+          "sha256": "850b72ad5d7e90ccad803dc4771b22db3a35ff4dc6127735d5a3ec6951b530a6"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-4.png",
+          "bytes": 1379909,
+          "sha256": "1c8dbc055c360d35c5199d615e50e084dc982616622a79efd5dec4207906eafb"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-5.png",
+          "bytes": 1452752,
+          "sha256": "6b214e206473fde3e4ffb2165d865a86f0802058d69d84729d805ef8bfa6ea0c"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-6.png",
+          "bytes": 1398693,
+          "sha256": "2aff418c6ac08ad8590c2431a9fa2d7e4c74d207333754fc4c29bbc68ace365d"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-7.png",
+          "bytes": 2957694,
+          "sha256": "19bd5634eeeddcd4d836b80299ded5c091e8ffd03c7a494dc4e97541ddae4865"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-8.png",
+          "bytes": 2733121,
+          "sha256": "2ac035bda57d140dbe13b5e54be929c4d46510eb07c01fa942c6dda99b8be19d"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-9.png",
+          "bytes": 276329,
+          "sha256": "4f13d68a23cfa4266907351b837a364f6c4507cda8c0102916e20d106fd7ad25"
+        },
+        {
+          "source": "knowledge-train-level-2-combo\\kt-2-part-1-and-2-kt-2-part-2.png",
+          "bytes": 2935282,
+          "sha256": "8a88bf9c1a3d76acaefcff17436ce306e5b1d80daeadd751ac8fcaf723b620e9"
+        }
+      ]
+    },
+    {
+      "folder": "knowledge-train-level-2-part-2",
+      "productId": "6ab42055168800b46029f397",
+      "productName": "KT 2 Part 2",
+      "productSlug": "knowledge-train-level-2-part-2",
+      "existingImageCount": 10,
+      "replacementImageCount": 10,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-2.png",
+          "bytes": 1350557,
+          "sha256": "b541891e079c330097e418210e4b1300f1ff97231e9f66d55731d831963ab47e"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-3.png",
+          "bytes": 852252,
+          "sha256": "23cb75e751fdaddd42aeb660032d5c69e7cb73688592afed52940fee6e8632a3"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-4.png",
+          "bytes": 1549321,
+          "sha256": "0a041aec0a8964bf85216ea541f3e1cd69f119599f7c92b71abec98bacc344b6"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-5.png",
+          "bytes": 1452747,
+          "sha256": "ea9907211e3520dcabbdf22115baef8df24e56fd0cad3ba588e27f072b4dbdb0"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-6.png",
+          "bytes": 1410884,
+          "sha256": "6e68a6b9f1e906fc5f0aaaf46b9d10ef98078bf95d8f2320accaa0d3afa17bbe"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-7.png",
+          "bytes": 2957689,
+          "sha256": "7bbdfbc9b2803af81d26e4dda6382349d48b5b962b804e86f177bda3f74a0a54"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-8.png",
+          "bytes": 2733116,
+          "sha256": "e828afee7b96f15a62459d40837e882db13a6fd2d339d24a0eca552dadeb28b8"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-9.png",
+          "bytes": 4264472,
+          "sha256": "48d9125d942cccccdbff201929c2415e0fc0798908a6a923d1a6406b63268317"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-10.png",
+          "bytes": 275800,
+          "sha256": "299bd042482e8f2d03cb910da7835c7f5eada0f9c5916d7dff37c3aa0a7e246a"
+        },
+        {
+          "source": "knowledge-train-level-2-part-2\\kt-2-part-2-kt-2-part-2.png",
+          "bytes": 2402771,
+          "sha256": "368b12c2f2d4a773450e74359bc771f6b1b97e61519aaf07a6f9bad58ad7c981"
+        }
+      ]
+    },
+    {
+      "folder": "kt-3",
+      "productId": "6ab42055168800b46029f39a",
+      "productName": "KT 3",
+      "productSlug": "kt-3",
+      "existingImageCount": 10,
+      "replacementImageCount": 10,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "kt-3\\kt-3-2.png",
+          "bytes": 2642443,
+          "sha256": "a36c7a90f34301ffaa7b9bc596bfcfbf5d5c0a4bf805c88dadff01c3f8b34fed"
+        },
+        {
+          "source": "kt-3\\kt-3-3.png",
+          "bytes": 2156174,
+          "sha256": "dc6ff1fc88aaf3550ddb79d082ea9655153ef32a35e7385f64be1c92d17a7106"
+        },
+        {
+          "source": "kt-3\\kt-3-4.png",
+          "bytes": 2575934,
+          "sha256": "352dd94960c47513cd02cfce4c9584c2aa270f9ccdbacf40357eff8f0435abd4"
+        },
+        {
+          "source": "kt-3\\kt-3-5.png",
+          "bytes": 2527872,
+          "sha256": "fa10291c762bb9b8c0f9433e69138ae91a494fa6060d4a020d334cd41e5a16b7"
+        },
+        {
+          "source": "kt-3\\kt-3-6.png",
+          "bytes": 231061,
+          "sha256": "07ee37ee9c05b7985235ab7663799331d1a1575cef4d80e596c2c14e239bb2d2"
+        },
+        {
+          "source": "kt-3\\kt-3-7.png",
+          "bytes": 2658720,
+          "sha256": "9b6f12fe978af527716e894f280f42906d6efd8c0859c1066dddfcbc694acea7"
+        },
+        {
+          "source": "kt-3\\kt-3-8.png",
+          "bytes": 3001797,
+          "sha256": "96e4441bfa3da3865b8154f4662cd74f3211f75e83999623feeea672db354c2c"
+        },
+        {
+          "source": "kt-3\\kt-3-9.png",
+          "bytes": 2924033,
+          "sha256": "7da051566b346e495927eda0faea09c0212d95e73c2b19d30498899299ffbb95"
+        },
+        {
+          "source": "kt-3\\kt-3-10.png",
+          "bytes": 276381,
+          "sha256": "2a9b0b63192bdeefa36abe8df013364a7a33011fc1f5daf1af93438e6b4337df"
+        },
+        {
+          "source": "kt-3\\kt-3-kt-3.png",
+          "bytes": 2718260,
+          "sha256": "2c36cd982147866043ce048f2317b7b247eed0497bddbce601792aef41062035"
+        }
+      ]
+    },
+    {
+      "folder": "lets-travel-memory-book",
+      "productId": "6ab42055168800b46029f3ad",
+      "productName": "Travel Scrapbook",
+      "productSlug": "lets-travel-memory-book",
+      "existingImageCount": 10,
+      "replacementImageCount": 8,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-copy-of-copy-of-same-pinch-festival-images-zip-5.png",
+          "bytes": 2127640,
+          "sha256": "82f02c0e70f9c95653517b7463c25cf032131853f492ed71630d4d8c835f3b2c"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook.png",
+          "bytes": 2848152,
+          "sha256": "8e4c6c853cb0240a03b65701c2ef1d4e7fb489def49490f6eb3ee6b6481a6f08"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook1.png",
+          "bytes": 2046456,
+          "sha256": "b944f0b9addb206361614b203f109aff338e3e565dbce402386de4bd1dd658d7"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook2-1.png",
+          "bytes": 1625625,
+          "sha256": "38d45176a9d41e38a8d05126ea8ef3a3446b2ee42b4d6634a9e52b181bd21757"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook3-1.png",
+          "bytes": 1888104,
+          "sha256": "5af0d07ab097a3adfde6f918a4bf060e995388e539a75760b126c816752d026f"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook4-1.png",
+          "bytes": 1413803,
+          "sha256": "abf171ca5211178e30e695c82b890f729b5feec7214f38197154657b73133a66"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook5-1.png",
+          "bytes": 1350184,
+          "sha256": "ab0150529ced455d63d10fcec505d4d9bf42bac090f82b1c126c0b3f39d3c3e3"
+        },
+        {
+          "source": "lets-travel-memory-book\\travel-scrapbook-travel-scrapbook6-1.png",
+          "bytes": 1294861,
+          "sha256": "5d7cacf04031186cbc852168c3bc2429a742e933d2010c51aeda091ba44daeea"
+        }
+      ]
+    },
+    {
+      "folder": "logo-blitz",
+      "productId": "6ab42055168800b46029f39d",
+      "productName": "Logo Blitz",
+      "productSlug": "logo-blitz",
+      "existingImageCount": 2,
+      "replacementImageCount": 1,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "logo-blitz\\logo-blitz-logo-blitz.png",
+          "bytes": 1978624,
+          "sha256": "f38dc61dac7da19e7b3b81b1d11bd266b3c440d5b767d7b55c23a1d23ee04e42"
+        }
+      ]
+    },
+    {
+      "folder": "logology-logo-guessing-card-game",
+      "productId": "6ab42055168800b46029f39f",
+      "productName": "Logology",
+      "productSlug": "logology-logo-guessing-card-game",
+      "existingImageCount": 8,
+      "replacementImageCount": 7,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-1.png",
+          "bytes": 4317572,
+          "sha256": "fee9e05acd479c60c731ebf7af1c752ba676a043356c8d46de7e14346a772dbe"
+        },
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-2.png",
+          "bytes": 4761445,
+          "sha256": "ca1309f72dac44004c7835148506db31496f5e1dfc2f48646bc31b21abb32122"
+        },
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-3.png",
+          "bytes": 4483237,
+          "sha256": "987bf3a42c51a7eb82e8b422d3cd89148fbef0e44d3c04517086eb728a221ad6"
+        },
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-4.png",
+          "bytes": 4389553,
+          "sha256": "df7a9d65a0dfd10256b75660c6c057365c638d738396e04a80c2fc2efe289077"
+        },
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-6.png",
+          "bytes": 4628476,
+          "sha256": "f038f15b0232e626764bbb204e5615b9d46748bf705736a1196fd68503f90f5f"
+        },
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-8.png",
+          "bytes": 683251,
+          "sha256": "203bef3618df31bebf30efc26e4594ea60e175b26421f47060a31d79ebabc214"
+        },
+        {
+          "source": "logology-logo-guessing-card-game\\logology-logology-15png.png",
+          "bytes": 4214899,
+          "sha256": "7760a811a5d3545b3ce63032957728ca20f9445598adf71b12bd367dea17b887"
+        }
+      ]
+    },
+    {
+      "folder": "match-o-fun-learning-game",
+      "productId": "6ab42055168800b46029f38c",
+      "productName": "Match O Fun",
+      "productSlug": "match-o-fun-learning-game",
+      "existingImageCount": 9,
+      "replacementImageCount": 8,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-1.png",
+          "bytes": 3129669,
+          "sha256": "be16744b94ba70d3db33f2c5d147a941fc94881065817660e3c9a81e3ed3f5f2"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-2.png",
+          "bytes": 1560659,
+          "sha256": "a5774c4a8b0611cfc7dd641b08283b033a34f6dddad25524df50de1813adfd70"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-3.png",
+          "bytes": 1910218,
+          "sha256": "777bec5fe3601583d7e6c3b6e917b10f2b9aa5eff546a74500819c81eb9aa9c8"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-4.png",
+          "bytes": 1736649,
+          "sha256": "6676db65ed0b8681b90d9ba8d6a38f0868951fe6bf2312ac28cd376905c9b7d4"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-5.png",
+          "bytes": 1578732,
+          "sha256": "53cf120569da2ca32f39133d906f4f5128f4d7726e635a23eeb6749154a427b1"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-6.png",
+          "bytes": 1737109,
+          "sha256": "f587dc756bba0650045ea3b41d25358b76edd8a9f1c7e713200ab2404198f07e"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-7.png",
+          "bytes": 1655532,
+          "sha256": "2e093149492fe9b237dc011364b61ae87ae9d54c8a4b0e1f488e193f24d13054"
+        },
+        {
+          "source": "match-o-fun-learning-game\\match-o-fun-8.png",
+          "bytes": 2010436,
+          "sha256": "17cc65b0b86c51ef96dabaf1cad7cb5b0508b406f166c3dcf6b480c8c5d44216"
+        }
+      ]
+    },
+    {
+      "folder": "math-busy-book-kids",
+      "productId": "6ab42055168800b46029f38f",
+      "productName": "Math Busy Book",
+      "productSlug": "math-busy-book-kids",
+      "existingImageCount": 10,
+      "replacementImageCount": 9,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "math-busy-book-kids\\math-busy-book-1.png",
+          "bytes": 1707171,
+          "sha256": "b9de446ce48862712d33ff281e4f69dda51bb9a76c26666482fdcd5f88bf6bc1"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-2.png",
+          "bytes": 1889984,
+          "sha256": "3ba20a0f9daaeded685ff6f1037e5ceaead78d000c0c2678c6428bdf04e7841f"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-3.png",
+          "bytes": 1953192,
+          "sha256": "5fcf88e97671a491e9039f7da8e10f25c23bf8bd79a650a776f87f7be48dc433"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-4.png",
+          "bytes": 2016831,
+          "sha256": "61c3087ddd0e228a42cac8243e7d7199a2e739b3757792247119dc61bbc8cc88"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-5.png",
+          "bytes": 1947331,
+          "sha256": "dd345bdc36df78759b081dc98521cb1f3bc65c2fe85ebc41882d59e7cff92a7a"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-6.png",
+          "bytes": 2008350,
+          "sha256": "860225d275788287c21503c52eb3157df6c9b712d2c62c3ad89bd81f8ea5b028"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-7.png",
+          "bytes": 2072268,
+          "sha256": "30cad752c12e7a2dc7ddedb4ae359de2ec347da63e2b647208c261cd54c7de5b"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-8.png",
+          "bytes": 2224890,
+          "sha256": "0e9fc8feb54068097f3556062cc92261a4c8837806106ddc676206089d6ce024"
+        },
+        {
+          "source": "math-busy-book-kids\\math-busy-book-9.png",
+          "bytes": 2010751,
+          "sha256": "7b2fd9e38e589654264ed78b6c43fdfc58a797e9c4dbdd124a6089411e8c7088"
+        }
+      ]
+    },
+    {
+      "folder": "multiplication-table-flashcards-1-20",
+      "productId": "6ab42055168800b46029f39b",
+      "productName": "Multiplication Table 1 to 20",
+      "productSlug": "multiplication-table-flashcards-1-20",
+      "existingImageCount": 10,
+      "replacementImageCount": 9,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-1.png",
+          "bytes": 3225130,
+          "sha256": "4e1687d071fd8e5274299e05de3b2674742c633b58ca3de3671cb685fd597ae1"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-2.png",
+          "bytes": 711644,
+          "sha256": "920f86e1190ec5f8f19942edb910999c3f0c40f550ae40fabda8af2b4b2daf72"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-3.png",
+          "bytes": 1486297,
+          "sha256": "d2e060f762409c68699af67c20f2d14762ba5f3f81caa0530701704ae9ce489a"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-4.png",
+          "bytes": 1938247,
+          "sha256": "ea2f0b9e4febad70daa891a9e8cd856ffbb1c59c02472a9bc22e923c020f574a"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-5.png",
+          "bytes": 1833961,
+          "sha256": "ecbaf3960fde8c931d23b100b5a2e3f3ab2507fe7e85933b64727a9a0f4e08a8"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-6.png",
+          "bytes": 1697169,
+          "sha256": "92211ff95dca731888abeb103ebe3875357c9f7353924ee1881743fdc4acbfec"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-7.png",
+          "bytes": 603036,
+          "sha256": "8a83f955d7e98cb3e9afad3f060f0160ed27706caf07445ccae9d4e3fc5968d1"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-8.png",
+          "bytes": 991674,
+          "sha256": "987d5b2ea9be66aaaf60043321982dbf3343bb00c04b8385e855f364cbc7791f"
+        },
+        {
+          "source": "multiplication-table-flashcards-1-20\\multiplication-table-9.png",
+          "bytes": 762012,
+          "sha256": "668bef520055224dff23461ef4febb776cb0e2bc60e08655f8111a20f7d7fed2"
+        }
+      ]
+    },
+    {
+      "folder": "same-pinch-festive-edition",
+      "productId": "6ab42055168800b46029f3a0",
+      "productName": "Same Pinch - Festival",
+      "productSlug": "same-pinch-festive-edition",
+      "existingImageCount": 7,
+      "replacementImageCount": 6,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "same-pinch-festive-edition\\same-pinch-festival-same-pinch-festival-images-2.png",
+          "bytes": 1526454,
+          "sha256": "c38ef7eb2e2529494cd203d8c1873667b8fb23b2177c9766b2b461df2cdc4cc8"
+        },
+        {
+          "source": "same-pinch-festive-edition\\same-pinch-festival-same-pinch-festival-images-3.png",
+          "bytes": 1339463,
+          "sha256": "26e0b253ed5460a047fbbd6dd7b9cdedef217521184bdca04b4ff0f9ceaa8b25"
+        },
+        {
+          "source": "same-pinch-festive-edition\\same-pinch-festival-same-pinch-festival-images-4.png",
+          "bytes": 1142665,
+          "sha256": "6e072889d502a7aa0062f41e58f9f031d66154d55564306f6e130efb100f9613"
+        },
+        {
+          "source": "same-pinch-festive-edition\\same-pinch-festival-same-pinch-festival-images-5.png",
+          "bytes": 747048,
+          "sha256": "e2281742c9c8ec89df2810650004c5fa7d5905a1fb028e4dbea9a8d0f002957d"
+        },
+        {
+          "source": "same-pinch-festive-edition\\same-pinch-festival-same-pinch-festival-images-6.png",
+          "bytes": 1651780,
+          "sha256": "760467ae32412c69bb4e2fca864e5ed027243ae7c40fd2691dbfd0e758aeabdc"
+        },
+        {
+          "source": "same-pinch-festive-edition\\same-pinch-festival-same-pinch-festival-images.png",
+          "bytes": 1032738,
+          "sha256": "d3e614f8f749165d63d85d57c1af6cd48b55c4b44774849559db60282e7d872b"
+        }
+      ]
+    },
+    {
+      "folder": "same-pinch-logo-edition",
+      "productId": "6ab42055168800b46029f3a1",
+      "productName": "Same Pinch - Logo",
+      "productSlug": "same-pinch-logo-edition",
+      "existingImageCount": 6,
+      "replacementImageCount": 5,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "same-pinch-logo-edition\\same-pinch-logo-same-pinch-2-logo.png",
+          "bytes": 878955,
+          "sha256": "a95f099b110f314d9752493c9559fad5b5de344ad2fd7c59db04333cd6bf5035"
+        },
+        {
+          "source": "same-pinch-logo-edition\\same-pinch-logo-same-pinch-logo-1.png",
+          "bytes": 1571925,
+          "sha256": "0c783544232ca6019c1add908574ef117da034406e3c74a55b33ced82654f629"
+        },
+        {
+          "source": "same-pinch-logo-edition\\same-pinch-logo-same-pinch-logo-3.png",
+          "bytes": 4173962,
+          "sha256": "e17c3ba20b3c98830c3dd5b8523dd0ef3d86c53db6e62036d96a418a25e4a6df"
+        },
+        {
+          "source": "same-pinch-logo-edition\\same-pinch-logo-same-pinch-logo-4.png",
+          "bytes": 1080891,
+          "sha256": "6a937145c43862afc2a65214d6cde31afce445c47d6b8bbff74263a9d9910ba6"
+        },
+        {
+          "source": "same-pinch-logo-edition\\same-pinch-logo-same-pinch-logo-5.png",
+          "bytes": 343997,
+          "sha256": "94c1b436332b16e2d2f9b56c25905d1313a536cbcbea951ad563b5fd43040906"
+        }
+      ]
+    },
+    {
+      "folder": "spell-master-phonics-cards",
+      "productId": "6ab42055168800b46029f3a5",
+      "productName": "Spell Master",
+      "productSlug": "spell-master-phonics-cards",
+      "existingImageCount": 10,
+      "replacementImageCount": 9,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "spell-master-phonics-cards\\spell-master-1.png",
+          "bytes": 2476758,
+          "sha256": "95b1f14862e27098080e64394edf7a48385ccc284c9a64d97fe0c503ca3513ea"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-2.png",
+          "bytes": 2294413,
+          "sha256": "cf76c138f9621dcf87ca3e55ad8508485a8f89dc6db7e7f4fc9640df0ce524c6"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-3.png",
+          "bytes": 2685913,
+          "sha256": "56f9836f001aa776f094b12f4d69729bd26454b9c0b6f9ec571f73d2430252ab"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-4.png",
+          "bytes": 2227387,
+          "sha256": "c5aca5ba12f9bece87ca7a393ccaaa6f8ad1444e31794b093795412dba30decd"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-5.png",
+          "bytes": 2453555,
+          "sha256": "e442f4818e893eb92d0ea253ceb9187cc34c32545a45fc84f4e722147e317a07"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-6.png",
+          "bytes": 2459824,
+          "sha256": "a94175b67faf19bfe734708cae6b549b1e757e7f8a49c0bf6a281f60519387c2"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-7.png",
+          "bytes": 2073748,
+          "sha256": "fe9d92482fac84955348ec4e827b9285f141b75ad5f6cd9dcd5199e08bec1267"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-8.png",
+          "bytes": 2130059,
+          "sha256": "4b1397126d5aea3b0309870539464224fdacce7e9bf466b3b085308422e533a6"
+        },
+        {
+          "source": "spell-master-phonics-cards\\spell-master-9.png",
+          "bytes": 2077716,
+          "sha256": "7e5a9a5b3e5532e6c95be50f8646284cc17474ebb8131e1d73f299a5b55d3898"
+        }
+      ]
+    },
+    {
+      "folder": "toddler-busy-binder-learning-book",
+      "productId": "6ab42055168800b46029f38d",
+      "productName": "Toddler Busy Binder",
+      "productSlug": "toddler-busy-binder-learning-book",
+      "existingImageCount": 6,
+      "replacementImageCount": 5,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "toddler-busy-binder-learning-book\\toddler-busy-binder-1.png",
+          "bytes": 2293630,
+          "sha256": "63458455909dbaefdf3fe410345dafb7a3a5e8a69bf827699034dbbeba760a5c"
+        },
+        {
+          "source": "toddler-busy-binder-learning-book\\toddler-busy-binder-3.png",
+          "bytes": 2403817,
+          "sha256": "e93185cbe89b395f6a3771d6fa5418f05cfcdf17e6b75109bddca461f923916b"
+        },
+        {
+          "source": "toddler-busy-binder-learning-book\\toddler-busy-binder-4.png",
+          "bytes": 2570640,
+          "sha256": "bb1a5afd9b5f1cb6bbe8f6544dd8db26411848b1298d4b242eadeaf0603f63bf"
+        },
+        {
+          "source": "toddler-busy-binder-learning-book\\toddler-busy-binder-5.png",
+          "bytes": 1780841,
+          "sha256": "fdfa149a541c306f5efff06b148ccb9744574c509e549d8bff3bb5b8ba090576"
+        },
+        {
+          "source": "toddler-busy-binder-learning-book\\toddler-busy-binder-7.png",
+          "bytes": 1930827,
+          "sha256": "7671ac1d7d881dec1df373f22170fe0a8a5e0a8265b884d1e0df43a53edd8ebb"
+        }
+      ]
+    },
+    {
+      "folder": "why-zone-of-giggles",
+      "productId": "6ab42055168800b46029f3a2",
+      "productName": "Why Zone of Giggles",
+      "productSlug": "why-zone-of-giggles",
+      "existingImageCount": 10,
+      "replacementImageCount": 9,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-chatgpt-image-apr-28-2026-04-36-29-pm.png",
+          "bytes": 2269373,
+          "sha256": "1c38b18c293e578eb0d984712eea095b3a19de6591777d594b655e1015abaca3"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-chatgpt-image-apr-28-2026-04-56-26-pm.png",
+          "bytes": 2327256,
+          "sha256": "6314806c956110df46583eb1a485e8cffb0e5c0883169c4b650dea0c41ed913e"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-giggles-1.jpg",
+          "bytes": 3819282,
+          "sha256": "37985221cdfbd5b3adce6231e2bc79290e36d5ffe9785f08bf8666d86c74b127"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-giggles-2.jpg",
+          "bytes": 1448261,
+          "sha256": "3b67f9dae8f48ac844573cf860c4f84bda88014e27fe0dcdde947b95b2f5528a"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-giggles-3.jpg",
+          "bytes": 1625510,
+          "sha256": "7d86f420a2a3acd67a5e9a4a787fad59ef9d39d4d1c8a09a65a1d68917b1aaf8"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-giggles-4.jpg",
+          "bytes": 4638804,
+          "sha256": "95da2deb418afe723e84d5950c62f96b78253b7e18dbfeb3b4f8b0fdbe67ae40"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-giggles-5.jpg",
+          "bytes": 3772776,
+          "sha256": "ca074248d15d5c0e286315dbe3246c81f80ecd39b69aceb9298fb0165411d38e"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-giggles-6.jpg",
+          "bytes": 4327166,
+          "sha256": "14b28d06cccccfcc7c774cefa06dc1a4abed802681682e1aea456e621b0ffb93"
+        },
+        {
+          "source": "why-zone-of-giggles\\why-zone-of-giggles-why-zone-of-giggles.png",
+          "bytes": 479636,
+          "sha256": "7b3fe621acd05e2dca00d4908f3fbcc52b223ff2745c83711178f4b3a5997bfe"
+        }
+      ]
+    },
+    {
+      "folder": "word-family-flashcards",
+      "productId": "6ab42055168800b46029f3a4",
+      "productName": "Word Families Flash Catds",
+      "productSlug": "word-family-flashcards",
+      "existingImageCount": 9,
+      "replacementImageCount": 7,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "word-family-flashcards\\word-families-1.png",
+          "bytes": 2647292,
+          "sha256": "5a3a55b9366a607e26ab672e2f81607c415c7eeb5b33e55f41d3b8c2cd87e669"
+        },
+        {
+          "source": "word-family-flashcards\\word-families-2.png",
+          "bytes": 1191694,
+          "sha256": "e4d8dc68528349968930fd05b2afef6162818ffad96c29739c89211b0d864a18"
+        },
+        {
+          "source": "word-family-flashcards\\word-families-3.png",
+          "bytes": 960813,
+          "sha256": "78301be36b396747a59e84489db58482e25c1858bf41350233b40be3a3eb6633"
+        },
+        {
+          "source": "word-family-flashcards\\word-families-4.png",
+          "bytes": 1353845,
+          "sha256": "fff914477e0db1958367f0a8cc3fd21405845038e457b4b8e4903097fd1094d6"
+        },
+        {
+          "source": "word-family-flashcards\\word-families-5.png",
+          "bytes": 1746529,
+          "sha256": "99a8fc91cbd46244df0adc8fbb7cf5c51ed0eed356da624031f0f0b0a1b1de61"
+        },
+        {
+          "source": "word-family-flashcards\\word-families-6.png",
+          "bytes": 1773103,
+          "sha256": "06f83c75e7694429304f699175eb7683747bbab778c218ab755ec02a4854b6a0"
+        },
+        {
+          "source": "word-family-flashcards\\word-families-7.png",
+          "bytes": 629936,
+          "sha256": "3b029c80d66df7bb1e2ab5abacb35bca5ad6641010c0579cba6248eaf0acc5e8"
+        }
+      ]
+    },
+    {
+      "folder": "worldlogy-emoji-city-guessing-game",
+      "productId": "6ab42055168800b46029f3a7",
+      "productName": "Wordlogy - Emoji Edition",
+      "productSlug": "worldlogy-emoji-city-guessing-game",
+      "existingImageCount": 3,
+      "replacementImageCount": 1,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "worldlogy-emoji-city-guessing-game\\wordlogy-emoji-edition-chatgpt-image-sep-12-2026-03-23-07-am.png",
+          "bytes": 1849308,
+          "sha256": "b5fc3820b043b22e1fd4cdc3e7fa37166c289a98c634adb687f6845e07ece5eb"
+        }
+      ]
+    },
+    {
+      "folder": "worldlogy-guess-the-city-game",
+      "productId": "6ab42055168800b46029f3a6",
+      "productName": "Worldlogy",
+      "productSlug": "worldlogy-guess-the-city-game",
+      "existingImageCount": 2,
+      "replacementImageCount": 1,
+      "existingListingImage": "",
+      "files": [
+        {
+          "source": "worldlogy-guess-the-city-game\\wordlogy-worldlogy.png",
+          "bytes": 1878409,
+          "sha256": "204a385d1f62830d22a30708f23891bec4bf543fc190ab6fc6d9351e1057854e"
+        }
+      ]
+    }
+  ],
+  "rootFiles": [
+    "aeitfnmf8oemfybb8vda.png",
+    "ahkv9cs3mfu9gpydatbu.png",
+    "ampjldiu4frrgamdcegl.png",
+    "b0yowh9dfkkpggju0z7v.png",
+    "cghikfbij8lxbwjw6qha.png",
+    "cloudinary-download-inventory.csv",
+    "cloudinary-file-hashes.csv",
+    "e08514gclsu8dphjj4st.png",
+    "fqltabfnhqntae5srsna.png",
+    "g3hpxjdcfbpslh3zdgqh.png",
+    "gvnfchyxz4cdmqy1iciu.png",
+    "heefdszi1jpqigmucwhd.png",
+    "iprcgfn0ujpvixqfacqn.png",
+    "it0d9bndkth7vyt6lqbj.png",
+    "jqxg9ogamfg9kigfsgod.png",
+    "jvw2satmfzwjuqkgdztl.png",
+    "kfubscpmdb5nrcegz6ef.png",
+    "kp5kxvkob5gxni2i4oel.png",
+    "kqu3yeuw03xa7qma627w.png",
+    "lanicjevlzbk2ihci2ef.png",
+    "lkd5zvs7fwwivzpvmaoi.png",
+    "ludxajlhlpefrqbxanoz.png",
+    "lukhk9cxngltvarwcoze.png",
+    "mcnwecbaj0zsl4yrlo2i.png",
+    "mey7rew2q4l8qzgt7qly.png",
+    "ncfthj2sdz8mi6lfpym7.png",
+    "nfdvhlmpw6rzdg3nh8up.png",
+    "o3visemaebpwxtsztymy.png",
+    "ovdehqj7pjp3mqikxa1q.png",
+    "pdf4rvzyv3b3835h94wd.png",
+    "pktrohbodpka3mq0byza.png",
+    "pwpeqhixeqwu8h6uftkk.png",
+    "q195sgoqrhyvgylfsasq.png",
+    "rqtnswucytv64hhkxbh4.png",
+    "ryibj5dh1jndk2xsyr5i.png",
+    "t9cx1fmd0gmhresyvanv.png",
+    "tru7zflggxsrd38a8skw.png",
+    "uemvsectabvuwm4cshmz.png",
+    "vpfgq9iaryltxirl0l33.png",
+    "w3bukkucnvz4ygchlala.png",
+    "wiukks35fv7hykjrkmah.png",
+    "wxxtzdrgupcutcqzlfaj.png",
+    "xcaoqokwosw0h1nejcuc.png",
+    "xq8zipqxcamwaplxjz5o.png",
+    "xx98rriwr2ket41dg6sd.png",
+    "yotewyta9eyafchqzmut.png",
+    "yxg9fiyy7x0a507esztg.png",
+    "yymfphwpxmycx7nwsslf.png",
+    "zfcjoddlkjk3pazydtld.png",
+    "zhaeaeqlwdtlwts2tgz7.png",
+    "zlnrvphxyksrsoiq0rvj.png",
+    "zzngvyan9pkz8ha01auh.png"
+  ],
+  "note": "Root-level files are intentionally not assigned to products. Cloudinary assets are not deleted."
+}

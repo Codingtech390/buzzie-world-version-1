@@ -1,7 +1,9 @@
+
 import { Heart, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useCart } from "@/hooks/useCart";
 import Reveal from "./Reveal";
 
 /* ==========================================================================
@@ -40,7 +42,7 @@ const videoCards: VideoCardData[] = [
     video: VIDEO_1,
     productImage: "/images/instagram/thumbnails/thumbnail-brain-binder.png",
     productName: "Brain Binder",
-    price: 699,
+    price: 499,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
 
@@ -49,7 +51,7 @@ const videoCards: VideoCardData[] = [
     video: VIDEO_2,
     productImage: "/images/instagram/thumbnails/thumbnail-logo-blitz.png",
     productName: "Logo Blitz",
-    price: 499,
+    price: 399,
     productHref: "/products/the-ultimate-indian-drinking-game",
   },
 
@@ -85,13 +87,7 @@ const videoCards: VideoCardData[] = [
    VIDEO CARD
    ========================================================================== */
 
-function VideoCard({
-  card,
-  index,
-}: {
-  card: VideoCardData;
-  index: number;
-}) {
+function VideoCard({ card, index }: { card: VideoCardData; index: number }) {
   return (
     <Reveal delay={index * 0.05}>
       <article

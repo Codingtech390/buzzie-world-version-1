@@ -1,14 +1,15 @@
 "use client";
 
+import { Check, ChevronDown, ChevronUp, LoaderCircle, Search, Sparkles, Star } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, ChevronDown, ChevronUp, LoaderCircle, Search, Sparkles, Star } from "lucide-react";
 
 import type { StorefrontProduct, StorefrontProductsResponse } from "@/types/storefront";
 
 interface FavoritesResponse {
   success: boolean;
   productIds?: string[];
+  isFavoriteSectionEnabled?: boolean;
   message?: string;
 }
 
@@ -20,6 +21,10 @@ export default function HighlightsPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+
+  const [isFavoriteSectionEnabled, setIsFavoriteSectionEnabled] = useState(false);
+
+  const [visibilitySaving, setVisibilitySaving] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -49,6 +54,8 @@ export default function HighlightsPage() {
 
       setProducts(productData.products ?? []);
       setSelectedIds(favoritesData.productIds ?? []);
+
+      setIsFavoriteSectionEnabled(favoritesData.isFavoriteSectionEnabled === true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load highlights.");
     } finally {
@@ -129,13 +136,49 @@ export default function HighlightsPage() {
     }
   }
 
+  async function updateFavoriteVisibility(nextEnabled: boolean) {
+    if (visibilitySaving || loading) return;
+
+    setVisibilitySaving(true);
+    setError("");
+    setNotice("");
+
+    try {
+      const response = await fetch("/api/homepage/favorites", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isFavoriteSectionEnabled: nextEnabled,
+        }),
+      });
+
+      const data = (await response.json()) as FavoritesResponse;
+
+      if (!response.ok || !data.success || typeof data.isFavoriteSectionEnabled !== "boolean") {
+        throw new Error(data.message ?? "Failed to update Buzzie Favorite visibility.");
+      }
+
+      setIsFavoriteSectionEnabled(data.isFavoriteSectionEnabled);
+
+      setNotice(
+        data.isFavoriteSectionEnabled
+          ? "Buzzie Favorite is now visible on the storefront."
+          : "Buzzie Favorite is now hidden from the storefront.",
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to update Buzzie Favorite visibility.");
+    } finally {
+      setVisibilitySaving(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#FCFAF7]">
       <div className="mx-auto w-full max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-
-
             <h1 className="font-playpen text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
               Buzzie Favorite
             </h1>
@@ -144,6 +187,38 @@ export default function HighlightsPage() {
               Choose the products displayed in the large 3D homepage card. Arrange them in the order
               you want them to rotate.
             </p>
+
+            <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-violet-100 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-slate-900">
+                  Show Buzzie Favorite on storefront
+                </p>
+
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  {isFavoriteSectionEnabled
+                    ? "The section is visible to storefront visitors."
+                    : "The section is hidden until you are ready to launch it."}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                role="switch"
+                aria-checked={isFavoriteSectionEnabled}
+                aria-label="Show Buzzie Favorite on storefront"
+                disabled={loading || visibilitySaving}
+                onClick={() => void updateFavoriteVisibility(!isFavoriteSectionEnabled)}
+                className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 ${
+                  isFavoriteSectionEnabled ? "bg-violet-600" : "bg-slate-300"
+                }`}
+              >
+                <span
+                  className={`inline-block size-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                    isFavoriteSectionEnabled ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
           </div>
 
           <button

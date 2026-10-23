@@ -4,6 +4,7 @@ import mongoose, { Schema, type Model, type Types } from "mongoose";
 export interface IHomepage {
   key: string;
   favoriteProductIds: Types.ObjectId[];
+  isFavoriteSectionEnabled: boolean;
   heroSlides: {
     id: string;
     image: string;
@@ -27,6 +28,10 @@ const HomepageSchema = new Schema<IHomepage>(
       type: [Schema.Types.ObjectId],
       ref: "Product",
       default: [],
+    },
+    isFavoriteSectionEnabled: {
+      type: Boolean,
+      default: false,
     },
 
     heroSlides: {

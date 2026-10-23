@@ -67,6 +67,17 @@ export default function ProductInfoArtwork({
 
   const compareAtPrice = typeof product.compareAtPrice === "number" ? product.compareAtPrice : null;
 
+console.log("Product description debug:", {
+  name: product.name,
+  shortDescription: product.shortDescription,
+  shortDescriptionLength: product.shortDescription?.length,
+  description: product.description,
+  descriptionLength: product.description?.length,
+  shortContainsAddToCart:
+    product.shortDescription?.toLowerCase().includes("add to cart"),
+  shortContainsWhyChoose:
+    product.shortDescription?.toLowerCase().includes("why choose"),
+});
 
   return (
     <section className="w-full">
@@ -377,7 +388,7 @@ export default function ProductInfoArtwork({
       <div
         className="
          mt-4
-    w-[75%]
+    w-[100%]
     overflow-hidden
     sm:mt-5
     xl:mt-5

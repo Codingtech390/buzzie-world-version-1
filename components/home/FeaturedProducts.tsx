@@ -12,36 +12,45 @@ interface FeaturedProductsProps {
   products: StorefrontProduct[];
 }
 
+
 const featuredSlides = [
   {
     image: "/images/products/featured-top/day-feel-1.png",
     alt: "BuzzieWorld day feel — featured customer experience",
+    productSlug: "why-zone-of-giggles",
   },
   {
     image: "/images/products/featured-top/day-feel-2.png",
     alt: "BuzzieWorld day feel — kids playing and learning",
+    productSlug: "same-pinch-festive-edition",
   },
   {
     image: "/images/products/featured-top/day-feel-3.png",
     alt: "BuzzieWorld day feel — featured customer experience",
+    productSlug: null,
   },
   {
     image: "/images/products/featured-top/day-feel-4.png",
     alt: "BuzzieWorld day feel — featured customer experience",
+    productSlug: null,
   },
   {
     image: "/images/products/featured-top/day-feel-5.png",
     alt: "BuzzieWorld day feel — featured customer experience",
+    productSlug: "knowledge-train-level-2-combo",
   },
   {
     image: "/images/products/featured-top/day-feel-6.png",
     alt: "BuzzieWorld day feel — featured customer experience",
+    productSlug: "same-pinch-logo-edition",
   },
   {
     image: "/images/products/featured-top/day-feel-7.png",
     alt: "BuzzieWorld day feel — featured customer experience",
+    productSlug: "car-logo-blitz",
   },
 ];
+
 
 interface FeaturedProductsCarouselProps {
   products: StorefrontProduct[];
@@ -52,7 +61,13 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
 
   const slideCount = featuredSlides.length;
 
-  const activeProduct = products.length > 0 ? products[activeSlide % products.length] : null;
+ const SPELL_MASTER_SLUG = "spell-master-phonics-cards";
+
+const activeSlideData = featuredSlides[activeSlide];
+
+const buyNowHref = activeSlideData?.productSlug
+  ? `/products/${activeSlideData.productSlug}`
+  : null;
 
   /* ========================================================================
      AUTO PLAY
@@ -143,106 +158,101 @@ function FeaturedProductsCarousel({ products }: FeaturedProductsCarouselProps) {
           ))}
 
           {/* Buy now */}
-          {activeProduct ? (
-            <div
-              className="
-                absolute
-                bottom-[3.5%]
-                left-1/2
-                -translate-x-1/2
-                z-30
-              "
-            >
-              <Link
-                href={`/products/${activeProduct.slug}`}
-                aria-label={`Buy ${activeProduct.name} now`}
-                className="
-  group/button
-  inline-flex
-  min-h-[30px]
-  items-center
-  justify-center
-  gap-1
-  rounded-full
-  bg-[#FFD54F]
-  px-4
-  font-[var(--font-poppins-brand)]
-  text-[8px]
-  font-bold
-  leading-none
-  text-white
-  shadow-[0_6px_16px_rgba(40,25,65,0.22)]
-  transition-all
-  duration-300
-  hover:-translate-y-0.5
-  hover:bg-[#E72D5A]
-  hover:shadow-[0_9px_20px_rgba(40,25,65,0.28)]
-  active:translate-y-0
-  focus-visible:outline-none
-  focus-visible:ring-2
-  focus-visible:ring-white
-  focus-visible:ring-offset-2
-  focus-visible:ring-offset-transparent
 
-  sm:min-h-[36px]
-  sm:gap-1.5
-  sm:px-5
-  sm:text-[9px]
 
-  md:min-h-[40px]
-  md:px-6
-  md:text-[10px]
+{/* Buy Now — only show on slides with a product destination */}
+{buyNowHref ? (
+  <div
+    className="
+      absolute
+      bottom-[3.5%]
+      left-1/2
+      z-30
+      -translate-x-1/2
+    "
+  >
+    <Link
+      href={buyNowHref}
+      aria-label={`Buy ${activeSlideData.alt} now`}
+      className="
+        group/button
+        inline-flex
+        min-h-[30px]
+        items-center
+        justify-center
+        gap-1
+        rounded-full
+        bg-[#FFD54F]
+        px-4
+        font-[var(--font-poppins-brand)]
+        text-[8px]
+        font-bold
+        leading-none
+        text-white
+        shadow-[0_6px_16px_rgba(40,25,65,0.22)]
+        transition-all
+        duration-300
+        hover:-translate-y-0.5
+        hover:bg-[#E72D5A]
+        hover:shadow-[0_9px_20px_rgba(40,25,65,0.28)]
+        active:translate-y-0
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-white
+        focus-visible:ring-offset-2
+        focus-visible:ring-offset-transparent
+        sm:min-h-[36px]
+        sm:gap-1.5
+        sm:px-5
+        sm:text-[9px]
+        md:min-h-[40px]
+        md:px-6
+        md:text-[10px]
+        lg:min-h-[44px]
+        lg:gap-2
+        lg:px-7
+        lg:text-[11px]
+        xl:min-h-[66px]
+        xl:px-16
+        xl:text-[18px]
+      "
+    >
+      <span className="text-black">Buy now</span>
 
-  lg:min-h-[44px]
-  lg:gap-2
-  lg:px-7
-  lg:text-[11px]
+      <span
+        aria-hidden="true"
+        className="
+          flex
+          size-4
+          shrink-0
+          items-center
+          justify-center
+          rounded-full
+          bg-white/20
+          sm:size-[18px]
+          md:size-5
+          lg:size-[22px]
+        "
+      >
+        <ArrowRight
+          className="
+            size-2.5
+            text-black
+            transition-transform
+            duration-300
+            group-hover/button:translate-x-0.5
+            sm:size-3
+            md:size-3.5
+            lg:size-4
+          "
+          strokeWidth={2.5}
+        />
+      </span>
+    </Link>
+  </div>
+) : null}
 
-  xl:min-h-[66px]
-  xl:px-16
-  xl:text-[18px]
-"
-              >
-                <span className="text-black">Buy now</span>
 
-                <span
-                  aria-hidden="true"
-                  className="
-                    flex
-                    size-4
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-white/20
-
-                    sm:size-[18px]
-
-                    md:size-5
-
-                    lg:size-[22px]
-                  "
-                >
-                  <ArrowRight
-                    className="
-                      size-2.5
-                      text-black
-                      transition-transform
-                      duration-300
-                      group-hover/button:translate-x-0.5
-
-                      sm:size-3
-
-                      md:size-3.5
-
-                      lg:size-4
-                    "
-                    strokeWidth={2.5}
-                  />
-                </span>
-              </Link>
-            </div>
-          ) : null}
 
           {/* ==================================================================
               CAROUSEL INDICATORS

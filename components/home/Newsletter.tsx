@@ -1,41 +1,69 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Music2, Sparkles } from "lucide-react";
-
+import { useEffect, useState } from "react";
 import Reveal from "./Reveal";
 
 /* -------------------------------------------------------------------------- */
 /* CONFIG                                                                     */
 /* -------------------------------------------------------------------------- */
 
-const YOUTUBE_URL = "https://www.youtube.com/";
+const YOUTUBE_URL = "https://www.youtube.com/@buzziebooks8664";
+
+interface PlaydatesSettings {
+  heading: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  isPublished: boolean;
+}
+
+interface PlaydatesResponse {
+  success: boolean;
+  settings?: PlaydatesSettings;
+}
 
 /* -------------------------------------------------------------------------- */
 /* COMPONENT                                                                  */
 /* -------------------------------------------------------------------------- */
 
 export default function Newsletter() {
+  const [playdates, setPlaydates] = useState<PlaydatesSettings | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPlaydates() {
+      try {
+        const response = await fetch("/api/homepage/playdates", {
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+
+        const result = (await response.json()) as PlaydatesResponse;
+
+        if (!cancelled && result.success && result.settings) {
+          setPlaydates(result.settings);
+        }
+      } catch {
+        // Keep the YouTube banner available if Playdates cannot load.
+      }
+    }
+
+    void loadPlaydates();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   return (
-    <section className="relative overflow-hidden bg-[#FFF8E8] py-12 sm:py-16 lg:py-20">
+    <section className="relative overflow-hidden bg-white pt-12 sm:pt-16 lg:pt-20">
       {/* ------------------------------------------------------------------ */}
       {/* BACKGROUND ATMOSPHERE                                               */}
       {/* ------------------------------------------------------------------ */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -left-40
-          top-20
-          size-80
-          rounded-full
-          bg-[#E83D59]/7
-          blur-3xl
-        "
-      />
 
       <div
         aria-hidden="true"
@@ -54,15 +82,16 @@ export default function Newsletter() {
       {/* ================================================================== */}
       {/* CONTAINER — PLAYDATES ONLY                                         */}
       {/* ================================================================== */}
+      {playdates?.isPublished && playdates.image && (
+        <div className="container relative">
+          <Reveal>
+            {/* ================================================================ */}
+            {/* PLAYDATES                                                        */}
+            {/* ================================================================ */}
 
-      <div className="container relative">
-        <Reveal>
-          {/* ================================================================ */}
-          {/* PLAYDATES                                                        */}
-          {/* ================================================================ */}
+            <div
+              className="
 
-          <div
-            className="
               relative
               overflow-hidden
               rounded-[30px]
@@ -70,14 +99,14 @@ export default function Newsletter() {
               shadow-[0_24px_65px_rgba(232,61,89,0.14)]
               sm:rounded-[38px]
             "
-          >
-            {/* ------------------------------------------------------------ */}
-            {/* TOP RIGHT GLOW                                                */}
-            {/* ------------------------------------------------------------ */}
+            >
+              {/* ------------------------------------------------------------ */}
+              {/* TOP RIGHT GLOW                                                */}
+              {/* ------------------------------------------------------------ */}
 
-            <div
-              aria-hidden="true"
-              className="
+              <div
+                aria-hidden="true"
+                className="
                 pointer-events-none
                 absolute
                 -right-24
@@ -87,15 +116,15 @@ export default function Newsletter() {
                 bg-white/7
                 blur-3xl
               "
-            />
+              />
 
-            {/* ------------------------------------------------------------ */}
-            {/* BOTTOM LEFT GLOW                                              */}
-            {/* ------------------------------------------------------------ */}
+              {/* ------------------------------------------------------------ */}
+              {/* BOTTOM LEFT GLOW                                              */}
+              {/* ------------------------------------------------------------ */}
 
-            <div
-              aria-hidden="true"
-              className="
+              <div
+                aria-hidden="true"
+                className="
                 pointer-events-none
                 absolute
                 -bottom-32
@@ -105,25 +134,25 @@ export default function Newsletter() {
                 bg-[#F8C83B]/8
                 blur-3xl
               "
-            />
+              />
 
-            {/* ------------------------------------------------------------ */}
-            {/* PLAYDATE CONTENT                                              */}
-            {/* ------------------------------------------------------------ */}
+              {/* ------------------------------------------------------------ */}
+              {/* PLAYDATE CONTENT                                              */}
+              {/* ------------------------------------------------------------ */}
 
-            <div
-              className="
+              <div
+                className="
                 relative
                 grid
                 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]
               "
-            >
-              {/* ============================================================
+              >
+                {/* ============================================================
                   LEFT — IMAGE
               ============================================================ */}
 
-              <div
-                className="
+                <div
+                  className="
                   relative
                   flex
                   min-h-[430px]
@@ -141,12 +170,12 @@ export default function Newsletter() {
                   lg:px-10
                   lg:py-12
                 "
-              >
-                {/* Subtle glow behind artwork */}
+                >
+                  {/* Subtle glow behind artwork */}
 
-                <div
-                  aria-hidden="true"
-                  className="
+                  <div
+                    aria-hidden="true"
+                    className="
                     pointer-events-none
                     absolute
                     left-1/2
@@ -158,15 +187,15 @@ export default function Newsletter() {
                     bg-white/5
                     blur-3xl
                   "
-                />
+                  />
 
-                <Image
-                  src="/images/categories/more-playdates.png"
-                  alt="Playdate ideas for kids"
-                  width={1000}
-                  height={700}
-                  priority={false}
-                  className="
+                  {/* <Image
+                    src="/images/categories/more-playdates.png"
+                    alt="Playdate ideas for kids"
+                    width={1000}
+                    height={700}
+                    priority={false}
+                    className="
                     relative
                     z-10
                     block
@@ -181,15 +210,29 @@ export default function Newsletter() {
 
                     xl:max-w-[650px]
                   "
-                />
-              </div>
+                  /> */}
 
-              {/* ============================================================
+                  <Image
+                    src={playdates.image}
+                    alt={playdates.imageAlt || "Playdate ideas for kids"}
+                    width={1000}
+                    height={700}
+                    priority={false}
+                    unoptimized
+                    className="
+    relative z-10 block h-auto w-full max-w-[620px]
+    rounded-md object-contain object-center
+    lg:max-w-[600px] xl:max-w-[650px]
+  "
+                  />
+                </div>
+
+                {/* ============================================================
                   RIGHT — HEADING + COPY
               ============================================================ */}
 
-              <div
-                className="
+                <div
+                  className="
                   relative
                   flex
                   items-center
@@ -205,12 +248,12 @@ export default function Newsletter() {
                   xl:px-16
                   xl:py-14
                 "
-              >
-                {/* Vertical divider */}
+                >
+                  {/* Vertical divider */}
 
-                <div
-                  aria-hidden="true"
-                  className="
+                  <div
+                    aria-hidden="true"
+                    className="
                     pointer-events-none
                     absolute
                     left-0
@@ -223,16 +266,16 @@ export default function Newsletter() {
 
                     lg:block
                   "
-                />
+                  />
 
-                <div className="w-full max-w-[580px] lg:pl-2 xl:pl-4">
-                  {/* ========================================================
+                  <div className="w-full max-w-[580px] lg:pl-2 xl:pl-4">
+                    {/* ========================================================
                       RIGHT SIDE HEADING
                   ======================================================== */}
 
-                  <div>
-                    <p
-                      className="
+                    <div>
+                      <p
+                        className="
                         font-[var(--font-roboto)]
                         text-[clamp(1.5rem,3vw,2.35rem)]
                         font-light
@@ -241,12 +284,12 @@ export default function Newsletter() {
                         tracking-[-0.045em]
                         text-white
                       "
-                    >
-                      This week&apos;s
-                    </p>
+                      >
+                        This week&apos;s
+                      </p>
 
-                    <h2
-                      className="
+                      <h2
+                        className="
                         mt-1
                         max-w-[460px]
                         font-[var(--font-poppins)]
@@ -257,23 +300,20 @@ export default function Newsletter() {
                         tracking-[-0.065em]
                         text-[#FFF200]
                       "
-                    >
-                      Playdate Idea
-                    </h2>
-                  </div>
+                      >
+                        {playdates.heading}
+                      </h2>
+                    </div>
 
-                  {/* ========================================================
+                    {/* ========================================================
                       SMALL EYEBROW
                   ======================================================== */}
 
-                  <div className="mt-8 flex items-center gap-2 sm:mt-9 lg:mt-10">
-                    <span
-                      aria-hidden="true"
-                      className="size-2 rounded-full bg-[#FFF200]"
-                    />
+                    <div className="mt-8 flex items-center gap-2 sm:mt-9 lg:mt-10">
+                      <span aria-hidden="true" className="size-2 rounded-full bg-[#FFF200]" />
 
-                    <span
-                      className="
+                      <span
+                        className="
                         font-[var(--font-poppins)]
                         text-[0.68rem]
                         font-black
@@ -281,17 +321,17 @@ export default function Newsletter() {
                         tracking-[0.2em]
                         text-white/75
                       "
-                    >
-                      Play together
-                    </span>
-                  </div>
+                      >
+                        Play together
+                      </span>
+                    </div>
 
-                  {/* ========================================================
+                    {/* ========================================================
                       MAIN COPY
                   ======================================================== */}
 
-                  <h3
-                    className="
+                    <h3
+                      className="
                       mt-4
                       max-w-[540px]
                       font-[var(--font-poppins)]
@@ -301,63 +341,38 @@ export default function Newsletter() {
                       tracking-[-0.06em]
                       text-white
                     "
-                  >
-                    Make room for a little{" "}
-                    <span className="text-[#FFF200]">
-                      imagination.
-                    </span>
-                  </h3>
-
-                  <div className="mt-6 max-w-[545px] space-y-5">
-                    <p
-                      className="
-                        font-[var(--font-roboto)]
-                        text-[0.92rem]
-                        font-medium
-                        leading-[1.7]
-                        text-white/82
-
-                        sm:text-base
-                      "
                     >
-                      Turn an ordinary afternoon into a memorable
-                      playdate. Pick a game, invite a few little friends
-                      and let the kids take the lead.
-                    </p>
+                      Make room for a little <span className="text-[#FFF200]">imagination.</span>
+                    </h3>
 
-                    <p
-                      className="
-                        font-[var(--font-roboto)]
-                        text-[0.92rem]
-                        font-medium
-                        leading-[1.7]
-                        text-white/82
-
-                        sm:text-base
-                      "
-                    >
-                      A little less screen time, a little more laughter,
-                      imagination and play — that&apos;s the kind of magic
-                      we love at BuzzieWorld.
-                    </p>
+                    
+                    {playdates.description && (
+                      <div className="mt-6 max-w-[545px]">
+                        <p
+                          className="
+        whitespace-pre-line
+        font-[var(--font-roboto)]
+        text-[0.92rem] font-medium leading-[1.7]
+        text-white/82 sm:text-base
+      "
+                        >
+                          {playdates.description}
+                        </p>
+                      </div>
+                    )}
                   </div>
-
-
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* ================================================================ */}
-          {/* SEPARATION                                                       */}
-          {/* ================================================================ */}
+            {/* ================================================================ */}
+            {/* SEPARATION                                                       */}
+            {/* ================================================================ */}
 
-          <div
-            aria-hidden="true"
-            className="h-10 sm:h-12 lg:h-16"
-          />
-        </Reveal>
-      </div>
+            <div aria-hidden="true" className="h-10 sm:h-12 lg:h-16" />
+          </Reveal>
+        </div>
+      )}
 
       {/* ================================================================== */}
       {/* YOUTUBE — TRUE FULL WIDTH                                           */}

@@ -10,11 +10,19 @@ import Reveal from "./Reveal";
 interface ShopByAgeProps {
   products: StorefrontProduct[];
   favoriteProducts: StorefrontProduct[];
+  showBuzzieFavorites: boolean;
 }
 
 /* ============================================================================
    BUZZIE FAVORITES
    ============================================================================ */
+
+   const BUZZIE_FAVORITE_DEFAULT_IMAGES: Record<string, string> = {
+     "flag-it-world-flags-bingo": "/images/products/flag-it-1.png",
+     "indialogy-indian-city-guessing-game": "/images/products/indialogy-1.png",
+     "worldlogy-emoji-city-guessing-game": "/images/products/worldlogy-1.png",
+   };
+
 
 function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -37,8 +45,9 @@ function BuzzieFavorites({ products }: { products: StorefrontProduct[] }) {
 
   if (!favorites.length) return null;
 
-  const product = favorites[activeIndex % favorites.length];
-  const productImage = product.images?.[0]?.url;
+const product = favorites[activeIndex % favorites.length];
+
+const productImage = BUZZIE_FAVORITE_DEFAULT_IMAGES[product.slug] || product.images?.[0]?.url;
 
   // Temporary display prices until the client confirms final pricing.
   // These are UI fallbacks only; real database prices take priority.
@@ -1441,7 +1450,11 @@ function GeographySection() {
    MAIN COMPONENT
    ============================================================================ */
 
-export default function ShopByAge({ products, favoriteProducts }: ShopByAgeProps) {
+export default function ShopByAge({
+  products,
+  favoriteProducts,
+  showBuzzieFavorites,
+}: ShopByAgeProps) {
   return (
     <section
       className="
@@ -1453,7 +1466,7 @@ export default function ShopByAge({ products, favoriteProducts }: ShopByAgeProps
         py-0
       "
     >
-      <BuzzieFavorites products={favoriteProducts} />
+      {showBuzzieFavorites && <BuzzieFavorites products={favoriteProducts} />}
 
       <div className="container relative w-full">
         {/* =========================================================

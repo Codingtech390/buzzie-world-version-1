@@ -1,5 +1,5 @@
 import mongoose, { Schema, type HydratedDocument, type Model, type Types } from "mongoose";
-
+import type { ProductDiaryData } from "@/types/product";
 /**
  * Product image
  */
@@ -15,6 +15,14 @@ export interface IProductContentImage {
   publicId?: string;
   alt?: string;
   caption?: string;
+}
+
+export interface IProductVideo {
+  url: string;
+  publicId?: string;
+  title?: string;
+  format?: string;
+  duration?: number;
 }
 
 
@@ -39,6 +47,7 @@ export interface IProduct {
   description: string;
   shortDescription?: string;
   keyFeatures: string[];
+  productDiary?: ProductDiaryData;
   /**
    * Price and stock are optional while a product is a draft.
    * Active products are validated below.
@@ -51,8 +60,11 @@ export interface IProduct {
   images: IProductImage[];
   listingImage?: string;
 
+  carouselImages: IProductImage[];
+
   aPlusContent: IProductContentImage[];
   howToPlay: IProductContentImage[];
+  videos: IProductVideo[];
 
   category?: Types.ObjectId;
   brand?: Types.ObjectId;
@@ -163,6 +175,72 @@ const ProductVariantSchema = new Schema<IProductVariant>({
   },
 });
 
+
+const ProductDiaryEntrySchema = new Schema(
+  {
+    title: { type: String, default: "", trim: true },
+    description: { type: String, default: "", trim: true },
+  },
+  { _id: false },
+);
+
+const ProductDiarySpecificationSchema = new Schema(
+  {
+    label: { type: String, default: "", trim: true },
+    value: { type: String, default: "", trim: true },
+  },
+  { _id: false },
+);
+
+const ProductDiaryTextSectionSchema = new Schema(
+  {
+    eyebrow: { type: String, default: "", trim: true },
+    title: { type: String, default: "", trim: true },
+    intro: { type: String, default: "", trim: true },
+    entries: {
+      type: [ProductDiaryEntrySchema],
+      default: [],
+    },
+  },
+  { _id: false },
+);
+
+const ProductDiarySpecificationSectionSchema = new Schema(
+  {
+    eyebrow: { type: String, default: "", trim: true },
+    title: { type: String, default: "", trim: true },
+    intro: { type: String, default: "", trim: true },
+    entries: {
+      type: [ProductDiarySpecificationSchema],
+      default: [],
+    },
+  },
+  { _id: false },
+);
+
+const ProductDiarySchema = new Schema(
+  {
+    overview: {
+      type: ProductDiaryTextSectionSchema,
+      required: false,
+    },
+    keyFeatures: {
+      type: ProductDiaryTextSectionSchema,
+      required: false,
+    },
+    specifications: {
+      type: ProductDiarySpecificationSectionSchema,
+      required: false,
+    },
+    benefits: {
+      type: ProductDiaryTextSectionSchema,
+      required: false,
+    },
+  },
+  { _id: false },
+);
+
+
 /**
  * Product schema
  */
@@ -195,6 +273,12 @@ const ProductSchema = new Schema<IProduct>(
       type: [String],
       default: [],
     },
+
+    productDiary: {
+      type: ProductDiarySchema,
+      required: false,
+    },
+
     /**
      * Optional for draft products.
      * Active products are validated below.
@@ -226,6 +310,11 @@ const ProductSchema = new Schema<IProduct>(
       default: "",
     },
 
+    carouselImages: {
+      type: [ProductImageSchema],
+      default: [],
+    },
+
     aPlusContent: {
       type: [ProductImageSchema],
       default: [],
@@ -234,6 +323,42 @@ const ProductSchema = new Schema<IProduct>(
     howToPlay: {
       type: [ProductImageSchema],
       default: [],
+    },
+
+    videos: {
+      type: [
+        new Schema(
+          {
+            url: {
+              type: String,
+              required: true,
+              trim: true,
+            },
+            publicId: {
+              type: String,
+              trim: true,
+            },
+            title: {
+              type: String,
+              trim: true,
+            },
+            format: {
+              type: String,
+              trim: true,
+            },
+            duration: {
+              type: Number,
+              min: 0,
+            },
+          },
+          { _id: false },
+        ),
+      ],
+      default: [],
+      validate: {
+        validator: (videos: IProductVideo[]) => videos.length <= 3,
+        message: "A product can have a maximum of 3 videos.",
+      },
     },
 
     category: {

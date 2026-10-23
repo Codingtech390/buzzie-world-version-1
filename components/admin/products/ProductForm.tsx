@@ -3,10 +3,17 @@
 import { useEffect, useState } from "react";
 
 import type { ProductImage, ProductStatus, ProductVariant } from "@/types/product";
+import type { ProductDiaryData } from "@/types/product";
+import ProductDiaryEditor from "./ProductDiaryEditor";
+import { resolveProductDiary } from "@/lib/product-diary";
 
 import ProductMedia from "./ProductMedia";
 
 import ProductContentImages, { type ProductContentImage } from "./ProductContentImages";
+
+import ProductVideos, {
+  type ProductVideo,
+} from "./ProductVideos";
 
 interface SelectorItem {
   _id: string;
@@ -45,9 +52,12 @@ interface FormState {
   ageMin: string;
   ageMax: string;
   images: ProductImage[];
+  carouselImages: ProductImage[];
   aPlusContent: ProductContentImage[];
   howToPlay: ProductContentImage[];
+  videos: ProductVideo[];
   variants: ProductVariant[];
+  productDiary: ProductDiaryData;
 }
 
 const initialForm: FormState = {
@@ -68,10 +78,38 @@ const initialForm: FormState = {
   ageMin: "",
   ageMax: "",
   images: [],
+  carouselImages: [],
   aPlusContent: [],
   howToPlay: [],
+  videos: [],
 
   variants: [],
+  productDiary: {
+    overview: {
+      eyebrow: "QUICK OVERVIEW",
+      title: "",
+      intro: "",
+      entries: [],
+    },
+    keyFeatures: {
+      eyebrow: "KEY FEATURES",
+      title: "Everything that makes it special.",
+      intro: "",
+      entries: [],
+    },
+    specifications: {
+      eyebrow: "PRODUCT DETAILS",
+      title: "Everything you need to know.",
+      intro: "",
+      entries: [],
+    },
+    benefits: {
+      eyebrow: "BENEFITS",
+      title: "Made to learn, play and grow.",
+      intro: "",
+      entries: [],
+    },
+  },
 };
 
 function isAbortError(error: unknown) {
@@ -271,6 +309,8 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
           description: product.description ?? "",
           shortDescription: product.shortDescription ?? "",
 
+          productDiary: resolveProductDiary(product),
+
           price: product.price !== undefined && product.price !== null ? String(product.price) : "",
 
           compareAtPrice:
@@ -312,8 +352,11 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
 
           images: product.images ?? [],
 
+          carouselImages: product.carouselImages ?? [],
           aPlusContent: product.aPlusContent ?? [],
           howToPlay: product.howToPlay ?? [],
+
+          videos: Array.isArray(product.videos) ? product.videos.slice(0, 3) : [],
 
           variants: (product.variants ?? []).map((variant: ProductVariant) => ({
             _id: variant._id,
@@ -530,15 +573,21 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
 
         images: form.images,
         listingImage: form.images[0]?.url ?? "",
-
+        carouselImages: form.carouselImages,
         aPlusContent: form.aPlusContent,
         howToPlay: form.howToPlay,
+        videos: form.videos.slice(0, 3),
 
         category: form.category || undefined,
 
         brand: form.brand || undefined,
 
         collection: form.collection || undefined,
+        keyFeatures: form.productDiary.keyFeatures.entries
+          .map((entry) => entry.title.trim())
+          .filter(Boolean),
+
+        productDiary: form.productDiary,
 
         variants: form.variants.map((variant) => ({
           _id: variant._id,
@@ -661,7 +710,7 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
 
               <p className="mt-1.5 max-w-2xl text-sm leading-6 text-muted-foreground">
                 {mode === "create"
-                  ? "Build a polished product listing with content, pricing, classification, media and variants."
+                  ? "Build a polished product listing with content, pricing, classification, media and Product Diary content."
                   : "Refine product information, media, pricing and catalog settings without losing your existing data."}
               </p>
             </div>
@@ -1072,6 +1121,49 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
         </div>
       </section>
 
+      {/* Product Page Carousel */}
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
+        <SectionHeader
+          eyebrow="06"
+          title="Product Page Carousel"
+          description="Manage the full-width image carousel displayed on this product's detail page."
+        />
+
+        <div className="mt-7 rounded-2xl bg-muted/[0.10] p-3 sm:p-4">
+          <p className="mb-4 text-sm leading-6 text-muted-foreground">
+            Add the images you want to show in the full-width carousel. The order here determines
+            the slide order on the storefront. These images are independent of the regular product
+            gallery.
+          </p>
+
+          <ProductMedia
+            images={form.carouselImages}
+            onChange={(images) => updateField("carouselImages", images)}
+            productSlug={form.slug}
+            folderName="carousel"
+            disabled={isSaving}
+          />
+        </div>
+      </section>
+
+      {/* Product Videos */}
+      <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
+        <SectionHeader
+          eyebrow="06"
+          title="Product Videos"
+          description="Upload and manage the videos displayed on the product page."
+        />
+
+        <div className="mt-6">
+          <ProductVideos
+            productSlug={form.slug}
+            videos={form.videos}
+            onChange={(videos) => updateField("videos", videos)}
+            disabled={isSaving}
+          />
+        </div>
+      </section>
+
       {/* A+ Content */}
       <section className="rounded-[26px] bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
         <SectionHeader
@@ -1114,145 +1206,12 @@ export default function ProductForm({ mode, productId }: ProductFormProps) {
         </div>
       </section>
 
-      {/* Variants */}
-      <section className="rounded-[26px]  bg-background/95 p-5 shadow-[0_8px_30px_rgba(20,20,30,0.045)] sm:p-7">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <SectionHeader
-            eyebrow="06"
-            title="Variants"
-            description="Add size, color, age or other product-specific variations when needed."
-          />
-
-          <button
-            type="button"
-            onClick={addVariant}
-            disabled={isSaving}
-            className="shrink-0 rounded-2xl bg-[#C391EE] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_18px_rgba(195,145,238,0.25)] transition-all hover:-translate-y-0.5 hover:bg-[#B074E4] hover:shadow-[0_10px_22px_rgba(195,145,238,0.32)] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            + Add Variant
-          </button>
-        </div>
-
-        {form.variants.length === 0 ? (
-          <div className="mt-6 rounded-[22px] border border-dashed border-[#C391EE]/30 bg-gradient-to-br from-[#C391EE]/[0.06] to-muted/[0.12] px-4 py-12 text-center">
-            <p className="text-sm font-medium text-foreground">No variants added</p>
-
-            <p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-muted-foreground">
-              Variants are optional. Add them when this product has different sizes, colors, formats
-              or other selectable options.
-            </p>
-          </div>
-        ) : (
-          <div className="mt-6 space-y-4">
-            {form.variants.map((variant, index) => (
-              <div
-                key={variant._id || index}
-                className="rounded-[22px] border border-border/60 bg-gradient-to-br from-muted/[0.20] to-background p-4 shadow-sm sm:p-5"
-              >
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">Variant {index + 1}</p>
-
-                    <p className="mt-0.5 text-xs text-muted-foreground">
-                      Define the option and its optional inventory details.
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => removeVariant(index)}
-                    disabled={isSaving}
-                    className="rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#C44770] transition-colors hover:bg-[#F56B9A]/10 disabled:opacity-50"
-                  >
-                    Remove
-                  </button>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                  <div>
-                    <FieldLabel>Name</FieldLabel>
-
-                    <input
-                      value={variant.name}
-                      onChange={(event) => updateVariant(index, "name", event.target.value)}
-                      placeholder="e.g. Color"
-                      className={inputClass}
-                    />
-                  </div>
-
-                  <div>
-                    <FieldLabel>Value</FieldLabel>
-
-                    <input
-                      value={variant.value}
-                      onChange={(event) => updateVariant(index, "value", event.target.value)}
-                      placeholder="e.g. Blue"
-                      className={inputClass}
-                    />
-                  </div>
-
-                  <div>
-                    <FieldLabel>SKU</FieldLabel>
-
-                    <input
-                      value={variant.sku || ""}
-                      onChange={(event) => updateVariant(index, "sku", event.target.value)}
-                      placeholder="Variant SKU"
-                      className={inputClass}
-                    />
-                  </div>
-
-                  <div>
-                    <FieldLabel>Price</FieldLabel>
-
-                    <div className="relative">
-                      <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                        ₹
-                      </span>
-
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={variant.price === undefined ? "" : variant.price}
-                        onChange={(event) =>
-                          updateVariant(
-                            index,
-                            "price",
-                            event.target.value === "" ? undefined : Number(event.target.value),
-                          )
-                        }
-                        placeholder="0.00"
-                        className={`${inputClass} pl-8`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 max-w-[220px]">
-                  <FieldLabel>Stock</FieldLabel>
-
-                  <input
-                    type="number"
-                    min="0"
-                    step="1"
-                    value={variant.stock ?? ""}
-                    onChange={(event) =>
-                      updateVariant(
-                        index,
-                        "stock",
-                        event.target.value === "" ? undefined : Number(event.target.value),
-                      )
-                    }
-                    placeholder="0"
-                    className={inputClass}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      {/* Product Diary Editor */}
+      <ProductDiaryEditor
+        value={form.productDiary}
+        onChange={(productDiary) => updateField("productDiary", productDiary)}
+        disabled={isSaving}
+      />
 
       {/* Submit */}
       <div className="sticky bottom-4 z-20 flex flex-col-reverse gap-3 rounded-[22px] bg-background/90 p-3 shadow-[0_16px_50px_rgba(20,20,30,0.12)] backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">

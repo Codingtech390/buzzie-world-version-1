@@ -10,6 +10,7 @@ import { createSlug } from "@/lib/slug";
 import type { SortOrder } from "mongoose";
 
 import type { IProductContentImage } from "@/models/Product";
+import type { ProductDiaryData } from "@/types/product";
 
 export type ProductSort = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
 
@@ -21,6 +22,11 @@ export interface ProductFilters {
   status?: string;
   published?: boolean;
   featured?: boolean;
+
+  // Numeric age bounds for age-group storefront filtering.
+  ageMin?: number;
+  ageMax?: number;
+
   sort?: ProductSort;
   page?: number;
   limit?: number;
@@ -82,13 +88,20 @@ export interface ProductVariantInput {
   price?: number;
   stock?: number;
 }
-
+export interface ProductVideoInput {
+  url: string;
+  publicId?: string;
+  title?: string;
+  format?: string;
+  duration?: number;
+}
 export interface ProductInput {
   name: string;
   slug?: string;
   description: string;
   shortDescription?: string;
   keyFeatures?: string[];
+  productDiary?: ProductDiaryData;
   // Optional because draft products may not have these yet.
   price?: number;
   compareAtPrice?: number;
@@ -98,10 +111,12 @@ export interface ProductInput {
   images?: ProductImageInput[];
 
   listingImage?: string;
+  carouselImages?: ProductImageInput[];
 
   aPlusContent?: IProductContentImage[];
   howToPlay?: IProductContentImage[];
 
+  videos?: ProductVideoInput[];
   category?: string;
   brand?: string;
   collection?: string;
@@ -157,6 +172,51 @@ function cleanImages(value: unknown): ProductImageInput[] {
     .filter((image) => Boolean(image.url));
 }
 
+function cleanVideos(value: unknown): ProductVideoInput[] {
+  if (value === undefined) {
+    return [];
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error("Videos must be an array.");
+  }
+
+  if (value.length > 3) {
+    throw new Error("A product can have a maximum of 3 videos.");
+  }
+
+  return value.map((item): ProductVideoInput => {
+    if (!item || typeof item !== "object") {
+      throw new Error("Invalid video entry.");
+    }
+
+    const video = item as Record<string, unknown>;
+    const url = typeof video.url === "string" ? video.url.trim() : "";
+
+    if (
+      !url.startsWith("/api/media/files/buzzie-world/products/") ||
+      !url.includes("/video/") ||
+      url.includes("..") ||
+      url.includes("\\") ||
+      url.includes("?") ||
+      url.includes("#") ||
+      /^https?:\/\//i.test(url)
+    ) {
+      throw new Error("Videos must use a valid local product video URL.");
+    }
+
+    return {
+      url,
+      publicId: cleanOptionalString(video.publicId),
+      title: cleanOptionalString(video.title),
+      format: cleanOptionalString(video.format),
+      duration: normalizeOptionalNumber(video.duration),
+    };
+  });
+}
+
+
+
 function cleanVariants(value: unknown): ProductVariantInput[] {
   if (!Array.isArray(value)) {
     return [];
@@ -195,6 +255,79 @@ function normalizeOptionalNumber(value: unknown): number | undefined {
   return Number.isFinite(number) ? number : undefined;
 }
 
+
+function cleanDiaryTextSection(value: unknown) {
+  const section =
+    value && typeof value === "object"
+      ? (value as Record<string, unknown>)
+      : {};
+
+  const entries = Array.isArray(section.entries) ? section.entries : [];
+
+  return {
+    eyebrow: cleanOptionalString(section.eyebrow) ?? "",
+    title: cleanOptionalString(section.title) ?? "",
+    intro: cleanOptionalString(section.intro) ?? "",
+    entries: entries
+      .filter(
+        (entry): entry is Record<string, unknown> =>
+          Boolean(entry) && typeof entry === "object",
+      )
+      .map((entry) => ({
+        title: cleanOptionalString(entry.title) ?? "",
+        description: cleanOptionalString(entry.description) ?? "",
+      }))
+      .filter((entry) => entry.title || entry.description),
+  };
+}
+
+function cleanDiarySpecifications(value: unknown) {
+  const section =
+    value && typeof value === "object"
+      ? (value as Record<string, unknown>)
+      : {};
+
+  const entries = Array.isArray(section.entries) ? section.entries : [];
+
+  return {
+    eyebrow: cleanOptionalString(section.eyebrow) ?? "",
+    title: cleanOptionalString(section.title) ?? "",
+    intro: cleanOptionalString(section.intro) ?? "",
+    entries: entries
+      .filter(
+        (entry): entry is Record<string, unknown> =>
+          Boolean(entry) && typeof entry === "object",
+      )
+      .map((entry) => ({
+        label: cleanOptionalString(entry.label) ?? "",
+        value: cleanOptionalString(entry.value) ?? "",
+      }))
+      .filter((entry) => entry.label || entry.value),
+  };
+}
+
+function cleanProductDiary(value: unknown): ProductDiaryData | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("Product Diary must be an object.");
+  }
+
+  const diary = value as Record<string, unknown>;
+
+  return {
+    overview: cleanDiaryTextSection(diary.overview),
+    keyFeatures: cleanDiaryTextSection(diary.keyFeatures),
+    specifications: cleanDiarySpecifications(diary.specifications),
+    benefits: cleanDiaryTextSection(diary.benefits),
+  };
+}
+
+
+
+
 function normalizeProductInput(data: ProductInput) {
   const name = String(data.name ?? "").trim();
 
@@ -226,6 +359,8 @@ function normalizeProductInput(data: ProductInput) {
           .filter(Boolean)
       : [],
 
+    productDiary: cleanProductDiary(data.productDiary),
+
     price,
 
     compareAtPrice,
@@ -236,8 +371,13 @@ function normalizeProductInput(data: ProductInput) {
 
     listingImage: cleanOptionalString(data.listingImage) ?? "",
 
+    carouselImages: cleanImages(data.carouselImages),
+
     aPlusContent: cleanImages(data.aPlusContent),
+
     howToPlay: cleanImages(data.howToPlay),
+
+    videos: cleanVideos(data.videos),
 
     category: cleanOptionalString(data.category),
 
@@ -284,6 +424,8 @@ export async function getProducts(filters: ProductFilters = {}) {
     published,
     sort = "newest",
     featured,
+    ageMin,
+    ageMax,
     page = 1,
     limit = 20,
   } = filters;
@@ -318,6 +460,16 @@ export async function getProducts(filters: ProductFilters = {}) {
 
   if (typeof featured === "boolean") {
     query.featured = featured;
+  }
+
+  if (
+    typeof ageMin === "number" &&
+    Number.isFinite(ageMin) &&
+    typeof ageMax === "number" &&
+    Number.isFinite(ageMax)
+  ) {
+    query["ageRange.min"] = { $lte: ageMax };
+    query["ageRange.max"] = { $gte: ageMin };
   }
 
   const skip = (page - 1) * limit;
@@ -411,6 +563,7 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
       data.shortDescription !== undefined ? data.shortDescription : existing.shortDescription,
 
     keyFeatures: data.keyFeatures !== undefined ? data.keyFeatures : existing.keyFeatures,
+    productDiary: data.productDiary !== undefined ? data.productDiary : existing.productDiary,
 
     price: data.price !== undefined ? data.price : existing.price,
 
@@ -422,10 +575,15 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
     images: data.images !== undefined ? data.images : existing.images,
 
     listingImage: data.listingImage !== undefined ? data.listingImage : existing.listingImage,
+    
+    carouselImages:
+      data.carouselImages !== undefined ? data.carouselImages : existing.carouselImages,
 
     aPlusContent: data.aPlusContent !== undefined ? data.aPlusContent : existing.aPlusContent,
 
     howToPlay: data.howToPlay !== undefined ? data.howToPlay : existing.howToPlay,
+
+    videos: data.videos !== undefined ? data.videos : existing.videos,
 
     category: data.category !== undefined ? data.category : existing.category?.toString(),
 

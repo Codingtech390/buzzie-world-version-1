@@ -16,11 +16,13 @@ import ShopByAge from "@/components/home/ShopByAge";
 // import FollowUsSection from "@/components/home/FollowUsSection";
 
 
+
 import { DEFAULT_HERO_SLIDES, type HeroCarouselSlide } from "@/types/homepage";
 
 interface HomepageFavoritesResponse {
   success: boolean;
   products?: StorefrontProduct[];
+  isFavoriteSectionEnabled?: boolean;
   message?: string;
 }
 
@@ -28,6 +30,7 @@ interface HomepageData {
   featuredProducts: StorefrontProduct[];
   latestProducts: StorefrontProduct[];
   favoriteProducts: StorefrontProduct[];
+  isFavoriteSectionEnabled: boolean;
   categories: StorefrontSelector[];
   collections: StorefrontSelector[];
   heroSlides: HeroCarouselSlide[];
@@ -40,6 +43,7 @@ const EMPTY_DATA: HomepageData = {
   categories: [],
   collections: [],
   heroSlides: DEFAULT_HERO_SLIDES,
+  isFavoriteSectionEnabled: false,
 };
 
 function getApiBaseUrl(): string {
@@ -78,7 +82,7 @@ async function getHomepageData(): Promise<HomepageData> {
     ),
 
     fetchJson<StorefrontProductsResponse>(
-      "/api/products?published=true&sort=newest&page=1&limit=8",
+      "/api/products?published=true&sort=newest&page=1&limit=100",
     ),
 
     fetchJson<HomepageFavoritesResponse>("/api/homepage/favorites"),
@@ -105,6 +109,8 @@ async function getHomepageData(): Promise<HomepageData> {
     latestProducts: latestResponse?.success ? (latestResponse.products ?? []) : [],
 
     favoriteProducts: favoritesResponse?.success ? (favoritesResponse.products ?? []) : [],
+    isFavoriteSectionEnabled:
+      favoritesResponse?.success === true && favoritesResponse.isFavoriteSectionEnabled === true,
 
     categories: categoriesResponse?.success ? (categoriesResponse.categories ?? []) : [],
 
@@ -125,6 +131,8 @@ export default async function HomePage() {
   const homepageData =
     data.featuredProducts.length ||
     data.latestProducts.length ||
+    data.favoriteProducts.length ||
+    data.isFavoriteSectionEnabled ||
     data.categories.length ||
     data.collections.length
       ? data
@@ -151,6 +159,7 @@ export default async function HomePage() {
       <ShopByAge
         products={homepageData.latestProducts}
         favoriteProducts={homepageData.favoriteProducts}
+        showBuzzieFavorites={homepageData.isFavoriteSectionEnabled}
       />
 
       {/* ================================================================
@@ -186,6 +195,8 @@ export default async function HomePage() {
          ================================================================ */}
 
       <BrandStory products={homepageData.featuredProducts} />
+
+
 
       {/* ================================================================
           COLLECTIONS
