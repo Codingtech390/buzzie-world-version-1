@@ -13,10 +13,15 @@ type Point = {
  * Produces a smooth curve from periodically sampled points.
  * This geometry is calculated once and remains identical during SSR and hydration.
  */
+
+function formatCoordinate(value: number): string {
+  return Number(value.toFixed(3)).toString();
+}
+
 function smoothPath(points: Point[]): string {
   if (points.length < 2) return "";
 
-  let d = `M ${points[0].x} ${points[0].y}`;
+  let d = `M ${formatCoordinate(points[0].x)} ${formatCoordinate(points[0].y)}`;
 
   for (let i = 0; i < points.length - 1; i++) {
     const p0 = points[Math.max(0, i - 1)];
@@ -29,18 +34,21 @@ function smoothPath(points: Point[]): string {
     const cp2x = p2.x - (p3.x - p1.x) / 6;
     const cp2y = p2.y - (p3.y - p1.y) / 6;
 
-    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+    d += ` C ${formatCoordinate(cp1x)} ${formatCoordinate(cp1y)}, ${formatCoordinate(cp2x)} ${formatCoordinate(cp2y)}, ${formatCoordinate(p2.x)} ${formatCoordinate(p2.y)}`;
   }
 
   return d;
 }
+
+
 
 function getWavePath(): string {
   const points: Point[] = [];
 
   for (let x = 0; x <= WIDTH; x += STEP) {
     const t = (x / WIDTH) * Math.PI * 2;
-    const y = 67 + Math.sin(t) * 29 + Math.sin(t * 2) * 5;
+    const y = Number((67 + Math.sin(t) * 29 + Math.sin(t * 2) * 5).toFixed(3));
+
     points.push({ x, y });
   }
 
@@ -50,6 +58,7 @@ function getWavePath(): string {
 
   return smoothPath(points);
 }
+
 
 function getCoverPath(wave: string): string {
   return `${wave} L ${WIDTH} 0 L 0 0 Z`;
@@ -74,22 +83,25 @@ export default function FooterWave() {
         <style>
           {`
             .footer-wave-track {
-                animation: footer-wave-scroll 4s linear infinite;
-                will-change: transform;
-              }
+  animation: footer-wave-scroll 4s linear infinite;
+  will-change: transform;
+}
 
-            @keyframes footer-wave-scroll {
-              from { transform: translateX(0); }
-              to { transform: translateX(-${WIDTH}px); }
-            }
+@keyframes footer-wave-scroll {
+  from {
+    transform: translateX(0);
+  }
 
-            @media (prefers-reduced-motion: reduce) {
-                  .footer-wave-track {
-                    animation-duration: 8s;
-                  }
-                }
-              }
-            }
+  to {
+    transform: translateX(-1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-wave-track {
+    animation-duration: 8s;
+  }
+}
           `}
         </style>
 
