@@ -129,7 +129,7 @@ export default function ProductVideos({
   return (
     <div className="rounded-2xl border border-border/60 bg-background p-4 sm:p-5">
       <div className="mb-4">
-        <h3 className="text-sm font-bold text-foreground">Product Videos</h3>
+
         <p className="mt-1 text-xs leading-5 text-muted-foreground">
           Upload up to three videos for the product's Watch & Buy section.
           Videos are stored locally in this product's video folder.
@@ -184,8 +184,8 @@ export default function ProductVideos({
             className="block w-full text-sm text-foreground file:mr-4 file:rounded-xl file:border-0 file:bg-[#C391EE] file:px-4 file:py-2.5 file:font-semibold file:text-white hover:file:bg-[#B074E4] disabled:opacity-50"
           />
 
-          <p className="mt-2 text-xs text-muted-foreground">
-            MP4, WebM, MOV or M4V. Maximum 100 MB per video.
+          <p className="mt-4 text-xs text-muted-foreground">
+            MP4, WebM or M4V. Maximum 100 MB per video.
           </p>
         </div>
       )}

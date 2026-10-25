@@ -79,34 +79,38 @@ export async function getCustomerOrders(userId: string): Promise<CustomerOrder[]
   return orders.map((order) => serializeOrder(order as IOrder & { _id: mongoose.Types.ObjectId }));
 }
 
+
 export async function getCustomerOrder(
   userId: string,
   orderId: string,
 ): Promise<CustomerOrder | null> {
   assertValidUserId(userId);
 
-  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+  const normalizedOrderId = orderId.trim();
+
+  if (!normalizedOrderId) {
     return null;
   }
 
   await connectToDatabase();
 
-  /*
-   * Ownership is part of the database query.
-   *
-   * This is preferable to:
-   *
-   * Order.findById(orderId)
-   *
-   * followed by a client-side ownership check.
-   *
-   * A customer can therefore only retrieve an order belonging
-   * to their authenticated account.
-   */
-  const order = await Order.findOne({
-    _id: new mongoose.Types.ObjectId(orderId),
-    user: new mongoose.Types.ObjectId(userId),
-  }).lean();
+  const customerObjectId = new mongoose.Types.ObjectId(userId);
+
+  // Match either the MongoDB document ID or the human-readable order number.
+  const orderQuery = mongoose.Types.ObjectId.isValid(normalizedOrderId)
+    ? {
+        user: customerObjectId,
+        $or: [
+          { _id: new mongoose.Types.ObjectId(normalizedOrderId) },
+          { orderNumber: normalizedOrderId },
+        ],
+      }
+    : {
+        user: customerObjectId,
+        orderNumber: normalizedOrderId,
+      };
+
+  const order = await Order.findOne(orderQuery).lean();
 
   if (!order) {
     return null;

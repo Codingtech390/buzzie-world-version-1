@@ -107,7 +107,7 @@ export default function OrderCard({ order }: OrderCardProps) {
 
         <Link
           href={`/account/orders/${order.id}`}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-[#A092CD] px-4 font-[var(--font-poppins-brand)] text-[10px] font-semibold text-white transition-colors hover:bg-[#8F7FC1]"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl bg-[#A092CD] px-4 font-[var(--font-poppins-brand)] text-[10px] font-semibold !text-white transition-colors hover:bg-[#8F7FC1]"
         >
           View order
           <ArrowRight className="size-3.5" strokeWidth={2} />

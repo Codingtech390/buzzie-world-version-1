@@ -44,8 +44,15 @@ export interface Order {
   status: OrderStatus;
   paymentStatus: PaymentStatus;
 
+  paymentProvider?: "razorpay" | "cashfree";
+
+  // Legacy Razorpay identifiers
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
+
+  // Cashfree identifiers
+  cashfreeOrderId?: string;
+  cashfreePaymentId?: string;
 
   createdAt: string;
   updatedAt: string;

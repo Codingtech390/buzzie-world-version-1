@@ -144,37 +144,95 @@ export default function AccountDashboard({ user }: AccountDashboardProps) {
           </div>
         </div>
 
-        <div className="rounded-[26px] border border-[#E9E4F1] bg-[#F7F4FB] p-5 sm:p-6">
-          <p className="font-[var(--font-poppins-brand)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8E849F]">
-            Account roadmap
-          </p>
+        <div className="rounded-[26px] border border-[#E9E4F1] bg-white p-5 shadow-[0_12px_40px_rgba(82,68,112,0.05)] sm:p-6">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-[var(--font-poppins-brand)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#9A91AC]">
+                Your BuzzieWorld
+              </p>
 
-          <h3 className="mt-1 font-playpen text-base font-bold text-[#303746]">
-            Your account will grow from this foundation.
-          </h3>
+              <h3 className="mt-1 font-playpen text-base font-bold text-[#303746]">
+                Everything in one place
+              </h3>
 
-          <div className="mt-5 space-y-3">
-            {[
-              ["Profile", "Available now"],
-              ["Addresses", "Next customer module"],
-              ["Orders", "Next customer module"],
-              ["Wishlist", "Next customer module"],
-              ["Reviews", "Next customer module"],
-            ].map(([label, status]) => (
-              <div
-                key={label}
-                className="flex items-center justify-between gap-4 rounded-2xl bg-white/75 px-4 py-3"
-              >
-                <span className="font-[var(--font-poppins-brand)] text-[11px] font-semibold text-[#4D5564]">
-                  {label}
-                </span>
+              <p className="mt-1 font-[var(--font-poppins-brand)] text-[11px] leading-5 text-[#858D9B]">
+                Pick up right where you left off.
+              </p>
+            </div>
 
-                <span className="font-[var(--font-poppins-brand)] text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A91AC]">
-                  {status}
-                </span>
-              </div>
-            ))}
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-[#F1EBF8] text-[#8F7FC1]">
+              <ArrowRight className="size-5" />
+            </span>
           </div>
+
+          <div className="mt-5 space-y-2">
+            {[
+              {
+                label: "My orders",
+                description: "View purchases and order status",
+                href: "/account/orders",
+                icon: CalendarDays,
+                color: "bg-[#F1EBF8] text-[#806CB4]",
+              },
+              {
+                label: "Track a shipment",
+                description: "Check your delivery progress",
+                href: "/account/track-order",
+                icon: MapPin,
+                color: "bg-[#EAF4FF] text-[#5685B7]",
+              },
+              {
+                label: "My wishlist",
+                description: "Find your saved favourites",
+                href: "/account/wishlist",
+                icon: CheckCircle2,
+                color: "bg-[#FFF0F3] text-[#D56F8A]",
+              },
+              {
+                label: "Delivery addresses",
+                description: "Manage where your orders arrive",
+                href: "/account/addresses",
+                icon: UserRound,
+                color: "bg-[#FFF4E6] text-[#B7762A]",
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group flex items-center gap-3 rounded-2xl border border-[#F0ECF5] bg-[#FCFBFE] p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D9D0E8] hover:bg-[#F8F5FC]"
+                >
+                  <span
+                    className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${item.color}`}
+                  >
+                    <Icon className="size-4" strokeWidth={1.9} />
+                  </span>
+
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-[var(--font-poppins-brand)] text-xs font-semibold text-[#3E4655]">
+                      {item.label}
+                    </span>
+
+                    <span className="mt-1 block font-[var(--font-poppins-brand)] text-[10px] leading-4 text-[#8A92A0]">
+                      {item.description}
+                    </span>
+                  </span>
+
+                  <ArrowRight className="size-4 shrink-0 text-[#A092CD] transition-transform group-hover:translate-x-1" />
+                </Link>
+              );
+            })}
+          </div>
+
+          <Link
+            href="/account/profile"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#A092CD] px-4 py-3 font-[var(--font-poppins-brand)] text-xs font-semibold !text-white transition-colors hover:bg-[#8F7FC1]"
+          >
+            Manage my account
+            <ArrowRight className="size-3.5" />
+          </Link>
         </div>
       </section>
     </div>

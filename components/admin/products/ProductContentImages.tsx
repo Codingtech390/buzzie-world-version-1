@@ -140,7 +140,7 @@ export default function ProductContentImages({
     <section className="rounded-2xl border border-border/70 bg-background p-4 sm:p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h3 className="text-base font-bold text-foreground">{title}</h3>
+          {/* <h3 className="text-base font-bold text-foreground">{title}</h3> */}
           <p className="mt-1 text-sm leading-6 text-muted-foreground">{description}</p>
           <p className="mt-2 break-all text-xs text-muted-foreground">
             Folder: buzzie-world/products/{slugify(productSlug) || "<product-slug>"}/{folderType}/

@@ -1,44 +1,28 @@
 import { Types } from "mongoose";
-
 import { connectToDatabase } from "@/lib/mongoose";
-
-import { createRazorpayOrder, verifyRazorpaySignature } from "@/lib/razorpay";
-
+import { createCashfreeOrder, getCashfreePayments } from "@/lib/cashfree";
 import { Cart } from "@/models/Cart";
-
 import { Order } from "@/models/Order";
-
 import { DealSettings } from "@/models/DealSettings";
 import { Product } from "@/models/Product";
-
 import type { ShippingAddress } from "@/types/order";
-
 import { getShippingQuote } from "@/services/shiprocket.service";
 
 function generateOrderNumber() {
   const timestamp = Date.now().toString(36).toUpperCase();
-
   const random = Math.random().toString(36).slice(2, 8).toUpperCase();
-
   return `BW-${timestamp}-${random}`;
 }
 
 function assertAddress(address: ShippingAddress) {
   const requiredFields: Array<keyof ShippingAddress> = [
     "fullName",
-
     "email",
-
     "phone",
-
     "addressLine1",
-
     "city",
-
     "state",
-
     "postalCode",
-
     "country",
   ];
 
@@ -352,7 +336,41 @@ export async function createOrderFromCart(
 
   const orderNumber = generateOrderNumber();
 
-  const razorpayOrder = await createRazorpayOrder(Math.round(total * 100), orderNumber);
+
+const rawPhone = shippingAddress.phone.trim();
+const phoneDigits = rawPhone.replace(/\D/g, "");
+
+// Accept an Indian mobile number with or without the +91 country code.
+// Also handle a domestic leading zero.
+const customerPhone =
+  phoneDigits.length === 12 && phoneDigits.startsWith("91")
+    ? phoneDigits.slice(2)
+    : phoneDigits.length === 11 && phoneDigits.startsWith("0")
+      ? phoneDigits.slice(1)
+      : phoneDigits;
+
+if (!/^[6-9]\d{9}$/.test(customerPhone)) {
+  throw new Error("Please enter a valid 10-digit Indian mobile number.");
+}
+
+const cashfreeOrder = await createCashfreeOrder({
+  orderId: orderNumber,
+  amount: total,
+  customerId: userId!,
+  customerName: shippingAddress.fullName,
+  customerEmail: shippingAddress.email,
+  customerPhone,
+});
+
+
+  if (
+    cashfreeOrder.order_id !== orderNumber ||
+    cashfreeOrder.order_currency !== "INR" ||
+    Math.round(cashfreeOrder.order_amount * 100) !== Math.round(total * 100) ||
+    !cashfreeOrder.payment_session_id
+  ) {
+    throw new Error("Cashfree returned inconsistent order details.");
+  }
 
   const order = await Order.create({
     orderNumber,
@@ -381,13 +399,15 @@ export async function createOrderFromCart(
 
     paymentStatus: "pending",
 
-    razorpayOrderId: razorpayOrder.id,
+    paymentProvider: "cashfree",
+
+    cashfreeOrderId: cashfreeOrder.order_id,
   });
 
   return {
     order,
 
-    razorpayOrder,
+    cashfreeOrder,
 
     discountLabel,
 
@@ -395,95 +415,158 @@ export async function createOrderFromCart(
   };
 }
 
-export async function verifyPayment(
-  orderId: string,
 
-  razorpayPaymentId: string,
-
-  razorpayOrderId: string,
-
-  razorpaySignature: string,
-
-  userId?: string,
-) {
+export async function verifyPayment(orderId: string, cashfreeOrderId: string, userId: string) {
   await connectToDatabase();
 
+  // Validate all identifiers before querying the database or gateway.
   if (!Types.ObjectId.isValid(orderId)) {
-    throw new Error("Invalid order");
+    throw new Error("Invalid order.");
   }
 
-  if (userId && !Types.ObjectId.isValid(userId)) {
+  if (!userId || !Types.ObjectId.isValid(userId)) {
     throw new Error("Invalid customer.");
   }
 
-  const order = await Order.findById(orderId);
-
-  if (!order) {
-    throw new Error("Order not found");
+  if (typeof cashfreeOrderId !== "string" || !cashfreeOrderId.trim()) {
+    throw new Error("Cashfree order ID is required.");
   }
 
-  if (userId) {
-    if (!order.user || order.user.toString() !== userId) {
-      throw new Error("You are not authorized to verify this order.");
-    }
+  const expectedCashfreeOrderId = cashfreeOrderId.trim();
+
+  // Check ownership and provider association before contacting Cashfree.
+  const existingOrder = await Order.findById(orderId);
+
+  if (!existingOrder) {
+    throw new Error("Order not found.");
   }
 
-  if (!order.razorpayOrderId) {
-    throw new Error("Razorpay order is missing");
+  if (!existingOrder.user || existingOrder.user.toString() !== userId) {
+    throw new Error("You are not authorized to verify this order.");
   }
 
-  if (order.razorpayOrderId !== razorpayOrderId) {
-    throw new Error("Razorpay order mismatch");
+  if (
+    existingOrder.paymentProvider !== "cashfree" ||
+    !existingOrder.cashfreeOrderId ||
+    existingOrder.cashfreeOrderId !== expectedCashfreeOrderId
+  ) {
+    throw new Error("Cashfree order mismatch.");
   }
 
-  const valid = verifyRazorpaySignature(
-    order.razorpayOrderId,
-
-    razorpayPaymentId,
-
-    razorpaySignature,
-  );
-
-  if (!valid) {
-    order.paymentStatus = "failed";
-
-    await order.save();
-
-    throw new Error("Payment verification failed");
+  // Idempotency: never deduct stock again for an already-paid order.
+  if (existingOrder.paymentStatus === "paid") {
+    return existingOrder;
   }
 
-  if (order.paymentStatus === "paid") {
-    return order;
+  if (existingOrder.paymentStatus === "refunded" || existingOrder.status === "cancelled") {
+    throw new Error("This order cannot be paid in its current state.");
   }
 
-  order.paymentStatus = "paid";
+  // Retrieve the actual payment records directly from Cashfree.
+  const payments = await getCashfreePayments(expectedCashfreeOrderId);
 
-  order.status = "confirmed";
+  const successfulPayment = payments.find((payment) => payment.payment_status === "SUCCESS");
 
-  order.razorpayPaymentId = razorpayPaymentId;
+  // A redirect or a pending payment is not proof of payment.
+  if (!successfulPayment) {
+    throw new Error(
+      "Cashfree has not confirmed a successful payment yet. Please try verification again shortly.",
+    );
+  }
 
-  order.razorpaySignature = razorpaySignature;
+  if (successfulPayment.order_id !== expectedCashfreeOrderId) {
+    throw new Error("Cashfree payment order mismatch.");
+  }
 
-  await order.save();
+  if (successfulPayment.payment_currency !== "INR" || existingOrder.currency !== "INR") {
+    throw new Error("Payment currency mismatch.");
+  }
 
-  /**
+  const gatewayAmountPaise = Math.round(Number(successfulPayment.payment_amount) * 100);
 
-*   * Reduce stock only after successful*
+  const expectedAmountPaise = Math.round(existingOrder.total * 100);
 
-*   * server-side payment verification.*
+  if (
+    !Number.isFinite(gatewayAmountPaise) ||
+    gatewayAmountPaise <= 0 ||
+    gatewayAmountPaise !== expectedAmountPaise
+  ) {
+    throw new Error("Payment amount does not match the order total.");
+  }
 
-*   */
+  // Finalize payment and inventory together. This requires MongoDB
+  // transactions, supported by MongoDB Atlas and replica sets.
+  const dbSession = await Order.startSession();
 
-  for (const item of order.items) {
-    await Product.findByIdAndUpdate(item.product, {
-      $inc: {
-        stock: -item.quantity,
-      },
+  try {
+    await dbSession.withTransaction(async () => {
+      // Re-read inside the transaction to avoid relying on stale state.
+      const order = await Order.findById(orderId).session(dbSession);
+
+      if (!order) {
+        throw new Error("Order not found.");
+      }
+
+      if (!order.user || order.user.toString() !== userId) {
+        throw new Error("You are not authorized to verify this order.");
+      }
+
+      if (
+        order.paymentProvider !== "cashfree" ||
+        order.cashfreeOrderId !== expectedCashfreeOrderId
+      ) {
+        throw new Error("Cashfree order mismatch.");
+      }
+
+      // Another request may already have finalized this payment.
+      if (order.paymentStatus === "paid") {
+        return;
+      }
+
+      if (order.paymentStatus === "refunded" || order.status === "cancelled") {
+        throw new Error("This order cannot be paid in its current state.");
+      }
+
+      // Deduct inventory conditionally. If any item has insufficient
+      // stock, throwing aborts the transaction and rolls back prior changes.
+      for (const item of order.items) {
+        const stockUpdate = await Product.updateOne(
+          {
+            _id: item.product,
+            stock: { $gte: item.quantity },
+          },
+          {
+            $inc: { stock: -item.quantity },
+          },
+          { session: dbSession },
+        );
+
+        if (stockUpdate.modifiedCount !== 1) {
+          throw new Error(
+            `Insufficient stock for "${item.name}". Payment requires reconciliation before this order can be fulfilled.`,
+          );
+        }
+      }
+
+      order.paymentStatus = "paid";
+      order.status = "confirmed";
+      order.cashfreePaymentId = String(successfulPayment.cf_payment_id);
+
+      await order.save({ session: dbSession });
     });
+  } finally {
+    await dbSession.endSession();
   }
 
-  return order;
+  const finalizedOrder = await Order.findById(orderId);
+
+  if (!finalizedOrder || finalizedOrder.paymentStatus !== "paid") {
+    throw new Error("Payment finalization could not be confirmed. Please retry verification.");
+  }
+
+  return finalizedOrder;
 }
+
 
 export interface AdminOrderListOptions {
   page?: number;

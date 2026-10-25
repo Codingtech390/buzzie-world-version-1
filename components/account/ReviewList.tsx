@@ -147,7 +147,7 @@ export default function ReviewList() {
               Your purchases
             </p>
 
-            <h3 className="mt-1 font-[var(--font-poppins-brand)] text-lg font-bold text-[#302831]">
+            <h3 className="mt-1 font-playpen text-lg font-bold text-[#302831]">
               Products waiting for your review
             </h3>
 

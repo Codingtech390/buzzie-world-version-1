@@ -5,44 +5,60 @@ import { verifyPayment } from "@/services/order.service";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    // Parse the request safely.
+    let body: unknown;
 
-    if (
-      typeof body.orderId !== "string" ||
-      typeof body.razorpay_payment_id !== "string" ||
-      typeof body.razorpay_order_id !== "string" ||
-      typeof body.razorpay_signature !== "string"
-    ) {
+    try {
+      body = await request.json();
+    } catch {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid payment verification payload",
+          message: "Invalid JSON request body.",
         },
         { status: 400 },
       );
     }
 
-        const session = await getAuthenticatedApiSession();
+    // Accept only the internal order ID and Cashfree order ID.
+    if (
+      !body ||
+      typeof body !== "object" ||
+      Array.isArray(body) ||
+      !("orderId" in body) ||
+      !("cashfreeOrderId" in body) ||
+      typeof body.orderId !== "string" ||
+      typeof body.cashfreeOrderId !== "string" ||
+      !body.orderId.trim() ||
+      !body.cashfreeOrderId.trim()
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid payment verification payload.",
+        },
+        { status: 400 },
+      );
+    }
 
-        if (!session || session.user.role !== "customer") {
-          return NextResponse.json(
-            {
-              success: false,
-              message: "Please log in as a customer to verify payment.",
-            },
-            { status: 401 },
-          );
-        }
+    // Require an authenticated customer.
+    const session = await getAuthenticatedApiSession();
 
-        const customerId = session.user.id;
+    if (!session || session.user.role !== "customer") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please log in as a customer to verify payment.",
+        },
+        { status: 401 },
+      );
+    }
 
-        const order = await verifyPayment(
-          body.orderId,
-          body.razorpay_payment_id,
-          body.razorpay_order_id,
-          body.razorpay_signature,
-          customerId,
-        );
+    const customerId = session.user.id;
+
+    // The server-side service must retrieve and verify the payment
+    // directly with Cashfree. Never trust browser-reported payment status.
+    const order = await verifyPayment(body.orderId.trim(), body.cashfreeOrderId.trim(), customerId);
 
     return NextResponse.json({
       success: true,
@@ -61,7 +77,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: error instanceof Error ? error.message : "Payment verification failed",
+        message: error instanceof Error ? error.message : "Payment verification failed.",
       },
       { status: 400 },
     );

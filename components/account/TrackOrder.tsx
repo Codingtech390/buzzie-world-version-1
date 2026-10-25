@@ -95,11 +95,11 @@ export default function TrackOrder() {
         <section className="rounded-[28px] border border-[#E7E1F0] bg-white p-5 shadow-[0_18px_60px_rgba(82,68,112,0.06)] sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#9A91AC]">
+              <p className="text-[10px] font-playpen font-semibold uppercase tracking-[0.14em] text-[#9A91AC]">
                 Order
               </p>
 
-              <h3 className="mt-1 text-lg font-bold text-[#303746]">#{order.orderNumber}</h3>
+              <h3 className="mt-1 font-playpen text-lg font-bold text-[#303746]">#{order.orderNumber}</h3>
             </div>
 
             <span className="inline-flex w-fit rounded-full bg-[#F4EFFA] px-3 py-1.5 text-xs font-semibold capitalize text-[#6B5A97]">

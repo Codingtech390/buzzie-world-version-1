@@ -43,7 +43,7 @@ export default function DeleteAccountDialog() {
   return (
     <section className="rounded-[24px] border border-red-200 bg-white p-5 shadow-[0_12px_40px_rgba(82,68,112,0.06)]">
       <div>
-        <h3 className="font-[var(--font-poppins-brand)] text-base font-bold text-[#B42318]">
+        <h3 className="font-playpen text-base font-bold text-[#B42318]">
           Delete account
         </h3>
 

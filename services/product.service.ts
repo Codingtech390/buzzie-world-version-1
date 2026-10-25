@@ -12,7 +12,14 @@ import type { SortOrder } from "mongoose";
 import type { IProductContentImage } from "@/models/Product";
 import type { ProductDiaryData } from "@/types/product";
 
-export type ProductSort = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
+export type ProductSort =
+  | "relevance"
+  | "newest"
+  | "oldest"
+  | "price-low"
+  | "price-high"
+  | "name-az"
+  | "name-za";
 
 export interface ProductFilters {
   search?: string;
@@ -412,6 +419,7 @@ function normalizeProductInput(data: ProductInput) {
   };
 }
 
+
 export async function getProducts(filters: ProductFilters = {}) {
   await connectToDatabase();
 
@@ -422,7 +430,7 @@ export async function getProducts(filters: ProductFilters = {}) {
     collection,
     status,
     published,
-    sort = "newest",
+    sort,
     featured,
     ageMin,
     ageMax,
@@ -430,11 +438,21 @@ export async function getProducts(filters: ProductFilters = {}) {
     limit = 20,
   } = filters;
 
+  // Normalize whitespace without changing the user's search terms.
+  const normalizedSearch = typeof search === "string" ? search.trim().replace(/\s+/g, " ") : "";
+
+  // Search defaults to relevance; non-search listings default to newest.
+  const effectiveSort: ProductSort = sort ?? (normalizedSearch ? "relevance" : "newest");
+
+  const safePage = Number.isInteger(page) && page > 0 ? page : 1;
+
+  const safeLimit = Number.isInteger(limit) && limit > 0 ? Math.min(limit, 100) : 20;
+
   const query: Record<string, unknown> = {};
 
-  if (search) {
+  if (normalizedSearch) {
     query.$text = {
-      $search: search,
+      $search: normalizedSearch,
     };
   }
 
@@ -472,16 +490,28 @@ export async function getProducts(filters: ProductFilters = {}) {
     query["ageRange.max"] = { $gte: ageMin };
   }
 
-  const skip = (page - 1) * limit;
+  const skip = (safePage - 1) * safeLimit;
+
+  const useRelevance = Boolean(normalizedSearch) && effectiveSort === "relevance";
+
+  const projection = useRelevance ? { score: { $meta: "textScore" } } : undefined;
+
+  const sortOrder = useRelevance
+    ? {
+        score: { $meta: "textScore" as const },
+        createdAt: -1 as const,
+        _id: 1 as const,
+      }
+    : getProductSort(effectiveSort);
 
   const [products, total] = await Promise.all([
-    Product.find(query)
+    Product.find(query, projection)
       .populate("category", "name slug")
       .populate("brand", "name slug")
       .populate("collection", "name slug")
-      .sort(getProductSort(sort))
+      .sort(sortOrder)
       .skip(skip)
-      .limit(limit)
+      .limit(safeLimit)
       .lean(),
 
     Product.countDocuments(query),
@@ -489,15 +519,15 @@ export async function getProducts(filters: ProductFilters = {}) {
 
   return {
     products,
-
     pagination: {
-      page,
-      limit,
+      page: safePage,
+      limit: safeLimit,
       total,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / safeLimit),
     },
   };
 }
+
 
 export async function getProductById(id: string) {
   await connectToDatabase();
@@ -575,7 +605,7 @@ export async function updateProduct(id: string, data: Partial<ProductInput>) {
     images: data.images !== undefined ? data.images : existing.images,
 
     listingImage: data.listingImage !== undefined ? data.listingImage : existing.listingImage,
-    
+
     carouselImages:
       data.carouselImages !== undefined ? data.carouselImages : existing.carouselImages,
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import type {
@@ -45,21 +44,13 @@ export default function ProductDiaryEditor({
     updateSection(section, { entries });
   }
 
-  function addTextEntry(
-    section: "overview" | "keyFeatures" | "benefits",
-  ) {
+  function addTextEntry(section: "overview" | "keyFeatures" | "benefits") {
     updateSection(section, {
-      entries: [
-        ...value[section].entries,
-        { title: "", description: "" },
-      ],
+      entries: [...value[section].entries, { title: "", description: "" }],
     });
   }
 
-  function removeTextEntry(
-    section: "overview" | "keyFeatures" | "benefits",
-    index: number,
-  ) {
+  function removeTextEntry(section: "overview" | "keyFeatures" | "benefits", index: number) {
     updateSection(section, {
       entries: value[section].entries.filter((_, i) => i !== index),
     });
@@ -77,10 +68,7 @@ export default function ProductDiaryEditor({
     updateSection(section, { entries });
   }
 
-  function updateSpecification(
-    index: number,
-    changes: Partial<ProductDiarySpecification>,
-  ) {
+  function updateSpecification(index: number, changes: Partial<ProductDiarySpecification>) {
     updateSection("specifications", {
       entries: value.specifications.entries.map((entry, i) =>
         i === index ? { ...entry, ...changes } : entry,
@@ -90,10 +78,7 @@ export default function ProductDiaryEditor({
 
   function addSpecification() {
     updateSection("specifications", {
-      entries: [
-        ...value.specifications.entries,
-        { label: "", value: "" },
-      ],
+      entries: [...value.specifications.entries, { label: "", value: "" }],
     });
   }
 
@@ -126,9 +111,7 @@ export default function ProductDiaryEditor({
             className={inputClass}
             value={data.eyebrow}
             disabled={disabled}
-            onChange={(event) =>
-              updateSection(section, { eyebrow: event.target.value })
-            }
+            onChange={(event) => updateSection(section, { eyebrow: event.target.value })}
           />
         </label>
 
@@ -140,9 +123,7 @@ export default function ProductDiaryEditor({
             className={inputClass}
             value={data.title}
             disabled={disabled}
-            onChange={(event) =>
-              updateSection(section, { title: event.target.value })
-            }
+            onChange={(event) => updateSection(section, { title: event.target.value })}
           />
         </label>
 
@@ -155,19 +136,14 @@ export default function ProductDiaryEditor({
             rows={3}
             value={data.intro}
             disabled={disabled}
-            onChange={(event) =>
-              updateSection(section, { intro: event.target.value })
-            }
+            onChange={(event) => updateSection(section, { intro: event.target.value })}
           />
         </label>
       </div>
     );
   }
 
-  function renderTextEntries(
-    section: "overview" | "keyFeatures" | "benefits",
-    entryLabel: string,
-  ) {
+  function renderTextEntries(section: "overview" | "keyFeatures" | "benefits", entryLabel: string) {
     const entries = value[section].entries;
 
     return (
@@ -264,30 +240,28 @@ export default function ProductDiaryEditor({
         <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A5BC2]">
           PRODUCT CONTENT
         </span>
-        <h2 className="mt-1 font-playpen text-lg font-bold text-foreground">
-          Product Diary
-        </h2>
+        <h2 className="mt-1 font-playpen text-lg font-bold text-foreground">Product Diary</h2>
         <p className="mt-1 text-sm leading-6 text-muted-foreground">
-          Edit the Overview, Key Features, Specification, and Benefits content
-          displayed on the product page.
+          Edit the Overview, Key Features, Specification, and Benefits content displayed on the
+          product page.
         </p>
       </div>
 
       <div className="space-y-8">
         <section className="rounded-2xl border border-border/60 p-4 sm:p-5">
-          <h3 className="mb-4 text-base font-semibold">01. Overview</h3>
+          <h3 className="mb-4 font-playpen text-base font-semibold">01. Overview</h3>
           {renderSectionHeader("overview")}
           {renderTextEntries("overview", "Content entry")}
         </section>
 
         <section className="rounded-2xl border border-border/60 p-4 sm:p-5">
-          <h3 className="mb-4 text-base font-semibold">02. Key Features</h3>
+          <h3 className="mb-4 font-playpen text-base font-semibold">02. Key Features</h3>
           {renderSectionHeader("keyFeatures")}
           {renderTextEntries("keyFeatures", "Feature")}
         </section>
 
         <section className="rounded-2xl border border-border/60 p-4 sm:p-5">
-          <h3 className="mb-4 text-base font-semibold">03. Specification</h3>
+          <h3 className="mb-4 font-playpen text-base font-semibold">03. Specification</h3>
           {renderSectionHeader("specifications")}
 
           <div className="mt-5 space-y-3">
@@ -304,9 +278,7 @@ export default function ProductDiaryEditor({
                     className={inputClass}
                     value={entry.label}
                     disabled={disabled}
-                    onChange={(event) =>
-                      updateSpecification(index, { label: event.target.value })
-                    }
+                    onChange={(event) => updateSpecification(index, { label: event.target.value })}
                   />
                 </label>
 
@@ -318,9 +290,7 @@ export default function ProductDiaryEditor({
                     className={inputClass}
                     value={entry.value}
                     disabled={disabled}
-                    onChange={(event) =>
-                      updateSpecification(index, { value: event.target.value })
-                    }
+                    onChange={(event) => updateSpecification(index, { value: event.target.value })}
                   />
                 </label>
 
@@ -335,10 +305,7 @@ export default function ProductDiaryEditor({
                   </button>
                   <button
                     type="button"
-                    disabled={
-                      disabled ||
-                      index === value.specifications.entries.length - 1
-                    }
+                    disabled={disabled || index === value.specifications.entries.length - 1}
                     className="rounded-lg border px-2.5 py-2 text-xs disabled:opacity-40"
                     onClick={() => moveSpecification(index, 1)}
                   >
@@ -368,7 +335,7 @@ export default function ProductDiaryEditor({
         </section>
 
         <section className="rounded-2xl border border-border/60 p-4 sm:p-5">
-          <h3 className="mb-4 text-base font-semibold">04. Benefits</h3>
+          <h3 className="mb-4 font-playpen text-base font-semibold">04. Benefits</h3>
           {renderSectionHeader("benefits")}
           {renderTextEntries("benefits", "Benefit")}
         </section>

@@ -49,15 +49,30 @@ const POPULAR_SEARCHES = [
   "Travel Games",
 ];
 
-type SortOption = "newest" | "oldest" | "price-low" | "price-high" | "name-az" | "name-za";
+type SortOption =
+  | "relevance"
+  | "newest"
+  | "oldest"
+  | "price-low"
+  | "price-high"
+  | "name-az"
+  | "name-za";
 
 const SORT_OPTIONS: Array<{
   value: SortOption;
   label: string;
 }> = [
   {
+    value: "relevance",
+    label: "Most relevant",
+  },
+  {
     value: "newest",
     label: "Newest",
+  },
+  {
+    value: "oldest",
+    label: "Oldest",
   },
   {
     value: "price-low",
@@ -70,6 +85,10 @@ const SORT_OPTIONS: Array<{
   {
     value: "name-az",
     label: "Name: A–Z",
+  },
+  {
+    value: "name-za",
+    label: "Name: Z–A",
   },
 ];
 
@@ -106,11 +125,13 @@ export default function SearchClient() {
 
   const urlSearch = searchParams.get("search")?.trim() ?? "";
   const urlPage = Number(searchParams.get("page") ?? "1");
-  const urlSort = (searchParams.get("sort") ?? "newest") as SortOption;
+  const urlSort = (searchParams.get("sort") ?? "relevance") as SortOption;
 
   const pageFromUrl = Number.isFinite(urlPage) && urlPage > 0 ? urlPage : 1;
 
-  const sortFromUrl = SORT_OPTIONS.some((option) => option.value === urlSort) ? urlSort : "newest";
+  const sortFromUrl = SORT_OPTIONS.some((option) => option.value === urlSort)
+    ? urlSort
+    : "relevance";
 
   const [inputValue, setInputValue] = useState(urlSearch);
   const [products, setProducts] = useState<StorefrontProduct[]>([]);
@@ -144,7 +165,7 @@ export default function SearchClient() {
         params.set("page", String(nextPage));
       }
 
-      if (nextSort !== "newest") {
+      if (nextSort !== "relevance") {
         params.set("sort", nextSort);
       }
 
@@ -210,7 +231,7 @@ export default function SearchClient() {
           sort,
         });
 
-        const response = await fetch(`/api/products?${params.toString()}`, {
+        const response = await fetch(`/api/search/products?${params.toString()}`, {
           method: "GET",
           cache: "no-store",
           signal,
@@ -410,7 +431,7 @@ export default function SearchClient() {
                 </p>
               </div>
 
-              <h1 className="font-[var(--font-poppins)] text-[34px] font-black leading-tight tracking-[-0.035em] text-[#251D2A] sm:text-[44px]">
+              <h1 className="font-playpen text-[34px] font-black leading-tight tracking-[-0.035em] text-[#251D2A] sm:text-[44px]">
                 “{urlSearch}”
               </h1>
 
@@ -544,15 +565,11 @@ export default function SearchClient() {
               Nothing here yet
             </p>
 
-            <h2 className="mt-3 font-[var(--font-poppins)] text-[26px] font-black tracking-[-0.025em] text-[#302832] sm:text-[32px]">
+            <h2 className="mt-3 font-playpen text-[26px] font-black tracking-[-0.025em] text-[#302832] sm:text-[32px]">
               Hmm... nothing found
             </h2>
 
-            <p className="mx-auto mt-3 max-w-md text-[13px] leading-6 text-[#7F747C] sm:text-[14px]">
-              We couldn't find anything for{" "}
-              <span className="font-bold text-[#4A4148]">“{urlSearch}”</span>. Try a different
-              search or explore some of our collections.
-            </p>
+
 
             <div className="mt-7 flex flex-wrap justify-center gap-2">
               {POPULAR_SEARCHES.slice(0, 4).map((query) => (
@@ -569,7 +586,7 @@ export default function SearchClient() {
 
             <Link
               href="/shop"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#E83D59] px-6 py-3 text-[12px] font-bold text-white transition hover:bg-[#D8324E]"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#E83D59] px-6 py-3 text-[12px] font-bold !text-white transition hover:bg-[#D8324E]"
             >
               Browse all products
               <ArrowRight className="h-4 w-4" />

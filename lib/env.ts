@@ -33,6 +33,8 @@ const envSchema = z.object({
   // Razorpay
   RAZORPAY_KEY_ID: optionalString,
   RAZORPAY_KEY_SECRET: optionalString,
+
+
 });
 
 export const env = envSchema.parse({
@@ -60,4 +62,10 @@ export const env = envSchema.parse({
   // Razorpay
   RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
   RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+
+  // Cashfree
+  CASHFREE_CLIENT_ID: process.env.CASHFREE_CLIENT_ID,
+  CASHFREE_CLIENT_SECRET: process.env.CASHFREE_CLIENT_SECRET,
+  CASHFREE_ENV: process.env.CASHFREE_ENV,
+  CASHFREE_API_VERSION: process.env.CASHFREE_API_VERSION,
 });

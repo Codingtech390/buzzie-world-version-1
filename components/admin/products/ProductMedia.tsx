@@ -570,15 +570,11 @@ export default function ProductMedia({
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#C391EE]/20 bg-[#C391EE]/10 text-[#8C55C7]">
-            <ImagePlus className="h-[18px] w-[18px]" />
-          </div>
+
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-slate-900">
-                Product Media
-              </h2>
+
 
               {images.length > 0 && (
                 <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500">
@@ -587,9 +583,6 @@ export default function ProductMedia({
               )}
             </div>
 
-            <p className="mt-1 max-w-xl text-xs leading-5 text-slate-500">
-              Upload, organize, and choose the primary product images customers will see.
-            </p>
           </div>
         </div>
 

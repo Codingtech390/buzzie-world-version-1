@@ -61,9 +61,17 @@ export interface IOrder {
 
   shipment?: IShipment;
 
+  // Payment provider
+  paymentProvider?: "razorpay" | "cashfree";
+
+  // Legacy Razorpay fields — retain for historical orders
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
   razorpaySignature?: string;
+
+  // Cashfree payment fields
+  cashfreeOrderId?: string;
+  cashfreePaymentId?: string;
 
   createdAt: Date;
   updatedAt: Date;
@@ -295,11 +303,21 @@ const OrderSchema = new Schema<IOrder>(
       index: true,
     },
 
+    // Payment provider.
+    // Existing orders without this field remain readable.
+    paymentProvider: {
+      type: String,
+      enum: ["razorpay", "cashfree"],
+      default: "razorpay",
+      index: true,
+    },
+
     shipment: {
       type: ShipmentSchema,
       default: undefined,
     },
 
+    // Legacy Razorpay identifiers — do not remove
     razorpayOrderId: {
       type: String,
       index: true,
@@ -314,6 +332,19 @@ const OrderSchema = new Schema<IOrder>(
 
     razorpaySignature: {
       type: String,
+    },
+
+    // Cashfree identifiers
+    cashfreeOrderId: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
+
+    cashfreePaymentId: {
+      type: String,
+      sparse: true,
+      index: true,
     },
   },
   {

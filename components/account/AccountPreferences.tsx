@@ -99,7 +99,7 @@ export default function AccountPreferences() {
   return (
     <section className="rounded-[24px] border border-[#E6E0EF] bg-white p-5 shadow-[0_12px_40px_rgba(82,68,112,0.06)]">
       <div>
-        <h3 className="font-[var(--font-poppins-brand)] text-base font-bold text-[#303746]">
+        <h3 className="font-playpen text-base font-bold text-[#303746]">
           Account preferences
         </h3>
 

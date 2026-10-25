@@ -11,88 +11,55 @@ import {
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-
 import Script from "next/script";
-
 import { FormEvent, useEffect, useState } from "react";
-
 import { useCart } from "@/hooks/useCart";
-
 import type { ShippingAddress } from "@/types/order";
 
-interface RazorpaySuccessResponse {
-  razorpay_payment_id: string;
+type CashfreeEnvironment = "sandbox" | "production";
 
-  razorpay_order_id: string;
-
-  razorpay_signature: string;
+interface CashfreeCheckoutResult {
+  error?: {
+    message?: string;
+  };
 }
 
-interface RazorpayOptions {
-  key: string;
+interface CashfreeInstance {
+  checkout: (options: {
+    paymentSessionId: string;
+    redirectTarget: "_modal";
+  }) => Promise<CashfreeCheckoutResult | void>;
+}
 
-  amount: number;
-
-  currency: string;
-
-  name: string;
-
-  description: string;
-
-  order_id: string;
-
-  prefill?: {
-    name?: string;
-
-    email?: string;
-
-    contact?: string;
-  };
-
-  theme?: {
-    color?: string;
-  };
-
-  handler: (response: RazorpaySuccessResponse) => void;
-
-  modal?: {
-    ondismiss?: () => void;
-  };
+interface PendingCashfreePayment {
+  orderId: string;
+  orderNumber: string;
+  cashfreeOrderId: string;
+  paymentSessionId: string;
+  environment: CashfreeEnvironment;
 }
 
 interface DeliveryQuote {
   amount: number;
-
   courierName: string;
-
   courierId: number;
-
   estimatedDeliveryDays: string | null;
-
   estimatedDeliveryDate: string | null;
-
   pickupPincode: string;
-
   deliveryPincode: string;
 }
 
 interface CheckoutPricing {
   subtotal: number;
-
   discount: number;
-
   discountLabel: string | null;
-
   shipping: number | null;
-
   totalBeforeShipping: number;
 }
 
 declare global {
   interface Window {
-    Razorpay?: new (options: RazorpayOptions) => {
-      open: () => void;
-    };
+    Cashfree?: (options: { mode: CashfreeEnvironment }) => CashfreeInstance;
   }
 }
 
@@ -116,31 +83,20 @@ const initialAddress: ShippingAddress = {
   country: "India",
 };
 
-/* ============================================================================
- * BUZZIEWORLD — PREMIUM CHECKOUT
- * Premium children's ecommerce checkout with a warm off-white canvas and
- * lavender/purple brand surfaces.
- * ============================================================================ */
 
 export default function CheckoutClient() {
   const router = useRouter();
-
   const { cart, loading: cartLoading } = useCart();
-
   const [address, setAddress] = useState<ShippingAddress>(initialAddress);
-
-  const [loading, setLoading] = useState(false);
-
-  const [error, setError] = useState<string | null>(null);
-
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+const [pendingCashfreePayment, setPendingCashfreePayment] = useState<PendingCashfreePayment | null>(
+  null,
+);
   const [pricing, setPricing] = useState<CheckoutPricing | null>(null);
-
   const [pricingLoading, setPricingLoading] = useState(true);
-
   const [deliveryQuote, setDeliveryQuote] = useState<DeliveryQuote | null>(null);
-
   const [quoteLoading, setQuoteLoading] = useState(false);
-
   const [quoteError, setQuoteError] = useState<string | null>(null);
 
   function updateField(field: keyof ShippingAddress, value: string) {
@@ -259,13 +215,97 @@ export default function CheckoutClient() {
     }
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
 
-    if (!pricing || !deliveryQuote || deliveryQuote.deliveryPincode !== address.postalCode.trim()) {
-      setError("Please check delivery for your current pincode before paying.");
+  async function verifyCashfreePayment(pending: PendingCashfreePayment) {
+    const verifyResponse = await fetch("/api/orders/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+      body: JSON.stringify({
+        orderId: pending.orderId,
+        cashfreeOrderId: pending.cashfreeOrderId,
+      }),
+    });
+
+    const verifyData = await verifyResponse.json();
+
+    if (!verifyResponse.ok || !verifyData.success || verifyData.order?.paymentStatus !== "paid") {
+      throw new Error(
+        verifyData.message || "Payment has not yet been confirmed. Please retry verification.",
+      );
+    }
+
+    // Clear the cart only after the server confirms payment.
+    const cartResponse = await fetch("/api/cart", {
+      method: "DELETE",
+      cache: "no-store",
+    });
+
+    if (!cartResponse.ok) {
+      console.error("Payment was confirmed, but clearing the cart failed.", {
+        orderNumber: pending.orderNumber,
+      });
+    }
+
+    setPendingCashfreePayment(null);
+
+    router.push(
+      `/order/success?order=${encodeURIComponent(
+        verifyData.order.orderNumber || pending.orderNumber,
+      )}`,
+    );
+  }
+
+  async function resumeCashfreePayment() {
+    if (!pendingCashfreePayment || loading) {
       return;
     }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // First check whether the payment already succeeded.
+      // This avoids opening checkout again unnecessarily.
+      try {
+        await verifyCashfreePayment(pendingCashfreePayment);
+        return;
+      } catch {
+        // If it isn't confirmed yet, reopen the same Cashfree session.
+        // Do not create another order here.
+      }
+
+      if (!window.Cashfree) {
+        throw new Error("Cashfree Checkout is still loading. Please try again shortly.");
+      }
+
+      const cashfree = window.Cashfree({
+        mode: pendingCashfreePayment.environment,
+      });
+
+      await cashfree.checkout({
+        paymentSessionId: pendingCashfreePayment.paymentSessionId,
+        redirectTarget: "_modal",
+      });
+
+      // A checkout result is not proof of payment.
+      // Ask the server to check Cashfree again.
+      await verifyCashfreePayment(pendingCashfreePayment);
+    } catch (retryError) {
+      setError(
+        retryError instanceof Error
+          ? retryError.message
+          : "Payment is not confirmed yet. Please retry.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
     if (loading) {
       return;
@@ -273,16 +313,27 @@ export default function CheckoutClient() {
 
     setError(null);
 
+    // If an order was already created, resume that payment instead
+    // of creating another order.
+    if (pendingCashfreePayment) {
+      await resumeCashfreePayment();
+      return;
+    }
+
+    if (!pricing || !deliveryQuote || deliveryQuote.deliveryPincode !== address.postalCode.trim()) {
+      setError("Please check delivery for your current pincode before paying.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
+        cache: "no-store",
         body: JSON.stringify({
           shippingAddress: address,
         }),
@@ -291,94 +342,64 @@ export default function CheckoutClient() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || "Unable to create order");
+        throw new Error(data.message || "Unable to create order.");
       }
 
-      if (!window.Razorpay) {
-        throw new Error("Razorpay Checkout failed to load");
+      const environment = data.cashfree?.environment;
+
+      if (
+        typeof data.order?.id !== "string" ||
+        typeof data.order?.orderNumber !== "string" ||
+        typeof data.cashfree?.orderId !== "string" ||
+        typeof data.cashfree?.paymentSessionId !== "string" ||
+        !data.cashfree.paymentSessionId ||
+        (environment !== "sandbox" && environment !== "production")
+      ) {
+        throw new Error(
+          "The order was created, but Cashfree checkout details are incomplete. Please contact support before creating another order.",
+        );
       }
 
-      const razorpay = new window.Razorpay({
-        key: data.razorpay.keyId,
+      const pending: PendingCashfreePayment = {
+        orderId: data.order.id,
+        orderNumber: data.order.orderNumber,
+        cashfreeOrderId: data.cashfree.orderId,
+        paymentSessionId: data.cashfree.paymentSessionId,
+        environment,
+      };
 
-        amount: data.razorpay.amount,
+      // Save the identifiers immediately. If checkout or verification
+      // fails, the customer can resume this same payment session.
+      setPendingCashfreePayment(pending);
 
-        currency: data.razorpay.currency,
+      if (!window.Cashfree) {
+        throw new Error(
+          "Cashfree Checkout has not loaded yet. Your order is retained; use the retry option to continue without creating another order.",
+        );
+      }
 
-        name: "BuzzieWorld",
-
-        description: `Order ${data.order.orderNumber}`,
-
-        order_id: data.razorpay.orderId,
-
-        prefill: {
-          name: address.fullName,
-
-          email: address.email,
-
-          contact: address.phone,
-        },
-
-        theme: {
-          color: "#C391EE",
-        },
-
-        handler: async (payment) => {
-          try {
-            const verifyResponse = await fetch("/api/orders/verify", {
-              method: "POST",
-
-              headers: {
-                "Content-Type": "application/json",
-              },
-
-              body: JSON.stringify({
-                orderId: data.order.id,
-
-                razorpay_payment_id: payment.razorpay_payment_id,
-
-                razorpay_order_id: payment.razorpay_order_id,
-
-                razorpay_signature: payment.razorpay_signature,
-              }),
-            });
-
-            const verifyData = await verifyResponse.json();
-
-            if (!verifyResponse.ok || !verifyData.success) {
-              throw new Error(verifyData.message || "Payment verification failed");
-            }
-
-            await fetch("/api/cart", {
-              method: "DELETE",
-            });
-
-            router.push(`/order/success?order=${encodeURIComponent(verifyData.order.orderNumber)}`);
-          } catch (verificationError) {
-            setError(
-              verificationError instanceof Error
-                ? verificationError.message
-                : "Payment verification failed",
-            );
-
-            setLoading(false);
-          }
-        },
-
-        modal: {
-          ondismiss: () => {
-            setLoading(false);
-          },
-        },
+      const cashfree = window.Cashfree({
+        mode: environment,
       });
 
-      razorpay.open();
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Unable to start checkout");
+      await cashfree.checkout({
+        paymentSessionId: pending.paymentSessionId,
+        redirectTarget: "_modal",
+      });
 
+      // The modal closing does not prove that payment succeeded.
+      await verifyCashfreePayment(pending);
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : "Unable to complete checkout. Your payment may still be pending.",
+      );
+    } finally {
       setLoading(false);
     }
   }
+
 
   if (cartLoading) {
     return (
@@ -536,7 +557,7 @@ export default function CheckoutClient() {
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
+      <Script src="https://sdk.cashfree.com/js/v3/cashfree.js" strategy="afterInteractive" />
 
       <main className="relative min-h-[calc(100svh-5rem)] overflow-hidden bg-[#FFFDF9]">
         {/* ====================================================================*
@@ -820,18 +841,33 @@ export default function CheckoutClient() {
                   <div
                     role="alert"
                     className="
-
-                      mt-6 flex items-start gap-3 rounded-[16px]
-
-                      border border-[#F3CDD3] bg-[#FFF3F5] px-4 py-3.5
-
-                      font-[var(--font-poppins)] text-sm leading-6 text-[#C33E4E]
-
-                    "
+      mt-6 flex items-start gap-3 rounded-[16px]
+      border border-[#F3CDD3] bg-[#FFF3F5] px-4 py-3.5
+      font-[var(--font-poppins)] text-sm leading-6 text-[#C33E4E]
+    "
                   >
                     <span className="mt-1 size-2 shrink-0 rounded-full bg-[#E83D59]" />
 
-                    <span>{error}</span>
+                    <div className="min-w-0 flex-1">
+                      <p>{error}</p>
+
+                      {pendingCashfreePayment && (
+                        <button
+                          type="button"
+                          onClick={() => void resumeCashfreePayment()}
+                          disabled={loading}
+                          className="
+            mt-3 inline-flex min-h-10 items-center justify-center
+            rounded-full bg-[#C391EE] px-4 py-2
+            text-xs font-bold text-white transition
+            hover:bg-[#E83D59]
+            disabled:cursor-not-allowed disabled:opacity-50
+          "
+                        >
+                          {loading ? "Checking payment..." : "Retry / Resume Payment"}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -912,7 +948,7 @@ export default function CheckoutClient() {
 
                       "
                     >
-                      Secure payment powered by Razorpay
+                      Secure payment powered by Cashfree
                     </p>
                   </div>
                 </div>
@@ -1132,7 +1168,7 @@ export default function CheckoutClient() {
 
                       "
                     >
-                      Your order is protected by secure Razorpay payment verification.
+                      Your order is protected by secure Cashfree payment verification.
                     </p>
                   </div>
                 </div>

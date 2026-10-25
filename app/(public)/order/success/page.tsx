@@ -24,7 +24,7 @@ export default async function OrderSuccessPage({ searchParams }: OrderSuccessPag
 
         <p className="mt-6 text-sm font-medium text-[#3F7DFF]">BUZZIEWORLD</p>
 
-        <h1 className="mt-2 text-3xl font-semibold">Order Confirmed!</h1>
+        <h1 className="mt-2 font-playpen text-3xl font-semibold">Order Confirmed!</h1>
 
         <p className="mt-4 text-black/60">
           Thank you for shopping with BuzzieWorld. Your payment has been successfully verified.
@@ -39,7 +39,7 @@ export default async function OrderSuccessPage({ searchParams }: OrderSuccessPag
         )}
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Link href="/shop" className="rounded-xl bg-[#3F7DFF] px-5 py-3 font-medium text-white">
+          <Link href="/shop" className="rounded-xl bg-[#3F7DFF] px-5 py-3 font-medium !text-white">
             Continue Shopping
           </Link>
 
